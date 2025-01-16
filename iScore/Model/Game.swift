@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
  
-@Model
+@Model 
 class Game: ObservableObject, Identifiable { 
 
     @Relationship(deleteRule: .cascade, inverse: \Player.games) var players: [Player] = [Player]()
