@@ -15,7 +15,7 @@ struct GameView: View {
     @State private var winningMessage: String = ""
     @State private var gameScoreIndex:GameScoreIndex?
     @State private var showInfoView: Bool = false
-
+    
     
     private let lazyVGridSetup:LazyVGridSetup = LazyVGridSetup()
     
@@ -28,58 +28,45 @@ struct GameView: View {
                 Background()
                 
                 VStack {
+                    
                     // Top current score and progress line
                     HStack{
                         Spacer()
                         ZStack{
-                            //BlobShape()
-                            Circle()
-                                .frame(width: 180, height: 58, alignment: .center)
-                                .foregroundStyle(.linearGradient(colors: [.orange, progress1 >= 0.80 ? .red : Color(.lightBlack)], startPoint: .bottomLeading, endPoint: .topTrailing))
-                                .overlay(
-                                    
-                                    VStack{
-                                        
-                                        Spacer()
-                                        
-                                        ProgressView(value: progress1)
-                                            .progressViewStyle(.automatic)
-                                            .tint(progress1 >= 0.80 ? .red : .accentColor)
-                                            .offset(y: 10)
-                                        
-                                    }
-                                )
-                            Text("\(game.totalScore1)")
-                                .font(.title)
-                                .foregroundStyle(.accent)
-                                .bold()
+                            
+                                
+                                Text("\(game.totalScore1)")
+                                    .font(.system(size: 52))
+                                    .foregroundStyle(game.winningTeam == .team1 ? .green : .accentColor)
+                                    .bold()
+                                
+                                ProgressView(value: progress1)
+                                    .progressViewStyle(.automatic)
+                                    .tint(progress1 >= 0.80 ? .red : .accentColor)
+                                    .offset(y: 40)
+                            
                         }
+                        .frame(width: 180, height: 58, alignment: .center)
+
                         Spacer()
+                        
                         ZStack{
-                            Circle()
-                                .frame(width: 180, height: 58, alignment: .center)
-                                .foregroundStyle(.linearGradient(colors: [.orange, progress2 >= 0.80 ? .red : Color(.lightBlack)], startPoint: .bottomLeading, endPoint: .topTrailing))
-                                .overlay(
-                                    
-                                    VStack{
-                                        
-                                        Spacer()
-                                        
-                                        ProgressView(value: progress2)
-                                            .progressViewStyle(.automatic)
-                                            .tint(progress2 >= 0.80 ? .red : .accentColor)
-                                            .offset(y: 10)
-                                        
-                                    }
-                                )
+                            
                             Text("\(game.totalScore2)")
-                                .font(.title)
+                                .font(.system(size: 52))
                                 .foregroundStyle(.accent)
                                 .bold()
+                            
+                            ProgressView(value: progress2)
+                                .progressViewStyle(.automatic)
+                                .tint(progress2 >= 0.80 ? .red : .accentColor)
+                                .offset(y: 40)
                         }
+                        .frame(width: 180, height: 58, alignment: .center)
+                        
                         Spacer()
                     }
-                    .padding(.bottom, 16)
+                    .padding(EdgeInsets(top: 36, leading: 0, bottom: 15, trailing: 0))
                     
                     //Players Names
                     HStack(alignment: .center) {
@@ -92,10 +79,10 @@ struct GameView: View {
                                     Image(systemName: game.setSystemName(team: .team1))
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(height: 48)
+                                        .frame(height: 36)
                                         .cornerRadius(8)
                                         .foregroundStyle(game.winningTeam == .team1 ? .green : .accentColor)
-                                        .symbolEffect(.pulse)
+                                        .symbolEffect(.rotate.clockwise.byLayer, options: .repeat(.periodic(delay: 3.0)))
                                     
                                     VStack(alignment: .leading){
                                         Text(game.team1[0])
@@ -120,15 +107,16 @@ struct GameView: View {
                                     Image(systemName: game.setSystemName(team: .team2))
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(height: 48)
+                                        .frame(height: 36)
                                         .cornerRadius(8)
                                         .foregroundStyle(game.winningTeam == .team2 ? .green : .accentColor)
-                                        .symbolEffect(.pulse)
+                                        .symbolEffect(.rotate.counterClockwise.byLayer, options: .repeat(.periodic(delay: 10.0)))
                                     
                                     VStack(alignment: .leading){
                                         Text(game.team2[0])
                                             .fontWeight(.light)
                                             .minimumScaleFactor(0.75)
+                                        
                                         
                                         Spacer()
                                             .frame(height: 1)
@@ -161,7 +149,7 @@ struct GameView: View {
                                         
                                         Text("\(game.scoreTeam[index][0] )")
                                             .frame(width: 180, height: 58, alignment: .center)
-                                            .background(Color.gray.opacity(0.1))
+                                            .background(Color.white.opacity(0.1))
                                             .fontWeight(.light)
                                             .minimumScaleFactor(0.75)
                                             .cornerRadius(CornerRadius.thirteen.value)
@@ -197,7 +185,7 @@ struct GameView: View {
                                         
                                         Text("\(game.scoreTeam[index][1] )")
                                             .frame(width: 180, height: 58, alignment: .center)
-                                            .background(Color.gray.opacity(0.1))
+                                            .background(Color.white.opacity(0.1))
                                             .fontWeight(.light)
                                             .minimumScaleFactor(0.75)
                                             .cornerRadius(CornerRadius.thirteen.value)

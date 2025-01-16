@@ -24,23 +24,23 @@ struct Previewer {
         container.mainContext.insert(game)
         
         //game.players.append(Player(name: "Test Player"))
-        game.team1.append("Tqwerfdscdf")
+        game.team1.append("Beastmode")
         
         //game.players.append(Player(name: "Test Player 2"))
-        game.team1.append("Tqwerfddf")
+        game.team1.append("Bad Hombre")
         
         //game.players.append(Player(name: "Test Player qerqewr"))
-        game.team2.append("Test")
+        game.team2.append("Xi Pinging")
         
         //game.players.append(Player(name: "4est Player qerqewr"))
-        game.team2.append("Tqwerfd")
+        game.team2.append("Bidenomics")
         
         game.scoreTeam.append([53,0])
-       game.scoreTeam.append([0,8])
-       // game.scoreTeam.append([90,0])
-//        game.scoreTeam.append([12,0])
-//        game.scoreTeam.append([021,0])
-        game.scoreTeam.append([0,1])
+       game.scoreTeam.append([0,24])
+        game.scoreTeam.append([90,0])
+        game.scoreTeam.append([12,0])
+        game.scoreTeam.append([01,0])
+        game.scoreTeam.append([0,245])
 //        game.scoreTeam.append([0,2])
 //        game.scoreTeam.append([0,0])
         

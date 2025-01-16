@@ -320,7 +320,7 @@ struct buttonView: View {
     }
 }
 
-extension String: Identifiable {
+extension String: @retroactive Identifiable {
     public typealias ID = Int
     public var id: Int {
         return hash
