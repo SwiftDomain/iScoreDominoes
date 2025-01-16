@@ -8,8 +8,8 @@
 import SwiftUI
 import SwiftData
  
-@Model 
-class Game: ObservableObject, Identifiable { 
+@Model
+class Game: ObservableObject, Identifiable {
 
     @Relationship(deleteRule: .cascade, inverse: \Player.games) var players: [Player] = [Player]()
     
@@ -22,7 +22,7 @@ class Game: ObservableObject, Identifiable {
     var team1: [String] =  [String]()
     var team2: [String] =  [String]()
      
-    let id = UUID()
+    private(set) var id = UUID()
     
     init(gameType: GameType, maxScore: Double) {
 
