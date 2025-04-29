@@ -12,11 +12,11 @@ struct NewPlayerView: View {
     
     @Environment(\.dismiss) private var dismiss
     @Query( sort:\Player.name, order: .forward ) var players: [Player]
-    @Binding var player1: String
+    @Binding var player: String
     
-    init(player1: Binding<String>) {
+    init(player: Binding<String>) {
 
-        self._player1 = player1
+        self._player = player
     }
     
     
@@ -28,15 +28,13 @@ Background()
             
             VStack{
                 
-                /* Enter Name */
                 HStack(){
         
                     Image("OldGuyCigar")
                         .resizable()
-                        .aspectRatio(contentMode: UIDevice.current.userInterfaceIdiom == .pad ? .fit : .fill)
-
-                        .frame(height: 348)
-                        .brightness(-0.1)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 150)
+                        .brightness(0)
                         .clipped()
                 }
                 .padding(.bottom, -8)
@@ -49,7 +47,7 @@ Background()
                         .cornerRadius(28)
                         .opacity(0.4)
                         .overlay(
-                            TextInputField(text: $player1, "Melon Name")
+                            TextInputField(text: $player, "Melon Name")
                                 .font(.title2)
                                 .textContentType(.name)
                                 .multilineTextAlignment(.center)
@@ -65,7 +63,7 @@ Background()
                             
                             Button(action: {
                                 
-                                player1 = player.name
+                                self.player = player.name
                                 dismiss()
                                 
                             })
@@ -115,7 +113,7 @@ struct TextInputField: View {
     private func maxInput() -> String{
         
         if self.text.count > 11{
-            self.text = String(text.prefix(11))
+            self.text = String(text.prefix(15))
         }
         
         return self.text.capitalized
@@ -145,6 +143,6 @@ struct TextInputField: View {
 #Preview {
     
     
-    NewPlayerView(player1: .constant(""))
+    NewPlayerView(player: .constant(""))
     
 }

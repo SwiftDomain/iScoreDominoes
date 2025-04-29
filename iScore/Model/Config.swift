@@ -52,7 +52,6 @@ enum CornerRadius: CGFloat, Codable, RawRepresentable, CaseIterable, Equatable{
             return 24
             
         }
-        
     }
     
 }

@@ -147,30 +147,7 @@ struct HomeView: View {
                 .padding([ .leading, .trailing], 30.0)
                     
                     Spacer()
-                    
-                    HStack{
-                        
-                        
-                        VStack {
-                            Text("iScore")
-                                .font(.system(size: 20))
-                                .minimumScaleFactor(0.75)
-                                .fontWeight(.light)
-                                .foregroundStyle(.accent)
-                                
-                            Image("5")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(height: 60)
-                                .brightness(-0.1)
-                                .mask{
-                                    VStack {
-                                        Circle().frame(width: 60 , height: 60)
-                                    }
-                                    .shadow(radius:  11)
-                            }
-                        }
-                    }
+
                 }
                 .navigationTitle(Text("Dominoes"))
                 .offset(y:-60)

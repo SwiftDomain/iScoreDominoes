@@ -34,20 +34,20 @@ struct GameView: View {
                         Spacer()
                         ZStack{
                             
-                                
-                                Text("\(game.totalScore1)")
-                                    .font(.system(size: 52))
-                                    .foregroundStyle(game.winningTeam == .team1 ? .green : .accentColor)
-                                    .bold()
-                                
-                                ProgressView(value: progress1)
-                                    .progressViewStyle(.automatic)
-                                    .tint(progress1 >= 0.80 ? .red : .accentColor)
-                                    .offset(y: 40)
+                            
+                            Text("\(game.totalScore1)")
+                                .font(.system(size: 52))
+                                .foregroundStyle(game.winningTeam == .team1 ? .green : .accentColor)
+                                .bold()
+                            
+                            ProgressView(value: progress1)
+                                .progressViewStyle(.automatic)
+                                .tint(progress1 >= 0.80 ? .red : .accentColor)
+                                .offset(y: 40)
                             
                         }
                         .frame(width: 180, height: 58, alignment: .center)
-
+                        
                         Spacer()
                         
                         ZStack{
@@ -214,8 +214,6 @@ struct GameView: View {
                             Spacer()
                         }
                     }
-                    
-                    //VStack{
                     HStack{
                         Spacer()
                         VStack {
@@ -278,7 +276,6 @@ struct GameView: View {
                     }
                     .disabled(game.state != GameState.playing)
                 }
-                // }
                 .padding(.top, -27)
             }
             .sheet(isPresented: $showInfoView) {
