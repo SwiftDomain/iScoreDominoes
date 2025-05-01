@@ -60,10 +60,10 @@ struct HomeView: View {
                         
                         HStack{
                             //    Image(systemName: "arrowtriangle.right.circle")
-                            Image(systemName: "swiftdata")
+                            Image(systemName: "arcade.stick.console")
                                 .resizable()
                                 .scaledToFit()
-                                .frame( height: 50)
+                                .frame( height: 37)
                                 .cornerRadius(8)
                                 .foregroundStyle(.accent)
                             

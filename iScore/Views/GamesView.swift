@@ -67,8 +67,6 @@ struct GamesView: View {
                                                     }
                                                     .padding([.top], 50.0)
                                                     
-                                                    //Spacer()
-                                                    //Spacer()
                                                     
                                                     HStack{
                                                         GameCellView(game: game, team: .team2)
@@ -79,7 +77,6 @@ struct GamesView: View {
                                                 .offset(x:30)
                                                 .padding(.leading, UIDevice.current.userInterfaceIdiom == .pad ? 80 :0)
 
-                                                
                                                 Spacer()
                                                 
                                                 VStack{

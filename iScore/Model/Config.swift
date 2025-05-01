@@ -52,6 +52,7 @@ enum CornerRadius: CGFloat, Codable, RawRepresentable, CaseIterable, Equatable{
             return 24
             
         }
+        
     }
     
 }
@@ -89,11 +90,11 @@ struct GameCellView: View {
         ZStack {
             
             HStack(alignment: .center){
-                Image(systemName: game.setSystemName(team: team))
+                Image(systemName: game.setSymbol(team: team))
                     .resizable()
                     .scaledToFit()
                     .frame(height: 40)
-                    .foregroundStyle(winner ? .green : (game.inProcess ? .accentColor : .secondary))
+                    .foregroundStyle(winner ? Color.accentColor : (game.inProcess ? Color.accentColor : .secondary))
                 
                 
                 Spacer()

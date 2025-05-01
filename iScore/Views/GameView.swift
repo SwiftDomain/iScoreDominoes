@@ -37,7 +37,7 @@ struct GameView: View {
                             
                             Text("\(game.totalScore1)")
                                 .font(.system(size: 52))
-                                .foregroundStyle(game.winningTeam == .team1 ? .green : .accentColor)
+                                .foregroundStyle(.accent)
                                 .bold()
                             
                             ProgressView(value: progress1)
@@ -76,12 +76,12 @@ struct GameView: View {
                             .foregroundStyle(.clear)
                             .overlay(
                                 HStack(alignment: .center){
-                                    Image(systemName: game.setSystemName(team: .team1))
+                                    Image(systemName: game.setSymbol(team: .team1))
                                         .resizable()
                                         .scaledToFit()
                                         .frame(height: 36)
                                         .cornerRadius(8)
-                                        .foregroundStyle(game.winningTeam == .team1 ? .green : .accentColor)
+                                        .foregroundStyle(game.winningTeam == .team1 ? .accent : .accentColor)
                                         .symbolEffect(.rotate.clockwise.byLayer, options: .repeat(.periodic(delay: 3.0)))
                                     
                                     VStack(alignment: .leading){
@@ -104,12 +104,12 @@ struct GameView: View {
                                 
                                 HStack(alignment: .center){
                                     
-                                    Image(systemName: game.setSystemName(team: .team2))
+                                    Image(systemName: game.setSymbol(team: .team2))
                                         .resizable()
                                         .scaledToFit()
                                         .frame(height: 36)
                                         .cornerRadius(8)
-                                        .foregroundStyle(game.winningTeam == .team2 ? .green : .accentColor)
+                                        .foregroundStyle(game.winningTeam == .team2 ? .accent : .accentColor)
                                         .symbolEffect(.rotate.counterClockwise.byLayer, options: .repeat(.periodic(delay: 10.0)))
                                     
                                     VStack(alignment: .leading){

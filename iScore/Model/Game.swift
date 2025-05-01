@@ -79,25 +79,25 @@ class Game: ObservableObject, Identifiable {
     }
     
     /* Get the current System icon based on state */
-    func setSystemName(team: Team) -> String{
+    func setSymbol(team: Team) -> String{
         
-        var sysName = ""
+        var symbolName = ""
         
         if self.state == GameState.playing {
-            sysName = "person.2.circle"
+            symbolName = "person.2.circle"
         }
         else if self.state == GameState.cancelled{
-            sysName = "figure.walk.motion.trianglebadge.exclamationmark"
+            symbolName = "figure.walk.motion.trianglebadge.exclamationmark"
         }
         else if winningTeam == (team == .team1 ? .team1 : .team2)
         {
-            sysName = "trophy"
+            symbolName = "trophy"
         }
         else{
-            sysName = "swiftdata"
+            symbolName = "xmark.octagon.fill"
         }
         
-        return sysName
+        return symbolName
         
     }
 }

@@ -33,7 +33,7 @@ Background()
                     Image("OldGuyCigar")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 150)
+                        .frame(height: 95)
                         .brightness(0)
                         .clipped()
                 }

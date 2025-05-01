@@ -36,18 +36,15 @@ struct AddGameScoreView: View {
                 
                 VStack{
         
-                    Image("\(team == .team1 ? "2" : "3")")
+                    Image("player")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 200)
-                        .brightness(-0.1)
+                        .frame(width: 125, height: 125, alignment: .center)
                         .mask{
-                            Text("\(team == .team1 ? "Team 1" : "Team 2")")
-                                .font(.system(size:30))
-                                .fontWeight(.light)
-                            Circle().frame(width: 350, height: 85)
-                                .shadow(radius:  112)
+                            Circle().frame(width: 125, height: 125, alignment: .center)
+                            
                         }
+                    
                 }
                 
                 

@@ -23,26 +23,18 @@ struct NewGameView: View {
     @State private var showNewPlayerView4: Bool = false
     @State private var game:Game = Game(gameType: .nine, maxScore: 20.00)
     @State private var isShowingObject: Bool = false // State to control navigation
-    @State private var showAlert: Bool = false
-
     
-    func addGame(){
+    
+    private func addGame(){
         
         game = Game(gameType: gameType, maxScore: maxScore)
         context.insert(game)
-        
-        if player1 == player2 || player1 == player3 || player1 == player4 || player2 == player3 || player2 == player4 || player3 == player4 {
-           
-            showAlert.toggle()
-            return
-            
-        }
         
         addPlayer(game: game, playerName_: player1)
         addPlayer(game: game, playerName_: player2)
         addPlayer(game: game, playerName_: player3)
         addPlayer(game: game, playerName_: player4)
-
+        
         game.team1.append(player1)
         game.team1.append(player2)
         game.team2.append(player3)
@@ -52,10 +44,10 @@ struct NewGameView: View {
         
     }
     
-    func addPlayer(game: Game, playerName_: String){
-       
+    private func addPlayer(game: Game, playerName_: String){
+        
         let playerName = playerName_.lowercased()
-
+        
         /* If the player exists on Player add it to game.players, if not create a new one */
         if players.firstIndex(where: {$0.name == playerName}) != nil {
             game.players.append(players[players.firstIndex(where: {$0.name == playerName})!])
@@ -63,6 +55,24 @@ struct NewGameView: View {
         else{
             game.players.append(Player(name: playerName))
         }
+        
+    }
+    
+    private func validatePlayers() -> Bool {
+        
+        //Validate you don't have same playerName on more than one player
+        return !(
+            player1.lowercased() == player2.lowercased()
+            || player1.lowercased() == player3.lowercased()
+            || player1.lowercased() == player4.lowercased()
+            || player2.lowercased() == player3.lowercased()
+            || player2.lowercased() == player4.lowercased()
+            || player3.lowercased() == player4.lowercased()
+            || player1 == ""
+            || player2 == ""
+            || player3 == ""
+            || player4 == ""
+        )
         
     }
     
@@ -94,11 +104,11 @@ struct NewGameView: View {
                     }
                     .listRowBackground(buttonView())
                     .buttonStyle(BorderlessButtonStyle())
-
+                    
                 }
                 header:{
                     Text("Team 1")
-                        .font(.system(size: 20, weight: .light, design: .rounded))
+                        .font(.system(size: 16, weight: .light, design: .rounded))
                 }
                 
                 //Team 2 section
@@ -122,7 +132,7 @@ struct NewGameView: View {
                 }
                 header:{
                     Text("Team 2")
-                        .font(.system(size: 20, weight: .light, design: .rounded))
+                        .font(.system(size: 16, weight: .light, design: .rounded))
                 }
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
@@ -170,7 +180,7 @@ struct NewGameView: View {
                 
                 header:{
                     Text("Setup")
-                        .font(.system(size: 20, weight: .light, design: .default))
+                        .font(.system(size: 16, weight: .light, design: .default))
                 }
             }
             .padding([.leading, .trailing], UIDevice.current.userInterfaceIdiom == .pad ? 80 : 0)
@@ -182,7 +192,7 @@ struct NewGameView: View {
                 ToolbarItemGroup(placement: .topBarTrailing){
                     
                     Button("Save",action: addGame)
-                        .disabled(player1 == "" || player2 == "" || player3 == "" || player4 == "")
+                        .disabled(!validatePlayers())
                         .navigationDestination(isPresented: $isShowingObject){
                             GameView(path: $path, game: game)
                         }
@@ -200,11 +210,6 @@ struct NewGameView: View {
         }
         .sheet(isPresented: $showNewPlayerView4){
             NewPlayerView(player: $player4)
-        }
-        .alert("Error Message", isPresented: $showAlert) {
-            Button("OK", role: .cancel) { }
-        } message: {
-            Text("Players must have different names.")
         }
     }
 }
@@ -246,7 +251,7 @@ struct AddPlayerView: View {
     var body: some View {
         ZStack {
             HStack {
-                                
+                
                 Image(systemName: player != "" ? "person.badge.minus" : "person.badge.plus")
                     .resizable()
                     .scaledToFit()
@@ -259,6 +264,6 @@ struct AddPlayerView: View {
             }
             .foregroundStyle(player != "" ? Color.accentColor : Color.black)
         }
-        .frame(height: 45)
+        .frame(height: 30)
     }
 }
