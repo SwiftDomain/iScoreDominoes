@@ -174,7 +174,7 @@ struct NewGameView: View {
                 }
             }
             .padding([.leading, .trailing], UIDevice.current.userInterfaceIdiom == .pad ? 80 : 0)
-            .padding(.top, 30)
+            .padding(.top, 10)
             .scrollContentBackground(.hidden)
             .navigationBarTitle(Text("New Game"))
             .navigationBarTitleDisplayMode(.automatic)
