@@ -117,7 +117,7 @@ struct MetaDataCellView:View{
             HStack {
                 Text("Won:")
                 Spacer()
-                Text("\(player.gameWon)")
+                Text("\(player.gamesWon)")
                     .paddingLeading()
                 
                 

@@ -26,7 +26,7 @@ class Player: Equatable{
         
     }
     
-    var gameWon: Int{
+    var gamesWon: Int{
         
         var wins: Int = 0
         
@@ -45,9 +45,7 @@ class Player: Equatable{
                     wins += 1
                     
                 }
-                
             }
-            
         }
         
         return wins
@@ -71,7 +69,7 @@ class Player: Equatable{
     var winPercentage: Double{
         
         
-        return (gamesPlayed > 0 ? (Double(self.gameWon)/Double(self.gamesPlayed) * 100.0) : 0)
+        return (gamesPlayed > 0 ? (Double(self.gamesWon)/Double(self.gamesPlayed) * 100.0) : 0)
     }
     
 }

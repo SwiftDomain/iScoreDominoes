@@ -3,6 +3,20 @@ import SwiftData
 
 struct NewGameView: View {
     
+    enum ActiveSheetPlayer: Identifiable {
+        case player1, player2, player3, player4
+        
+        var id: String {
+            
+            switch self {
+            case .player1: return "player1"
+            case .player2: return "player2"
+            case .player3: return "player3"
+            case .player4: return "player4"
+            }
+        }
+    }
+    
     @Environment(\.modelContext) var context
     
     @Query( sort:\Player.name, order: .reverse ) var players: [Player]
@@ -17,12 +31,13 @@ struct NewGameView: View {
     @State private var gameType: GameType = .nine
     @State private var maxScore: Double = 20
     @State private var timestamp: Date = Date()
-    @State private var showNewPlayerView1: Bool = false
-    @State private var showNewPlayerView2: Bool = false
-    @State private var showNewPlayerView3: Bool = false
-    @State private var showNewPlayerView4: Bool = false
+    //@State private var showNewPlayerView: Bool = false
+    
     @State private var game:Game = Game(gameType: .nine, maxScore: 20.00)
     @State private var isShowingObject: Bool = false // State to control navigation
+    @State private var activeSheet: ActiveSheetPlayer?
+    
+    
     
     
     private func addGame(){
@@ -90,15 +105,21 @@ struct NewGameView: View {
                     
                     VStack{
                         
-                        Button(action: {showNewPlayerView1.toggle()})
-                        {
+                        //                        Button(action: {showNewPlayerView.toggle()})
+                        //                        {
+                        //                            AddPlayerView(player: player1)
+                        //                        }
+                        Button {
+                            activeSheet = .player1
+                        } label: {
                             AddPlayerView(player: player1)
                         }
                         
-                        Button(action: {showNewPlayerView2.toggle()})
-                        {
+                        
+                        Button {
+                            activeSheet = .player2
+                        } label: {
                             AddPlayerView(player: player2)
-                            
                         }
                         
                     }
@@ -115,13 +136,15 @@ struct NewGameView: View {
                 Section{
                     VStack{
                         
-                        Button(action: {showNewPlayerView3.toggle()})
-                        {
+                        Button {
+                            activeSheet = .player3
+                        } label: {
                             AddPlayerView(player: player3)
                         }
                         
-                        Button(action: {showNewPlayerView4.toggle()})
-                        {
+                        Button {
+                            activeSheet = .player4
+                        } label: {
                             AddPlayerView(player: player4)
                         }
                         
@@ -199,71 +222,75 @@ struct NewGameView: View {
                 }
             }
         }
-        .sheet(isPresented: $showNewPlayerView1){
-            NewPlayerView(player: $player1)
-        }
-        .sheet(isPresented: $showNewPlayerView2){
-            NewPlayerView(player: $player2)
-        }
-        .sheet(isPresented: $showNewPlayerView3){
-            NewPlayerView(player: $player3)
-        }
-        .sheet(isPresented: $showNewPlayerView4){
-            NewPlayerView(player: $player4)
-        }
-    }
-}
-
-struct buttonView: View {
-    
-    var body: some View {
-        
-        LinearGradient(gradient: Gradient(colors: [.blue, Color("lightBlue")]), startPoint: .center, endPoint: .bottom)
-            .ignoresSafeArea()
-            .opacity(1)
-        
-        
-    }
-}
-
-extension String: @retroactive Identifiable {
-    public typealias ID = Int
-    public var id: Int {
-        return hash
-    }
-}
-
-
-struct NewGameView_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        
-        NewGameView(path: .constant(NavigationPath()))
-            .modelContainer(for: Game.self, inMemory: true)
-        
-    }
-}
-
-struct AddPlayerView: View {
-    
-    var player: String
-    
-    var body: some View {
-        ZStack {
-            HStack {
-                
-                Image(systemName: player != "" ? "person.badge.minus" : "person.badge.plus")
-                    .resizable()
-                    .scaledToFit()
-                    .padding(.trailing)
-                Text(player)
-                    .font(.title)
-                    .fontWeight(.light)
-                
-                Spacer()
+        //        .sheet(isPresented: $showNewPlayerView){
+        //            NewPlayerView(player: $player1)
+        //        }
+        .sheet(item: $activeSheet) { item in
+            
+            switch item {
+            case .player1:
+                NewPlayerView(player: $player1)
+            case .player2:
+                NewPlayerView(player: $player2)
+            case .player3:
+                NewPlayerView(player: $player3)
+            case .player4:
+                NewPlayerView(player: $player4)
             }
-            .foregroundStyle(player != "" ? Color.accentColor : Color.black)
         }
-        .frame(height: 30)
     }
 }
+    
+    struct buttonView: View {
+        
+        var body: some View {
+            
+            LinearGradient(gradient: Gradient(colors: [.blue, Color("lightBlue")]), startPoint: .center, endPoint: .bottom)
+                .ignoresSafeArea()
+                .opacity(1)
+            
+            
+        }
+    }
+    
+    extension String: @retroactive Identifiable {
+        public typealias ID = Int
+        public var id: Int {
+            return hash
+        }
+    }
+    
+    
+    struct NewGameView_Previews: PreviewProvider {
+        
+        static var previews: some View {
+            
+            NewGameView(path: .constant(NavigationPath()))
+                .modelContainer(for: Game.self, inMemory: true)
+            
+        }
+    }
+    
+    struct AddPlayerView: View {
+        
+        var player: String
+        
+        var body: some View {
+            ZStack {
+                HStack {
+                    
+                    Image(systemName: player != "" ? "person.badge.minus" : "person.badge.plus")
+                        .resizable()
+                        .scaledToFit()
+                        .padding(.trailing)
+                    Text(player)
+                        .font(.title)
+                        .fontWeight(.light)
+                    
+                    Spacer()
+                }
+                .foregroundStyle(player != "" ? Color.accentColor : Color.black)
+            }
+            .frame(height: 30)
+        }
+    }

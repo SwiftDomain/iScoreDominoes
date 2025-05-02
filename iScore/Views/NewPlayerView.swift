@@ -112,7 +112,7 @@ struct TextInputField: View {
     
     private func maxInput() -> String{
         
-        if self.text.count > 11{
+        if self.text.count > 15{
             self.text = String(text.prefix(15))
         }
         

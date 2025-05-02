@@ -116,28 +116,6 @@ enum GameState: String, Codable, Equatable{
     case cancelled
 }
 
-struct LazyVGridSetup{
-    
-    let colors: [Color] = [.red, .green, .blue, .yellow]
-    
-    // Flexible, custom amount of columns that fill the remaining space
-    let numberColumns = [
-        GridItem(.flexible())
-        //, GridItem(.flexible())
-    ]
-    
-    // Adaptive, make sure it's the size of your smallest element.
-    let adaptiveColumns = [
-        GridItem(.adaptive(minimum: 200))
-    ]
-    
-    // Fixed, creates columns with fixed dimensions
-    let fixedColumns = [
-        GridItem(.flexible(minimum: 200, maximum: 2500))
-        //        ,GridItem(.fixed(200))
-    ]
-}
-
 enum Team:Identifiable{
     
     case team1
@@ -158,6 +136,28 @@ enum Team:Identifiable{
             return "Game in progress"
         }
     }
+}
+
+struct LazyVGridSetup{
+    
+    let colors: [Color] = [.red, .green, .blue, .yellow]
+    
+    // Flexible, custom amount of columns that fill the remaining space
+    let numberColumns = [
+        GridItem(.flexible())
+        //, GridItem(.flexible())
+    ]
+    
+    // Adaptive, make sure it's the size of your smallest element.
+    let adaptiveColumns = [
+        GridItem(.adaptive(minimum: 200))
+    ]
+    
+    // Fixed, creates columns with fixed dimensions
+    let fixedColumns = [
+        GridItem(.flexible(minimum: 200, maximum: 2500))
+        //        ,GridItem(.fixed(200))
+    ]
 }
 
 class GameScoreIndex:Identifiable{
