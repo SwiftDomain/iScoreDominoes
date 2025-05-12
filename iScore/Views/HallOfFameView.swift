@@ -6,6 +6,7 @@
 //
 import SwiftUI
 import SwiftData
+import Charts
 
 struct HallOfFameView: View {
     
@@ -38,14 +39,16 @@ struct HallOfFameView: View {
                             .opacity(0.02)
                             .overlay(
                                 Text("Hall of Fame")
-                                    .foregroundStyle(.accent)
-                                    .fontWeight(.light)
+                                    .foregroundStyle(.accent.opacity(0.7))
+                                    .fontWeight(.heavy)
                                     .minimumScaleFactor(0.75)
                                     .font(.largeTitle)
-                                    .shadow(color: .white, radius: 25)
+                                    .shadow(color: .black, radius: 55)
                             )
                         
                     }
+                    
+                    //ContentView(player: players)
                     
                     ForEach(players, id:\.self) { player in
                         
@@ -140,12 +143,9 @@ struct MetaDataCellView:View{
 
 
 #Preview {
-    //    HallOfFameView()
-    //        .modelContainer(for: Game.self, inMemory: true)
     
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Game.self, configurations: config)
-    
     
     let game = Game(gameType:GameType.six, maxScore: 20)
     
@@ -162,8 +162,6 @@ struct MetaDataCellView:View{
     
     game.players.append(Player(name: "kklkj4"))
     game.team2.append("ksslsla")
-    
-    
     
     return HallOfFameView()
         .modelContainer(container)
