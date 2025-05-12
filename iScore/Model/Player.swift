@@ -30,9 +30,8 @@ class Player: Equatable{
         
         var wins: Int = 0
         
-        
         for game in games{
-            
+                        
             if !game.inProcess{
                 
                 if  game.winningTeam == .team1 && game.team1.contains(self.name){
