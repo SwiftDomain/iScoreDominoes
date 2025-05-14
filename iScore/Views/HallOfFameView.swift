@@ -47,9 +47,7 @@ struct HallOfFameView: View {
                             )
                         
                     }
-                    
-                    //ContentView(player: players)
-                    
+                                        
                     ForEach(players, id:\.self) { player in
                         
                         VStack{

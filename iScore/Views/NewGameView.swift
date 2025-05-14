@@ -30,9 +30,7 @@ struct NewGameView: View {
     @State private var player4: String = ""
     @State private var gameType: GameType = .nine
     @State private var maxScore: Double = 20
-    @State private var timestamp: Date = Date()
-    //@State private var showNewPlayerView: Bool = false
-    
+    @State private var timestamp: Date = Date()    
     @State private var game:Game = Game(gameType: .nine, maxScore: 20.00)
     @State private var isShowingObject: Bool = false // State to control navigation
     @State private var activeSheet: ActiveSheetPlayer?
@@ -103,17 +101,14 @@ struct NewGameView: View {
                     
                     VStack{
                         
-                        //                        Button(action: {showNewPlayerView.toggle()})
-                        //                        {
-                        //                            AddPlayerView(player: player1)
-                        //                        }
+                        //Player 1
                         Button {
                             activeSheet = .player1
                         } label: {
                             AddPlayerView(player: player1)
                         }
                         
-                        
+                        //Player2
                         Button {
                             activeSheet = .player2
                         } label: {
@@ -133,13 +128,15 @@ struct NewGameView: View {
                 //Team 2 section
                 Section{
                     VStack{
-                        
+                    
+                        //Player 3
                         Button {
                             activeSheet = .player3
                         } label: {
                             AddPlayerView(player: player3)
                         }
                         
+                        //Player 4
                         Button {
                             activeSheet = .player4
                         } label: {
