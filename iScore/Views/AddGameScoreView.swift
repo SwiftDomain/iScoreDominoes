@@ -35,16 +35,14 @@ struct AddGameScoreView: View {
             VStack(alignment: .center){
                 
                 VStack{
-        
+                    
                     Image("player")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 125, height: 125, alignment: .center)
                         .mask{
                             Circle().frame(width: 125, height: 125, alignment: .center)
-                            
                         }
-                    
                 }
                 
                 
@@ -67,6 +65,9 @@ struct AddGameScoreView: View {
                         )
                 }
                 
+                Spacer()
+                
+                //Add Score button
                 Button(action: {
                     
                     guard let tempScore = Int(score) as Int? else { return}
@@ -91,7 +92,6 @@ struct AddGameScoreView: View {
                             .cornerRadius(8)
                             .foregroundStyle(.accent)
                         
-                        
                         Spacer()
                             .frame(width: 16)
                         
@@ -101,7 +101,6 @@ struct AddGameScoreView: View {
                                 .minimumScaleFactor(0.75)
                                 .font(.system(size: 20))
                             
-                            
                             Spacer()
                                 .frame(height: 1)
                             
@@ -110,15 +109,15 @@ struct AddGameScoreView: View {
                                 .foregroundStyle(.secondary)
                                 .fontWeight(.light)
                         }
-
                     }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(AnimatedMeshGradient())
                 }
-                .padding(.top, 35)
-                Spacer()
+                .padding(.bottom, 35)
+             
             }
-            
         }
-       
     }
 }
 
