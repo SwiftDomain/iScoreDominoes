@@ -90,6 +90,12 @@ struct GamesView: View {
                                 .navigationTitle(Text("Games"))
                                 .offset(y:10)
                                 .padding(.horizontal)
+                                .visualEffect { content, proxy in
+                                    content
+                                        .hueRotation(Angle(degrees:
+                                                          proxy.frame(in: .global).origin.y/10
+                                                          ))
+                                }
                             }
                         }
                     }
