@@ -24,6 +24,7 @@ struct AddGameScoreView: View {
         _game =  State(initialValue: game)
         _team = State(initialValue: team)
         fieldIsFocused = true
+
     }
     
     var body: some View {
@@ -124,11 +125,9 @@ struct AddGameScoreView: View {
 
 struct AddGameScoreView_Previews: PreviewProvider {
     
-    
     static var previews: some View {
         let game = Game(gameType:GameType.six, maxScore: 20)
         
         AddGameScoreView(game: game, team: .team1)
-        // .previewInterfaceOrientation(.portrait)
     }
 }

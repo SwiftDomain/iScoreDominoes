@@ -4,7 +4,7 @@ import SwiftData
 struct GameView: View {
     
     @Environment(\.modelContext) var context
-    @FocusState private var fieldIsFocused: Bool
+    // @FocusState private var fieldIsFocused: Bool
     
     @Binding var path: NavigationPath
     @Bindable var game: Game
@@ -15,7 +15,7 @@ struct GameView: View {
     @State private var winningMessage: String = ""
     @State private var gameScoreIndex:GameScoreIndex?
     @State private var showInfoView: Bool = false
-    
+    @State private var isNotified: Bool = false
     
     private let lazyVGridSetup:LazyVGridSetup = LazyVGridSetup()
     
@@ -82,7 +82,24 @@ struct GameView: View {
                                         .frame(height: 36)
                                         .cornerRadius(8)
                                         .foregroundStyle(game.winningTeam == .team1 ? .accent : .accentColor)
-                                        .symbolEffect(.rotate.clockwise.byLayer, options: .repeat(.periodic(delay: 3.0)))
+                                        .phaseAnimator ([ NotifyAnimationPhase.initial,
+                                                          .lift,
+                                                          .shakeLeft,
+                                                          .shakeRight,
+                                                          .shakeLeft,
+                                                          .shakeRight
+                                        ], trigger: (game.winningTeam == .team1)) { content, phase in
+                                            content
+                                                .scaleEffect (phase.scale)
+                                                .rotationEffect(.degrees(phase.rotationDegress), anchor: .top)
+                                                .offset(y: phase.yOffset)
+                                        }
+                                    animation: { phase in
+                                        switch phase {
+                                        case .initial, .lift: .spring (bounce: 0.5)
+                                        case .shakeLeft, .shakeRight: .easeInOut(duration: 0.15)
+                                        }
+                                    }
                                     
                                     VStack(alignment: .leading){
                                         Text(game.team1[0])
@@ -110,7 +127,24 @@ struct GameView: View {
                                         .frame(height: 36)
                                         .cornerRadius(8)
                                         .foregroundStyle(game.winningTeam == .team2 ? .accent : .accentColor)
-                                        .symbolEffect(.rotate.counterClockwise.byLayer, options: .repeat(.periodic(delay: 10.0)))
+                                        .phaseAnimator ([ NotifyAnimationPhase.initial,
+                                                          .lift,
+                                                          .shakeLeft,
+                                                          .shakeRight,
+                                                          .shakeLeft,
+                                                          .shakeRight
+                                        ], trigger: (game.winningTeam == .team2)) { content, phase in
+                                            content
+                                                .scaleEffect (phase.scale)
+                                                .rotationEffect(.degrees(phase.rotationDegress), anchor: .top)
+                                                .offset(y: phase.yOffset)
+                                        }
+                                    animation: { phase in
+                                        switch phase {
+                                        case .initial, .lift: .spring (bounce: 0.5)
+                                        case .shakeLeft, .shakeRight: .easeInOut(duration: 0.15)
+                                        }
+                                    }
                                     
                                     VStack(alignment: .leading){
                                         Text(game.team2[0])
@@ -322,7 +356,6 @@ struct GameView: View {
             game.state = GameState.finished
             game.inProcess = false
         }
-        
     }
 }
 
@@ -337,3 +370,29 @@ struct GameView: View {
     }
 }
 
+
+enum NotifyAnimationPhase: CaseIterable {
+    case initial, lift, shakeLeft, shakeRight
+    
+    var yOffset: CGFloat {
+        switch self {
+        case .initial: 0
+        case .lift, .shakeLeft, .shakeRight: -15
+        }
+    }
+    
+    var scale: CGFloat {
+        switch self {
+        case .initial: 1
+        case .lift, .shakeLeft, .shakeRight: 4.2
+        }
+    }
+    
+    var rotationDegress: Double {
+        switch self {
+        case .initial, .lift: 0
+        case .shakeLeft: -30
+        case .shakeRight: 30
+        }
+    }
+}

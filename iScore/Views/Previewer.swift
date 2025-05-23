@@ -35,12 +35,12 @@ struct Previewer {
         //game.players.append(Player(name: "4est Player qerqewr"))
         game.team2.append("Bidenomics")
         
-        game.scoreTeam.append([53,0])
+//        game.scoreTeam.append([53,0])
        game.scoreTeam.append([0,24])
-        game.scoreTeam.append([90,0])
+//        game.scoreTeam.append([90,0])
         game.scoreTeam.append([12,0])
         game.scoreTeam.append([01,0])
-        game.scoreTeam.append([0,245])
+//        game.scoreTeam.append([0,245])
 //        game.scoreTeam.append([0,2])
 //        game.scoreTeam.append([0,0])
         
