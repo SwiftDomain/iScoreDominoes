@@ -123,7 +123,7 @@ struct GamesView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Game.self, configurations: config)
     
-    for _ in 1...1 {
+    for _ in 1...10 {
         let game = Game(gameType:GameType.six, maxScore: 20)
         
         container.mainContext.insert(game)

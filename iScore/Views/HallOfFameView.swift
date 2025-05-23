@@ -86,6 +86,12 @@ struct HallOfFameView: View {
                                     
                                     
                                 }
+                                .visualEffect { content, proxy in
+                                    content
+                                        .hueRotation(Angle(degrees:
+                                                          proxy.frame(in: .global).origin.y/10
+                                                          ))
+                                }
                             }
                         }
                     }

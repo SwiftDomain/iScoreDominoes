@@ -32,8 +32,8 @@ struct HomeView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(height: 50)
-                            //.cornerRadius(8)
                                 .foregroundStyle(.accent)
+                                .transition(Twirl())
                             
                             Spacer()
                                 .frame(width: 16)
@@ -59,13 +59,13 @@ struct HomeView: View {
                     {
                         
                         HStack{
-                            //    Image(systemName: "arrowtriangle.right.circle")
                             Image(systemName: "arcade.stick.console")
                                 .resizable()
                                 .scaledToFit()
                                 .frame( height: 37)
                                 .cornerRadius(8)
                                 .foregroundStyle(.accent)
+                                .transition(Twirl())
                             
                             Spacer()
                                 .frame(width: 16)
@@ -97,6 +97,7 @@ struct HomeView: View {
                                 .frame(height: 50)
                                 .cornerRadius(8)
                                 .foregroundStyle(.accent)
+                                .transition(Twirl())
                             
                             Spacer()
                                 .frame(width: 16)
@@ -127,6 +128,7 @@ struct HomeView: View {
                             .frame( height: 50)
                             .cornerRadius(8)
                             .foregroundStyle(.accent)
+                            .transition(Twirl())
                         
                         VStack(alignment: .leading){
                             Text("Tutorial")

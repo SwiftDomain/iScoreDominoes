@@ -32,7 +32,6 @@ struct dataBackgroundShape: View{
             .clipShape(RoundedRectangle(cornerSize: CGSize(width: 25, height: 25)))
             .foregroundStyle(.babyBlue)
             .opacity(0.3)
-        
     }
     
 }
@@ -150,11 +149,23 @@ extension Text{
     func paddingLeading() -> some View {
         
         self.frame(width: 60, alignment: .leading)
-        .fontWeight(.light)
-        .minimumScaleFactor(0.75)
-        .foregroundStyle(.black)
-        .padding(.leading, 20)
-        .shadow(color: .white, radius: 25)
+            .fontWeight(.light)
+            .minimumScaleFactor(0.75)
+            .foregroundStyle(.black)
+            .padding(.leading, 20)
+            .shadow(color: .white, radius: 25)
     }
     
+}
+
+struct Twirl: Transition {
+    
+    func body(content: Content, phase: TransitionPhase) -> some View {
+        content
+            .scaleEffect(phase.isIdentity ? 1 : 0.5)
+            .opacity(phase.isIdentity ? 1 : 0)
+            .blur(radius: phase.isIdentity ? 0 : 20)
+            .rotationEffect(.degrees (phase == .willAppear ? 360 : phase == .didDisappear ? -360 : .zero))
+            .brightness (phase == .willAppear ? 1.0 : 0)
+    }
 }
