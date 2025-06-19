@@ -198,7 +198,6 @@ struct GameView: View {
                                                     self.gameScoreIndex!.index = index
                                                     self.gameScoreIndex!.team = .team1
                                                     self.gameScoreIndex!.value = game.scoreTeam[index][0]
-                                                    
                                                 }
                                                 
                                             }
@@ -247,7 +246,6 @@ struct GameView: View {
                                 Spacer()
                             }
                             .popoverTip(editScore)
-                            
                             Spacer()
                         }
                     }
@@ -369,10 +367,10 @@ struct GameView: View {
         return GameView(path: .constant(NavigationPath()), game: previewer.game)
             .modelContainer(previewer.container)
             .task {
-                try? Tips.resetDatastore() 
-try? Tips.configure([ 
-                            .displayFrequency(.immediate),
-                            .datastoreLocation(.applicationDefault)])
+                try? Tips.resetDatastore()
+                try? Tips.configure([
+                    .displayFrequency(.immediate),
+                    .datastoreLocation(.applicationDefault)])
             }
     } catch {
         return Text("Failed to create preview: \(error.localizedDescription)")

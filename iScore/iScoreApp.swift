@@ -35,7 +35,7 @@ struct iScoreApp: App {
                 .task {
                     try? Tips.resetDatastore()
                     try? Tips.configure([
-                       // .displayFrequency(.immediate),
+//                        .displayFrequency(.immediate),
                         .datastoreLocation(.applicationDefault)])
                 }
             
