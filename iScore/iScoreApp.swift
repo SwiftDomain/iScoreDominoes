@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import TipKit
 
 @main
 struct iScoreApp: App {
@@ -27,8 +28,18 @@ struct iScoreApp: App {
     }
 
     var body: some Scene {
+       
         WindowGroup {
-         HomeView()
+         
+            HomeView()
+                .task {
+                    try? Tips.resetDatastore()
+                    try? Tips.configure([
+                       // .displayFrequency(.immediate),
+                        .datastoreLocation(.applicationDefault)])
+                }
+            
+
         }
         .modelContainer(modelContainer)
     }

@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import TipKit
 
 struct GameView: View {
     
@@ -16,6 +17,7 @@ struct GameView: View {
     @State private var gameScoreIndex:GameScoreIndex?
     @State private var showInfoView: Bool = false
     @State private var isNotified: Bool = false
+    let editScore = editScoreTip()
     
     private let lazyVGridSetup:LazyVGridSetup = LazyVGridSetup()
     
@@ -244,6 +246,7 @@ struct GameView: View {
                                 }
                                 Spacer()
                             }
+                            .popoverTip(editScore)
                             
                             Spacer()
                         }
@@ -365,6 +368,12 @@ struct GameView: View {
         
         return GameView(path: .constant(NavigationPath()), game: previewer.game)
             .modelContainer(previewer.container)
+            .task {
+                try? Tips.resetDatastore() 
+try? Tips.configure([ 
+                            .displayFrequency(.immediate),
+                            .datastoreLocation(.applicationDefault)])
+            }
     } catch {
         return Text("Failed to create preview: \(error.localizedDescription)")
     }
