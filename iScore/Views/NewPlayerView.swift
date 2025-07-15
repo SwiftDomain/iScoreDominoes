@@ -13,12 +13,23 @@ struct NewPlayerView: View {
     @Environment(\.dismiss) private var dismiss
     @Query( sort:\Player.name, order: .forward ) var players: [Player]
     @Binding var player: String
-    
+   
     init(player: Binding<String>) {
 
         self._player = player
     }
     
+    var SearchPlayers: [Player]{
+        
+        guard player.isEmpty == false else {
+            return players
+        }
+        
+        return players.filter{
+            $0.name.lowercased().localizedStandardContains(player.lowercased())
+        }
+    }
+
     
     var body: some View {
         
@@ -58,7 +69,7 @@ Background()
                 VStack(alignment: .leading){
                     ScrollView(showsIndicators: false){
                         /* List of all players*/
-                        ForEach(players, id:\.self) { player in
+                        ForEach(SearchPlayers, id:\.self) { player in
                             
                             
                             Button(action: {
