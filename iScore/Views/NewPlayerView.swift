@@ -13,6 +13,7 @@ struct NewPlayerView: View {
     @Environment(\.dismiss) private var dismiss
     @Query( sort:\Player.name, order: .forward ) var players: [Player]
     @Binding var player: String
+    @FocusState private var isFocused: Bool
    
     init(player: Binding<String>) {
 
@@ -63,9 +64,13 @@ Background()
                                 .textContentType(.name)
                                 .multilineTextAlignment(.center)
                                 .fontWeight(.light)
+                                .focused($isFocused)
+                                
                         )
                 }
+                
                 Spacer()
+                
                 VStack(alignment: .leading){
                     ScrollView(showsIndicators: false){
                         /* List of all players*/
@@ -105,6 +110,10 @@ Background()
                         Text("Add")
                     }
                 }
+            }
+            .onAppear(){
+                isFocused = true
+                UITextField.appearance().clearButtonMode = .whileEditing
             }
         }
     }
@@ -147,6 +156,23 @@ struct TextInputField: View {
                 .foregroundStyle(.black)
                 .offset(y:-20)
             
+            
+        }
+    }
+}
+
+struct ClearButton: ViewModifier {
+    @Binding var text: String
+
+    public func body(content: Content) -> some View {
+        HStack {
+            content
+            Button(action: {
+                self.text = ""
+            }) {
+                Image(systemName: "multiply.circle.fill")
+                    .foregroundColor(.secondary)
+            }
         }
     }
 }
@@ -154,6 +180,6 @@ struct TextInputField: View {
 #Preview {
     
     
-    NewPlayerView(player: .constant(""))
+    NewPlayerView(player: .constant("Test"))
     
 }
