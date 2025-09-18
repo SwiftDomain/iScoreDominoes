@@ -11,7 +11,6 @@
 		076444A92ACD1C0200E39F12 /* iScoreApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076444A82ACD1C0200E39F12 /* iScoreApp.swift */; };
 		076444AB2ACD1C0200E39F12 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076444AA2ACD1C0200E39F12 /* HomeView.swift */; };
 		076444AD2ACD1C0200E39F12 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076444AC2ACD1C0200E39F12 /* Game.swift */; };
-		076444AF2ACD1C0500E39F12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 076444AE2ACD1C0500E39F12 /* Assets.xcassets */; };
 		076444B22ACD1C0500E39F12 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 076444B12ACD1C0500E39F12 /* Preview Assets.xcassets */; };
 		07D9DD772AD3787B00EA6D90 /* NewGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D9DD762AD3787B00EA6D90 /* NewGameView.swift */; };
 		07D9DD792AD3819E00EA6D90 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D9DD782AD3819E00EA6D90 /* GameView.swift */; };
@@ -33,7 +32,6 @@
 		076444A82ACD1C0200E39F12 /* iScoreApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iScoreApp.swift; sourceTree = "<group>"; };
 		076444AA2ACD1C0200E39F12 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		076444AC2ACD1C0200E39F12 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
-		076444AE2ACD1C0500E39F12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		076444B12ACD1C0500E39F12 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		07D9DD762AD3787B00EA6D90 /* NewGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGameView.swift; sourceTree = "<group>"; };
 		07D9DD782AD3819E00EA6D90 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
@@ -83,7 +81,6 @@
 				3EF472CB2B769F580018276A /* Model */,
 				3EF472CA2B769F2B0018276A /* Views */,
 				076444B02ACD1C0500E39F12 /* Preview Content */,
-				076444AE2ACD1C0500E39F12 /* Assets.xcassets */,
 			);
 			path = iScore;
 			sourceTree = "<group>";
@@ -155,7 +152,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1630;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					076444A42ACD1C0200E39F12 = {
 						CreatedOnToolsVersion = 15.0;
@@ -188,7 +185,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				076444B22ACD1C0500E39F12 /* Preview Assets.xcassets in Resources */,
-				076444AF2ACD1C0500E39F12 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +276,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -337,6 +334,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -348,7 +346,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"iScore/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -362,12 +360,12 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = SwiftDomainUI.iScore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -384,7 +382,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"iScore/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -398,12 +396,12 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = SwiftDomainUI.iScore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

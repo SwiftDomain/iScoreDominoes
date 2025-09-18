@@ -42,11 +42,11 @@ Background()
                 
                 HStack(){
         
-                    Image("OldGuyCigar")
+                    Image("player1")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 95)
-                        .brightness(0)
+                        .frame(maxWidth: 185, maxHeight: 185)
+                        .brightness(0.1)
                         .clipped()
                 }
                 .padding(.bottom, -8)
