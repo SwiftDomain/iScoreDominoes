@@ -42,7 +42,7 @@ Background()
                 
                 HStack(){
         
-                    Image("player1")
+                    Image("cigar")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(maxWidth: 185, maxHeight: 185)

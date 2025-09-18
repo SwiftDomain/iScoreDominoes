@@ -64,6 +64,7 @@
 			isa = PBXGroup;
 			children = (
 				076444A72ACD1C0200E39F12 /* iScore */,
+				3E2763F22E7BA083004DF143 /* Assets.xcassets */,
 				076444A62ACD1C0200E39F12 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,7 +91,6 @@
 		076444B02ACD1C0500E39F12 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				3E2763F22E7BA083004DF143 /* Assets.xcassets */,
 				076444B12ACD1C0500E39F12 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
