@@ -47,9 +47,6 @@ struct GameView: View {
                                 CircularProgressAroundIcon(progress: $progress1)
                                 
                             }
-                                .padding(50)
-                            
-                  
                         }
                         .frame(width: 180, height: 120, alignment: .center)
                         
@@ -167,11 +164,13 @@ struct GameView: View {
                                             .minimumScaleFactor(0.75)
                                     }
                                     Spacer()
-                                })
-
-                           // .backgroundStyle(.white)
+                                }
+                                    .padding()
+                                    .shadow(radius: 19)
+                            )
                         
                         Spacer()
+                        
                     }
                     .disabled(game.state != GameState.playing)
                     .glassEffect(.clear)
