@@ -50,8 +50,8 @@ struct CollectionView: View {
                         YouTubeView(videoId: idData)
                             .frame(width: 300, height: 300)
                             .padding()
+                            .glassEffectTransition(.materialize)
                     }
-                    
                 }
             }
             

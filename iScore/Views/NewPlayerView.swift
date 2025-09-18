@@ -51,7 +51,9 @@ Background()
                 }
                 .padding(.bottom, -8)
                 .offset(x: -14)
+                
                 HStack{
+                    
                     BlobShape()
                         .frame(width: 380, height: 55, alignment: .center)
                         .foregroundStyle(.white)
@@ -96,6 +98,8 @@ Background()
                     }
                 }
                 .padding(.top, 25)
+                .glassEffect()
+
                 
             }
             .toolbar{
