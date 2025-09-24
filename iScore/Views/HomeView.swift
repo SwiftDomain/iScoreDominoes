@@ -14,163 +14,103 @@ struct HomeView: View {
     @State private var showHallOfFameView: Bool = false
     @State private var showNewGameView: Bool = false
     @State private var showInfoView: Bool = false
-
+    
     @State private var path = NavigationPath()
-
+    
     var body: some View {
         
         NavigationStack(path: $path) {
             
             ZStack(alignment: .center){
-                     
+                
                 Background ()
                 
-                VStack(alignment: .leading, spacing: 16){
-                    
-                        NavigationLink(destination: NewGameView(path: $path)){
+                        VStack(alignment: .leading, spacing: 16){
                             
-                            HStack{
-                                Image(systemName: "plus.app")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundStyle(.accent)
-                                    .transition(Twirl())
-                                    .frame(width: 60, height: 60)
-                                
-                                Spacer()
-                                    .frame(width: 16)
-                                
-                                VStack(alignment: .leading){
-                                    Text("New Game")
-                                        .fontWeight(.light)
-                                        .font(.system(size: 30))
-                                    
-                                    Spacer()
-                                        .frame(height: 1)
-                                    
-                                    Text("New Croquetas")
-                                        .font(.subheadline)
-                                        .foregroundStyle(.secondary)
-                                }
+                            NavigationLink(destination: NewGameView(path: $path)){
+                                NewGameRow(image: "plus.app", title: "New Game", description: "New Croquetas")
                             }
-                            .frame(height: 60)
-                            .padding(.all, 30.0)
+                            
+                            
+                            NavigationLink(destination: GamesView(path: $path))
+                            {
+                                NewGameRow(image: "arcade.stick.console", title: "All Games", description: "Croquetas 305")
+                            }
+                            
+                            Button(action: {self.showHallOfFameView.toggle()})
+                            {
+                                NewGameRow(image: "trophy", title: "Hall D' Fame", description: "Best Croquetas")
+                            }
+                            
+                            Button(action: {self.showInfoView.toggle()})
+                            {
+                                NewGameRow(image: "arrowtriangle.right.circle", title: "Tutorials", description: "Learn Croqueta")
+                            }
+                            
                             
                         }
-                        
-                        
-                        NavigationLink(destination: GamesView(path: $path))
-                        {
-                            
-                            HStack{
-                                Image(systemName: "arcade.stick.console")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundStyle(.accent)
-                                    .transition(Twirl())
-                                    .frame(width: 60, height: 60)
-
-                                Spacer()
-                                    .frame(width: 16)
-                                
-                                VStack(alignment: .leading){
-                                    Text("All Games")
-                                        .fontWeight(.light)
-                                        .font(.system(size: 30))
-                                    
-                                    
-                                    Spacer()
-                                        .frame(height: 1)
-                                    
-                                    Text("Croquetas 305")
-                                        .font(.subheadline)
-                                        .foregroundStyle(.secondary)
-                                }
-                            }
-                            .frame(height: 60)
-                            .padding(.all, 30.0)
-                        }
-
-                        
-                        Button(action: {self.showHallOfFameView.toggle()})
-                        {
-                            HStack{
-                                Image(systemName: "trophy")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundStyle(.accent)
-                                    .transition(Twirl())
-                                    .frame(width: 60, height: 60)
-
-                                Spacer()
-                                    .frame(width: 16)
-                                
-                                VStack(alignment: .leading){
-                                    Text("Hall D' Fame")
-                                        .fontWeight(.light)
-                                        .font(.system(size: 30))
-                                    
-                                    Spacer()
-                                        .frame(height: 1)
-                                    
-                                    Text("Best Croquetas")
-                                        .font(.subheadline)
-                                        .foregroundStyle(.secondary)
-                                }
-                            }
-                            .frame(height: 60)
-                            .padding(.all, 30.0)
-                        }
-
-                        Button(action: {self.showInfoView.toggle()})
-                        {
-                            HStack{
-                                Image(systemName: "arrowtriangle.right.circle")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundStyle(.accent)
-                                    .transition(Twirl())
-                                    .frame(width: 60, height: 60)
-
-                                VStack(alignment: .leading){
-                                    Text("Tutorials")
-                                        .fontWeight(.light)
-                                        .font(.system(size: 30))
-                                    
-                                    
-                                    Spacer()
-                                        .frame(height: 1)
-                                    
-                                    Text("Learn Croqueta")
-                                        .font(.subheadline)
-                                        .foregroundStyle(.secondary)
-                                }
-                            }
-                            .frame(height: 60)
-                            .padding(.all, 30.0)
-                        }
-                    }
-                    .navigationTitle(Text("Dominoes"))
-                    //.offset(y:-60)
+                        .navigationTitle(Text("Dominoes"))
+                        //.offset(y:-60)
                 
-
-                }
-            }
-            .sheet(isPresented: $showHallOfFameView) {
-                HallOfFameView()
-            }
-            .sheet(isPresented: $showNewGameView) {
-                NewGameView(path: $path)
-            }
-            .sheet(isPresented: $showInfoView) {
-                CollectionView()
             }
         }
-    
+        .sheet(isPresented: $showHallOfFameView) {
+            HallOfFameView()
+        }
+        .sheet(isPresented: $showNewGameView) {
+            NewGameView(path: $path)
+        }
+        .sheet(isPresented: $showInfoView) {
+            CollectionView()
+        }
     }
+    
+}
+
+struct NewGameRow: View{
+    
+    let image: String
+    let title: String
+    let description: String
+    
+    var body: some View {
+        
+        HStack{
+            
+            Image(systemName: image)
+                .resizable()
+                .scaledToFit()
+                .glassEffect(.clear)
+                .foregroundStyle(.accent)
+                .transition(Twirl())
+                .frame(width: 50, height: 50)
+                
+            
+            Spacer()
+                .frame(width: 16)
+            
+            VStack(alignment: .leading){
+                Text(title)
+                    .fontWeight(.light)
+                    .font(.system(size: 30))
+                
+                Spacer()
+                    .frame(height: 1)
+                
+                Text(description)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .frame(height: 60)
+        .padding(.all, 20.0)
+    }
+}
 
 
 #Preview {
+    
     HomeView()
         .modelContainer(for: Game.self, inMemory: true)
+    
 }
