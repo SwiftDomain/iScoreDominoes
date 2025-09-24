@@ -11,12 +11,18 @@ struct Background: View {
     
     var body: some View {
         
-        LinearGradient(gradient: Gradient(colors: [.darkBlue, Color("lightBlue")])
-                       , startPoint: .center
-                       , endPoint: .bottomTrailing)
+//        LinearGradient(gradient: Gradient(colors: [.darkBlue, Color("lightBlue")])
+//                       , startPoint: .center
+//                       , endPoint: .bottomTrailing)
+//        
+//        .ignoresSafeArea()
+//        //.opacity(0.7)
         
-        .ignoresSafeArea()
-        .opacity(0.7)
+        Image("background")
+            .resizable()
+            .scaledToFill()
+            .ignoresSafeArea()
+
         
     }
     

@@ -43,7 +43,7 @@ struct AnimatedMeshGradient: View {
             .blendMode(.overlay)
             
         )
-        .background(.black)
+        .background(.clear)
         .cornerRadius(16)
         .background(RoundedRectangle(cornerRadius: 16)
             .stroke(.black.opacity(0.5), lineWidth: 1)

@@ -91,11 +91,14 @@ struct NewGameView: View {
         
         ZStack{
             
-            Background()
+//            Background()
+//                .ignoresSafeArea()
+//            AnimatedMeshGradient()
+//                .ignoresSafeArea()
             
             //The Complete Form
             Form{
-                
+                 
                 //Team 1 section
                 Section{
                     
@@ -128,7 +131,7 @@ struct NewGameView: View {
                 //Team 2 section
                 Section{
                     VStack{
-                    
+                        
                         //Player 3
                         Button {
                             activeSheet = .player3
@@ -152,8 +155,6 @@ struct NewGameView: View {
                     Text("Team 2")
                         .font(.system(size: 16, weight: .light, design: .rounded))
                 }
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
                 .padding(.top,10)
                 
                 //Setup section
@@ -201,6 +202,7 @@ struct NewGameView: View {
                         .font(.system(size: 16, weight: .light, design: .default))
                 }
             }
+            .foregroundStyle(Color.white)
             .padding([.leading, .trailing], UIDevice.current.userInterfaceIdiom == .pad ? 80 : 0)
             .padding(.top, 10)
             .scrollContentBackground(.hidden)
@@ -216,6 +218,12 @@ struct NewGameView: View {
                         }
                 }
             }
+            .background{
+                Background()
+                    .ignoresSafeArea()
+                AnimatedMeshGradient()
+                    .ignoresSafeArea()
+            }
         }
         .sheet(item: $activeSheet) { item in
             
@@ -230,6 +238,7 @@ struct NewGameView: View {
                 NewPlayerView(player: $player4)
             }
         }
+
     }
 }
     

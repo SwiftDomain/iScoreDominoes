@@ -63,7 +63,7 @@ struct GameView: View {
                             CircularProgressAroundIcon(progress: $progress2)
 
                         }
-                        .frame(width: 180, height: 58, alignment: .center)
+                        .frame(width: 180, height: 120, alignment: .center)
                         
                         Spacer()
                     }
@@ -73,7 +73,7 @@ struct GameView: View {
                     HStack(alignment: .center) {
                         Spacer()
                         BlobShape()
-                            .frame(width: 180, height: 58, alignment: .center)
+                            .frame(width: 180, height: 80, alignment: .center)
                             .foregroundStyle(.clear)
                             .overlay(
                                 HStack(alignment: .center){
