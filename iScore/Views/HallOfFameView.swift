@@ -20,84 +20,82 @@ struct HallOfFameView: View {
     var body: some View {
         
         ZStack{
-            
-            Background()
-            
-            ScrollView(showsIndicators: false){
-                
-                LazyVGrid(columns: lazyVGridSetup.numberColumns, spacing: 30) {
-                    
-                    Spacer()
-                    
-                    ZStack {
-                        
-                        RoundedRectangle(cornerRadius: 10)
-                            .frame(width: 250, height: 50)
-                            .foregroundStyle(.white)
-                            .shadow(color: Color.black.opacity(0.3), radius: 11)
-                            .clipShape(RoundedRectangle(cornerSize: CGSize(width: 18, height: 18)))
-                            .opacity(0.02)
-                            .overlay(
-                                Text("Hall of Fame")
-                                    .foregroundStyle(.accent.opacity(0.7))
-                                    .fontWeight(.heavy)
-                                    .minimumScaleFactor(0.75)
-                                    .font(.largeTitle)
-                                    .shadow(color: .black, radius: 55)
-                            )
-                        
-                    }
-                                        
-                    ForEach(players, id:\.self) { player in
-                        
-                        VStack{
-                            HStack(alignment: .center, spacing: 10){
-                                Button(action: {
-                                })
-                                {
 
+                ScrollView(showsIndicators: false){
+                    
+                    LazyVGrid(columns: lazyVGridSetup.numberColumns, spacing: 20) {
+                        
+                        ForEach(players, id:\.self) { player in
+                            
+                            VStack{
+                                
+                                HStack(alignment: .center, spacing: 10){
+                                    Button(action: {
+                                    })
+                                    {
+                                        
                                         dataBackgroundShape()
-                                        .overlay(
-                                            
-                                            HStack(alignment: .center){
+                                            .overlay(
                                                 
-                                                Text("\(player.name)")
-                                                    .fontWeight(.light)
-                                                    .minimumScaleFactor(0.75)
-                                                    .foregroundStyle(.black)
-                                                    .padding(.leading, 20)
-                                                    .shadow(color: .white, radius: 25)
-                                                    .frame(width: 150, alignment: .leading)
-                                                    .padding(.leading, UIDevice.current.userInterfaceIdiom == .pad ? 80 :0)
-                                                
-                                                Spacer()
-                                                
-                                                VStack(alignment: .center){
+                                                HStack(alignment: .center){
                                                     
-                                                    MetaDataCellView(player: player)
+                                                    Text("\(player.name)")
+                                                        .fontWeight(.light)
+                                                        .minimumScaleFactor(0.75)
+                                                        .foregroundStyle(.black)
+                                                        .padding(.leading, 20)
+                                                        .shadow(color: .white, radius: 25)
+                                                        .frame(width: 150, alignment: .leading)
+                                                        .padding(.leading, UIDevice.current.userInterfaceIdiom == .pad ? 80 :0)
+                                                    
+                                                    Spacer()
+                                                    
+                                                    VStack(alignment: .center){
+                                                        
+                                                        MetaDataCellView(player: player)
+                                                        
+                                                    }
+                                                    .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? 80 :0)
                                                     
                                                 }
-                                                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? 80 :0)
-                                                
-                                            }
-                                        )
-                                        .offset(y:20)
-                                        .padding(.horizontal)
-                                    
-                                    
-                                }
-                                .visualEffect { content, proxy in
-                                    content
-                                        .hueRotation(Angle(degrees:
-                                                          proxy.frame(in: .global).origin.y/10
-                                                          ))
+                                            )
+                                            .offset(y:20)
+                                            .padding(.horizontal)
+                                        
+                                        
+                                    }
+                                    .visualEffect { content, proxy in
+                                        content
+                                            .hueRotation(Angle(degrees:
+                                                                proxy.frame(in: .global).origin.y/10
+                                                              ))
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
+            
+                VStack{
+                    
+                    Spacer()
+
+                    Text("Hall of Fame")
+                        .padding(20)
+                        .glassEffect(.clear)
+                        .foregroundStyle(.accent)
+                        .fontWeight(.light)
+                        .font(.largeTitle)
+                        .padding(.top, 60)
+                }
+
         }
+        .background{
+            Background()
+                .ignoresSafeArea()
+
+        }
+        
     }
 }
 

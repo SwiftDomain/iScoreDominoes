@@ -30,9 +30,7 @@ struct AddGameScoreView: View {
     var body: some View {
         
         ZStack{
-            
-            Background()
-            
+        
             VStack(alignment: .center){
                 
                 VStack{
@@ -102,13 +100,13 @@ struct AddGameScoreView: View {
                                 .minimumScaleFactor(0.75)
                                 .font(.system(size: 20))
                             
-                            Spacer()
-                                .frame(height: 1)
-                            
-                            Text("New Croqueta")
-                                .font(.subheadline)
-                                .foregroundStyle(.secondary)
-                                .fontWeight(.light)
+//                            Spacer()
+//                                .frame(height: 1)
+//                            
+//                            Text("")
+//                                .font(.subheadline)
+//                                .foregroundStyle(.secondary)
+//                                .fontWeight(.light)
                         }
                     }
                     .padding()
@@ -118,6 +116,10 @@ struct AddGameScoreView: View {
                 .padding(.bottom, 35)
              
             }
+        }
+        .background{
+            Background()
+                .ignoresSafeArea()
         }
     }
 }

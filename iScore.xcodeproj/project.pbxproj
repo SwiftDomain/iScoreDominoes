@@ -21,6 +21,7 @@
 		3E2F8CAE2B7D9EE4003468F0 /* Previewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F8CAD2B7D9EE4003468F0 /* Previewer.swift */; };
 		3EA4184E2B995AE900905C9B /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA4184D2B995AE900905C9B /* InfoView.swift */; };
 		3EA418502B996C5500905C9B /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA4184F2B996C5500905C9B /* Config.swift */; };
+		3EAF23602E84A6AD00E185B0 /* Glass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAF235F2E84A6AD00E185B0 /* Glass.swift */; };
 		3EC7F2862DEE448200FD9D01 /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC7F2852DEE448200FD9D01 /* Tip.swift */; };
 		3EF472A72B756DF80018276A /* EditScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF472A62B756DF80018276A /* EditScoreView.swift */; };
 		3EF472C92B769F130018276A /* HallOfFameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF472C82B769F130018276A /* HallOfFameView.swift */; };
@@ -43,6 +44,7 @@
 		3E2F8CAD2B7D9EE4003468F0 /* Previewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Previewer.swift; sourceTree = "<group>"; };
 		3EA4184D2B995AE900905C9B /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		3EA4184F2B996C5500905C9B /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		3EAF235F2E84A6AD00E185B0 /* Glass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Glass.swift; sourceTree = "<group>"; };
 		3EC7F2852DEE448200FD9D01 /* Tip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tip.swift; sourceTree = "<group>"; };
 		3EF472A62B756DF80018276A /* EditScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScoreView.swift; sourceTree = "<group>"; };
 		3EF472C82B769F130018276A /* HallOfFameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HallOfFameView.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				076444AA2ACD1C0200E39F12 /* HomeView.swift */,
+				3EAF235F2E84A6AD00E185B0 /* Glass.swift */,
 				07D9DD782AD3819E00EA6D90 /* GameView.swift */,
 				073231EE2AD3C23A003214D2 /* GamesView.swift */,
 				07D9DD762AD3787B00EA6D90 /* NewGameView.swift */,
@@ -201,6 +204,7 @@
 			files = (
 				3E193B6C2B6D8AC5008F41D7 /* AddGameScoreView.swift in Sources */,
 				3EC7F2862DEE448200FD9D01 /* Tip.swift in Sources */,
+				3EAF23602E84A6AD00E185B0 /* Glass.swift in Sources */,
 				073231EF2AD3C23A003214D2 /* GamesView.swift in Sources */,
 				076444AB2ACD1C0200E39F12 /* HomeView.swift in Sources */,
 				3EA418502B996C5500905C9B /* Config.swift in Sources */,

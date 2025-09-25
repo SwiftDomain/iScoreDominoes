@@ -21,8 +21,7 @@ struct Background: View {
         Image("background")
             .resizable()
             .scaledToFill()
-            .ignoresSafeArea()
-
+            .ignoresSafeArea(edges: [.top, .bottom])
         
     }
     
@@ -32,10 +31,11 @@ struct dataBackgroundShape: View{
     
     var body: some View {
         
-        BlobShape()
-            .opacity(0.9)
+       // BlobShape()
+        RoundedRectangle(cornerRadius: 36, style: .circular)
+            //.opacity(0.9)
             .frame(minWidth: 380, maxWidth: 1200, minHeight: 125, maxHeight: 150)
-            .clipShape(RoundedRectangle(cornerSize: CGSize(width: 25, height: 25)))
+            .clipShape(.capsule)
             .foregroundStyle(.babyBlue)
             .opacity(0.3)
     }
@@ -95,10 +95,11 @@ struct GameCellView: View {
         ZStack {
             
             HStack(alignment: .center){
+                
                 Image(systemName: game.setSymbol(team: team))
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 40)
+                    .frame(width: 40, height: 40)
                     .foregroundStyle(winner ? Color.accentColor : (game.inProcess ? Color.accentColor : .secondary))
                 
                 

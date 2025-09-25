@@ -90,12 +90,7 @@ struct NewGameView: View {
     var body: some View {
         
         ZStack{
-            
-//            Background()
-//                .ignoresSafeArea()
-//            AnimatedMeshGradient()
-//                .ignoresSafeArea()
-            
+                        
             //The Complete Form
             Form{
                  
@@ -218,12 +213,10 @@ struct NewGameView: View {
                         }
                 }
             }
-            .background{
-                Background()
-                    .ignoresSafeArea()
-                AnimatedMeshGradient()
-                    .ignoresSafeArea()
-            }
+        }
+        .background{
+            Background()
+                .ignoresSafeArea()
         }
         .sheet(item: $activeSheet) { item in
             

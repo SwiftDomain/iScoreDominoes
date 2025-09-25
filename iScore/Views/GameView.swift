@@ -26,9 +26,7 @@ struct GameView: View {
         NavigationView {
             
             ZStack{
-                
-                Background()
-                
+                                
                 VStack {
                     
                     // Top current score and progress line
@@ -71,102 +69,24 @@ struct GameView: View {
                     
                     //Players Names
                     HStack(alignment: .center) {
+                        
+                        Spacer()
+                        
+                        BlobShape()
+                            .frame(width: 180, height: 80, alignment: .center)
+                            .foregroundStyle(.clear)
+                            .overlay(
+
+                                TeamView(team: .team1, game: game)
+                            )
+
                         Spacer()
                         BlobShape()
                             .frame(width: 180, height: 80, alignment: .center)
                             .foregroundStyle(.clear)
                             .overlay(
-                                HStack(alignment: .center){
-                                    Image(systemName: game.setSymbol(team: .team1))
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(height: 36)
-                                        .cornerRadius(8)
-                                        .foregroundStyle(game.winningTeam == .team1 ? .accent : .accentColor)
-                                        .phaseAnimator ([ NotifyAnimationPhase.initial,
-                                                          .lift,
-                                                          .shakeLeft,
-                                                          .shakeRight,
-                                                          .shakeLeft,
-                                                          .shakeRight
-                                        ], trigger: (game.winningTeam == .team1)) { content, phase in
-                                            content
-                                                .scaleEffect (phase.scale)
-                                                .rotationEffect(.degrees(phase.rotationDegress), anchor: .top)
-                                                .offset(y: phase.yOffset)
-                                        }
-                                    animation: { phase in
-                                        switch phase {
-                                        case .initial, .lift: .spring (bounce: 0.5)
-                                        case .shakeLeft, .shakeRight: .easeInOut(duration: 0.15)
-                                        }
-                                    }
-                                    
-                                    VStack(alignment: .leading){
-                                        Text(game.team1[0])
-                                            .fontWeight(.light)
-                                            .minimumScaleFactor(0.75)
-                                        
-                                        Text(game.team1[1])
-                                            .fontWeight(.light)
-                                            .minimumScaleFactor(0.75)
-                                    }
-                                    Spacer()
-                                }
-                                    .padding()
-                                    .shadow(radius: 19)
-                            )
-
-                        Spacer()
-                        BlobShape()
-                            .frame(width: 180, height: 58, alignment: .center)
-                            .foregroundStyle(.clear)
-                            .overlay(
                                 
-                                HStack(alignment: .center){
-                                    
-                                    Image(systemName: game.setSymbol(team: .team2))
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(height: 36)
-                                        .cornerRadius(8)
-                                        .foregroundStyle(game.winningTeam == .team2 ? .accent : .accentColor)
-                                        .phaseAnimator ([ NotifyAnimationPhase.initial,
-                                                          .lift,
-                                                          .shakeLeft,
-                                                          .shakeRight,
-                                                          .shakeLeft,
-                                                          .shakeRight
-                                        ], trigger: (game.winningTeam == .team2)) { content, phase in
-                                            content
-                                                .scaleEffect (phase.scale)
-                                                .rotationEffect(.degrees(phase.rotationDegress), anchor: .top)
-                                                .offset(y: phase.yOffset)
-                                        }
-                                    animation: { phase in
-                                        switch phase {
-                                        case .initial, .lift: .spring (bounce: 0.5)
-                                        case .shakeLeft, .shakeRight: .easeInOut(duration: 0.15)
-                                        }
-                                    }
-                                    
-                                    VStack(alignment: .leading){
-                                        Text(game.team2[0])
-                                            .fontWeight(.light)
-                                            .minimumScaleFactor(0.75)
-                                        
-                                        
-                                        Spacer()
-                                            .frame(height: 1)
-                                        
-                                        Text(game.team2[1])
-                                            .fontWeight(.light)
-                                            .minimumScaleFactor(0.75)
-                                    }
-                                    Spacer()
-                                }
-                                    .padding()
-                                    .shadow(radius: 19)
+                                TeamView(team: .team2, game: game)
                             )
                         
                         Spacer()
@@ -210,7 +130,7 @@ struct GameView: View {
                                             }
                                     }
                                 }
-                                .glassEffect()
+                                .glassEffect(.clear)
                                 
                                 if game.totalScore1 == 0{
                                     Text("")
@@ -246,7 +166,7 @@ struct GameView: View {
                                             }
                                     }
                                 }
-                                .glassEffect()
+                                .glassEffect(.clear)
 
                                 if game.totalScore2 == 0{
                                     Text("")
@@ -260,31 +180,28 @@ struct GameView: View {
                         }
                     }
                     HStack{
+                        
                         Spacer()
+                        
                         VStack {
                             
                             Button(action: {
                                 self.team = .team1
                             }
                             ){
-                                Image(systemName: "plus.square.fill")
+                                Image(systemName: "plus")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(height: 40)
-                                    //.cornerRadius(CornerRadius.thirteen.value)
-                                    .foregroundStyle(.accent)
-                                    .shadow(color: .black, radius: 4)
-                                    .brightness(-0.1)
-                                
+                                    .frame(height: 36)
                             }
+                            .buttonStyle(.glass)
                         }
-                        // .padding(.leading, 75)
-                        
+
                         Spacer()
                         
                         VStack{
                             Text("Score To Win: \(String(format: "%.0f", game.maxScore))")
-                                .fontWeight(.light)
+                                .fontWeight(.thin)
                                 .minimumScaleFactor(0.75)
                         }
                         
@@ -295,16 +212,12 @@ struct GameView: View {
                             Button(action: {
                                 self.team = .team2
                             }){
-                                Image(systemName: "plus.square.fill")
+                                Image(systemName: "plus")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(height: 40)
-                                   //.cornerRadius(CornerRadius.thirteen.value)
-                                    .foregroundStyle(.accent)
-                                    .shadow(color: .black, radius: 4)
-                                    .brightness(-0.1)
-                                    
+                                    .frame(height: 36)
                             }
+                            .buttonStyle(.glass)
                         }
                         Spacer()
                     }
@@ -324,6 +237,7 @@ struct GameView: View {
                 }
                 .padding(.top, -27)
             }
+            .background(Background())
             .sheet(isPresented: $showInfoView) {
                 CollectionView()
             }
@@ -426,9 +340,9 @@ struct CircularProgressAroundIcon: View {
         Circle()
             .stroke(
                 Color.gray.opacity(0.3),
-                lineWidth: 6
+                lineWidth: 12
             )
-            .frame(width: 120, height: 120)
+            .frame(width: 100, height: 100)
         
         Circle()
             .trim(from: 0, to: progress)
@@ -437,10 +351,59 @@ struct CircularProgressAroundIcon: View {
                     gradient: Gradient(colors: [.accent, .blue]),
                     center: .center
                 ),
-                style: StrokeStyle(lineWidth: 16, lineCap: .round)
+                style: StrokeStyle(lineWidth: 12, lineCap: .round)
             )
-            .frame(width: 120, height: 120)
+            .frame(width: 100, height: 100)
             .rotationEffect(.degrees(-90)) // start from top
             .animation(.bouncy, value: progress)
+    }
+}
+
+struct TeamView: View {
+    
+   let team: Team
+    let game: Game
+    
+    
+    var body: some View {
+        HStack(alignment: .center){
+            Image(systemName: game.setSymbol(team: team))
+                .resizable()
+                .scaledToFit()
+                .frame(height: 36)
+                .cornerRadius(8)
+                .foregroundStyle(game.winningTeam == team ? .accent : .accentColor)
+                .phaseAnimator ([ NotifyAnimationPhase.initial,
+                                  .lift,
+                                  .shakeLeft,
+                                  .shakeRight,
+                                  .shakeLeft,
+                                  .shakeRight
+                ], trigger: (game.winningTeam == team)) { content, phase in
+                    content
+                        .scaleEffect (phase.scale)
+                        .rotationEffect(.degrees(phase.rotationDegress), anchor: .top)
+                        .offset(y: phase.yOffset)
+                }
+            animation: { phase in
+                switch phase {
+                case .initial, .lift: .spring (bounce: 0.5)
+                case .shakeLeft, .shakeRight: .easeInOut(duration: 0.15)
+                }
+            }
+            
+            VStack(alignment: .leading){
+                Text(team == .team1 ? game.team1[0] : game.team2[0])
+                    .fontWeight(.light)
+                    .minimumScaleFactor(0.75)
+                
+                Text(team == .team1 ? game.team1[1] : game.team2[1])
+                    .fontWeight(.light)
+                    .minimumScaleFactor(0.75)
+            }
+            Spacer()
+        }
+        .padding()
+        .shadow(radius: 19)
     }
 }

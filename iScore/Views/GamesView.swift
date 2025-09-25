@@ -38,10 +38,9 @@ struct GamesView: View {
     private let lazyVGridSetup:LazyVGridSetup = LazyVGridSetup()
     
     var body: some View {
+        
         ZStack{
-            
-            Background()
-            
+                        
             ScrollView(showsIndicators: false){
                 
                 LazyVGrid(columns: lazyVGridSetup.numberColumns, spacing: 30) {
@@ -54,53 +53,58 @@ struct GamesView: View {
                                 
                                 Button(action: {})
                                 {
-                                    dataBackgroundShape()
-                                        .overlay(
-                                            
                                             NavigationLink(destination: GameView(path: $path, game: game)) {
                                                 
-                                                VStack{
-                                                    HStack{
+                                                HStack{
+                                                    VStack{
+                                                        HStack{
+                                                            
+                                                            GameCellView(game: game, team: .team1)
+                                                            
+                                                        }
+                                                        //.padding([.top], 10)
                                                         
-                                                        GameCellView(game: game, team: .team1)
+                                                        
+                                                        HStack{
+                                                            GameCellView(game: game, team: .team2)
+                                                        }
+                                                        //.padding([.bottom], 30)
                                                         
                                                     }
-                                                    .padding([.top], 50.0)
+                                                    .offset(x:30)
+                                                    //.padding(.leading, UIDevice.current.userInterfaceIdiom == .pad ? 80 :0)
                                                     
+                                                    Spacer()
                                                     
-                                                    HStack{
-                                                        GameCellView(game: game, team: .team2)
+                                                    VStack{
+                                                        GameMetaDataCellView(game: game)
                                                     }
-                                                    .padding([.bottom], 50.0)
-                                                    
+                                                    //.padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? 80 :0)
                                                 }
-                                                .offset(x:30)
-                                                .padding(.leading, UIDevice.current.userInterfaceIdiom == .pad ? 80 :0)
-
-                                                Spacer()
-                                                
-                                                VStack{
-                                                    GameMetaDataCellView(game: game)
-                                                }
-                                                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? 80 :0)
+                                                .frame(minWidth: 180, maxWidth: 1200, minHeight: 125, maxHeight: 125)
 
                                             }
-                                        )
                                 }
                                 .navigationTitle(Text("Games"))
-                                .offset(y:10)
                                 .padding(.horizontal)
-                                .visualEffect { content, proxy in
-                                    content
-                                        .hueRotation(Angle(degrees:
-                                                          proxy.frame(in: .global).origin.y/10
-                                                          ))
-                                }
+//                                .visualEffect { content, proxy in
+//                                    content
+//                                        .hueRotation(Angle(degrees:
+//                                                          proxy.frame(in: .global).origin.y/10
+//                                                          ))
+//                                }
                             }
                         }
+                        
                     }
+                    .glassEffect(.clear)
                 }
             }
+        }
+        .background{
+            Background()
+                .ignoresSafeArea()
+
         }
         .searchable(text: $searchGame)
         .toolbar{
@@ -128,17 +132,17 @@ struct GamesView: View {
         
         container.mainContext.insert(game)
         
-        game.players.append(Player(name: "1"))
-        game.team1.append("1")
+        game.players.append(Player(name: "1qasdf"))
+        game.team1.append("asdfasd")
         
-        game.players.append(Player(name: "2"))
-        game.team1.append("2")
+        game.players.append(Player(name: "asdfasd"))
+        game.team1.append("adfasdf")
         
-        game.players.append(Player(name: "3"))
-        game.team2.append("3")
+        game.players.append(Player(name: "asdf"))
+        game.team2.append("gsdq")
         
-        game.players.append(Player(name: "4"))
-        game.team2.append("4")
+        game.players.append(Player(name: "asdf"))
+        game.team2.append("asdf")
         
     }
     

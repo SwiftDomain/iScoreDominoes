@@ -14,9 +14,9 @@ struct NewPlayerView: View {
     @Query( sort:\Player.name, order: .forward ) var players: [Player]
     @Binding var player: String
     @FocusState private var isFocused: Bool
-   
+    
     init(player: Binding<String>) {
-
+        
         self._player = player
     }
     
@@ -30,18 +30,16 @@ struct NewPlayerView: View {
             $0.name.lowercased().localizedStandardContains(player.lowercased())
         }
     }
-
+    
     
     var body: some View {
         
         ZStack{
             
-Background()
-            
             VStack{
                 
                 HStack(){
-        
+                    
                     Image("cigar")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -61,23 +59,33 @@ Background()
                         .cornerRadius(28)
                         .opacity(0.4)
                         .overlay(
+                            
                             TextInputField(text: $player, "Melon Name")
                                 .font(.title2)
                                 .textContentType(.name)
                                 .multilineTextAlignment(.center)
                                 .fontWeight(.light)
                                 .focused($isFocused)
-                                
+                            
+//                            HStack {
+//                                Image(systemName: "person.fill")
+//                                    .foregroundColor(.gray)
+//                                TextField("Player Name", text: $player)
+//                                    .fontWeight(.light)
+//                            }
+//                            .padding()
                         )
                 }
                 
                 Spacer()
                 
                 VStack(alignment: .leading){
+                    
                     ScrollView(showsIndicators: false){
+                        
+                        
                         /* List of all players*/
                         ForEach(SearchPlayers, id:\.self) { player in
-                            
                             
                             Button(action: {
                                 
@@ -88,19 +96,16 @@ Background()
                             {
                                 Text("\(player.name)")
                                     .font(.title)
-                                    .foregroundStyle(.secondary)
                                     .fontWeight(.light)
-                                
+                                    .foregroundStyle(.primary)
                             }
-                            .padding(.all, 5)
-                            
+                            .padding(10)
+                           // .buttonStyle(.glass)
                         }
+                        
                     }
+                    .frame(minWidth: 850)
                 }
-                .padding(.top, 25)
-                .glassEffect()
-
-                
             }
             .toolbar{
                 ToolbarItemGroup(placement: .topBarTrailing){
@@ -116,9 +121,12 @@ Background()
                 }
             }
             .onAppear(){
-                isFocused = true
+               //isFocused = true
                 UITextField.appearance().clearButtonMode = .whileEditing
             }
+        }
+        .background{
+            Background()
         }
     }
 }
@@ -165,25 +173,10 @@ struct TextInputField: View {
     }
 }
 
-struct ClearButton: ViewModifier {
-    @Binding var text: String
-
-    public func body(content: Content) -> some View {
-        HStack {
-            content
-            Button(action: {
-                self.text = ""
-            }) {
-                Image(systemName: "multiply.circle.fill")
-                    .foregroundColor(.secondary)
-            }
-        }
-    }
-}
-
 #Preview {
     
     
     NewPlayerView(player: .constant("Test"))
     
 }
+

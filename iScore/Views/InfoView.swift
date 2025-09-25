@@ -27,37 +27,34 @@ struct CollectionView: View {
             
             Background()
             
-            Image("cover")
-                .resizable().opacity(0.2)
             ScrollView(showsIndicators: false) {
-                VStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 250, height: 50)
-                        .foregroundStyle(.white)
-                        .shadow(color: Color.black.opacity(0.3), radius: 11)
-                        .clipShape(RoundedRectangle(cornerSize: CGSize(width: 18, height: 18)))
-                        .opacity(0.02)
-                        .overlay(
-                            Text("Tutorial")
-                                .foregroundStyle(.accent)
-                                .fontWeight(.light)
-                                .minimumScaleFactor(0.75)
-                                .font(.largeTitle)
-                                .shadow(color: .white, radius: 25)
-                        )
-                    
-                    ForEach(ids, id:\.self) {idData in
-                        YouTubeView(videoId: idData)
-                            .frame(width: 300, height: 300)
-                            .padding()
-                            .glassEffectTransition(.materialize)
-                    }
-                }
+                
+                ForEach(ids, id:\.self) {idData in
+                    YouTubeView(videoId: idData)
+                        .frame(width: 300, height: 300)
+                        .padding()
+                }                    }
+            .ignoresSafeArea(edges: .top)
+            
+            VStack{
+                
+                Spacer()
+
+                Text("Tutorial")
+                    .padding(20)
+                    .glassEffect(.clear)
+                    .foregroundStyle(.accent)
+                    .fontWeight(.light)
+                    .font(.largeTitle)
+                    .padding(.top, 60)
             }
+            
             
         }
     }
+    
 }
+
 
 #Preview {
     CollectionView()

@@ -28,9 +28,7 @@ struct EditScoreView: View {
     var body: some View {
         
         ZStack{
-            
-            Background()
-            
+                    
             VStack(alignment: .center){
                 
                 VStack{
@@ -111,6 +109,11 @@ struct EditScoreView: View {
                 Spacer()
                 
             }
+        }
+        .background{
+            Background()
+                .ignoresSafeArea()
+
         }
     }
 }

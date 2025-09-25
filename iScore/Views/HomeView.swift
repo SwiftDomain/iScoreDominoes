@@ -21,7 +21,7 @@ struct HomeView: View {
         
         NavigationStack(path: $path) {
             
-            ZStack(alignment: .center){
+            ZStack{
                 
                 Background ()
                 
@@ -47,11 +47,11 @@ struct HomeView: View {
                                 NewGameRow(image: "arrowtriangle.right.circle", title: "Tutorials", description: "Learn Croqueta")
                             }
                             
-                            
+                            Spacer()
+                                .frame(height: 100)
                         }
                         .navigationTitle(Text("Dominoes"))
-                        //.offset(y:-60)
-                
+                                        
             }
         }
         .sheet(isPresented: $showHallOfFameView) {
@@ -80,8 +80,7 @@ struct NewGameRow: View{
             Image(systemName: image)
                 .resizable()
                 .scaledToFit()
-                .glassEffect(.clear)
-                .foregroundStyle(.accent)
+                .foregroundStyle(.primary)
                 .transition(Twirl())
                 .frame(width: 50, height: 50)
                 
@@ -93,6 +92,7 @@ struct NewGameRow: View{
                 Text(title)
                     .fontWeight(.light)
                     .font(.system(size: 30))
+                    .foregroundStyle(.primary)
                 
                 Spacer()
                     .frame(height: 1)
