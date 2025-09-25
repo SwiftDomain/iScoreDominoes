@@ -348,10 +348,10 @@ struct CircularProgressAroundIcon: View {
             .trim(from: 0, to: progress)
             .stroke(
                 AngularGradient(
-                    gradient: Gradient(colors: [.accent, .blue]),
+                    gradient: Gradient(colors: [.accent, .orange]),
                     center: .center
                 ),
-                style: StrokeStyle(lineWidth: 12, lineCap: .round)
+                style: StrokeStyle(lineWidth: 12, lineCap: .butt)
             )
             .frame(width: 100, height: 100)
             .rotationEffect(.degrees(-90)) // start from top

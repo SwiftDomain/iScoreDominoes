@@ -100,7 +100,7 @@ struct GameCellView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 40, height: 40)
-                    .foregroundStyle(winner ? Color.accentColor : (game.inProcess ? Color.accentColor : .secondary))
+                    .foregroundStyle(winner ? Color.accentColor : (game.inProcess ? Color.accentColor : .red))
                 
                 
                 Spacer()

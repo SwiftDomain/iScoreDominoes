@@ -84,7 +84,7 @@ class Game: ObservableObject, Identifiable {
         var symbolName = ""
         
         if self.state == GameState.playing {
-            symbolName = "person.2.circle"
+            symbolName = "person.2"
         }
         else if self.state == GameState.cancelled{
             symbolName = "figure.walk.motion.trianglebadge.exclamationmark"
@@ -94,7 +94,7 @@ class Game: ObservableObject, Identifiable {
             symbolName = "trophy"
         }
         else{
-            symbolName = "xmark.octagon.fill"
+            symbolName = "xmark"
         }
         
         return symbolName
