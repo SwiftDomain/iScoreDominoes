@@ -99,14 +99,6 @@ struct AddGameScoreView: View {
                                 .fontWeight(.light)
                                 .minimumScaleFactor(0.75)
                                 .font(.system(size: 20))
-                            
-//                            Spacer()
-//                                .frame(height: 1)
-//                            
-//                            Text("")
-//                                .font(.subheadline)
-//                                .foregroundStyle(.secondary)
-//                                .fontWeight(.light)
                         }
                     }
                     .padding()

@@ -26,8 +26,11 @@ struct GameView: View {
         NavigationView {
             
             ZStack{
-                                
+                
                 VStack {
+                    
+                    Spacer()
+                        .frame(height: 32)
                     
                     // Top current score and progress line
                     HStack{
@@ -38,15 +41,15 @@ struct GameView: View {
                             ZStack{
                                 
                                 Text("\(game.totalScore1)")
-                                    .font(.system(size: 52))
-                                    .foregroundStyle(.accent)
+                                    .font(.system(size: 45))
+                                    .foregroundStyle(.white)
                                     .bold()
                                 
-                                CircularProgressAroundIcon(progress: $progress1)
+                                //CircularProgressAroundIcon(progress: $progress1)
                                 
                             }
                         }
-                        .frame(width: 180, height: 120, alignment: .center)
+                        .frame(width: 80, height: 80, alignment: .center)
                         
                         
                         Spacer()
@@ -54,18 +57,22 @@ struct GameView: View {
                         ZStack{
                             
                             Text("\(game.totalScore2)")
-                                .font(.system(size: 52))
-                                .foregroundStyle(.accent)
+                                .font(.system(size: 45))
+                                .foregroundStyle(.white)
                                 .bold()
                             
-                            CircularProgressAroundIcon(progress: $progress2)
-
+                            //CircularProgressAroundIcon(progress: $progress2)
+                            
                         }
-                        .frame(width: 180, height: 120, alignment: .center)
+                        .frame(width: 80, height: 80, alignment: .center)
                         
                         Spacer()
                     }
-                    .padding(EdgeInsets(top: 36, leading: 0, bottom: 15, trailing: 0))
+                    //.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .glassEffect(.clear)
+
+                    Spacer()
+                        .frame(height: 16)
                     
                     //Players Names
                     HStack(alignment: .center) {
@@ -76,10 +83,10 @@ struct GameView: View {
                             .frame(width: 180, height: 80, alignment: .center)
                             .foregroundStyle(.clear)
                             .overlay(
-
+                                
                                 TeamView(team: .team1, game: game)
                             )
-
+                        
                         Spacer()
                         BlobShape()
                             .frame(width: 180, height: 80, alignment: .center)
@@ -94,7 +101,7 @@ struct GameView: View {
                     }
                     .disabled(game.state != GameState.playing)
                     .glassEffect(.clear)
-
+                    
                     Spacer()
                         .frame(height: 16)
                     
@@ -113,7 +120,7 @@ struct GameView: View {
                                         
                                         Text("\(game.scoreTeam[index][0] )")
                                             .frame(width: 180, height: 58, alignment: .center)
-                                                       .minimumScaleFactor(0.75)
+                                            .minimumScaleFactor(0.75)
                                             .cornerRadius(CornerRadius.thirteen.value)
                                             .onLongPressGesture(minimumDuration: 1){
                                                 
@@ -167,7 +174,7 @@ struct GameView: View {
                                     }
                                 }
                                 .glassEffect(.clear)
-
+                                
                                 if game.totalScore2 == 0{
                                     Text("")
                                         .frame(width: 180, height: 60, alignment: .center)
@@ -196,7 +203,7 @@ struct GameView: View {
                             }
                             .buttonStyle(.glass)
                         }
-
+                        
                         Spacer()
                         
                         VStack{
@@ -291,12 +298,12 @@ struct GameView: View {
         
         return GameView(path: .constant(NavigationPath()), game: previewer.game)
             .modelContainer(previewer.container)
-//            .task {
-//                try? Tips.resetDatastore()
-//                try? Tips.configure([
-//                    .displayFrequency(.immediate),
-//                    .datastoreLocation(.applicationDefault)])
-//            }
+        //            .task {
+        //                try? Tips.resetDatastore()
+        //                try? Tips.configure([
+        //                    .displayFrequency(.immediate),
+        //                    .datastoreLocation(.applicationDefault)])
+        //            }
     }
     catch {
         return Text("Failed to create preview: \(error.localizedDescription)")
@@ -331,16 +338,16 @@ enum NotifyAnimationPhase: CaseIterable {
 }
 
 struct CircularProgressAroundIcon: View {
-   
+    
     @Binding var progress:Double
     
     var body: some View {
-       
+        
         // Circular progress ring around it
         Circle()
             .stroke(
                 Color.gray.opacity(0.3),
-                lineWidth: 12
+                lineWidth: 8
             )
             .frame(width: 100, height: 100)
         
@@ -348,12 +355,12 @@ struct CircularProgressAroundIcon: View {
             .trim(from: 0, to: progress)
             .stroke(
                 AngularGradient(
-                    gradient: Gradient(colors: [.accent, .orange]),
+                    gradient: Gradient(colors: [.accent, .red]),
                     center: .center
                 ),
-                style: StrokeStyle(lineWidth: 12, lineCap: .butt)
+                style: StrokeStyle(lineWidth: 8, lineCap: .butt)
             )
-            .frame(width: 100, height: 100)
+            .frame(width: 100, height: 120)
             .rotationEffect(.degrees(-90)) // start from top
             .animation(.bouncy, value: progress)
     }
@@ -361,7 +368,7 @@ struct CircularProgressAroundIcon: View {
 
 struct TeamView: View {
     
-   let team: Team
+    let team: Team
     let game: Game
     
     
@@ -372,7 +379,7 @@ struct TeamView: View {
                 .scaledToFit()
                 .frame(height: 36)
                 .cornerRadius(8)
-                .foregroundStyle(game.winningTeam == team ? .accent : .accentColor)
+                .foregroundStyle((game.winningTeam == team || game.inProcess == true) ? .accent : .red)
                 .phaseAnimator ([ NotifyAnimationPhase.initial,
                                   .lift,
                                   .shakeLeft,
