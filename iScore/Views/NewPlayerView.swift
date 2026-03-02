@@ -56,7 +56,7 @@ struct NewPlayerView: View {
                         .frame(width: 380, height: 55, alignment: .center)
                         .foregroundStyle(.white)
                         .opacity(0.8)
-                        .cornerRadius(28)
+                        .clipShape(.rect(cornerRadius: 28))
                         .opacity(0.4)
                         .overlay(
                             
@@ -81,17 +81,16 @@ struct NewPlayerView: View {
                 
                 VStack(alignment: .leading){
                     
-                    ScrollView(showsIndicators: false){
-                        
-                        
+                    ScrollView {
+
                         /* List of all players*/
                         ForEach(SearchPlayers, id:\.self) { player in
-                            
+
                             Button(action: {
-                                
+
                                 self.player = player.name
                                 dismiss()
-                                
+
                             })
                             {
                                 Text("\(player.name)")
@@ -100,10 +99,10 @@ struct NewPlayerView: View {
                                     .foregroundStyle(.primary)
                             }
                             .padding(10)
-                           // .buttonStyle(.glass)
                         }
-                        
+
                     }
+                    .scrollIndicators(.hidden)
                     .frame(minWidth: 850)
                 }
             }
@@ -156,7 +155,7 @@ struct TextInputField: View {
         VStack(alignment: .leading){
             
             Text(title)
-                .foregroundStyle(text.isEmpty ? Color(.placeholderText): .accentColor)
+                .foregroundStyle(text.isEmpty ? Color(.placeholderText): Theme.accent)
                 .offset(x:25, y: text.isEmpty ? 22 : 0)
                 .scaleEffect(text.isEmpty ? 1 : 0.8, anchor: .leading)
                 .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification)) { _ in
@@ -165,7 +164,7 @@ struct TextInputField: View {
                 .frame(alignment: .center)
             
             TextField("", text: $text)
-                .foregroundStyle(.black)
+                .foregroundStyle(Theme.textPrimary)
                 .offset(y:-20)
             
             

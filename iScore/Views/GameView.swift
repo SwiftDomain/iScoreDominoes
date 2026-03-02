@@ -12,19 +12,17 @@ struct GameView: View {
     @State private var team: Team?
     @State private var progress1 = 0.0
     @State private var progress2 = 0.0
-    @State private var showAlert = false
-    @State private var winningMessage: String = ""
+    @State private var showGameSummary = false
     @State private var gameScoreIndex:GameScoreIndex?
     @State private var showInfoView: Bool = false
     @State private var isNotified: Bool = false
+    @State private var showUndoConfirmation = false
     let editScore = editScoreTip()
     
     private let lazyVGridSetup:LazyVGridSetup = LazyVGridSetup()
     
     var body: some View {
         
-        NavigationView {
-            
             ZStack{
                 
                 VStack {
@@ -42,7 +40,7 @@ struct GameView: View {
                                 
                                 Text("\(game.totalScore1)")
                                     .font(.system(size: 45))
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(Theme.textPrimary)
                                     .bold()
                                 
                                 //CircularProgressAroundIcon(progress: $progress1)
@@ -58,7 +56,7 @@ struct GameView: View {
                             
                             Text("\(game.totalScore2)")
                                 .font(.system(size: 45))
-                                .foregroundStyle(.white)
+                                .foregroundStyle(Theme.textPrimary)
                                 .bold()
                             
                             //CircularProgressAroundIcon(progress: $progress2)
@@ -107,78 +105,78 @@ struct GameView: View {
                     
                     
                     //Score for each team
-                    ScrollView(showsIndicators: false){
-                        
+                    ScrollView {
+
                         HStack(alignment: .center){
-                            
+
                             Spacer()
-                            
+
                             VStack(alignment: .leading){
-                                
+
                                 ForEach(game.scoreTeam.indices, id:\.self){index in
                                     if game.scoreTeam[index][0] > 0{
-                                        
+
                                         Text("\(game.scoreTeam[index][0] )")
                                             .frame(width: 180, height: 58, alignment: .center)
                                             .minimumScaleFactor(0.75)
-                                            .cornerRadius(CornerRadius.thirteen.value)
+                                            .clipShape(.rect(cornerRadius: CornerRadius.thirteen.value))
                                             .onLongPressGesture(minimumDuration: 1){
-                                                
-                                                
+
+
                                                 if game.inProcess {
-                                                    
+
                                                     gameScoreIndex = GameScoreIndex()
-                                                    
+
                                                     self.gameScoreIndex!.index = index
                                                     self.gameScoreIndex!.team = .team1
                                                     self.gameScoreIndex!.value = game.scoreTeam[index][0]
                                                 }
-                                                
+
                                             }
                                     }
                                 }
                                 .glassEffect(.clear)
-                                
+
                                 if game.totalScore1 == 0{
                                     Text("")
                                         .frame(width: 180, height: 58, alignment: .center)
-                                        .background(Color.accentColor.opacity(0))
+                                        .background(.clear)
                                 }
                                 Spacer()
                             }
-                            
+
                             Spacer()
-                            
+
                             VStack(alignment: .leading){
-                                
+
                                 ForEach(game.scoreTeam.indices, id:\.self){index in
                                     if game.scoreTeam[index][1] > 0{
-                                        
+
                                         Text("\(game.scoreTeam[index][1] )")
                                             .frame(width: 180, height: 58, alignment: .center)
                                             .fontWeight(.light)
                                             .minimumScaleFactor(0.75)
-                                            .cornerRadius(CornerRadius.thirteen.value)
+                                            .clipShape(.rect(cornerRadius: CornerRadius.thirteen.value))
                                             .onLongPressGesture(minimumDuration: 1){
-                                                
+
                                                 if game.inProcess {
-                                                    
+
                                                     gameScoreIndex = GameScoreIndex()
-                                                    
+
                                                     self.gameScoreIndex!.index = index
                                                     self.gameScoreIndex!.team = .team2
                                                     self.gameScoreIndex!.value = game.scoreTeam[index][1]
                                                 }
-                                                
+
                                             }
                                     }
                                 }
                                 .glassEffect(.clear)
-                                
+
                                 if game.totalScore2 == 0{
                                     Text("")
                                         .frame(width: 180, height: 60, alignment: .center)
-                                        .background(Color.accentColor.opacity(0))
+                                        .background(.clear)
                                 }
                                 Spacer()
                             }
@@ -186,20 +184,15 @@ struct GameView: View {
                             Spacer()
                         }
                     }
+                    .scrollIndicators(.hidden)
                     HStack{
                         
                         Spacer()
                         
                         VStack {
-                            
-                            Button(action: {
+
+                            Button("Add Score", systemImage: "plus") {
                                 self.team = .team1
-                            }
-                            ){
-                                Image(systemName: "plus")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 36)
                             }
                             .buttonStyle(.glass)
                         }
@@ -207,7 +200,7 @@ struct GameView: View {
                         Spacer()
                         
                         VStack{
-                            Text("Score To Win: \(String(format: "%.0f", game.maxScore))")
+                            Text("Score To Win: \(game.maxScore, format: .number.precision(.fractionLength(0)))")
                                 .fontWeight(.thin)
                                 .minimumScaleFactor(0.75)
                         }
@@ -215,24 +208,13 @@ struct GameView: View {
                         Spacer()
                         
                         VStack {
-                            
-                            Button(action: {
+
+                            Button("Add Score", systemImage: "plus") {
                                 self.team = .team2
-                            }){
-                                Image(systemName: "plus")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 36)
                             }
                             .buttonStyle(.glass)
                         }
                         Spacer()
-                    }
-                    .alert(isPresented: $showAlert) {
-                        Alert(
-                            title: Text("\(game.winningTeam.description) won"),
-                            message: Text(winningMessage)
-                        )
                     }
                     .sheet(item: $team, onDismiss: onDismiss){ team in
                         AddGameScoreView(game: self.game, team: team)
@@ -243,22 +225,39 @@ struct GameView: View {
                     .disabled(game.state != GameState.playing)
                 }
                 .padding(.top, -27)
+                .frame(maxWidth: 700)
             }
             .background(Background())
+            .sheet(isPresented: $showGameSummary) {
+                GameSummaryView(game: game)
+            }
             .sheet(isPresented: $showInfoView) {
                 CollectionView()
             }
-        }
         .onAppear(perform: onAppear)
-        .navigationViewStyle(.stack)
         .toolbar{
+            ToolbarItemGroup(placement: .topBarLeading) {
+                Button("Undo", systemImage: "arrow.uturn.backward") {
+                    showUndoConfirmation = true
+                }
+                .disabled(game.scoreTeam.count <= 1 || game.state != .playing)
+            }
             ToolbarItemGroup(placement: .topBarTrailing){
-                
+
                 Button(action: {self.showInfoView.toggle()}) {
                     Image(systemName: "info.circle")
                 }
                 .disabled(game.state != GameState.playing)
             }
+        }
+        .alert("Undo Last Score", isPresented: $showUndoConfirmation) {
+            Button("Undo", role: .destructive) {
+                game.scoreTeam.removeLast()
+                onAppear()
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Are you sure you want to remove the last score entry?")
         }
     }
     
@@ -273,21 +272,10 @@ struct GameView: View {
         progress1 = (Double(game.totalScore1 ) / game.maxScore > 1 ? 1 : Double(game.totalScore1 ) / game.maxScore)
         progress2 = (Double(game.totalScore2 ) / game.maxScore > 1 ? 1 : Double(game.totalScore2 ) / game.maxScore)
         
-        showAlert = (game.winningTeam != .none && game.state == GameState.playing)
-        
-        if showAlert {
-            
-            switch game.winningTeam {
-            case .team1:
-                winningMessage = "\(game.team2[0]) AND \(game.team2[1]) are bad!"
-            case .team2:
-                winningMessage = "\(game.team1[0]) AND \(game.team1[1]) are bad!"
-            case .none:
-                winningMessage = ""
-            }
-            
-            game.state = GameState.finished
+        if game.winningTeam != .none && game.state == .playing {
+            game.state = .finished
             game.inProcess = false
+            showGameSummary = true
         }
     }
 }
@@ -355,7 +343,7 @@ struct CircularProgressAroundIcon: View {
             .trim(from: 0, to: progress)
             .stroke(
                 AngularGradient(
-                    gradient: Gradient(colors: [.accent, .red]),
+                    gradient: Gradient(colors: [Theme.accent, Theme.danger]),
                     center: .center
                 ),
                 style: StrokeStyle(lineWidth: 8, lineCap: .butt)
@@ -378,8 +366,8 @@ struct TeamView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(height: 36)
-                .cornerRadius(8)
-                .foregroundStyle((game.winningTeam == team || game.inProcess == true) ? .accent : .red)
+                .clipShape(.rect(cornerRadius: 8))
+                .foregroundStyle((game.winningTeam == team || game.inProcess == true) ? Theme.accent : Theme.danger)
                 .phaseAnimator ([ NotifyAnimationPhase.initial,
                                   .lift,
                                   .shakeLeft,

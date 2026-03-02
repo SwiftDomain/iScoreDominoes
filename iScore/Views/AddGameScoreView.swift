@@ -49,7 +49,7 @@ struct AddGameScoreView: View {
                     BlobShape()
                         .frame(width: 380, height: 55, alignment: .center)
                         .foregroundStyle(.white)
-                        .cornerRadius(28)
+                        .clipShape(.rect(cornerRadius: 28))
                         .opacity(0.4)
                         .overlay(
                             TextField("Add Score", text: $score, axis: .vertical)
@@ -88,8 +88,8 @@ struct AddGameScoreView: View {
                             .resizable()
                             .scaledToFit()
                             .frame( height: 50)
-                            .cornerRadius(8)
-                            .foregroundStyle(.accent)
+                            .clipShape(.rect(cornerRadius: 8))
+                            .foregroundStyle(Theme.accent)
                         
                         Spacer()
                             .frame(width: 16)

@@ -64,7 +64,7 @@ struct GlowingCircularProgressBar: View {
     var lineWidth: CGFloat = 14
     var size: CGFloat = 140
     var gradient = AngularGradient(
-        gradient: Gradient(colors: [.lightBlue, .darkBlue]),
+        gradient: Gradient(colors: [Theme.surface, Theme.accent]),
         center: .center
     )
     

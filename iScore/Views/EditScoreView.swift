@@ -48,7 +48,7 @@ struct EditScoreView: View {
                         .frame(width: 380, height: 55, alignment: .center)
                         .foregroundStyle(.white)
                         .opacity(0.8)
-                        .cornerRadius(27)
+                        .clipShape(.rect(cornerRadius: 27))
                         .opacity(0.4)
                         .overlay(
                             TextField("Old Score: \(game.scoreTeam[gameScoreIndex.index][(gameScoreIndex.team == .team1 ? 0 : 1)])", text: $score, axis: .vertical)
@@ -83,8 +83,8 @@ struct EditScoreView: View {
                             .resizable()
                             .scaledToFit()
                             .frame( height: 50)
-                            .cornerRadius(8)
-                            .foregroundStyle(.accent)
+                            .clipShape(.rect(cornerRadius: 8))
+                            .foregroundStyle(Theme.accent)
                         
                         Spacer()
                             .frame(width: 16)
@@ -100,7 +100,7 @@ struct EditScoreView: View {
                             
                             Text("Croquetas 305")
                                 .font(.subheadline)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Theme.textSecondary)
                                 .fontWeight(.light)
                         }
                     }

@@ -9,60 +9,59 @@ import SwiftData
 import Charts
 
 struct HallOfFameView: View {
-    
+
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) private var dismiss
-    
+
     @Query( sort:\Player.name, order: .forward ) var players: [Player]
-    
+
     private let lazyVGridSetup:LazyVGridSetup = LazyVGridSetup()
-    
+
     var body: some View {
-        
+
         ZStack{
 
-                ScrollView(showsIndicators: false){
-                    
+                ScrollView {
+
                     LazyVGrid(columns: lazyVGridSetup.numberColumns, spacing: 20) {
-                        
+
                         ForEach(players, id:\.self) { player in
-                            
+
                             VStack{
-                                
+
                                 HStack(alignment: .center, spacing: 10){
                                     Button(action: {
                                     })
                                     {
-                                        
-                                        dataBackgroundShape()
+
+                                        DataBackgroundShape()
                                             .overlay(
-                                                
+
                                                 HStack(alignment: .center){
-                                                    
+
                                                     Text("\(player.name)")
                                                         .fontWeight(.light)
                                                         .minimumScaleFactor(0.75)
-                                                        .foregroundStyle(.black)
+                                                        .foregroundStyle(Theme.textPrimary)
                                                         .padding(.leading, 20)
-                                                        .shadow(color: .white, radius: 25)
+                                                        .shadow(color: Theme.accent.opacity(0.3), radius: 25)
                                                         .frame(width: 150, alignment: .leading)
-                                                        .padding(.leading, UIDevice.current.userInterfaceIdiom == .pad ? 80 :0)
-                                                    
+
                                                     Spacer()
-                                                    
+
                                                     VStack(alignment: .center){
-                                                        
+
                                                         MetaDataCellView(player: player)
-                                                        
+
                                                     }
-                                                    .padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? 80 :0)
-                                                    
+
                                                 }
                                             )
                                             .offset(y:20)
                                             .padding(.horizontal)
-                                        
-                                        
+                                            .scenePadding(.horizontal)
+
+
                                     }
                                     .visualEffect { content, proxy in
                                         content
@@ -74,16 +73,18 @@ struct HallOfFameView: View {
                             }
                         }
                     }
+                    .frame(maxWidth: 700)
                 }
-            
+                .scrollIndicators(.hidden)
+
                 VStack{
-                    
+
                     Spacer()
 
                     Text("Hall of Fame")
                         .padding(20)
                         .glassEffect(.clear)
-                        .foregroundStyle(.accent)
+                        .foregroundStyle(Theme.accent)
                         .fontWeight(.light)
                         .font(.largeTitle)
                         .padding(.top, 60)
@@ -95,76 +96,76 @@ struct HallOfFameView: View {
                 .ignoresSafeArea()
 
         }
-        
+
     }
 }
 
 struct MetaDataCellView:View{
-    
+
     let player: Player
-    
+
     init(player: Player) {
         self.player = player
     }
-    
+
     var body: some View {
-        
+
         VStack(alignment: .leading){
-            
+
             HStack {
                 Text("Played: ")
                 Spacer()
                 Text("\(player.gamesPlayed)")
                     .paddingLeading()
-                
+
             }
-            
+
             HStack {
                 Text("Won:")
                 Spacer()
                 Text("\(player.gamesWon)")
                     .paddingLeading()
-                
-                
+
+
             }
-            
+
             HStack{
                 Text("Wins: ")
                 Spacer()
-                
-                Text("\(player.winPercentage, specifier: "%.0f")%")
+
+                Text(player.winPercentage, format: .number.precision(.fractionLength(0)))
                     .paddingLeading()
-                
+
             }
-            
+
         }
-        .foregroundStyle(.black)
+        .foregroundStyle(Theme.textPrimary)
         .frame(width: 150)
     }
 }
 
 
 #Preview {
-    
+
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Game.self, configurations: config)
-    
+
     let game = Game(gameType:GameType.six, maxScore: 20)
-    
+
     container.mainContext.insert(game)
-    
+
     game.players.append(Player(name: "12345678901"))
     game.team1.append("12345678901")
-    
+
     game.players.append(Player(name: "sjdkvmsjdieo"))
     game.team1.append("12345678901")
-    
+
     game.players.append(Player(name: "ksslsla"))
     game.team2.append("ksslsla")
-    
+
     game.players.append(Player(name: "kklkj4"))
     game.team2.append("ksslsla")
-    
+
     return HallOfFameView()
         .modelContainer(container)
 }

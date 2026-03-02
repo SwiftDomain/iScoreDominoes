@@ -23,8 +23,6 @@ struct iScoreApp: App {
             fatalError("Could not initialize ModelContainer")
         }
         
-        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-
     }
 
     var body: some Scene {

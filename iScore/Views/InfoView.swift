@@ -27,13 +27,15 @@ struct CollectionView: View {
             
             Background()
             
-            ScrollView(showsIndicators: false) {
-                
+            ScrollView {
+
                 ForEach(ids, id:\.self) {idData in
                     YouTubeView(videoId: idData)
                         .frame(width: 300, height: 300)
                         .padding()
-                }                    }
+                }
+            }
+            .scrollIndicators(.hidden)
             .ignoresSafeArea(edges: .top)
             
             VStack{
@@ -43,7 +45,7 @@ struct CollectionView: View {
                 Text("Tutorial")
                     .padding(20)
                     .glassEffect(.clear)
-                    .foregroundStyle(.accent)
+                    .foregroundStyle(Theme.accent)
                     .fontWeight(.light)
                     .font(.largeTitle)
                     .padding(.top, 60)

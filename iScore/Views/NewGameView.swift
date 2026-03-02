@@ -179,7 +179,7 @@ struct NewGameView: View {
                             
                                 .padding(.vertical, 10.0)
                             
-                            Text("Score To Win: \(String(format: "%.0f", maxScore))")
+                            Text("Score To Win: \(maxScore, format: .number.precision(.fractionLength(0)))")
                                 .font(.title2)
                                 .multilineTextAlignment(.center)
                                 .lineLimit(1)
@@ -198,7 +198,7 @@ struct NewGameView: View {
                 }
             }
             .foregroundStyle(Color.white)
-            .padding([.leading, .trailing], UIDevice.current.userInterfaceIdiom == .pad ? 80 : 0)
+            .scenePadding(.horizontal)
             .padding(.top, 10)
             .scrollContentBackground(.hidden)
             .navigationBarTitle(Text("New Game"))
@@ -239,7 +239,7 @@ struct NewGameView: View {
         
         var body: some View {
             
-            LinearGradient(gradient: Gradient(colors: [.blue, Color("lightBlue")]), startPoint: .center, endPoint: .bottom)
+            LinearGradient(gradient: Gradient(colors: [Theme.surface, Theme.surfaceSecondary]), startPoint: .center, endPoint: .bottom)
                 .ignoresSafeArea()
                 .opacity(1)
             
@@ -283,7 +283,7 @@ struct NewGameView: View {
                     
                     Spacer()
                 }
-                .foregroundStyle(player != "" ? Color.accentColor : Color.black)
+                .foregroundStyle(player != "" ? Theme.accent : Theme.textSecondary)
             }
             .frame(height: 30)
         }

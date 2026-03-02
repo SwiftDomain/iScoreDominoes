@@ -41,45 +41,41 @@ struct GamesView: View {
         
         ZStack{
                         
-            ScrollView(showsIndicators: false){
-                
+            ScrollView {
+
                 LazyVGrid(columns: lazyVGridSetup.numberColumns, spacing: 30) {
-                    
+
                     ForEach(filteredGames, id:\.self) { game in
-                        
+
                         VStack{
-                            
+
                             HStack(alignment: .center, spacing: 10){
-                                
+
                                 Button(action: {})
                                 {
                                             NavigationLink(destination: GameView(path: $path, game: game)) {
-                                                
+
                                                 HStack{
                                                     VStack{
                                                         HStack{
-                                                            
+
                                                             GameCellView(game: game, team: .team1)
-                                                            
+
                                                         }
-                                                        //.padding([.top], 10)
-                                                        
-                                                        
+
+
                                                         HStack{
                                                             GameCellView(game: game, team: .team2)
                                                         }
-                                                        //.padding([.bottom], 30)
-                                                        
+
                                                     }
                                                     .offset(x:30)
-                                                    //.padding(.leading, UIDevice.current.userInterfaceIdiom == .pad ? 80 :0)
-                                                    
+
                                                     Spacer()
-                                                    
+
                                                     VStack{
                                                         GameMetaDataCellView(game: game)
                                                     }
-                                                    //.padding(.trailing, UIDevice.current.userInterfaceIdiom == .pad ? 80 :0)
                                                 }
                                                 .frame(minWidth: 180, maxWidth: 1200, minHeight: 125, maxHeight: 125)
 
@@ -87,19 +83,15 @@ struct GamesView: View {
                                 }
                                 .navigationTitle(Text("Games"))
                                 .padding(.horizontal)
-//                                .visualEffect { content, proxy in
-//                                    content
-//                                        .hueRotation(Angle(degrees:
-//                                                          proxy.frame(in: .global).origin.y/10
-//                                                          ))
-//                                }
                             }
                         }
-                        
+
                     }
                     .glassEffect(.clear)
                 }
+                .frame(maxWidth: 700)
             }
+            .scrollIndicators(.hidden)
         }
         .background{
             Background()
