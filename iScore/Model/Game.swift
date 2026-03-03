@@ -11,7 +11,7 @@ import SwiftData
 @Model
 class Game: Identifiable {
 
-    @Relationship(deleteRule: .cascade, inverse: \Player.games) var players: [Player] = [Player]()
+    @Relationship(deleteRule: .cascade, inverse: \Player.games) var players: [Player]? = []
     
     var gameType: GameType = GameType.six
     var maxScore: Double = 20
@@ -71,9 +71,9 @@ class Game: Identifiable {
     
     func printPlayers() {
         
-        for index in players.indices {
+        for index in (players ?? []).indices {
 
-            print("\(index) - \(players[index])")
+            print("\(index) - \((players ?? [])[index])")
         }
         
     }

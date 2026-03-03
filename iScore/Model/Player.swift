@@ -11,8 +11,8 @@ import SwiftData
 @Model
 class Player: Equatable{
    
-    var name: String
-    var games: [Game] = [Game]()
+    var name: String = ""
+    var games: [Game]? = []
     
     init(name: String) {
         
@@ -30,19 +30,19 @@ class Player: Equatable{
         
         var wins: Int = 0
         
-        for game in games{
-                        
+        for game in games ?? []{
+
             if !game.inProcess{
-                
+
                 if  game.winningTeam == .team1 && game.team1.contains(self.name){
-                    
+
                     wins += 1
-                    
+
                 }
                 else  if  game.winningTeam == .team2 && game.team2.contains(self.name){
-                    
+
                     wins += 1
-                    
+
                 }
             }
         }
@@ -55,8 +55,8 @@ class Player: Equatable{
         
         var played: Int = 0
         
-        for game in games{
-            
+        for game in games ?? []{
+
             if !game.inProcess{
                 played += 1
             }

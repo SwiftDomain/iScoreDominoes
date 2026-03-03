@@ -124,16 +124,16 @@ struct GamesView: View {
         
         container.mainContext.insert(game)
         
-        game.players.append(Player(name: "1qasdf"))
+        game.players?.append(Player(name: "1qasdf"))
         game.team1.append("asdfasd")
         
-        game.players.append(Player(name: "asdfasd"))
+        game.players?.append(Player(name: "asdfasd"))
         game.team1.append("adfasdf")
         
-        game.players.append(Player(name: "asdf"))
+        game.players?.append(Player(name: "asdf"))
         game.team2.append("gsdq")
         
-        game.players.append(Player(name: "asdf"))
+        game.players?.append(Player(name: "asdf"))
         game.team2.append("asdf")
         
     }

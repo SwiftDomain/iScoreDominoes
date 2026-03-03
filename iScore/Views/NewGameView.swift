@@ -61,10 +61,10 @@ struct NewGameView: View {
         
         /* If the player exists on Player add it to game.players, if not create a new one */
         if players.firstIndex(where: {$0.name == playerName_}) != nil {
-            game.players.append(players[players.firstIndex(where: {$0.name == playerName_})!])
+            game.players?.append(players[players.firstIndex(where: {$0.name == playerName_})!])
         }
         else{
-            game.players.append(Player(name: playerName_))
+            game.players?.append(Player(name: playerName_))
         }
         
     }

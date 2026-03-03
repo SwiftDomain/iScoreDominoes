@@ -17,12 +17,12 @@ struct iScoreApp: App {
     
     init() {
         do {
-            
-            modelContainer = try ModelContainer(for: Game.self)
+            let schema = Schema([Game.self, Player.self])
+            let config = ModelConfiguration(cloudKitDatabase: .automatic)
+            modelContainer = try ModelContainer(for: schema, configurations: config)
         } catch {
             fatalError("Could not initialize ModelContainer")
         }
-        
     }
 
     var body: some Scene {

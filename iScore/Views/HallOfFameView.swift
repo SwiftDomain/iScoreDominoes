@@ -154,16 +154,16 @@ struct MetaDataCellView:View{
 
     container.mainContext.insert(game)
 
-    game.players.append(Player(name: "12345678901"))
+    game.players?.append(Player(name: "12345678901"))
     game.team1.append("12345678901")
 
-    game.players.append(Player(name: "sjdkvmsjdieo"))
+    game.players?.append(Player(name: "sjdkvmsjdieo"))
     game.team1.append("12345678901")
 
-    game.players.append(Player(name: "ksslsla"))
+    game.players?.append(Player(name: "ksslsla"))
     game.team2.append("ksslsla")
 
-    game.players.append(Player(name: "kklkj4"))
+    game.players?.append(Player(name: "kklkj4"))
     game.team2.append("ksslsla")
 
     return HallOfFameView()

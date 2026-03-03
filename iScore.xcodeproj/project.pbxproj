@@ -63,7 +63,8 @@
 		06A2401113E446E9237D30D1 /* QuickStatsBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickStatsBar.swift; sourceTree = "<group>"; };
 		0EC86F1D3CC5DBA3F2EE0B0E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		595C326CE4CF2DD0530B8890 /* GameSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSummaryView.swift; sourceTree = "<group>"; };
-/* End PBXFileReference section */
+		9B9227AFB345418B938DF93A /* iScore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "iScore.entitlements"; sourceTree = "<group>"; };
+		/* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		076444A22ACD1C0200E39F12 /* Frameworks */ = {
@@ -96,6 +97,7 @@
 		076444A72ACD1C0200E39F12 /* iScore */ = {
 			isa = PBXGroup;
 			children = (
+				9B9227AFB345418B938DF93A /* iScore.entitlements */,
 				076444A82ACD1C0200E39F12 /* iScoreApp.swift */,
 				3EF472CB2B769F580018276A /* Model */,
 				3EF472CA2B769F2B0018276A /* Views */,
@@ -383,6 +385,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = "iScore/iScore.entitlements";
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"iScore/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -419,6 +422,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = "iScore/iScore.entitlements";
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"iScore/Preview Content\"";
 				ENABLE_PREVIEWS = YES;

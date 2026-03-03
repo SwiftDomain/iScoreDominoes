@@ -71,7 +71,7 @@ struct SettingsView: View {
 
                                     Spacer()
 
-                                    Text("\(player.games.count) games")
+                                    Text("\((player.games ?? []).count) games")
                                         .font(.caption)
                                         .foregroundStyle(Theme.textSecondary)
                                 }
@@ -90,6 +90,16 @@ struct SettingsView: View {
 
                     // MARK: - About
                     Section {
+                        HStack {
+                            Text("iCloud Sync")
+                                .foregroundStyle(Theme.textPrimary)
+                            Spacer()
+                            Image(systemName: "checkmark.icloud.fill")
+                                .foregroundStyle(Theme.accent)
+                            Text("Enabled")
+                                .foregroundStyle(Theme.textSecondary)
+                        }
+
                         HStack {
                             Text("Version")
                                 .foregroundStyle(Theme.textPrimary)
