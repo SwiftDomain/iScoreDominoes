@@ -26,17 +26,19 @@ struct iScoreApp: App {
     }
 
     var body: some Scene {
-       
+
         WindowGroup {
-         
+
             HomeView()
+                // Cloud Blue theme is a fixed light palette; keep system
+                // chrome (nav bars, sheets) light regardless of device mode.
+                .preferredColorScheme(.light)
                 .task {
                     try? Tips.resetDatastore()
                     try? Tips.configure([
 //                        .displayFrequency(.immediate),
                         .datastoreLocation(.applicationDefault)])
                 }
-            
 
         }
         .modelContainer(modelContainer)

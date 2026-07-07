@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-/// App background — gradient from deep navy to slate blue.
+/// App background — gradient from cloud white to white.
 struct Background: View {
 
     var body: some View {
@@ -24,7 +24,7 @@ struct DataBackgroundShape: View {
             .frame(minWidth: 380, maxWidth: 1200, minHeight: 125, maxHeight: 150)
             .clipShape(.capsule)
             .foregroundStyle(Theme.surface)
-            .opacity(0.5)
+            .overlay(Capsule().stroke(Theme.divider, lineWidth: 1))
     }
 }
 
@@ -76,7 +76,7 @@ struct GameCellView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 40, height: 40)
-                    .foregroundStyle(winner ? Theme.accent : (game.inProcess ? Theme.textSecondary : Theme.danger))
+                    .foregroundStyle(winner ? Theme.accentInk : (game.inProcess ? Theme.textSecondary : Theme.danger))
 
                 Spacer()
                     .frame(width: 16)

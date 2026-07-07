@@ -59,14 +59,12 @@ struct GameView: View {
                                 .foregroundStyle(Theme.textPrimary)
                                 .bold()
                             
-                            //CircularProgressAroundIcon(progress: $progress2)
-                            
                         }
                         .frame(width: 80, height: 80, alignment: .center)
                         
                         Spacer()
                     }
-                    //.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+
                     .glassEffect(.clear)
 
                     Spacer()
@@ -367,7 +365,7 @@ struct TeamView: View {
                 .scaledToFit()
                 .frame(height: 36)
                 .clipShape(.rect(cornerRadius: 8))
-                .foregroundStyle((game.winningTeam == team || game.inProcess == true) ? Theme.accent : Theme.danger)
+                .foregroundStyle((game.winningTeam == team || game.inProcess == true) ? Theme.accentInk : Theme.danger)
                 .phaseAnimator ([ NotifyAnimationPhase.initial,
                                   .lift,
                                   .shakeLeft,

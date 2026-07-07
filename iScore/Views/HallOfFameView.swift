@@ -84,7 +84,7 @@ struct HallOfFameView: View {
                     Text("Hall of Fame")
                         .padding(20)
                         .glassEffect(.clear)
-                        .foregroundStyle(Theme.accent)
+                        .foregroundStyle(Theme.accentInk)
                         .fontWeight(.light)
                         .font(.largeTitle)
                         .padding(.top, 60)

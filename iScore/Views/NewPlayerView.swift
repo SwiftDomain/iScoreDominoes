@@ -54,10 +54,8 @@ struct NewPlayerView: View {
                     
                     BlobShape()
                         .frame(width: 380, height: 55, alignment: .center)
-                        .foregroundStyle(.white)
-                        .opacity(0.8)
+                        .foregroundStyle(Theme.surfaceSecondary)
                         .clipShape(.rect(cornerRadius: 28))
-                        .opacity(0.4)
                         .overlay(
                             
                             TextInputField(text: $player, "Melon Name")
@@ -155,7 +153,7 @@ struct TextInputField: View {
         VStack(alignment: .leading){
             
             Text(title)
-                .foregroundStyle(text.isEmpty ? Color(.placeholderText): Theme.accent)
+                .foregroundStyle(text.isEmpty ? Color(.placeholderText): Theme.accentInk)
                 .offset(x:25, y: text.isEmpty ? 22 : 0)
                 .scaleEffect(text.isEmpty ? 1 : 0.8, anchor: .leading)
                 .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification)) { _ in

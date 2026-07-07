@@ -18,11 +18,11 @@ struct ActiveGameBanner: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Image(systemName: "play.fill")
-                    .foregroundStyle(Theme.accent)
+                    .foregroundStyle(Theme.accentInk)
 
                 Text("Resume Game")
                     .font(.headline)
-                    .foregroundStyle(Theme.accent)
+                    .foregroundStyle(Theme.accentInk)
 
                 Spacer()
 

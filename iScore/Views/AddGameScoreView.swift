@@ -48,9 +48,8 @@ struct AddGameScoreView: View {
                 HStack{
                     BlobShape()
                         .frame(width: 380, height: 55, alignment: .center)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(Theme.surfaceSecondary)
                         .clipShape(.rect(cornerRadius: 28))
-                        .opacity(0.4)
                         .overlay(
                             TextField("Add Score", text: $score, axis: .vertical)
                                 .font(.title2)
@@ -89,7 +88,7 @@ struct AddGameScoreView: View {
                             .scaledToFit()
                             .frame( height: 50)
                             .clipShape(.rect(cornerRadius: 8))
-                            .foregroundStyle(Theme.accent)
+                            .foregroundStyle(Theme.accentInk)
                         
                         Spacer()
                             .frame(width: 16)
@@ -99,6 +98,7 @@ struct AddGameScoreView: View {
                                 .fontWeight(.light)
                                 .minimumScaleFactor(0.75)
                                 .font(.system(size: 20))
+                                .foregroundStyle(Theme.textPrimary)
                         }
                     }
                     .padding()

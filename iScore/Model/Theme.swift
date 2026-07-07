@@ -3,7 +3,9 @@
 //  iScore
 //
 //  Semantic color system for iScoreDominoes.
-//  Accent color (amberGold) should appear on < 10% of any screen.
+//  "Manga Paper" palette — B&W noir/manga: paper white, ink black,
+//  screentone grays. Text on accent fills must use `background` (paper),
+//  since the accent itself is ink.
 //
 
 import SwiftUI
@@ -14,34 +16,38 @@ enum Theme {
 
     // MARK: - Backgrounds
 
-    /// Primary app background — Deep Navy
+    /// Primary app background — Paper
     static let background = Color("background_primary")
 
-    /// Cards, containers, elevated surfaces — Slate Blue
+    /// Cards, containers, elevated surfaces — White
     static let surface = Color("surface")
 
-    /// Form rows, secondary containers
+    /// Form rows, input wells, secondary containers — Screentone Gray
     static let surfaceSecondary = Color("surfaceSecondary")
 
     // MARK: - Text
 
-    /// Primary text — White
-    static let textPrimary = Color.white
+    /// Primary text — Ink
+    static let textPrimary = Color("textPrimary")
 
-    /// Subtitles, metadata, labels — Cool Gray
+    /// Subtitles, metadata, labels — Mid Gray
     static let textSecondary = Color("textSecondary")
 
-    // MARK: - Accent (< 10% of screen)
+    // MARK: - Accent
 
-    /// CTAs, win indicators, active states — Amber Gold
+    /// CTAs, win indicators, active states — Ink
     static let accent = Color.accentColor
+
+    /// Accent-colored text and glyphs — Ink (same as accent in this
+    /// monochrome palette; kept separate so future palettes can split them)
+    static let accentInk = Color("accentInk")
 
     // MARK: - Semantic
 
-    /// Win badges, positive stats — Emerald
+    /// Win badges, positive stats — Charcoal (dark = emphasis)
     static let success = Color("success")
 
-    /// Loss indicators, delete actions — Soft Red
+    /// Loss indicators, delete actions — Faded Gray (light = receded)
     static let danger = Color("danger")
 
     /// Subtle separation lines

@@ -95,7 +95,7 @@ struct SettingsView: View {
                                 .foregroundStyle(Theme.textPrimary)
                             Spacer()
                             Image(systemName: "checkmark.icloud.fill")
-                                .foregroundStyle(Theme.accent)
+                                .foregroundStyle(Theme.accentInk)
                             Text("Enabled")
                                 .foregroundStyle(Theme.textSecondary)
                         }
@@ -125,7 +125,6 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Done") {

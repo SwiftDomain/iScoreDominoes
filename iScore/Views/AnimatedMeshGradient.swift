@@ -22,9 +22,9 @@ struct AnimatedMeshGradient: View {
                 [0.0, 0.5], appear ? [0.1, 0.5] : [0.8, 0.2], [1.0, -0.5],
                 [0.0, 1.0], [1.0, appear2 ? 2.0 : 1.0], [1.0, 1.0]
             ], colors: [
-                appear2 ? .red: .mint, appear2 ? .yellow : .cyan, .orange,
-                appear ? .blue: .red, appear ? .cyan: .white, appear ? .red: .purple,
-                appear ? .red: .cyan, appear ? .mint: .blue, appear2 ? .red : .blue
+                appear2 ? Theme.danger : Theme.success, appear2 ? Theme.success : Theme.accent, Theme.accent,
+                appear ? Theme.accent : Theme.danger, appear ? Theme.accent : .white, appear ? Theme.danger : Theme.accent,
+                appear ? Theme.danger : Theme.accent, appear ? Theme.success : Theme.accent, appear2 ? Theme.danger : Theme.accent
             ]
         )
         .mask(
@@ -46,7 +46,7 @@ struct AnimatedMeshGradient: View {
         .background(.clear)
         .cornerRadius(16)
         .background(RoundedRectangle(cornerRadius: 16)
-            .stroke(.black.opacity(0.5), lineWidth: 1)
+            .stroke(Theme.divider, lineWidth: 1)
                     )
         .shadow(color: .black.opacity(0.15), radius: 20, x: 0, y: 20)
         .onAppear {

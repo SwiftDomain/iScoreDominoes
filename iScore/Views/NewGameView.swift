@@ -197,7 +197,7 @@ struct NewGameView: View {
                         .font(.system(size: 16, weight: .light, design: .default))
                 }
             }
-            .foregroundStyle(Color.white)
+            .foregroundStyle(Theme.textPrimary)
             .scenePadding(.horizontal)
             .padding(.top, 10)
             .scrollContentBackground(.hidden)
@@ -283,7 +283,7 @@ struct NewGameView: View {
                     
                     Spacer()
                 }
-                .foregroundStyle(player != "" ? Theme.accent : Theme.textSecondary)
+                .foregroundStyle(player != "" ? Theme.accentInk : Theme.textSecondary)
             }
             .frame(height: 30)
         }

@@ -46,10 +46,8 @@ struct EditScoreView: View {
                 HStack{
                     BlobShape()
                         .frame(width: 380, height: 55, alignment: .center)
-                        .foregroundStyle(.white)
-                        .opacity(0.8)
+                        .foregroundStyle(Theme.surfaceSecondary)
                         .clipShape(.rect(cornerRadius: 27))
-                        .opacity(0.4)
                         .overlay(
                             TextField("Old Score: \(game.scoreTeam[gameScoreIndex.index][(gameScoreIndex.team == .team1 ? 0 : 1)])", text: $score, axis: .vertical)
                                 .font(.title2)
@@ -84,7 +82,7 @@ struct EditScoreView: View {
                             .scaledToFit()
                             .frame( height: 50)
                             .clipShape(.rect(cornerRadius: 8))
-                            .foregroundStyle(Theme.accent)
+                            .foregroundStyle(Theme.accentInk)
                         
                         Spacer()
                             .frame(width: 16)
@@ -94,6 +92,7 @@ struct EditScoreView: View {
                                 .fontWeight(.light)
                                 .minimumScaleFactor(0.75)
                                 .font(.system(size: 20))
+                                .foregroundStyle(Theme.textPrimary)
                             
                             Spacer()
                                 .frame(height: 1)
