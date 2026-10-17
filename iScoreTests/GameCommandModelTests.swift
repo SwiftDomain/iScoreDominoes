@@ -102,31 +102,89 @@ struct GameCommandModelTests {
         #expect(GameCommandModel.command(gameType: "unknown", target: 150, team1: [], team2: []).target == 150)
     }
 
-    /// With nothing for the model to add (a complete command) the call must return at once and
-    /// unchanged on any hardware; this exercises the guard, not the model.
+    /// A complete command with no game type: if the model were wrongly asked, the type it
+    /// heard in the transcript would change the result.
     @Test func aCompleteCommandIsReturnedWithoutAsking() async {
         var complete = GameCommand()
         complete.team1 = ["Ana", "Carlos"]
         complete.team2 = ["Luis", "Papo"]
         let result = await GameCommandModel.enhance(
-            complete, transcript: "ana carlos against luis papo",
+            complete, transcript: "nine two hundred ana carlos against luis papo",
             locale: Locale(identifier: "en_US"), timeout: .seconds(30))
         #expect(result == complete)
     }
 
-    /// Review Focus 5 — no model, or a model that fails, must not change the answer.
+    /// With a live model a 1ms timer always wins; without one the guard returns early.
+    /// Either way the answer is unchanged and the call is prompt.
     @Test func fallsBackToTheDeterministicCommand() async {
         var deterministic = GameCommand()
         deterministic.gameType = .nine
         deterministic.team1 = ["Ana"]
 
-        let result = await GameCommandModel.enhance(
-            deterministic,
-            transcript: "nine, Ana and somebody",
-            locale: Locale(identifier: "en_US"),
-            timeout: .milliseconds(1)
-        )
+        let clock = ContinuousClock()
+        var result = GameCommand()
+        let elapsed = await clock.measure {
+            result = await GameCommandModel.enhance(
+                deterministic,
+                transcript: "nine, Ana and somebody",
+                locale: Locale(identifier: "en_US"),
+                timeout: .milliseconds(1)
+            )
+        }
+        #expect(result == deterministic)
+        #expect(elapsed < .seconds(2))
+    }
+
+    // MARK: - The race, with an injected asker (no device dependence)
+
+    private static var short: GameCommand {
+        var command = GameCommand()
+        command.gameType = .nine
+        command.team1 = ["Ana"]
+        return command
+    }
+
+    private struct Boom: Error {}
+
+    @Test func aSlowAskerTimesOutToTheDeterministicCommand() async {
+        let clock = ContinuousClock()
+        var result = GameCommand()
+        let elapsed = await clock.measure {
+            result = await GameCommandModel.enhance(Self.short, timeout: .milliseconds(50)) {
+                // Ignores cancellation on purpose: the caller must not wait for it.
+                await withCheckedContinuation { (c: CheckedContinuation<Void, Never>) in
+                    DispatchQueue.global().asyncAfter(deadline: .now() + 5) { c.resume() }
+                }
+                var late = GameCommand()
+                late.team1 = ["Ana", "Carlos"]
+                return late
+            }
+        }
+        #expect(result == Self.short)
+        #expect(elapsed < .seconds(2))
+    }
+
+    @Test func aThrowingAskerReturnsTheDeterministicCommand() async {
+        let result = await GameCommandModel.enhance(Self.short, timeout: .seconds(5)) { throw Boom() }
+        #expect(result == Self.short)
+    }
+
+    @Test func anAskerReturningNothingReturnsTheDeterministicCommand() async {
+        let result = await GameCommandModel.enhance(Self.short, timeout: .seconds(5)) { nil }
+        #expect(result == Self.short)
+    }
+
+    @Test func aUsefulAnswerIsMerged() async {
+        let result = await GameCommandModel.enhance(Self.short, timeout: .seconds(5)) {
+            var heard = GameCommand()
+            heard.target = 150
+            heard.team1 = ["Ana", "Carlos"]
+            heard.team2 = ["Luis", "Papo"]
+            return heard
+        }
         #expect(result.gameType == .nine)
-        #expect(result.team1.first == "Ana")
+        #expect(result.target == 150)
+        #expect(result.team1 == ["Ana", "Carlos"])
+        #expect(result.team2 == ["Luis", "Papo"])
     }
 }

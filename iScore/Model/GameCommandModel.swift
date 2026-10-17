@@ -9,7 +9,7 @@ import FoundationModels
 /// What it exists to catch: a two-word name ("Juan Carlos") arrives from the parser as two
 /// names, and unusual phrasing or unfamiliar spellings can leave names missing.
 ///
-/// The decisions (`needsModel`, `merged`, `command(from:)`) are pure and tested; `enhance` is the
+/// The decisions (`needsModel`, `merged`, `command(gameType:target:team1:team2:)`) are pure and tested; `enhance` is the
 /// only code that touches `FoundationModels`.
 enum GameCommandModel {
 
@@ -79,9 +79,21 @@ enum GameCommandModel {
               SystemLanguageModel.default.availability == .available,
               SystemLanguageModel.default.supportsLocale(locale) else { return deterministic }
 
+        return await enhance(deterministic, timeout: timeout) {
+            await ask(transcript: transcript, locale: locale)
+        }
+    }
+
+    /// The race, with the asker injected so it is testable on any device. Returns `deterministic`
+    /// unchanged when `ask` throws, returns nil, or is still running when `timeout` passes;
+    /// otherwise merges its answer. The asker runs in an unstructured task, so one that ignores
+    /// cancellation cannot hold the caller up.
+    static func enhance(_ deterministic: GameCommand,
+                        timeout: Duration,
+                        ask: @escaping @Sendable () async throws -> GameCommand?) async -> GameCommand {
         let answer = await withCheckedContinuation { (continuation: CheckedContinuation<GameCommand?, Never>) in
             let gate = OneShot(continuation)
-            let work = Task { gate.finish(await ask(transcript: transcript, locale: locale)) }
+            let work = Task { gate.finish((try? await ask()) ?? nil) }
             let timer = Task {
                 try? await Task.sleep(for: timeout)
                 gate.finish(nil)
