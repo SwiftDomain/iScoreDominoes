@@ -40,9 +40,16 @@ extension SpeechAvailability {
     }
 }
 
+/// Why `SpeechCapture.start()` could not begin listening.
+enum SpeechCaptureError: Error, Equatable {
+    case unavailable(SpeechAvailability)
+}
+
 @MainActor @Observable
 final class SpeechCapture {
     private(set) var transcript = ""
+    /// Why the last session failed or ended early; nil after a clean start.
+    private(set) var lastError: Error?
     private(set) var isListening = false
     private(set) var availability: SpeechAvailability = .needsPermission
 
@@ -76,8 +83,18 @@ final class SpeechCapture {
     func start() throws {
         guard !isListening else { return }
         refreshAvailability()
-        guard availability == .ready, let recognizer else { return }
+        do {
+            guard availability == .ready else { throw SpeechCaptureError.unavailable(availability) }
+            guard let recognizer else { throw SpeechCaptureError.unavailable(.unsupported) }
+            try begin(with: recognizer)
+        } catch {
+            lastError = error
+            throw error
+        }
+    }
 
+    private func begin(with recognizer: SFSpeechRecognizer) throws {
+        lastError = nil
         let audioSession = AVAudioSession.sharedInstance()
         try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
         try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
@@ -95,9 +112,11 @@ final class SpeechCapture {
         task = recognizer.recognitionTask(with: request) { [weak self] result, error in
             let text = result?.bestTranscription.formattedString
             let finished = error != nil || result?.isFinal == true
+            let failure = result?.isFinal == true ? nil : error
             Task { @MainActor [weak self] in
                 guard let self, self.session == current else { return }
                 if let text { self.transcript = text }
+                if let failure { self.lastError = failure }
                 if finished { self.teardown() }
             }
         }
