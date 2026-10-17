@@ -79,9 +79,9 @@ extension Game {
         rounds.count + 1
     }
 
-    /// Undo only makes sense when there is a visible round to take back.
+    /// Undo only makes sense while playing, with a visible round to take back.
     var canUndo: Bool {
-        !rounds.isEmpty
+        state == .playing && !rounds.isEmpty
     }
 
     /// Removes the last visible round, plus any hidden zero rows after it
@@ -131,10 +131,27 @@ extension Game {
 
     // MARK: - Copy
 
+    /// "Round 6 · First to 200" while playing; "5 rounds · First to 200" once over.
+    var statusLabel: String {
+        let target = "First to \(Int(maxScore))"
+        guard state == .playing else {
+            let played = rounds.count == 1 ? "1 round" : "\(rounds.count) rounds"
+            return "\(played) · \(target)"
+        }
+        return "Round \(currentRoundNumber) · \(target)"
+    }
+
+    /// VoiceOver name for a progress bar: "Ana & Luis progress", or
+    /// "Game progress" for `.none` (the tied toolbar bar).
+    func progressLabel(for team: Team) -> String {
+        team == .none ? "Game progress" : "\(displayName(for: team)) progress"
+    }
+
     var headline: String {
         if state == .finished, winningTeam != .none {
             return "\(displayName(for: winningTeam)) won!"
         }
+        if state == .cancelled { return "Game cancelled" }
         if rounds.isEmpty { return "Let's play!" }
         if leader == .none { return "All tied up" }
         return "\(displayName(for: leader)) lead by \(lead)"

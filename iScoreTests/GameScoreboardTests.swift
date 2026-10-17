@@ -64,6 +64,38 @@ struct GameScoreboardTests {
         #expect(game.headline == "Ana & Luis won!")
     }
 
+    @Test func cancelledHeadline() {
+        let game = makeGame(rows: [[0, 0], [80, 0], [0, 95]], state: .cancelled)
+        #expect(game.headline == "Game cancelled")
+
+        let empty = makeGame(rows: [[0, 0]], state: .cancelled)
+        #expect(empty.headline == "Game cancelled")
+    }
+
+    @Test func statusLabelWhilePlaying() {
+        #expect(makeGame(rows: demoRows).statusLabel == "Round 6 · First to 200")
+        #expect(makeGame(rows: [[0, 0]]).statusLabel == "Round 1 · First to 200")
+    }
+
+    /// Once a game is over there is no next round: count the rounds played.
+    @Test func statusLabelCountsRoundsWhenOver() {
+        let finished = makeGame(rows: [[0, 0], [120, 0], [0, 145], [80, 0]], state: .finished)
+        #expect(finished.statusLabel == "3 rounds · First to 200")
+
+        let cancelled = makeGame(rows: [[0, 0], [80, 0]], state: .cancelled)
+        #expect(cancelled.statusLabel == "1 round · First to 200")
+
+        let cancelledEmpty = makeGame(rows: [[0, 0]], state: .cancelled)
+        #expect(cancelledEmpty.statusLabel == "0 rounds · First to 200")
+    }
+
+    @Test func progressLabels() {
+        let game = makeGame(rows: demoRows)
+        #expect(game.progressLabel(for: .team1) == "Ana & Luis progress")
+        #expect(game.progressLabel(for: .team2) == "Rafa & Mia progress")
+        #expect(game.progressLabel(for: .none) == "Game progress")
+    }
+
     @Test func roundsSkipSeedAndZeroRows() {
         let game = makeGame(rows: [[0, 0], [10, 0], [0, 0], [0, 5]])
         #expect(game.rounds.map(\.number) == [1, 2])
@@ -119,6 +151,12 @@ struct GameScoreboardTests {
         game.undoLastRound()
         #expect(game.scoreTeam == [[0, 0], [10, 0]])
         #expect(game.rounds.map(\.points) == [10])
+    }
+
+    @Test(arguments: [GameState.finished, .cancelled])
+    func undoIsUnavailableOnceGameIsOver(_ state: GameState) {
+        let game = makeGame(rows: demoRows, state: state)
+        #expect(!game.canUndo)
     }
 
     @Test func undoIsUnavailableWithoutVisibleRounds() {

@@ -33,7 +33,7 @@ struct RecentGameCard: View {
 
             Text("D\(game.gameType.pips) · \(game.timestamp.formatted(.dateTime.month(.abbreviated).day()))")
                 .font(.caption.weight(.bold))
-                .foregroundStyle(Theme.textMuted)
+                .foregroundStyle(Theme.textSecondary)
         }
         .padding(12)
         .frame(width: 170, alignment: .leading)

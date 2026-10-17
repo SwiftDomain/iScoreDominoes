@@ -41,7 +41,8 @@ struct ActiveGameBanner: View {
                 value: game.progress(for: progressTeam),
                 tint: Theme.surface,
                 track: Theme.teamAShadow,
-                height: 12
+                height: 12,
+                label: game.progressLabel(for: game.leader)
             )
 
             Text("Continue")

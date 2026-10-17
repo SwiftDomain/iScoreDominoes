@@ -31,7 +31,7 @@ struct HomeCardView: View {
 
                 Text(subtitle)
                     .font(.caption.weight(.bold))
-                    .foregroundStyle(Theme.textMuted)
+                    .foregroundStyle(Theme.textSecondary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
             }

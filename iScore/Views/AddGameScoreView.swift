@@ -80,7 +80,8 @@ struct AddGameScoreView: View {
                 value: game.progress(for: team),
                 preview: Double(game.total(for: team) + (entry.value ?? 0)) / game.maxScore,
                 tint: palette.fill,
-                previewTint: palette.wash
+                previewTint: palette.wash,
+                label: game.progressLabel(for: team)
             )
         }
     }

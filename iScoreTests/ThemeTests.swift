@@ -23,6 +23,14 @@ struct ThemeTests {
         #expect(GameCellView.symbolColor(isWinner: false, inProcess: false) == Theme.textMuted)
     }
 
+    /// With Increase Contrast on, the informational grays reach WCAG AA (4.5:1) on white.
+    @Test(arguments: ["textSecondary", "textMuted"])
+    func grayTextMeetsAAWithIncreasedContrast(_ name: String) throws {
+        let color = try #require(UIColor(named: name))
+        let highContrast = color.resolvedColor(with: UITraitCollection(accessibilityContrast: .high))
+        #expect(contrastRatio(highContrast, .white) >= 4.5)
+    }
+
     @Test func teamPalettes() {
         let team1 = Theme.palette(for: .team1)
         #expect(team1.fill == Theme.teamA)
@@ -39,4 +47,20 @@ struct ThemeTests {
         #expect(neutral.edge == Theme.textSecondary)
         #expect(neutral.wash == Theme.surfaceSecondary)
     }
+}
+
+/// WCAG 2 contrast ratio between two opaque colors.
+private func contrastRatio(_ first: UIColor, _ second: UIColor) -> Double {
+    let (a, b) = (relativeLuminance(first), relativeLuminance(second))
+    return (max(a, b) + 0.05) / (min(a, b) + 0.05)
+}
+
+private func relativeLuminance(_ color: UIColor) -> Double {
+    var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
+    color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+    func linear(_ channel: CGFloat) -> Double {
+        let c = Double(channel)
+        return c <= 0.03928 ? c / 12.92 : pow((c + 0.055) / 1.055, 2.4)
+    }
+    return 0.2126 * linear(red) + 0.7152 * linear(green) + 0.0722 * linear(blue)
 }
