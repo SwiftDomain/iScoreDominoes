@@ -208,7 +208,7 @@ struct GameCommandResolveTests {
 
     @Test func meIsDroppedWhenTheOwnerIsNotPlaying() {
         let game = resolve("me and Carlos vs Luis and Papo", owner: nil)
-        #expect(game.lineup.names == ["Carlos", "Luis", "Papo", ""])
+        #expect(game.lineup.names == ["Carlos", "", "Luis", "Papo"])
         #expect(!game.lineup.isComplete)
     }
 
@@ -220,9 +220,20 @@ struct GameCommandResolveTests {
 
     // MARK: - Branches the brief's tests do not reach
 
-    @Test func aTeamOverflowTakesTheNextFreeSeat() {
-        let game = resolve("Ana, Carlos and Luis vs Papo")
-        #expect(game.lineup.names == ["Ana", "Carlos", "Luis", "Papo"])
+    /// A name never crosses sides: the short side keeps its empty seat.
+    @Test func aShortSideKeepsItsEmptySeat() {
+        let game = resolve("Ana vs Luis and Papo")
+        #expect(game.lineup.names == ["Ana", "", "Luis", "Papo"])
+        #expect(game.lineup.names(for: .team1) == ["Ana", ""])
+        #expect(game.lineup.names(for: .team2) == ["Luis", "Papo"])
+        #expect(!game.lineup.isComplete)
+    }
+
+    /// A third name on one side is ignored; it does not spill onto the other team.
+    @Test func aThirdNameOnOneSideIsIgnored() {
+        let game = resolve("Ana, Carlos and Tito vs Papo")
+        #expect(game.lineup.names == ["Ana", "Carlos", "Papo", ""])
+        #expect(game.newNames.isEmpty)
     }
 
     @Test func namesBeyondTheFourthSeatAreIgnored() {
@@ -239,7 +250,7 @@ struct GameCommandResolveTests {
 
     @Test func meAndTheOwnersNameSeatTheOwnerOnce() {
         let game = resolve("me and Ana vs Luis and Papo")
-        #expect(game.lineup.names == ["Ana", "Luis", "Papo", ""])
+        #expect(game.lineup.names == ["Ana", "", "Luis", "Papo"])
     }
 
     @Test func theOwnerIsNeverMarkedNew() {

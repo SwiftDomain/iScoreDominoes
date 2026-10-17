@@ -111,9 +111,10 @@ extension GameCommand {
 
     /// `known` is every saved player's name; `owner` is the device owner's player name, or nil
     /// when they are not a player. "me" / "yo" becomes `owner`, or is dropped without one.
-    /// Names are matched to `known` (existing spelling wins), truncated, and seated once each:
-    /// team 1's names first, then team 2's, in the first free seats. Names past the fourth
-    /// seat are ignored.
+    /// Names are matched to `known` (existing spelling wins), truncated, and seated once each
+    /// (first mention wins, across both teams). The speaker named the sides, so team 1's names
+    /// go to seats 0–1 and team 2's to seats 2–3, in heard order; a dropped or repeated name
+    /// leaves its seat empty and a third name on one side is ignored.
     func resolved(defaults: (type: GameType, target: Int),
                   known: [String],
                   owner: String?) -> ResolvedGame {
@@ -121,24 +122,26 @@ extension GameCommand {
         let target = type.clampedTarget(Double(self.target ?? defaults.target))
         let saved = known + (owner.map { [$0] } ?? [])
 
-        var seated: [String] = []
-        var newNames: [String] = []
-        for heard in team1 + team2 where seated.count < 4 {
-            let name: String
-            if Self.selfWords.contains(heard.lowercased()) {
-                guard let owner else { continue }
-                name = owner
-            } else {
-                name = PlayerName.resolve(heard, existing: saved)
-            }
-            let limited = PlayerName.limited(name)
-            guard !limited.isEmpty, !seated.contains(where: { PlayerName.isSame($0, limited) }) else { continue }
-            seated.append(limited)
-            if !saved.contains(where: { PlayerName.isSame($0, name) }) { newNames.append(limited) }
-        }
-
         var lineup = PlayerLineup()
-        for (seat, name) in seated.enumerated() { lineup.names[seat] = name }
+        var newNames: [String] = []
+        for (heardNames, firstSeat) in [(team1, 0), (team2, 2)] {
+            var taken = 0
+            for heard in heardNames where taken < 2 {
+                let name: String
+                if Self.selfWords.contains(heard.lowercased()) {
+                    guard let owner else { continue }
+                    name = owner
+                } else {
+                    name = PlayerName.resolve(heard, existing: saved)
+                }
+                let limited = PlayerName.limited(name)
+                guard !limited.isEmpty,
+                      !lineup.names.contains(where: { PlayerName.isSame($0, limited) }) else { continue }
+                lineup.names[firstSeat + taken] = limited
+                taken += 1
+                if !saved.contains(where: { PlayerName.isSame($0, name) }) { newNames.append(limited) }
+            }
+        }
         return ResolvedGame(gameType: type, target: target, lineup: lineup, newNames: newNames)
     }
 
