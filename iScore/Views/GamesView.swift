@@ -23,6 +23,10 @@ struct GamesView: View {
     @State private var filter = GameFilter.all
     @State private var gamePendingDeletion: Game?
 
+    private var isConfirmingDelete: Binding<Bool> {
+        Binding(get: { gamePendingDeletion != nil }, set: { if !$0 { gamePendingDeletion = nil } })
+    }
+
     private var visibleGames: [Game] {
         games.filter { filter.includes($0) && $0.matches(search: search) }
     }
@@ -98,7 +102,14 @@ struct GamesView: View {
             }
             .sharedBackgroundVisibility(.hidden)
         }
-        .confirmationDialog("Delete this game?", item: $gamePendingDeletion, titleVisibility: .visible) { game in
+        // `isPresented:presenting:` rather than `item:` — the `item:` overloads
+        // only exist in the newest SDK and break the Xcode 26 CI build.
+        .confirmationDialog(
+            "Delete this game?",
+            isPresented: isConfirmingDelete,
+            titleVisibility: .visible,
+            presenting: gamePendingDeletion
+        ) { game in
             Button("Delete game", role: .destructive) {
                 delete(game)
             }

@@ -19,6 +19,10 @@ struct SettingsView: View {
 
     @State private var playerToDelete: Player?
 
+    private var isConfirmingDelete: Binding<Bool> {
+        Binding(get: { playerToDelete != nil }, set: { if !$0 { playerToDelete = nil } })
+    }
+
     private var gameType: GameType {
         GameType(rawValue: defaultGameType) ?? .nine
     }
@@ -91,7 +95,9 @@ struct SettingsView: View {
         }
         .scrollIndicators(.hidden)
         .background(Background())
-        .alert("Delete Player", item: $playerToDelete) { player in
+        // `isPresented:presenting:` rather than `item:` — the `item:` overload
+        // only exists in the newest SDK and breaks the Xcode 26 CI build.
+        .alert("Delete Player", isPresented: isConfirmingDelete, presenting: playerToDelete) { player in
             Button("Delete", role: .destructive) {
                 context.delete(player)
             }
