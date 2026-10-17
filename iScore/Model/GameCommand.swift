@@ -96,3 +96,52 @@ struct GameCommand: Equatable {
         "uh", "um", "hmm", "okay", "ok", "so", "eh", "pues", "bueno",
     ]
 }
+
+/// A spoken command with defaults filled in and names matched to saved players, ready for the
+/// confirmation card to show and start.
+struct ResolvedGame: Equatable {
+    let gameType: GameType
+    let target: Int
+    let lineup: PlayerLineup
+    /// Heard names that match no existing player — shown as new on the card.
+    let newNames: [String]
+}
+
+extension GameCommand {
+
+    /// `known` is every saved player's name; `owner` is the device owner's player name, or nil
+    /// when they are not a player. "me" / "yo" becomes `owner`, or is dropped without one.
+    /// Names are matched to `known` (existing spelling wins), truncated, and seated once each:
+    /// team 1's names first, then team 2's, in the first free seats. Names past the fourth
+    /// seat are ignored.
+    func resolved(defaults: (type: GameType, target: Int),
+                  known: [String],
+                  owner: String?) -> ResolvedGame {
+        let type = gameType ?? defaults.type
+        let target = type.clampedTarget(Double(self.target ?? defaults.target))
+        let saved = known + (owner.map { [$0] } ?? [])
+
+        var seated: [String] = []
+        var newNames: [String] = []
+        for heard in team1 + team2 where seated.count < 4 {
+            let name: String
+            if Self.selfWords.contains(heard.lowercased()) {
+                guard let owner else { continue }
+                name = owner
+            } else {
+                name = PlayerName.resolve(heard, existing: saved)
+            }
+            let limited = PlayerName.limited(name)
+            guard !limited.isEmpty, !seated.contains(where: { PlayerName.isSame($0, limited) }) else { continue }
+            seated.append(limited)
+            if !saved.contains(where: { PlayerName.isSame($0, name) }) { newNames.append(limited) }
+        }
+
+        var lineup = PlayerLineup()
+        for (seat, name) in seated.enumerated() { lineup.names[seat] = name }
+        return ResolvedGame(gameType: type, target: target, lineup: lineup, newNames: newNames)
+    }
+
+    /// How a speaker refers to themselves, in English and Spanish.
+    private static let selfWords: Set<String> = ["me", "yo"]
+}

@@ -136,3 +136,126 @@ struct GameCommandParseTests {
         #expect(parse("five thousand").isEmpty)
     }
 }
+
+struct GameCommandResolveTests {
+
+    private let defaults = (type: GameType.nine, target: 100)
+    private let known = ["Ana", "Carlos", "Luis", "Papo"]
+
+    private func resolve(_ text: String, owner: String? = "Ana", known: [String]? = nil) -> ResolvedGame {
+        GameCommand.parse(text, locale: Locale(identifier: "en_US"))
+            .resolved(defaults: defaults, known: known ?? self.known, owner: owner)
+    }
+
+    @Test func fillsTheCanonicalSentence() {
+        let game = resolve("nine, two hundred, me and Carlos against Luis and Papo")
+        #expect(game.gameType == .nine)
+        #expect(game.target == 200)
+        #expect(game.lineup.names == ["Ana", "Carlos", "Luis", "Papo"])
+        #expect(game.lineup.isComplete)
+        #expect(game.newNames.isEmpty)
+    }
+
+    @Test func missingFieldsComeFromDefaults() {
+        let game = resolve("Ana and Luis vs Papo and Carlos")
+        #expect(game.gameType == .nine)
+        #expect(game.target == 100)
+    }
+
+    @Test func targetIsClampedToTheResolvedType() {
+        #expect(resolve("six, one hundred fifty, Ana and Luis vs Papo and Carlos").target == 100)
+        #expect(resolve("nine, one hundred four, Ana and Luis vs Papo and Carlos").target == 100)
+    }
+
+    @Test func existingSpellingWins() {
+        let game = resolve("nine, ana and carlos vs luis and papo")
+        #expect(game.lineup.names == ["Ana", "Carlos", "Luis", "Papo"])
+        #expect(game.newNames.isEmpty)
+    }
+
+    @Test func unknownNamesAreMarkedNew() {
+        let game = resolve("Ana and Carlos vs Tito and Papo")
+        #expect(game.newNames == ["Tito"])
+        #expect(game.lineup.isComplete)
+    }
+
+    /// Review Focus 1 — the mic heard nothing usable.
+    @Test func emptyTranscriptGivesDefaultsAndEmptySeats() {
+        let game = resolve("uh, hmm")
+        #expect(game.gameType == .nine)
+        #expect(game.target == 100)
+        #expect(game.lineup.names == ["", "", "", ""])
+        #expect(!game.lineup.isComplete)
+        #expect(game.lineup.hint == "Add 4 more players to start")
+    }
+
+    /// Review Focus 3 — the same name heard twice.
+    @Test func aRepeatedNameIsSeatedOnce() {
+        let game = resolve("me and Carlos vs Carlos and Papo")
+        #expect(game.lineup.names == ["Ana", "Carlos", "Papo", ""])
+        #expect(!game.lineup.isComplete)
+        #expect(game.lineup.hint == "Add 1 more player to start")
+    }
+
+    /// Review Focus 4 — recognizer output with punctuation and over-long names.
+    @Test func namesAreTrimmedAndTruncated() {
+        let game = resolve("Ana and Bartholomewlongname vs Luis and Papo",
+                           known: ["Ana", "Luis", "Papo"])
+        #expect(game.lineup.names[1] == "Bartholomewlong")
+        #expect(game.lineup.names[1].count == PlayerName.maxLength)
+        #expect(game.lineup.isComplete)
+    }
+
+    @Test func meIsDroppedWhenTheOwnerIsNotPlaying() {
+        let game = resolve("me and Carlos vs Luis and Papo", owner: nil)
+        #expect(game.lineup.names == ["Carlos", "Luis", "Papo", ""])
+        #expect(!game.lineup.isComplete)
+    }
+
+    @Test func spanishMeResolvesToTheOwner() {
+        let command = GameCommand.parse("yo y Carlos contra Luis y Papo", locale: Locale(identifier: "es_DO"))
+        let game = command.resolved(defaults: defaults, known: known, owner: "Ana")
+        #expect(game.lineup.names == ["Ana", "Carlos", "Luis", "Papo"])
+    }
+
+    // MARK: - Branches the brief's tests do not reach
+
+    @Test func aTeamOverflowTakesTheNextFreeSeat() {
+        let game = resolve("Ana, Carlos and Luis vs Papo")
+        #expect(game.lineup.names == ["Ana", "Carlos", "Luis", "Papo"])
+    }
+
+    @Test func namesBeyondTheFourthSeatAreIgnored() {
+        let game = resolve("Ana and Carlos vs Luis, Papo and Tito")
+        #expect(game.lineup.names == ["Ana", "Carlos", "Luis", "Papo"])
+        #expect(game.newNames.isEmpty)
+    }
+
+    @Test func aRepeatedNameDifferingByCaseIsSeatedOnce() {
+        let game = resolve("Ana and Tito vs tito and Luis")
+        #expect(game.lineup.names == ["Ana", "Tito", "Luis", ""])
+        #expect(game.newNames == ["Tito"])
+    }
+
+    @Test func meAndTheOwnersNameSeatTheOwnerOnce() {
+        let game = resolve("me and Ana vs Luis and Papo")
+        #expect(game.lineup.names == ["Ana", "Luis", "Papo", ""])
+    }
+
+    @Test func theOwnerIsNeverMarkedNew() {
+        let game = resolve("me and Carlos vs Luis and Papo", owner: "Zed", known: ["Carlos", "Luis", "Papo"])
+        #expect(game.lineup.names == ["Zed", "Carlos", "Luis", "Papo"])
+        #expect(game.newNames.isEmpty)
+    }
+
+    @Test func newNamesKeepTheOrderHeard() {
+        let game = resolve("Tito and Ana vs Rafa and Luis")
+        #expect(game.newNames == ["Tito", "Rafa"])
+    }
+
+    @Test func aSpokenTypeWithoutATargetUsesTheDefaultClampedToThatType() {
+        let game = resolve("six, Ana and Luis vs Papo and Carlos")
+        #expect(game.gameType == .six)
+        #expect(game.target == 100)
+    }
+}
