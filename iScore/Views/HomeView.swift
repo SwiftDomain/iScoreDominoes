@@ -10,6 +10,9 @@ import SwiftData
 
 struct HomeView: View {
 
+    @Environment(\.modelContext) private var context
+    @Query(sort: \Player.name) private var players: [Player]
+
     @Query(
         filter: #Predicate<Game> { $0.inProcess == true },
         sort: \Game.timestamp,
@@ -27,6 +30,7 @@ struct HomeView: View {
     @State private var showHallOfFameView = false
     @State private var showInfoView = false
     @State private var showSettingsView = false
+    @State private var isSpeaking = false
     @State private var path = NavigationPath()
 
     private var finishedCount: Int {
@@ -97,6 +101,17 @@ struct HomeView: View {
 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
+                        isSpeaking = true
+                    } label: {
+                        Image(systemName: "mic.fill")
+                            .foregroundStyle(Theme.teamA)
+                    }
+                    .accessibilityLabel("Say the game")
+                }
+                .sharedBackgroundVisibility(.hidden)
+
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
                         showSettingsView = true
                     } label: {
                         Image(systemName: "gearshape.fill")
@@ -119,6 +134,22 @@ struct HomeView: View {
         .sheet(isPresented: $showSettingsView) {
             SettingsView()
         }
+        .sheet(isPresented: $isSpeaking) {
+            VoiceGameSheet(
+                defaults: GameDefaults.load(),
+                known: players.map(\.name),
+                owner: OwnerIdentity.resolve(OwnerIdentity.load(), known: players.map(\.name)),
+                onConfirm: start
+            )
+        }
+    }
+}
+
+extension HomeView {
+    /// Creates the spoken game and goes straight to its scoreboard.
+    fileprivate func start(_ resolved: ResolvedGame) {
+        guard resolved.lineup.isComplete else { return }
+        path.append(GameFactory.make(resolved, existing: players, in: context))
     }
 }
 

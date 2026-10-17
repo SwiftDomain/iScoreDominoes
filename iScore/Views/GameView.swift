@@ -100,7 +100,9 @@ struct GameView: View {
             EditScoreView(game: game, round: round)
         }
         .sheet(isPresented: $showGameSummary) {
-            GameSummaryView(game: game)
+            GameSummaryView(game: game) { next in
+                path.append(next)
+            }
         }
         .sheet(isPresented: $showInfoView) {
             CollectionView()

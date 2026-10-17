@@ -8,14 +8,20 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct GameSummaryView: View {
 
     let game: Game
+    /// Called with the new game after "Next game" creates it; the owner navigates to it.
+    var onNextGame: (Game) -> Void = { _ in }
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var context
+    @Query(sort: \Player.name) private var players: [Player]
 
     @State private var shareImage: Image?
+    @State private var isSpeaking = false
 
     private var winner: Team { game.winningTeam }
 
@@ -85,6 +91,11 @@ struct GameSummaryView: View {
                     Button("Done") {
                         dismiss()
                     }
+                    .buttonStyle(.duo(Theme.palette(for: .team2)))
+
+                    Button("Next game", systemImage: "mic.fill") {
+                        isSpeaking = true
+                    }
                     .buttonStyle(.duo(Theme.palette(for: .team1)))
                 }
                 .padding(.horizontal, 16)
@@ -97,6 +108,22 @@ struct GameSummaryView: View {
         .task {
             shareImage = renderShareImage()
         }
+        .sheet(isPresented: $isSpeaking) {
+            // The night keeps its settings: seed with this game's, not the saved defaults.
+            VoiceGameSheet(
+                defaults: (type: game.gameType, target: Int(game.maxScore)),
+                known: players.map(\.name),
+                owner: OwnerIdentity.resolve(OwnerIdentity.load(), known: players.map(\.name)),
+                onConfirm: startNext
+            )
+        }
+    }
+
+    private func startNext(_ resolved: ResolvedGame) {
+        guard resolved.lineup.isComplete else { return }
+        let next = GameFactory.make(resolved, existing: players, in: context)
+        dismiss()
+        onNextGame(next)
     }
 
     /// Renders the shareable card once, instead of on every body update.
