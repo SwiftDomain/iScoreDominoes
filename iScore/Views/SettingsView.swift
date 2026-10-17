@@ -17,6 +17,8 @@ struct SettingsView: View {
     @AppStorage(GameDefaults.typeKey) private var defaultGameType = GameType.nine.rawValue
     @AppStorage(GameDefaults.targetKey) private var defaultMaxScore = Double(GameType.nine.defaultTarget)
 
+    @AppStorage(OwnerIdentity.nameKey) private var ownerName = ""
+
     @State private var playerToDelete: Player?
 
     private var isConfirmingDelete: Binding<Bool> {
@@ -65,6 +67,8 @@ struct SettingsView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.vertical, 12)
                     } else {
+                        OwnerRow(names: players.map(\.name), stored: $ownerName)
+                        Rectangle().fill(Theme.divider).frame(height: 2)
                         ForEach(players) { player in
                             SettingsPlayerRow(player: player, isLast: player.persistentModelID == players.last?.persistentModelID) {
                                 playerToDelete = player
@@ -156,6 +160,48 @@ private struct SettingsPlayerRow: View {
                 Rectangle().fill(Theme.divider).frame(height: 2)
             }
         }
+    }
+}
+
+/// "That's me": which saved player owns this phone, or Nobody.
+private struct OwnerRow: View {
+
+    let names: [String]
+    @Binding var stored: String
+
+    /// The saved player's own spelling, or "" (Nobody) when the stored name no longer exists.
+    private var selection: Binding<String> {
+        Binding(
+            get: { OwnerIdentity.resolve(stored, known: names) ?? "" },
+            set: { stored = $0 }
+        )
+    }
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "person.fill")
+                .font(.title3)
+                .foregroundStyle(Theme.teamA)
+                .accessibilityHidden(true)
+
+            Text("That's me")
+                .font(DuoFont.body)
+                .foregroundStyle(Theme.textPrimary)
+
+            Spacer(minLength: 8)
+
+            Picker("That's me", selection: selection) {
+                Text("Nobody").tag("")
+                ForEach(names, id: \.self) { name in
+                    Text(name).tag(name)
+                }
+            }
+            .pickerStyle(.menu)
+            .font(DuoFont.body)
+            .tint(Theme.accentInk)
+            .accessibilityLabel("That's me")
+        }
+        .padding(.vertical, 6)
     }
 }
 

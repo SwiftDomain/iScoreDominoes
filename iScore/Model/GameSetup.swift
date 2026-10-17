@@ -60,6 +60,26 @@ enum GameDefaults {
     }
 }
 
+/// Which saved player owns this phone, so a spoken "me" has someone to mean.
+enum OwnerIdentity {
+
+    static let nameKey = "ownerPlayerName"
+
+    /// The stored name; nil when unset or "Nobody" (stored as an empty string).
+    static func load(from defaults: UserDefaults = .standard) -> String? {
+        guard let name = defaults.string(forKey: nameKey)?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !name.isEmpty else { return nil }
+        return name
+    }
+
+    /// The saved player's own spelling of `stored`, or nil when that player no
+    /// longer exists, so a deleted player cannot haunt "me".
+    static func resolve(_ stored: String?, known: [String]) -> String? {
+        guard let stored else { return nil }
+        return known.first { PlayerName.isSame($0, stored) }
+    }
+}
+
 /// One seat on New Game (team 1 or 2, first or second player).
 struct PlayerSeat: Identifiable {
 

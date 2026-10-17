@@ -148,3 +148,47 @@ struct GameDefaultsTests {
         }
     }
 }
+
+struct OwnerIdentityTests {
+
+    /// Each test names its own suite and wipes it before and after, so nothing leaks
+    /// between tests or into the app's real defaults.
+    private func withSuite(_ name: String, _ body: (UserDefaults) -> Void) {
+        let suite = "OwnerIdentityTests.\(name)"
+        let defaults = UserDefaults(suiteName: suite)!
+        defaults.removePersistentDomain(forName: suite)
+        body(defaults)
+        defaults.removePersistentDomain(forName: suite)
+    }
+
+    @Test func loadsNothingByDefault() {
+        withSuite("empty") { defaults in
+            #expect(OwnerIdentity.load(from: defaults) == nil)
+        }
+    }
+
+    @Test func loadsTheStoredName() {
+        withSuite("stored") { defaults in
+            defaults.set("Ana", forKey: OwnerIdentity.nameKey)
+            #expect(OwnerIdentity.load(from: defaults) == "Ana")
+        }
+    }
+
+    /// "Nobody" in Settings stores an empty string.
+    @Test func treatsABlankStoredNameAsNobody() {
+        withSuite("blank") { defaults in
+            defaults.set("  ", forKey: OwnerIdentity.nameKey)
+            #expect(OwnerIdentity.load(from: defaults) == nil)
+        }
+    }
+
+    @Test func resolvesAgainstSavedPlayers() {
+        #expect(OwnerIdentity.resolve("ana", known: ["Ana", "Luis"]) == "Ana")
+        #expect(OwnerIdentity.resolve("Ana", known: ["Ana", "Luis"]) == "Ana")
+    }
+
+    @Test func forgetsADeletedPlayer() {
+        #expect(OwnerIdentity.resolve("Tito", known: ["Ana", "Luis"]) == nil)
+        #expect(OwnerIdentity.resolve(nil, known: ["Ana"]) == nil)
+    }
+}
