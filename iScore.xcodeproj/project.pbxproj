@@ -20,7 +20,6 @@
 		1B42F5CD5B291BCB33AA8798 /* TeamAvatars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9551B876564FCA5DF51C5A7E /* TeamAvatars.swift */; };
 		241A99600BA7B0C94A17A6F3 /* ScoreKeypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D2BD061B1DE651E9EB8C02 /* ScoreKeypad.swift */; };
 		3429580F3F5ABFEB82D6C0D8 /* DuoProgressBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A908BDDE576152FFECEE9DE /* DuoProgressBarTests.swift */; };
-		399919DA8FE1859B011CBD4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC14A85D7B09ED081D064883 /* Foundation.framework */; };
 		3E193B6C2B6D8AC5008F41D7 /* AddGameScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E193B6B2B6D8AC5008F41D7 /* AddGameScoreView.swift */; };
 		3E2763F32E7BA083004DF143 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E2763F22E7BA083004DF143 /* Assets.xcassets */; };
 		3E2F8CA82B7C55C8003468F0 /* NewPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F8CA72B7C55C8003468F0 /* NewPlayerView.swift */; };
@@ -111,7 +110,6 @@
 		D9B9F264F5CF6F679B619DA6 /* GameScoreboardTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameScoreboardTests.swift; sourceTree = "<group>"; };
 		E4D04AC1DFB16E1B10256632 /* iScoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iScoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5C70429A64AD8C7C02832DF /* DuoStyle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DuoStyle.swift; sourceTree = "<group>"; };
-		EC14A85D7B09ED081D064883 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		F0D2BD061B1DE651E9EB8C02 /* ScoreKeypad.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreKeypad.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,7 +125,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				399919DA8FE1859B011CBD4E /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,7 +137,6 @@
 				076444A72ACD1C0200E39F12 /* iScore */,
 				3E2763F22E7BA083004DF143 /* Assets.xcassets */,
 				076444A62ACD1C0200E39F12 /* Products */,
-				215B10FC5D4EA70E54C59706 /* Frameworks */,
 				EB88CDFA74C9728642B06BF2 /* iScoreTests */,
 			);
 			sourceTree = "<group>";
@@ -172,14 +168,6 @@
 				076444B12ACD1C0500E39F12 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		215B10FC5D4EA70E54C59706 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				9C14FD3A6C86F0712F841CF1 /* iOS */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		3EF472CA2B769F2B0018276A /* Views */ = {
@@ -227,14 +215,6 @@
 				BF0ED431DA6E0C820BA31F47 /* PlayStreak.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		9C14FD3A6C86F0712F841CF1 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				EC14A85D7B09ED081D064883 /* Foundation.framework */,
-			);
-			name = iOS;
 			sourceTree = "<group>";
 		};
 		EB88CDFA74C9728642B06BF2 /* iScoreTests */ = {
