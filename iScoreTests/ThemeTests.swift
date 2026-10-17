@@ -34,11 +34,18 @@ struct ThemeTests {
 
     /// Avatar colors are stable per name (no `hashValue`, which changes every launch).
     @Test func avatarColors() {
-        #expect(Theme.avatarColor(for: "Ana") == Theme.teamA)
-        #expect(Theme.avatarColor(for: " ana ") == Theme.teamA)
-        #expect(Theme.avatarColor(for: "Luis") == Theme.teamB)
-        #expect(Theme.avatarColors.contains(Theme.avatarColor(for: "Mia")))
-        #expect(Theme.avatarColor(for: "") == Theme.teamA)
+        #expect(Theme.avatarColor(for: "Ana") == Theme.teamB)
+        #expect(Theme.avatarColor(for: " ana ") == Theme.teamB)
+        #expect(Theme.avatarColor(for: "Luis") == Theme.teamA)
+        #expect(Theme.avatarColors.contains(Theme.avatarColor(for: "")))
+    }
+
+    /// A table of players shouldn't be mostly one color.
+    @Test func avatarColorsSpreadAcrossPlayers() {
+        let names = ["Ana", "Luis", "Rafa", "Mia", "Tito", "Eva", "Carlos"]
+        let counts = Dictionary(grouping: names, by: Theme.avatarColor(for:)).mapValues(\.count)
+        #expect(counts.count == 4)
+        #expect(counts.values.allSatisfy { $0 <= 2 })
     }
 
     @Test func teamPalettes() {

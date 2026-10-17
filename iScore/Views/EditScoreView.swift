@@ -81,14 +81,16 @@ struct EditScoreView: View {
                     .frame(height: 2)
 
                 HStack(alignment: .top, spacing: 10) {
-                    Button("Delete round", systemImage: "trash") {
+                    Button {
                         showDeleteConfirmation = true
+                    } label: {
+                        Image(systemName: "trash")
+                            .font(.title3.weight(.bold))
+                            .foregroundStyle(Theme.danger)
+                            .frame(width: 54, height: 46)
                     }
-                    .labelStyle(.iconOnly)
-                    .font(.title3.weight(.bold))
-                    .foregroundStyle(Theme.danger)
-                    .frame(width: 54, height: 46)
                     .buttonStyle(.duoCard)
+                    .accessibilityLabel("Delete round")
                     .confirmationDialog(
                         "Delete round \(round.number)?",
                         isPresented: $showDeleteConfirmation,

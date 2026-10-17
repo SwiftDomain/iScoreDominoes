@@ -120,10 +120,14 @@ enum Theme {
     static let avatarColors = [teamA, teamB, learn, streak]
 
     /// Stable per name across launches (`hashValue` is reseeded every run).
+    /// FNV-1a, using the high bits: summing characters clusters common names.
     static func avatarColor(for name: String) -> Color {
         let key = name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        let sum = key.unicodeScalars.reduce(0) { $0 + Int($1.value) }
-        return avatarColors[sum % avatarColors.count]
+        var hash: UInt32 = 2_166_136_261
+        for byte in key.utf8 {
+            hash = (hash ^ UInt32(byte)) &* 16_777_619
+        }
+        return avatarColors[Int(hash >> 16) % avatarColors.count]
     }
 
     /// Every colorset name used above; tests check each one exists so a typo
