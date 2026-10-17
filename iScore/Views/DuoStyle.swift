@@ -17,9 +17,6 @@ struct DuoButtonStyle: ButtonStyle {
     let edge: Color
     var foreground: Color = Theme.surface
 
-    private static let edgeHeight: CGFloat = 4
-    private static let shape = RoundedRectangle(cornerRadius: 14)
-
     func makeBody(configuration: Configuration) -> some View {
         DuoButtonBody(configuration: configuration, fill: fill, edge: edge, foreground: foreground)
     }
@@ -43,17 +40,37 @@ struct DuoButtonStyle: ButtonStyle {
                 .foregroundStyle(isEnabled ? foreground : Theme.textMuted)
                 .padding(.horizontal, 12)
                 .frame(maxWidth: .infinity, minHeight: 50)
-                .background(isEnabled ? fill : Theme.divider, in: DuoButtonStyle.shape)
-                .offset(y: pressed ? DuoButtonStyle.edgeHeight : 0)
-                .padding(.bottom, DuoButtonStyle.edgeHeight)
-                .background(alignment: .bottom) {
-                    DuoButtonStyle.shape
-                        .fill(isEnabled ? edge : .clear)
-                        .padding(.top, DuoButtonStyle.edgeHeight)
-                }
-                .contentShape(.rect)
+                .modifier(DuoSolidChrome(
+                    fill: isEnabled ? fill : Theme.divider,
+                    edge: isEnabled ? edge : .clear,
+                    radius: 14,
+                    pressed: pressed
+                ))
                 .animation(.easeOut(duration: 0.08), value: pressed)
         }
+    }
+}
+
+/// Solid face sitting on a 4pt darker edge; `pressed` drops the face onto it.
+private struct DuoSolidChrome: ViewModifier {
+
+    static let edgeHeight: CGFloat = 4
+
+    let fill: Color
+    let edge: Color
+    let radius: CGFloat
+    var pressed = false
+
+    func body(content: Content) -> some View {
+        let shape = RoundedRectangle(cornerRadius: radius)
+        content
+            .background(fill, in: shape)
+            .offset(y: pressed ? Self.edgeHeight : 0)
+            .padding(.bottom, Self.edgeHeight)
+            .background(alignment: .bottom) {
+                shape.fill(edge).padding(.top, Self.edgeHeight)
+            }
+            .contentShape(.rect)
     }
 }
 
@@ -117,6 +134,12 @@ extension View {
     /// Non-interactive Duo card.
     func duoCard(edge: CGFloat = 4, border: Color = Theme.divider) -> some View {
         modifier(DuoCardChrome(edge: edge, border: border))
+    }
+
+    /// Non-interactive solid surface with a darker bottom edge (the look of a
+    /// Duo button, for cards and labels that live inside a larger link).
+    func duoSolid(fill: Color, edge: Color, radius: CGFloat = 14) -> some View {
+        modifier(DuoSolidChrome(fill: fill, edge: edge, radius: radius))
     }
 
     /// Uppercase tracked label ("ROUND 6 · FIRST TO 200").

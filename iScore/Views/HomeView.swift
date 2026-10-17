@@ -29,52 +29,82 @@ struct HomeView: View {
     @State private var showSettingsView = false
     @State private var path = NavigationPath()
 
+    private var finishedCount: Int {
+        completedGames.filter { $0.state == .finished }.count
+    }
+
+    private var dayStreak: Int {
+        PlayStreak.days(endingOn: .now, playDates: allGames.map(\.timestamp))
+    }
+
     var body: some View {
         NavigationStack(path: $path) {
-            ZStack {
-                Background()
-
-                ScrollView {
-                    VStack(spacing: 20) {
-                        // MARK: - Active Game Banner
-                        if let activeGame = activeGames.first {
-                            NavigationLink(value: activeGame) {
-                                ActiveGameBanner(game: activeGame)
-                            }
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    // MARK: - Continue card
+                    if let activeGame = activeGames.first {
+                        NavigationLink(value: activeGame) {
+                            ActiveGameBanner(game: activeGame)
                         }
-
-                        // MARK: - 2x2 Card Grid
-                        HomeCardGrid(
-                            allGamesCount: allGames.count,
-                            path: $path,
-                            showHallOfFameView: $showHallOfFameView,
-                            showInfoView: $showInfoView
-                        )
-
-                        // MARK: - Recent Games
-                        if !completedGames.isEmpty {
-                            RecentGamesSection(games: Array(completedGames.prefix(5)))
-                        }
-
-                        // MARK: - Quick Stats
-                        if !completedGames.isEmpty {
-                            QuickStatsSection(completedGames: completedGames)
-                        }
+                        .buttonStyle(.plain)
                     }
-                    .padding()
-                    .frame(maxWidth: 700)
+
+                    // MARK: - 2x2 Feature tiles
+                    HomeCardGrid(
+                        allGamesCount: allGames.count,
+                        path: $path,
+                        showHallOfFameView: $showHallOfFameView,
+                        showInfoView: $showInfoView
+                    )
+
+                    // MARK: - Recent Games
+                    if !completedGames.isEmpty {
+                        RecentGamesSection(games: Array(completedGames.prefix(5)), path: $path)
+                    }
+
+                    // MARK: - Quick Stats
+                    if !completedGames.isEmpty {
+                        QuickStatsSection(completedGames: completedGames)
+                    }
                 }
-                .scrollIndicators(.hidden)
+                .padding()
+                .frame(maxWidth: 700)
+                .frame(maxWidth: .infinity)
             }
-            .navigationTitle(Text("Dominoes"))
-            .toolbarColorScheme(.dark, for: .navigationBar)
+            .scrollIndicators(.hidden)
+            .background(Background())
+            .navigationTitle("Dominoes")
+            .toolbarTitleDisplayMode(.inline)
+            .toolbar(removing: .title)
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Settings", systemImage: "gearshape") {
-                        showSettingsView = true
-                    }
-                    .foregroundStyle(Theme.textSecondary)
+                ToolbarItem(placement: .topBarLeading) {
+                    Text("dominoes")
+                        .font(DuoFont.score(26))
+                        .foregroundStyle(Theme.teamA)
+                        .fixedSize()
+                        .accessibilityAddTraits(.isHeader)
                 }
+                .sharedBackgroundVisibility(.hidden)
+
+                ToolbarItem(placement: .topBarTrailing) {
+                    HStack(spacing: 14) {
+                        StatChip(icon: "flame.fill", value: dayStreak, tint: Theme.streak, label: "Day streak")
+                        StatChip(icon: "trophy.fill", value: finishedCount, tint: Theme.gold, label: "Games finished")
+                    }
+                    .fixedSize()
+                }
+                .sharedBackgroundVisibility(.hidden)
+
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showSettingsView = true
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                            .foregroundStyle(Theme.textMuted)
+                    }
+                    .accessibilityLabel("Settings")
+                }
+                .sharedBackgroundVisibility(.hidden)
             }
             .navigationDestination(for: Game.self) { game in
                 GameView(path: $path, game: game)
@@ -92,9 +122,31 @@ struct HomeView: View {
     }
 }
 
+// MARK: - Toolbar chip
+
+/// Colored icon + number in the Home toolbar (day streak, games finished).
+private struct StatChip: View {
+
+    let icon: String
+    let value: Int
+    let tint: Color
+    let label: String
+
+    var body: some View {
+        HStack(spacing: 4) {
+            Image(systemName: icon)
+            Text("\(value)")
+                .font(DuoFont.body)
+        }
+        .foregroundStyle(tint)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(label): \(value)")
+    }
+}
+
 // MARK: - Home Card Grid
 
-/// 2x2 grid of navigation cards on the home screen.
+/// 2x2 grid of navigation tiles on the home screen.
 private struct HomeCardGrid: View {
 
     let allGamesCount: Int
@@ -103,25 +155,27 @@ private struct HomeCardGrid: View {
     @Binding var showInfoView: Bool
 
     private let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible())
+        GridItem(.flexible(), spacing: 10),
+        GridItem(.flexible(), spacing: 10)
     ]
 
     var body: some View {
-        LazyVGrid(columns: columns) {
+        LazyVGrid(columns: columns, spacing: 10) {
             NavigationLink(destination: NewGameView(path: $path)) {
                 HomeCardView(
-                    icon: "plus.circle",
-                    title: "New Game",
-                    subtitle: "Start playing"
+                    icon: "plus",
+                    title: "New game",
+                    subtitle: "Start playing",
+                    tint: Theme.teamA
                 )
             }
 
             NavigationLink(destination: GamesView(path: $path)) {
                 HomeCardView(
                     icon: "list.bullet.rectangle",
-                    title: "All Games",
-                    subtitle: allGamesCount > 0 ? "\(allGamesCount) games" : "No games yet"
+                    title: "All games",
+                    subtitle: allGamesCount > 0 ? "\(allGamesCount) games" : "No games yet",
+                    tint: Theme.teamB
                 )
             }
 
@@ -129,9 +183,10 @@ private struct HomeCardGrid: View {
                 showHallOfFameView = true
             } label: {
                 HomeCardView(
-                    icon: "trophy",
-                    title: "Hall of Fame",
-                    subtitle: "Top players"
+                    icon: "trophy.fill",
+                    title: "Hall of fame",
+                    subtitle: "Top players",
+                    tint: Theme.gold
                 )
             }
 
@@ -139,12 +194,14 @@ private struct HomeCardGrid: View {
                 showInfoView = true
             } label: {
                 HomeCardView(
-                    icon: "play.rectangle",
-                    title: "How to Play",
-                    subtitle: "Learn the rules"
+                    icon: "graduationcap.fill",
+                    title: "How to play",
+                    subtitle: "Learn the rules",
+                    tint: Theme.learn
                 )
             }
         }
+        .buttonStyle(.duoCard)
     }
 }
 
@@ -154,12 +211,22 @@ private struct HomeCardGrid: View {
 private struct RecentGamesSection: View {
 
     let games: [Game]
+    @Binding var path: NavigationPath
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Recent Games")
-                .font(.headline)
-                .foregroundStyle(Theme.textPrimary)
+            HStack(alignment: .firstTextBaseline) {
+                Text("Recent games")
+                    .font(.title3.weight(.heavy))
+                    .foregroundStyle(Theme.textPrimary)
+
+                Spacer()
+
+                NavigationLink(destination: GamesView(path: $path)) {
+                    Text("View all")
+                        .duoLabel(Theme.teamB)
+                }
+            }
 
             ScrollView(.horizontal) {
                 HStack(spacing: 12) {
@@ -169,6 +236,7 @@ private struct RecentGamesSection: View {
                 }
             }
             .scrollIndicators(.hidden)
+            .scrollClipDisabled()
         }
     }
 }
@@ -196,8 +264,8 @@ private struct QuickStatsSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Your Stats")
-                .font(.headline)
+            Text("Your stats")
+                .font(.title3.weight(.heavy))
                 .foregroundStyle(Theme.textPrimary)
 
             QuickStatsBar(
@@ -212,6 +280,12 @@ private struct QuickStatsSection: View {
 // MARK: - Preview
 
 #Preview {
-    HomeView()
-        .modelContainer(for: Game.self, inMemory: true)
+    do {
+        let previewer = try Previewer()
+        return HomeView()
+            .modelContainer(previewer.container)
+            .fontDesign(.rounded)
+    } catch {
+        return Text("Failed to create preview: \(error.localizedDescription)")
+    }
 }

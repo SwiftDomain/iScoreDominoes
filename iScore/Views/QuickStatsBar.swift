@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-/// Shows aggregate game statistics across all players.
+/// Shows aggregate game statistics across all players as three tiles.
 struct QuickStatsBar: View {
 
     let totalGames: Int
@@ -16,53 +16,40 @@ struct QuickStatsBar: View {
     let winPercentage: Double
 
     var body: some View {
-        HStack {
-            StatItem(
-                value: "\(totalGames)",
-                label: "Games"
-            )
-
-            Divider()
-                .frame(height: 30)
-                .overlay(Theme.divider)
-
-            StatItem(
-                value: "\(totalWins)",
-                label: "Wins"
-            )
-
-            Divider()
-                .frame(height: 30)
-                .overlay(Theme.divider)
-
-            StatItem(
-                value: "\(Int(winPercentage))%",
-                label: "Win Rate"
-            )
+        HStack(spacing: 8) {
+            StatTile(icon: "square.stack.fill", tint: Theme.teamB, value: "\(totalGames)", label: "Games")
+            StatTile(icon: "trophy.fill", tint: Theme.gold, value: "\(totalWins)", label: "Wins")
+            StatTile(icon: "target", tint: Theme.streak, value: "\(Int(winPercentage))%", label: "Win rate")
         }
-        .padding()
-        .frame(maxWidth: .infinity)
-        .background(Theme.surface.opacity(0.6))
-        .clipShape(.rect(cornerRadius: 12))
     }
 }
 
-/// A single stat item with value and label.
-private struct StatItem: View {
+/// A single stat: colored icon, big number, label.
+private struct StatTile: View {
 
+    let icon: String
+    let tint: Color
     let value: String
     let label: String
 
     var body: some View {
-        VStack(spacing: 4) {
+        VStack(alignment: .leading, spacing: 2) {
+            Image(systemName: icon)
+                .font(.title3)
+                .foregroundStyle(tint)
+                .accessibilityHidden(true)
+
             Text(value)
-                .font(.headline)
+                .font(DuoFont.score(20))
                 .foregroundStyle(Theme.textPrimary)
 
             Text(label)
-                .font(.caption)
+                .font(.caption.weight(.bold))
                 .foregroundStyle(Theme.textSecondary)
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(10)
+        .duoCard(edge: 2)
+        .accessibilityElement(children: .combine)
     }
 }
