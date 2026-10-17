@@ -84,6 +84,11 @@ extension Game {
         state == .playing && !rounds.isEmpty
     }
 
+    /// Rounds can be edited (long press) while playing, once there are any.
+    var canEditRounds: Bool {
+        state == .playing && !rounds.isEmpty
+    }
+
     /// Removes the last visible round, plus any hidden zero rows after it
     /// (rounds edited down to 0), so Undo always changes what's on screen.
     func undoLastRound() {

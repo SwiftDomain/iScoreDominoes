@@ -19,7 +19,7 @@
 Duolingo-inspired: white canvas, rounded gray text, green team 1, blue team 2, pressable buttons. Fixed light palette; `.preferredColorScheme(.light)` and `.fontDesign(.rounded)` are set at the app root. All colors are semantic via `Theme` (`iScore/Model/Theme.swift`) backed by colorsets in `Assets.xcassets` — never hardcode `Color` literals in views. `ThemeTests` checks every name in `Theme.colorAssetNames` exists; add new colorsets there. Full spec: `docs/superpowers/specs/2026-10-16-duolingo-redesign-design.md`.
 
 - `background`/`surface` `#FFFFFF` · `surfaceSecondary` `#F7F7F7` wells · `divider` `#E5E5E5` borders and bottom edges
-- `textPrimary` `#4B4B4B` · `textSecondary` `#777777` informational text (counts, dates, "to win") · `textMuted` `#AFAFAF` only for uppercase labels, icons, placeholders and disabled titles. Both grays have Increase Contrast variants (`#595959`, `#767676`)
+- `textPrimary` `#4B4B4B` · `textSecondary` `#777777` informational text (uppercase labels via `duoLabel()`, counts, dates, "to win") · `textMuted` `#AFAFAF` only for icons, placeholders and disabled titles. Both grays have Increase Contrast variants (`#595959`, `#767676`)
 - Team 1: `teamA` `#58CC02` / `teamAShadow` `#58A700` / `teamAWash` `#D7FFB8` (also `accent`, `success`, `accentInk` = shadow)
 - Team 2: `teamB` `#1CB0F6` / `teamBShadow` `#1899D6` / `teamBWash` `#DDF4FF`
 - Accents: `gold` `#FFC800` (leader, trophies) · `streak` `#FF9600` · `learn` `#CE82FF` · `danger` `#FF4B4B` — each has a `…Shadow` edge color

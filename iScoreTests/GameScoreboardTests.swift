@@ -159,6 +159,17 @@ struct GameScoreboardTests {
         #expect(!game.canUndo)
     }
 
+    /// The edit tip and VoiceOver action only show when a long press would edit.
+    @Test func roundsAreEditableWhilePlaying() {
+        #expect(makeGame(rows: demoRows).canEditRounds)
+        #expect(!makeGame(rows: [[0, 0]]).canEditRounds)
+    }
+
+    @Test(arguments: [GameState.finished, .cancelled])
+    func roundsAreNotEditableOnceGameIsOver(_ state: GameState) {
+        #expect(!makeGame(rows: demoRows, state: state).canEditRounds)
+    }
+
     @Test func undoIsUnavailableWithoutVisibleRounds() {
         let game = makeGame(rows: [[0, 0], [0, 0]])
         #expect(!game.canUndo)

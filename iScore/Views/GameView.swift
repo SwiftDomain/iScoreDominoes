@@ -149,13 +149,15 @@ struct GameView: View {
                         .onLongPressGesture(minimumDuration: 1) {
                             edit(round)
                         }
-                        .accessibilityAction(named: "Edit score") {
-                            edit(round)
+                        .accessibilityActions {
+                            if game.canEditRounds {
+                                Button("Edit score") { edit(round) }
+                            }
                         }
                 }
             }
         }
-        .popoverTip(editScore)
+        .popoverTip(game.canEditRounds ? editScore : nil)
     }
 
     // MARK: - Bottom bar
