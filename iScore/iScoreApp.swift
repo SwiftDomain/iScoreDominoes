@@ -14,7 +14,17 @@ struct iScoreApp: App {
     
     
     var modelContainer: ModelContainer
-    
+
+    /// Tips remember being dismissed. Only Debug `-demoData` runs start with
+    /// fresh tips, so simulator checks always see them.
+    static func resetsTips(launchArguments: [String]) -> Bool {
+        #if DEBUG
+        return launchArguments.contains(DemoData.launchArgument)
+        #else
+        return false
+        #endif
+    }
+
     init() {
         do {
             let schema = Schema([Game.self, Player.self])
@@ -43,7 +53,9 @@ struct iScoreApp: App {
                 .preferredColorScheme(.light)
                 .fontDesign(.rounded)
                 .task {
-                    try? Tips.resetDatastore()
+                    if Self.resetsTips(launchArguments: ProcessInfo.processInfo.arguments) {
+                        try? Tips.resetDatastore()
+                    }
                     try? Tips.configure([
 //                        .displayFrequency(.immediate),
                         .datastoreLocation(.applicationDefault)])
