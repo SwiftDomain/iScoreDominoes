@@ -14,10 +14,28 @@ struct iScoreApp: App {
     
     
     var modelContainer: ModelContainer
-    
+
+    /// Tips remember being dismissed. Only Debug `-demoData` runs start with
+    /// fresh tips, so simulator checks always see them.
+    static func resetsTips(launchArguments: [String]) -> Bool {
+        #if DEBUG
+        return launchArguments.contains(DemoData.launchArgument)
+        #else
+        return false
+        #endif
+    }
+
     init() {
         do {
             let schema = Schema([Game.self, Player.self])
+            #if DEBUG
+            if ProcessInfo.processInfo.arguments.contains(DemoData.launchArgument) {
+                let config = ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none)
+                modelContainer = try ModelContainer(for: schema, configurations: config)
+                DemoData.seed(into: modelContainer.mainContext)
+                return
+            }
+            #endif
             let config = ModelConfiguration(cloudKitDatabase: .automatic)
             modelContainer = try ModelContainer(for: schema, configurations: config)
         } catch {
@@ -30,11 +48,14 @@ struct iScoreApp: App {
         WindowGroup {
 
             HomeView()
-                // Cloud Blue theme is a fixed light palette; keep system
-                // chrome (nav bars, sheets) light regardless of device mode.
+                // Duo theme is a fixed light palette with rounded type; keep
+                // system chrome (nav bars, sheets) light regardless of device mode.
                 .preferredColorScheme(.light)
+                .fontDesign(.rounded)
                 .task {
-                    try? Tips.resetDatastore()
+                    if Self.resetsTips(launchArguments: ProcessInfo.processInfo.arguments) {
+                        try? Tips.resetDatastore()
+                    }
                     try? Tips.configure([
 //                        .displayFrequency(.immediate),
                         .datastoreLocation(.applicationDefault)])

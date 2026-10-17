@@ -7,67 +7,37 @@
 
 import SwiftUI
 
-/// Displays a completed game's result in a compact card.
+/// A completed game's result: status chip, teams, final score, type and date.
 struct RecentGameCard: View {
 
     let game: Game
 
-    private var outcomeIcon: String {
-        game.state == .finished ? "checkmark.circle.fill" : "xmark.circle"
-    }
-
-    private var outcomeColor: Color {
-        game.state == .finished ? Theme.success : Theme.danger
-    }
-
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text("\(game.team1.first ?? "?") & \(game.team1.last ?? "?")")
-                    .font(.caption)
-                    .bold()
-                    .foregroundStyle(Theme.textPrimary)
-                    .lineLimit(1)
+        VStack(alignment: .leading, spacing: 4) {
+            StatusChip(state: game.state)
+                .padding(.bottom, 2)
 
-                Spacer()
+            Text(game.displayName(for: .team1))
+                .font(DuoFont.body)
+                .foregroundStyle(Theme.textPrimary)
+                .lineLimit(1)
 
-                Image(systemName: outcomeIcon)
-                    .foregroundStyle(outcomeColor)
-                    .font(.caption)
-            }
-
-            Text("vs \(game.team2.first ?? "?") & \(game.team2.last ?? "?")")
-                .font(.caption)
+            Text("vs \(game.displayName(for: .team2))")
+                .font(.caption.weight(.bold))
                 .foregroundStyle(Theme.textSecondary)
                 .lineLimit(1)
 
-            Divider()
-                .overlay(Theme.divider)
+            Text("\(game.totalScore1) – \(game.totalScore2)")
+                .font(DuoFont.score(22))
+                .foregroundStyle(Theme.textPrimary)
 
-            HStack {
-                Text("\(game.totalScore1) – \(game.totalScore2)")
-                    .font(.subheadline)
-                    .bold()
-                    .foregroundStyle(Theme.textPrimary)
-
-                Spacer()
-
-                Text("D\(game.gameType.rawValue)")
-                    .font(.caption2)
-                    .foregroundStyle(Theme.textSecondary)
-            }
-
-            Text(game.timestamp.formatted(date: .abbreviated, time: .omitted))
-                .font(.caption2)
+            Text("D\(game.gameType.pips) · \(game.timestamp.formatted(.dateTime.month(.abbreviated).day()))")
+                .font(.caption.weight(.bold))
                 .foregroundStyle(Theme.textSecondary)
         }
-        .padding()
-        .frame(width: 200)
-        .background(Theme.surface.opacity(0.6))
-        .clipShape(.rect(cornerRadius: 12))
-        .overlay(
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(Theme.divider, lineWidth: 0.5)
-        )
+        .padding(12)
+        .frame(width: 170, alignment: .leading)
+        .duoCard()
+        .accessibilityElement(children: .combine)
     }
 }

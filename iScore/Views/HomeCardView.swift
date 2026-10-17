@@ -2,50 +2,54 @@
 //  HomeCardView.swift
 //  iScore
 //
-//  Card used in the 2x2 grid on the home screen.
+//  Content of a Home feature tile. The grid wraps it in a link or button
+//  styled `.duoCard`, which draws the pressable card around it.
 //
 
 import SwiftUI
 
-/// A glass-effect card for the home screen grid.
 struct HomeCardView: View {
 
     let icon: String
     let title: String
     let subtitle: String
+    let tint: Color
 
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(alignment: .leading, spacing: 8) {
             Image(systemName: icon)
-                .font(.title)
-                .foregroundStyle(Theme.textPrimary)
-                .transition(Twirl())
+                .font(.title3.weight(.bold))
+                .foregroundStyle(Theme.surface)
+                .frame(width: 40, height: 40)
+                .background(tint, in: .rect(cornerRadius: 12))
+                .accessibilityHidden(true)
 
-            Text(title)
-                .font(.headline)
-                .foregroundStyle(Theme.textPrimary)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(DuoFont.body)
+                    .foregroundStyle(Theme.textPrimary)
 
-            Text(subtitle)
-                .font(.caption)
-                .foregroundStyle(Theme.textSecondary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.8)
+                Text(subtitle)
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(Theme.textSecondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+            }
         }
-        .frame(maxWidth: .infinity)
-        .frame(height: 120)
-        .background(Theme.surface.opacity(0.6))
-        .clipShape(.rect(cornerRadius: 16))
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(Theme.divider, lineWidth: 0.5)
-        )
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
     }
 }
 
 #Preview {
-    ZStack {
-        Background()
-        HomeCardView(icon: "plus.circle", title: "New Game", subtitle: "Start playing")
-            .padding()
+    HStack(spacing: 10) {
+        Button {} label: {
+            HomeCardView(icon: "plus", title: "New game", subtitle: "Start playing", tint: Theme.teamA)
+        }
+        Button {} label: {
+            HomeCardView(icon: "trophy.fill", title: "Hall of fame", subtitle: "Top players", tint: Theme.gold)
+        }
     }
+    .buttonStyle(.duoCard)
+    .padding()
 }

@@ -8,19 +8,24 @@
 
 ## Structure
 
-- `iScore/Model/` — `Game.swift` (core model + enums), `Player.swift`, `Config.swift` (Background, shapes, cell views), `Theme.swift` (semantic colors), `Tip.swift`
-- `iScore/Views/` — `HomeView`, `GameView`, `GamesView`, `NewGameView`, `AddGameScoreView`, `EditScoreView`, `HallOfFameView`, `NewPlayerView`, `InfoView`, `Glass`, `AnimatedMeshGradient`
+- `iScore/Model/` — `Game.swift` (core model + enums), `Player.swift`, `Theme.swift` (semantic colors, team palettes, `DuoFont`), `Config.swift` (`Background`, legacy cell views), `Tip.swift`, and pure, tested logic: `Game+Scoreboard` (totals, rounds, undo, Duo copy), `Game+Editing` (edit/delete rounds, outcomes, `deleteGameKeepingPlayers`), `GameSetup` (targets, `GameDefaults`, `PlayerLineup`, `PlayerName`), `GameList` (filters, month sections), `Leaderboard`, `ScoreEntry` (keypad entry), `PlayStreak` (day streak), `DemoData` (sample games; Debug `-demoData` launch argument)
+- `iScore/Views/` screens — `HomeView`, `GameView`, `AddGameScoreView`, `EditScoreView`, `NewGameView` (+ `NewPlayerView` picker), `GamesView`, `HallOfFameView`, `SettingsView`, `GameSummaryView`, `InfoView` (`CollectionView`, How to play)
+- `iScore/Views/` Duo components — `DuoStyle` (`.duo` buttons; `.duoCard`, `.duoKey`, `.duoChoice` card styles; `duoCard`/`duoSolid`/`duoLabel` modifiers), `DuoProgressBar`, `TeamAvatars`/`PlayerAvatar`, `TeamScoreCard`, `TeamSeatsCard`, `RoundRow`, `RoundFeedbackBanner`, `ScoreKeypad`, `ScoreWell`, `TeamSpeechBubble`, `SheetHeader`, `GameTypePicker`, `TargetStepper`, `SearchWell`, `StatusChip`, `GameListCard`, `PodiumView`, `SummaryStatTile`, `TrophyBurst`, `DominoGlyph`, `ActiveGameBanner`, `HomeCardView`, `RecentGameCard`, `QuickStatsBar`; plus `Previewer`
 - `iScoreApp.swift` — Entry point, SwiftData ModelContainer
+- `iScoreTests/` — Swift Testing target; `scripts/xcodeproj.rb` — registers files in the Xcode project
 
-## Theme ("Manga Paper")
+## Theme ("Duo")
 
-B&W noir/manga palette — paper white, ink black, screentone grays. Fixed light palette; `.preferredColorScheme(.light)` is forced at the app root. All colors are semantic via `Theme` (`iScore/Model/Theme.swift`) backed by colorsets in `Assets.xcassets` — never hardcode `Color` literals in views.
+Duolingo-inspired: white canvas, rounded gray text, green team 1, blue team 2, pressable buttons. Fixed light palette; `.preferredColorScheme(.light)` and `.fontDesign(.rounded)` are set at the app root. All colors are semantic via `Theme` (`iScore/Model/Theme.swift`) backed by colorsets in `Assets.xcassets` — never hardcode `Color` literals in views. `ThemeTests` checks every name in `Theme.colorAssetNames` exists; add new colorsets there. Full spec: `docs/superpowers/specs/2026-10-16-duolingo-redesign-design.md`.
 
-- `Theme.background` `#F7F7F5` paper · `surface` `#FFFFFF` · `surfaceSecondary` `#E9E9E6` screentone (input wells, form rows)
-- `Theme.accent` `#1A1A1A` ink — text ON accent fills must use `Theme.background` (paper), never `accentInk`
-- `Theme.accentInk` `#1A1A1A` — accent-colored text/glyphs (same as accent here; kept separate so future palettes can split them)
-- `Theme.textPrimary` `#1A1A1A` ink · `textSecondary` `#767676` · `divider` `#1A1A1A` ink hairlines
-- Win/loss is encoded by brightness: `success` `#3D3D3D` charcoal (dark = emphasis) · `danger` `#9B9B9B` faded gray (light = receded)
+- `background`/`surface` `#FFFFFF` · `surfaceSecondary` `#F7F7F7` wells · `divider` `#E5E5E5` borders and bottom edges
+- `textPrimary` `#4B4B4B` · `textSecondary` `#777777` informational text (uppercase labels via `duoLabel()`, counts, dates, "to win") · `textMuted` `#AFAFAF` only for icons, placeholders and disabled titles. Both grays have Increase Contrast variants (`#595959`, `#767676`)
+- Team 1: `teamA` `#58CC02` / `teamAShadow` `#58A700` / `teamAWash` `#D7FFB8` (also `accent`, `success`, `accentInk` = shadow)
+- Team 2: `teamB` `#1CB0F6` / `teamBShadow` `#1899D6` / `teamBWash` `#DDF4FF`
+- Accents: `gold` `#FFC800` (leader, trophies) · `streak` `#FF9600` · `learn` `#CE82FF` · `danger` `#FF4B4B` — each has a `…Shadow` edge color
+- Use `Theme.palette(for: Team)` for team-colored UI; text on any saturated fill is `Theme.surface` (white)
+- Type: `DuoFont.score(_:)` (.black) for numbers, `.title` (.heavy), `.body` (.bold), `.label` (.heavy, uppercase, tracking 0.8)
+- Shape: cards radius 16 with 2pt border + 4pt bottom edge (`.duoCard`); buttons radius 14 with 4pt darker bottom edge (`.duo`); keypad keys are white cards with the button shape (`.duoKey`: radius 14, 4pt press drop); no gradients, shadows, blur or glass on Duo screens
 
 ## Data model
 
@@ -30,18 +35,13 @@ B&W noir/manga palette — paper white, ink black, screentone grays. Fixed light
 
 ## Known technical debt
 
-- `GameView` uses `NavigationView` — must migrate to `NavigationStack`
-- `Game` model conforms to `ObservableObject` — remove, SwiftData handles this
-- `UIDevice.current.userInterfaceIdiom` checks in `NewGameView` and `HallOfFameView` — replace with `horizontalSizeClass`
-- `showsIndicators: false` in `ScrollView` — use `.scrollIndicators(.hidden)`
-- `.cornerRadius()` used in `GameView` — use `.clipShape(.rect(cornerRadius:))`
-- `String(format: "%.0f", maxScore)` in `GameView`/`NewGameView` — use `.number.precision()` format
-- Button images missing text labels (accessibility issue)
-- `HallOfFameView` uses `specifier` in `Text` — use modern format style
-- Some `fontWeight(.light)` usage — evaluate if needed per CLAUDE.md
+- Navigation mixes `NavigationLink(destination:)` (Home tiles, All Games, New Game) with `navigationDestination(for: Game.self)` (Home) — move to value-based links
+- `Glass.swift`, `Twirl` (`Config.swift`) and `Game.printPlayers()` are unused
+- `Game.players` has a cascade delete rule although players are shared between games; always delete games with `ModelContext.deleteGameKeepingPlayers`
+- Button images missing text labels (accessibility issue) — re-check after the Duo restyle
 
 ## Active plan
 
-See `/Users/beastmode/.claude/plans/gentle-wibbling-widget.md`
+See `docs/superpowers/plans/2026-10-16-duolingo-redesign.md` (Home, Game, Add Score) and the spec's "Remaining screens" section (New Game, All Games, Hall of Fame, Settings, Edit Score, Game Summary, How to Play — all restyled).
 
-Phases: CLAUDE.md updates → Color system (now Cloud Blue, see Theme section) → Home redesign → iPad adaptive → Settings → Undo score → Game summary
+New or deleted Swift files must be registered with `ruby scripts/xcodeproj.rb add|remove` (classic Xcode groups). Tests: Swift Testing target `iScoreTests`, run with `xcodebuild test -project iScore.xcodeproj -scheme iScore -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`. Debug builds launched with `-demoData` use an in-memory store with sample games and players.

@@ -4,176 +4,176 @@
 //
 //  Created by BeastMode on 2/13/24.
 //
+//  Player picker for one New Game seat: type a new name or tap a saved
+//  player. Players already seated in this game are grayed out.
+//
 
 import SwiftUI
 import SwiftData
 
 struct NewPlayerView: View {
-    
+
     @Environment(\.dismiss) private var dismiss
-    @Query( sort:\Player.name, order: .forward ) var players: [Player]
+
+    @Query(sort: \Player.name) private var players: [Player]
+
     @Binding var player: String
-    @FocusState private var isFocused: Bool
-    
-    init(player: Binding<String>) {
-        
-        self._player = player
+    let seat: PlayerSeat
+    let pickedNames: [String]
+
+    @State private var name = ""
+    @FocusState private var isNameFocused: Bool
+
+    private var palette: TeamPalette { Theme.palette(for: seat.team) }
+
+    private var typedName: String {
+        PlayerName.resolve(name, existing: players.map(\.name))
     }
-    
-    var SearchPlayers: [Player]{
-        
-        guard player.isEmpty == false else {
-            return players
-        }
-        
-        return players.filter{
-            $0.name.lowercased().localizedStandardContains(player.lowercased())
-        }
+
+    private func isPicked(_ name: String) -> Bool {
+        pickedNames.contains { PlayerName.isSame($0, name) }
     }
-    
-    
+
+    /// Matching players, the ones still free first.
+    private var shownPlayers: [Player] {
+        let matching = players.filter { PlayerName.matches($0.name, query: name) }
+        return matching.filter { !isPicked($0.name) } + matching.filter { isPicked($0.name) }
+    }
+
     var body: some View {
-        
-        ZStack{
-            
-            VStack{
-                
-                HStack(){
-                    
-                    Image("cigar")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: 185, maxHeight: 185)
-                        .brightness(0.1)
-                        .clipped()
-                }
-                .padding(.bottom, -8)
-                .offset(x: -14)
-                
-                HStack{
-                    
-                    BlobShape()
-                        .frame(width: 380, height: 55, alignment: .center)
-                        .foregroundStyle(Theme.surfaceSecondary)
-                        .clipShape(.rect(cornerRadius: 28))
-                        .overlay(
-                            
-                            TextInputField(text: $player, "Melon Name")
-                                .font(.title2)
-                                .textContentType(.name)
-                                .multilineTextAlignment(.center)
-                                .fontWeight(.light)
-                                .focused($isFocused)
-                            
-//                            HStack {
-//                                Image(systemName: "person.fill")
-//                                    .foregroundColor(.gray)
-//                                TextField("Player Name", text: $player)
-//                                    .fontWeight(.light)
-//                            }
-//                            .padding()
-                        )
-                }
-                
-                Spacer()
-                
-                VStack(alignment: .leading){
-                    
-                    ScrollView {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 14) {
+                SheetHeader(label: seat.title)
 
-                        /* List of all players*/
-                        ForEach(SearchPlayers, id:\.self) { player in
+                Text("Add a player")
+                    .font(DuoFont.title)
+                    .foregroundStyle(Theme.textPrimary)
 
-                            Button(action: {
+                TextField("Type a name", text: $name)
+                    .font(.title3.weight(.bold))
+                    .foregroundStyle(Theme.textPrimary)
+                    .textInputAutocapitalization(.words)
+                    .autocorrectionDisabled()
+                    .textContentType(.name)
+                    .submitLabel(.done)
+                    .focused($isNameFocused)
+                    .onSubmit(addTypedName)
+                    .onChange(of: name) {
+                        name = PlayerName.limited(name)
+                    }
+                    .padding(.horizontal, 16)
+                    .frame(minHeight: 56)
+                    .background(Theme.surfaceSecondary, in: .rect(cornerRadius: 16))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .strokeBorder(isNameFocused ? palette.fill : Theme.divider, lineWidth: 2)
+                    )
 
-                                self.player = player.name
-                                dismiss()
+                if !shownPlayers.isEmpty {
+                    Text("Your players")
+                        .duoLabel()
+                        .padding(.top, 6)
 
-                            })
-                            {
-                                Text("\(player.name)")
-                                    .font(.title)
-                                    .fontWeight(.light)
-                                    .foregroundStyle(.primary)
+                    VStack(spacing: 0) {
+                        ForEach(shownPlayers) { saved in
+                            let picked = isPicked(saved.name)
+                            Button {
+                                choose(saved.name)
+                            } label: {
+                                SavedPlayerRow(name: saved.name, isPicked: picked)
                             }
-                            .padding(10)
+                            .buttonStyle(.plain)
+                            .disabled(picked)
                         }
+                    }
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 12)
+            .frame(maxWidth: 500)
+            .frame(maxWidth: .infinity)
+        }
+        .scrollIndicators(.hidden)
+        .scrollDismissesKeyboard(.interactively)
+        .background(Background())
+        .safeAreaInset(edge: .bottom) {
+            VStack(spacing: 0) {
+                Rectangle()
+                    .fill(Theme.divider)
+                    .frame(height: 2)
 
-                    }
-                    .scrollIndicators(.hidden)
-                    .frame(minWidth: 850)
-                }
+                Button("Add player", action: addTypedName)
+                    .buttonStyle(.duo(palette))
+                    .disabled(typedName.isEmpty || isPicked(typedName))
+                    .padding(.horizontal, 16)
+                    .padding(.top, 12)
+                    .padding(.bottom, 8)
+                    .frame(maxWidth: 500)
             }
-            .toolbar{
-                ToolbarItemGroup(placement: .topBarTrailing){
-                    
-                    Button(action: {
-                        
-                        dismiss()
-                        
-                    })
-                    {
-                        Text("Add")
-                    }
-                }
-            }
-            .onAppear(){
-               //isFocused = true
-                UITextField.appearance().clearButtonMode = .whileEditing
-            }
+            .background(Theme.background)
         }
-        .background{
-            Background()
-        }
+    }
+
+    // MARK: - Actions
+
+    private func addTypedName() {
+        let resolved = typedName
+        guard !resolved.isEmpty, !isPicked(resolved) else { return }
+        choose(resolved)
+    }
+
+    private func choose(_ name: String) {
+        player = name
+        dismiss()
     }
 }
 
-//Text class
-struct TextInputField: View {
-    
-    @Binding var text: String
-    var title: String
-    
-    init(text: Binding<String>, _ title: String) {
-        self._text = text
-        self.title = title
-    }
-    
-    private func maxInput() -> String{
-        
-        if self.text.count > 15{
-            self.text = String(text.prefix(15))
-        }
-        
-        return self.text.capitalized
-    }
-    
+/// A saved player in the picker; grayed with a PICKED chip when already seated.
+private struct SavedPlayerRow: View {
+
+    let name: String
+    let isPicked: Bool
+
     var body: some View {
-        
-        VStack(alignment: .leading){
-            
-            Text(title)
-                .foregroundStyle(text.isEmpty ? Color(.placeholderText): Theme.accentInk)
-                .offset(x:25, y: text.isEmpty ? 22 : 0)
-                .scaleEffect(text.isEmpty ? 1 : 0.8, anchor: .leading)
-                .onReceive(NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification)) { _ in
-                    text = maxInput()
-                }
-                .frame(alignment: .center)
-            
-            TextField("", text: $text)
-                .foregroundStyle(Theme.textPrimary)
-                .offset(y:-20)
-            
-            
+        HStack(spacing: 12) {
+            PlayerAvatar(name: name, fill: isPicked ? Theme.textMuted : nil)
+
+            Text(name)
+                .font(DuoFont.body)
+                .foregroundStyle(isPicked ? Theme.textMuted : Theme.textPrimary)
+                .lineLimit(1)
+
+            Spacer(minLength: 8)
+
+            if isPicked {
+                Text("Picked")
+                    .duoLabel()
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 2)
+                    .background(Theme.surfaceSecondary, in: .rect(cornerRadius: 8))
+            }
         }
+        .padding(.vertical, 9)
+        .contentShape(.rect)
+        .overlay(alignment: .bottom) {
+            Rectangle().fill(Theme.divider).frame(height: 2)
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityValue(isPicked ? "Already in this game" : "")
     }
 }
 
 #Preview {
-    
-    
-    NewPlayerView(player: .constant("Test"))
-    
+    do {
+        let previewer = try Previewer()
+        return NewPlayerView(
+            player: .constant(""),
+            seat: PlayerSeat(team: .team2, position: 1),
+            pickedNames: ["Ana", "Luis", "Rafa"]
+        )
+        .modelContainer(previewer.container)
+        .fontDesign(.rounded)
+    } catch {
+        return Text("Failed to create preview: \(error.localizedDescription)")
+    }
 }
-
