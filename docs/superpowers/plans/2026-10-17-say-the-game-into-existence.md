@@ -350,7 +350,7 @@ struct GameCommandResolveTests {
 
     @Test func meIsDroppedWhenTheOwnerIsNotPlaying() {
         let game = resolve("me and Carlos vs Luis and Papo", owner: nil)
-        #expect(game.lineup.names == ["Carlos", "Luis", "Papo", ""])
+        #expect(game.lineup.names == ["Carlos", "", "Luis", "Papo"])
         #expect(!game.lineup.isComplete)
     }
 
@@ -369,7 +369,7 @@ Expected: FAIL — `cannot find 'ResolvedGame' in scope`.
 
 - [ ] **Step 3: Implement `ResolvedGame` and `GameCommand.resolved` in `iScore/Model/GameCommand.swift`**
 
-Seats fill in order — team 1's heard names into seats 0–1, team 2's into 2–3 — and when one team overflows while the other has room, the extra name takes the next free seat (that is what makes the repeated-name and dropped-`me` cases land as the tests expect).
+Seating preserves the side each name was heard on: team 1's names fill seats 0–1 and team 2's fill seats 2–3, in heard order, leaving an empty string where a side is short. De-duplication is global across both teams, first mention winning. A third name on one side is ignored and never crosses to the other team — the speaker told us the sides, so a dropped or duplicate name must leave a hole on its own team rather than pull an opponent across.
 
 - [ ] **Step 4: Run to verify they pass**
 
