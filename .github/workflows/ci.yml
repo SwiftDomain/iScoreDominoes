@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# A newer push to the same PR/branch cancels the run still in progress.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Pinned so a change of the image's default Xcode can't silently change the toolchain.
+  # Available versions: https://github.com/actions/runner-images/blob/main/images/macos/macos-26-arm64-Readme.md
+  DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+  # Simulator builds don't need signing; this also skips the CloudKit entitlements.
+  XCODEBUILD_FLAGS: -project iScore.xcodeproj -scheme iScore CODE_SIGNING_ALLOWED=NO
+
+jobs:
+  test:
+    name: Unit tests
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Show toolchain
+        run: |
+          xcodebuild -version
+          xcrun simctl list devices available iPhone
+
+      - name: Test
+        run: |
+          set -o pipefail
+          xcodebuild test $XCODEBUILD_FLAGS \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest' \
+            -resultBundlePath TestResults.xcresult \
+            | xcbeautify --renderer github-actions
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: TestResults
+          path: TestResults.xcresult
+          if-no-files-found: ignore
+
+  release-build:
+    name: Release build
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Show toolchain
+        run: xcodebuild -version
+
+      - name: Build (Release)
+        run: |
+          set -o pipefail
+          xcodebuild build $XCODEBUILD_FLAGS \
+            -configuration Release \
+            -destination 'generic/platform=iOS Simulator' \
+            | xcbeautify --renderer github-actions
