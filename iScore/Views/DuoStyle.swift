@@ -92,23 +92,35 @@ extension ButtonStyle where Self == DuoButtonStyle {
 struct DuoCardStyle: ButtonStyle {
 
     var edge: CGFloat = 4
+    var border: Color = Theme.divider
+    var fill: Color = Theme.surface
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .modifier(DuoCardChrome(edge: edge, border: Theme.divider, pressed: configuration.isPressed))
+            .modifier(DuoCardChrome(edge: edge, border: border, fill: fill, pressed: configuration.isPressed))
             .animation(.easeOut(duration: 0.08), value: configuration.isPressed)
     }
 }
 
 extension ButtonStyle where Self == DuoCardStyle {
     static var duoCard: DuoCardStyle { DuoCardStyle() }
+
+    /// Choice tile or chip: blue outline and tint when selected.
+    static func duoChoice(isSelected: Bool, edge: CGFloat = 4) -> DuoCardStyle {
+        DuoCardStyle(
+            edge: edge,
+            border: isSelected ? Theme.teamB : Theme.divider,
+            fill: isSelected ? Theme.teamBWash : Theme.surface
+        )
+    }
 }
 
-/// White card surface. `edge` is the total bottom border thickness (2 = flat).
+/// Card surface. `edge` is the total bottom border thickness (2 = flat).
 private struct DuoCardChrome: ViewModifier {
 
     let edge: CGFloat
     let border: Color
+    var fill: Color = Theme.surface
     var pressed = false
 
     private let shape = RoundedRectangle(cornerRadius: 16)
@@ -118,7 +130,7 @@ private struct DuoCardChrome: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .background(Theme.surface, in: shape)
+            .background(fill, in: shape)
             .overlay(shape.strokeBorder(border, lineWidth: 2))
             .offset(y: pressed ? drop : 0)
             .padding(.bottom, drop)

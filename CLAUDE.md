@@ -8,8 +8,8 @@
 
 ## Structure
 
-- `iScore/Model/` — `Game.swift` (core model + enums), `Player.swift`, `Config.swift` (Background, shapes, cell views), `Theme.swift` (semantic colors), `Tip.swift`
-- `iScore/Views/` — `HomeView`, `GameView`, `GamesView`, `NewGameView`, `AddGameScoreView`, `EditScoreView`, `HallOfFameView`, `NewPlayerView`, `InfoView`, `Glass`, `AnimatedMeshGradient`
+- `iScore/Model/` — `Game.swift` (core model + enums), `Player.swift`, `Theme.swift` (semantic colors, `DuoFont`), `Config.swift` (`Background`), and pure, tested logic: `Game+Scoreboard` (totals, rounds, copy), `Game+Editing` (edit/delete rounds, outcomes, `deleteGameKeepingPlayers`), `GameSetup` (targets, `GameDefaults`, `PlayerLineup`, `PlayerName`), `GameList` (filters, month sections), `Leaderboard`, `ScoreEntry`, `PlayStreak`, `DemoData`
+- `iScore/Views/` — screens: `HomeView`, `GameView`, `AddGameScoreView`, `EditScoreView`, `NewGameView` (+ `NewPlayerView` picker), `GamesView`, `HallOfFameView`, `SettingsView`, `GameSummaryView`, `InfoView` (`CollectionView`, How to play). Shared Duo pieces: `DuoStyle` (`.duo`, `.duoCard`, `.duoChoice`), `DuoProgressBar`, `TeamAvatars`/`PlayerAvatar`, `SheetHeader`, `ScoreKeypad`, `ScoreWell`, `TeamSpeechBubble`, `GameTypePicker`, `TargetStepper`, `SearchWell`, `StatusChip`, `RoundRow`
 - `iScoreApp.swift` — Entry point, SwiftData ModelContainer
 
 ## Theme ("Duo")
@@ -33,18 +33,12 @@ Duolingo-inspired: white canvas, rounded gray text, green team 1, blue team 2, p
 
 ## Known technical debt
 
-- `GameView` uses `NavigationView` — must migrate to `NavigationStack`
-- `Game` model conforms to `ObservableObject` — remove, SwiftData handles this
-- `UIDevice.current.userInterfaceIdiom` checks in `NewGameView` and `HallOfFameView` — replace with `horizontalSizeClass`
-- `showsIndicators: false` in `ScrollView` — use `.scrollIndicators(.hidden)`
-- `.cornerRadius()` used in `GameView` — use `.clipShape(.rect(cornerRadius:))`
-- `String(format: "%.0f", maxScore)` in `GameView`/`NewGameView` — use `.number.precision()` format
-- Button images missing text labels (accessibility issue)
-- `HallOfFameView` uses `specifier` in `Text` — use modern format style
-- Some `fontWeight(.light)` usage — evaluate if needed per CLAUDE.md
+- Navigation mixes `NavigationLink(destination:)` (Home tiles, All Games, New Game) with `navigationDestination(for: Game.self)` (Home) — move to value-based links
+- `Glass.swift`, `Twirl` (`Config.swift`) and `Game.printPlayers()` are unused
+- `Game.players` has a cascade delete rule although players are shared between games; always delete games with `ModelContext.deleteGameKeepingPlayers`
 
 ## Active plan
 
-See `docs/superpowers/plans/2026-10-16-duolingo-redesign.md` — Duo theme, then Home, Game and Add Score redesigns.
+See `docs/superpowers/plans/2026-10-16-duolingo-redesign.md` (Home, Game, Add Score) and the spec's "Remaining screens" section (New Game, All Games, Hall of Fame, Settings, Edit Score, Game Summary, How to Play — all restyled).
 
-New or deleted Swift files must be registered with `ruby scripts/xcodeproj.rb add|remove` (classic Xcode groups). Tests: Swift Testing target `iScoreTests`, run with `xcodebuild test -project iScore.xcodeproj -scheme iScore -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`.
+New or deleted Swift files must be registered with `ruby scripts/xcodeproj.rb add|remove` (classic Xcode groups). Tests: Swift Testing target `iScoreTests`, run with `xcodebuild test -project iScore.xcodeproj -scheme iScore -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`. Debug builds launched with `-demoData` use an in-memory store with sample games and players.

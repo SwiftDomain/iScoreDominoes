@@ -26,8 +26,15 @@ struct AddGameScoreView: View {
         ScrollView {
             VStack(spacing: 16) {
                 topRow
-                speechBubble
-                numberWell
+
+                TeamSpeechBubble(
+                    names: game.names(for: team),
+                    palette: palette,
+                    text: "We dominoed! How many points did we make?"
+                )
+                .padding(.top, 6)
+
+                ScoreWell(entry: entry, palette: palette, accessibilityLabel: "Points for \(game.displayName(for: team))")
 
                 Text(game.projectionSummary(adding: entry.value ?? 0, to: team))
                     .font(.subheadline.weight(.heavy))
@@ -83,39 +90,6 @@ struct AddGameScoreView: View {
                 previewTint: palette.wash
             )
         }
-    }
-
-    private var speechBubble: some View {
-        HStack(alignment: .top, spacing: 10) {
-            TeamAvatars(names: game.names(for: team), palette: palette, size: 40)
-                .padding(.top, 6)
-
-            Text("We dominoed! How many points did we make?")
-                .font(DuoFont.body)
-                .foregroundStyle(Theme.textPrimary)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 10)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .duoCard(edge: 2)
-        }
-        .padding(.top, 6)
-    }
-
-    private var numberWell: some View {
-        Text(entry.digits.isEmpty ? "0" : entry.digits)
-            .font(DuoFont.score(52))
-            .foregroundStyle(entry.value == nil ? Theme.textMuted : Theme.textPrimary)
-            .contentTransition(.numericText())
-            .animation(.snappy, value: entry)
-            .frame(maxWidth: .infinity, minHeight: 84)
-            .background(Theme.surfaceSecondary, in: .rect(cornerRadius: 16))
-            .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .strokeBorder(entry.value == nil ? Theme.divider : palette.fill, lineWidth: 2)
-            )
-            .accessibilityElement()
-            .accessibilityLabel("Points for \(game.displayName(for: team))")
-            .accessibilityValue(entry.digits.isEmpty ? "None" : entry.digits)
     }
 
     // MARK: - Actions

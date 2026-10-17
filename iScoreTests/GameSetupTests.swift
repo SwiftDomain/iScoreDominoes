@@ -1,3 +1,4 @@
+import Foundation
 import Testing
 @testable import iScore
 
@@ -71,6 +72,8 @@ struct PlayerLineupTests {
         #expect(PlayerLineup.seat(team: .team1, position: 1) == 1)
         #expect(PlayerLineup.seat(team: .team2, position: 0) == 2)
         #expect(PlayerLineup.seat(team: .team2, position: 1) == 3)
+        #expect(PlayerSeat(team: .team2, position: 1).id == 3)
+        #expect(PlayerSeat(team: .team2, position: 1).title == "Team 2 · Player 2")
     }
 
     @Test func pickedNamesSkipTheSeatBeingEdited() {
@@ -103,5 +106,45 @@ struct PlayerNameTests {
     @Test func sameNameIgnoresCaseAndSpaces() {
         #expect(PlayerName.isSame("Ana", " ana"))
         #expect(!PlayerName.isSame("Ana", "Anabel"))
+    }
+}
+
+struct GameDefaultsTests {
+
+    private func withDefaults(_ values: [String: Any], _ body: (UserDefaults) -> Void) {
+        let suite = "GameDefaultsTests.\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suite)!
+        values.forEach { defaults.set($1, forKey: $0) }
+        body(defaults)
+        defaults.removePersistentDomain(forName: suite)
+    }
+
+    @Test func fallsBackToDoubleNine() {
+        withDefaults([:]) { defaults in
+            let loaded = GameDefaults.load(from: defaults)
+            #expect(loaded.type == .nine)
+            #expect(loaded.target == 100)
+        }
+    }
+
+    @Test func readsSettings() {
+        withDefaults([GameDefaults.typeKey: "six", GameDefaults.targetKey: 50.0]) { defaults in
+            let loaded = GameDefaults.load(from: defaults)
+            #expect(loaded.type == .six)
+            #expect(loaded.target == 50)
+        }
+    }
+
+    /// The old Settings slider allowed 0.
+    @Test func clampsAStoredZero() {
+        withDefaults([GameDefaults.typeKey: "nine", GameDefaults.targetKey: 0.0]) { defaults in
+            #expect(GameDefaults.load(from: defaults).target == 10)
+        }
+    }
+
+    @Test func ignoresAnUnknownType() {
+        withDefaults([GameDefaults.typeKey: "twelve"]) { defaults in
+            #expect(GameDefaults.load(from: defaults).type == .nine)
+        }
     }
 }

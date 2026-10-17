@@ -2,7 +2,7 @@
 //  SettingsView.swift
 //  iScore
 //
-//  Settings screen for game defaults, player management, and app info.
+//  Settings sheet: New Game defaults, saved players, and app info.
 //
 
 import SwiftUI
@@ -10,148 +10,187 @@ import SwiftData
 
 struct SettingsView: View {
 
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
 
     @Query(sort: \Player.name) private var players: [Player]
 
-    @AppStorage("defaultGameType") private var defaultGameType = "nine"
-    @AppStorage("defaultMaxScore") private var defaultMaxScore = 100.0
+    @AppStorage(GameDefaults.typeKey) private var defaultGameType = GameType.nine.rawValue
+    @AppStorage(GameDefaults.targetKey) private var defaultMaxScore = Double(GameType.nine.defaultTarget)
 
-    @State private var showDeleteConfirmation = false
     @State private var playerToDelete: Player?
 
+    private var gameType: GameType {
+        GameType(rawValue: defaultGameType) ?? .nine
+    }
+
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Background()
+        ScrollView {
+            VStack(alignment: .leading, spacing: 10) {
+                SheetHeader(title: "Settings")
+                    .padding(.bottom, 4)
 
-                Form {
-                    // MARK: - Game Defaults
-                    Section {
-                        Picker("Game Type", selection: $defaultGameType) {
-                            Text("Six").tag("six")
-                            Text("Nine").tag("nine")
-                        }
-                        .onChange(of: defaultGameType) { _, newValue in
-                            switch newValue {
-                            case "six":
-                                defaultMaxScore = 20
-                            default:
-                                defaultMaxScore = 100
-                            }
-                        }
+                Text("New game defaults")
+                    .duoLabel()
 
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Score to Win: \(defaultMaxScore, format: .number.precision(.fractionLength(0)))")
-                            Slider(
-                                value: $defaultMaxScore,
-                                in: defaultGameType == "nine" ? 0...200 : 0...100,
-                                step: 10
-                            )
+                VStack(spacing: 12) {
+                    GameTypePicker(selection: gameType, compact: true, onSelect: chooseType)
+
+                    HStack(spacing: 8) {
+                        Text("First to")
+                            .font(DuoFont.body)
+                            .foregroundStyle(Theme.textPrimary)
+                        Spacer(minLength: 8)
+                        TargetStepper(target: gameType.clampedTarget(defaultMaxScore), gameType: gameType, compact: true) {
+                            defaultMaxScore = Double($0)
                         }
-                    } header: {
-                        Text("Game Defaults")
                     }
-                    .listRowBackground(Theme.surfaceSecondary)
-
-                    // MARK: - Player Management
-                    Section {
-                        if players.isEmpty {
-                            Text("No players yet")
-                                .foregroundStyle(Theme.textSecondary)
-                        } else {
-                            ForEach(players) { player in
-                                HStack {
-                                    Image(systemName: "person.fill")
-                                        .foregroundStyle(Theme.textSecondary)
-
-                                    Text(player.name)
-                                        .foregroundStyle(Theme.textPrimary)
-
-                                    Spacer()
-
-                                    Text("\((player.games ?? []).count) games")
-                                        .font(.caption)
-                                        .foregroundStyle(Theme.textSecondary)
-                                }
-                            }
-                            .onDelete { indexSet in
-                                if let index = indexSet.first {
-                                    playerToDelete = players[index]
-                                    showDeleteConfirmation = true
-                                }
-                            }
-                        }
-                    } header: {
-                        Text("Players")
-                    }
-                    .listRowBackground(Theme.surfaceSecondary)
-
-                    // MARK: - About
-                    Section {
-                        HStack {
-                            Text("iCloud Sync")
-                                .foregroundStyle(Theme.textPrimary)
-                            Spacer()
-                            Image(systemName: "checkmark.icloud.fill")
-                                .foregroundStyle(Theme.accentInk)
-                            Text("Enabled")
-                                .foregroundStyle(Theme.textSecondary)
-                        }
-
-                        HStack {
-                            Text("Version")
-                                .foregroundStyle(Theme.textPrimary)
-                            Spacer()
-                            Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")
-                                .foregroundStyle(Theme.textSecondary)
-                        }
-
-                        HStack {
-                            Text("Build")
-                                .foregroundStyle(Theme.textPrimary)
-                            Spacer()
-                            Text(Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1")
-                                .foregroundStyle(Theme.textSecondary)
-                        }
-                    } header: {
-                        Text("About")
-                    }
-                    .listRowBackground(Theme.surfaceSecondary)
                 }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
+                .duoCard()
+
+                Text("Players · \(players.count)")
+                    .duoLabel()
+                    .padding(.top, 10)
+
+                VStack(spacing: 0) {
+                    if players.isEmpty {
+                        Text("No players yet")
+                            .font(DuoFont.body)
+                            .foregroundStyle(Theme.textMuted)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.vertical, 12)
+                    } else {
+                        ForEach(players) { player in
+                            SettingsPlayerRow(player: player, isLast: player.persistentModelID == players.last?.persistentModelID) {
+                                playerToDelete = player
+                            }
+                        }
+                    }
+                }
+                .padding(.horizontal, 14)
+                .duoCard()
+
+                Text("About")
+                    .duoLabel()
+                    .padding(.top, 10)
+
+                VStack(spacing: 0) {
+                    AboutRow(icon: "checkmark.icloud.fill", tint: Theme.teamA, title: "iCloud sync", value: "On", valueColor: Theme.accentInk)
+                    Rectangle().fill(Theme.divider).frame(height: 2)
+                    AboutRow(icon: "info.circle.fill", tint: Theme.textMuted, title: "Version", value: Self.version, valueColor: Theme.textSecondary)
+                }
+                .padding(.horizontal, 14)
+                .duoCard()
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 12)
+            .padding(.bottom, 24)
+            .frame(maxWidth: 700)
+            .frame(maxWidth: .infinity)
+        }
+        .scrollIndicators(.hidden)
+        .background(Background())
+        .alert("Delete Player", item: $playerToDelete) { player in
+            Button("Delete", role: .destructive) {
+                context.delete(player)
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: { player in
+            Text("Are you sure you want to delete \(player.name)? This will remove them from future games but won't affect past game records.")
+        }
+    }
+
+    /// "2.0 (14)"
+    private static var version: String {
+        let info = Bundle.main.infoDictionary
+        let short = info?["CFBundleShortVersionString"] as? String ?? "1.0"
+        let build = info?["CFBundleVersion"] as? String ?? "1"
+        return "\(short) (\(build))"
+    }
+
+    /// Switching type resets the default target to that type's usual value.
+    private func chooseType(_ type: GameType) {
+        defaultGameType = type.rawValue
+        defaultMaxScore = Double(type.defaultTarget)
+    }
+}
+
+/// A saved player: avatar, name, game count, delete.
+private struct SettingsPlayerRow: View {
+
+    let player: Player
+    let isLast: Bool
+    let onDelete: () -> Void
+
+    var body: some View {
+        HStack(spacing: 12) {
+            PlayerAvatar(name: player.name)
+
+            Text(player.name)
+                .font(DuoFont.body)
                 .foregroundStyle(Theme.textPrimary)
-                .scrollContentBackground(.hidden)
-            }
-            .navigationTitle("Settings")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") {
-                        dismiss()
-                    }
-                }
-            }
-            .alert("Delete Player", isPresented: $showDeleteConfirmation) {
-                Button("Cancel", role: .cancel) {
-                    playerToDelete = nil
-                }
-                Button("Delete", role: .destructive) {
-                    if let player = playerToDelete {
-                        context.delete(player)
-                        playerToDelete = nil
-                    }
-                }
-            } message: {
-                if let player = playerToDelete {
-                    Text("Are you sure you want to delete \(player.name)? This will remove them from future games but won't affect past game records.")
-                }
+                .lineLimit(1)
+
+            Spacer(minLength: 8)
+
+            Text(GameList.countLabel((player.games ?? []).count))
+                .font(.caption.weight(.bold))
+                .foregroundStyle(Theme.textMuted)
+
+            Button("Delete \(player.name)", systemImage: "trash", action: onDelete)
+                .labelStyle(.iconOnly)
+                .font(.body.weight(.bold))
+                .foregroundStyle(Theme.textMuted)
+                .frame(minWidth: 36, minHeight: 36)
+        }
+        .padding(.vertical, 6)
+        .overlay(alignment: .bottom) {
+            if !isLast {
+                Rectangle().fill(Theme.divider).frame(height: 2)
             }
         }
     }
 }
 
+/// Icon, title, trailing value.
+private struct AboutRow: View {
+
+    let icon: String
+    let tint: Color
+    let title: String
+    let value: String
+    let valueColor: Color
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: icon)
+                .font(.title3)
+                .foregroundStyle(tint)
+                .accessibilityHidden(true)
+
+            Text(title)
+                .font(DuoFont.body)
+                .foregroundStyle(Theme.textPrimary)
+
+            Spacer(minLength: 8)
+
+            Text(value)
+                .font(DuoFont.body)
+                .foregroundStyle(valueColor)
+        }
+        .padding(.vertical, 12)
+        .accessibilityElement(children: .combine)
+    }
+}
+
 #Preview {
-    SettingsView()
-        .modelContainer(for: Game.self, inMemory: true)
+    do {
+        let previewer = try Previewer()
+        return SettingsView()
+            .modelContainer(previewer.container)
+            .fontDesign(.rounded)
+    } catch {
+        return Text("Failed to create preview: \(error.localizedDescription)")
+    }
 }

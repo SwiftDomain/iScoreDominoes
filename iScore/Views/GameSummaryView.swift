@@ -2,7 +2,9 @@
 //  GameSummaryView.swift
 //  iScore
 //
-//  Full-screen game summary shown as a sheet when a game finishes.
+//  Shown as a sheet when a team reaches the target: a "lesson complete"
+//  celebration with the final score, round count and margin, then every
+//  round (newest first) as on the Game screen.
 //
 
 import SwiftUI
@@ -13,386 +15,197 @@ struct GameSummaryView: View {
 
     @Environment(\.dismiss) private var dismiss
 
-    @State private var trophyScale: CGFloat = 0.3
-    @State private var trophyOpacity: Double = 0
+    @State private var shareImage: Image?
+
+    private var winner: Team { game.winningTeam }
 
     var body: some View {
         ScrollView {
-            VStack {
+            VStack(spacing: 16) {
+                TrophyBurst()
 
-                // MARK: - Trophy Icon
+                VStack(spacing: 4) {
+                    Text(game.headline)
+                        .font(DuoFont.score(28))
+                        .foregroundStyle(winner == .none ? Theme.textPrimary : Theme.palette(for: winner).edge)
+                        .multilineTextAlignment(.center)
+                        .accessibilityAddTraits(.isHeader)
 
-                TrophyHeader(
-                    trophyScale: trophyScale,
-                    trophyOpacity: trophyOpacity
-                )
+                    Text("\(game.setupSummary) · \(game.timestamp.formatted(.dateTime.month(.abbreviated).day()))")
+                        .font(.subheadline.weight(.bold))
+                        .foregroundStyle(Theme.textMuted)
+                }
 
-                // MARK: - Winning Team
+                HStack(spacing: 8) {
+                    SummaryStatTile(
+                        label: "Final",
+                        value: "\(game.totalScore1)–\(game.totalScore2)",
+                        palette: TeamPalette(fill: Theme.gold, edge: Theme.goldShadow, wash: Theme.surfaceSecondary)
+                    )
+                    SummaryStatTile(
+                        label: "Rounds",
+                        value: "\(game.rounds.count)",
+                        palette: TeamPalette(fill: Theme.learn, edge: Theme.learnShadow, wash: Theme.surfaceSecondary)
+                    )
+                    SummaryStatTile(
+                        label: "Won by",
+                        value: "\(game.lead)",
+                        palette: TeamPalette(fill: Theme.streak, edge: Theme.streakShadow, wash: Theme.surfaceSecondary)
+                    )
+                }
 
-                WinnerSection(game: game)
-
-                Spacer()
-                    .frame(height: 24)
-
-                // MARK: - Final Score
-
-                FinalScoreSection(game: game)
-
-                Spacer()
-                    .frame(height: 24)
-
-                // MARK: - Round-by-Round Scores
-
-                RoundScoreTable(game: game)
-
-                Spacer()
-                    .frame(height: 24)
-
-                // MARK: - Game Metadata
-
-                GameMetadataSection(game: game)
-
-                Spacer()
-                    .frame(height: 32)
-
-                // MARK: - Actions
-
-                ActionButtons(game: game, dismiss: dismiss)
+                SummaryRounds(game: game)
+                    .padding(.top, 4)
             }
-            .padding()
-            .frame(maxWidth: 700)
+            .padding(.horizontal, 16)
+            .padding(.top, 24)
+            .frame(maxWidth: 500)
+            .frame(maxWidth: .infinity)
         }
         .scrollIndicators(.hidden)
         .background(Background())
-        .onAppear {
-            withAnimation(.spring(duration: 0.6, bounce: 0.5)) {
-                trophyScale = 1.0
-                trophyOpacity = 1.0
-            }
-        }
-    }
-}
+        .safeAreaInset(edge: .bottom) {
+            VStack(spacing: 0) {
+                Rectangle()
+                    .fill(Theme.divider)
+                    .frame(height: 2)
 
-// MARK: - Trophy Header
+                HStack(alignment: .top, spacing: 10) {
+                    if let shareImage {
+                        ShareLink(item: shareImage, preview: SharePreview("Game results", image: shareImage)) {
+                            Image(systemName: "square.and.arrow.up")
+                                .font(.title3.weight(.bold))
+                                .foregroundStyle(Theme.teamB)
+                                .frame(width: 54, height: 46)
+                        }
+                        .buttonStyle(.duoCard)
+                        .accessibilityLabel("Share results")
+                    }
 
-private struct TrophyHeader: View {
-
-    let trophyScale: CGFloat
-    let trophyOpacity: Double
-
-    var body: some View {
-        Image(systemName: "trophy.fill")
-            .font(.system(size: 72))
-            .foregroundStyle(Theme.accent)
-            .scaleEffect(trophyScale)
-            .opacity(trophyOpacity)
-            .padding(.top)
-    }
-}
-
-// MARK: - Winner Section
-
-private struct WinnerSection: View {
-
-    let game: Game
-
-    private var winnerNames: [String] {
-        game.winningTeam == .team1 ? game.team1 : game.team2
-    }
-
-    var body: some View {
-        VStack {
-            Text("\(game.winningTeam.description) Wins!")
-                .font(.largeTitle)
-                .bold()
-                .foregroundStyle(Theme.textPrimary)
-
-            Text("\(winnerNames[0]) & \(winnerNames[1])")
-                .font(.title3)
-                .foregroundStyle(Theme.textSecondary)
-        }
-    }
-}
-
-// MARK: - Final Score
-
-private struct FinalScoreSection: View {
-
-    let game: Game
-
-    var body: some View {
-        HStack {
-            VStack {
-                Text("Team 1")
-                    .font(.caption)
-                    .foregroundStyle(Theme.textSecondary)
-
-                Text(game.totalScore1, format: .number)
-                    .font(.system(size: 48))
-                    .bold()
-                    .foregroundStyle(
-                        game.winningTeam == .team1
-                            ? Theme.success
-                            : Theme.textPrimary
-                    )
-            }
-            .frame(maxWidth: .infinity)
-
-            Text("--")
-                .font(.title2)
-                .foregroundStyle(Theme.divider)
-
-            VStack {
-                Text("Team 2")
-                    .font(.caption)
-                    .foregroundStyle(Theme.textSecondary)
-
-                Text(game.totalScore2, format: .number)
-                    .font(.system(size: 48))
-                    .bold()
-                    .foregroundStyle(
-                        game.winningTeam == .team2
-                            ? Theme.success
-                            : Theme.textPrimary
-                    )
-            }
-            .frame(maxWidth: .infinity)
-        }
-        .padding()
-        .background(Theme.surface.opacity(0.5))
-        .clipShape(.rect(cornerRadius: CornerRadius.thirteen.value))
-    }
-}
-
-// MARK: - Round-by-Round Table
-
-private struct RoundScoreTable: View {
-
-    let game: Game
-
-    /// Filters out the initial [0,0] placeholder rows for display.
-    private var scoredRounds: [(index: Int, scores: [Int])] {
-        game.scoreTeam.enumerated()
-            .filter { $0.element[0] > 0 || $0.element[1] > 0 }
-            .map { (index: $0.offset, scores: $0.element) }
-    }
-
-    var body: some View {
-        VStack {
-            Text("Round-by-Round")
-                .font(.headline)
-                .foregroundStyle(Theme.textPrimary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-            // Column headers
-            HStack {
-                Text("Round")
-                    .frame(width: 60, alignment: .leading)
-
-                Spacer()
-
-                Text("Team 1")
-                    .frame(width: 80, alignment: .center)
-
-                Spacer()
-
-                Text("Team 2")
-                    .frame(width: 80, alignment: .center)
-            }
-            .font(.subheadline)
-            .foregroundStyle(Theme.textSecondary)
-            .padding(.bottom, 4)
-
-            Divider()
-                .overlay(Theme.divider)
-
-            ForEach(scoredRounds, id: \.index) { round in
-                HStack {
-                    Text(round.index + 1, format: .number)
-                        .frame(width: 60, alignment: .leading)
-                        .foregroundStyle(Theme.textSecondary)
-
-                    Spacer()
-
-                    Text(round.scores[0], format: .number)
-                        .frame(width: 80, alignment: .center)
-                        .foregroundStyle(
-                            round.scores[0] > 0
-                                ? Theme.textPrimary
-                                : Theme.textSecondary
-                        )
-
-                    Spacer()
-
-                    Text(round.scores[1], format: .number)
-                        .frame(width: 80, alignment: .center)
-                        .foregroundStyle(
-                            round.scores[1] > 0
-                                ? Theme.textPrimary
-                                : Theme.textSecondary
-                        )
+                    Button("Done") {
+                        dismiss()
+                    }
+                    .buttonStyle(.duo(Theme.palette(for: .team1)))
                 }
-
-                Divider()
-                    .overlay(Theme.divider)
+                .padding(.horizontal, 16)
+                .padding(.top, 12)
+                .padding(.bottom, 8)
+                .frame(maxWidth: 500)
             }
+            .background(Theme.background)
         }
-        .padding()
-        .background(Theme.surface.opacity(0.5))
-        .clipShape(.rect(cornerRadius: CornerRadius.thirteen.value))
-    }
-}
-
-// MARK: - Game Metadata
-
-private struct GameMetadataSection: View {
-
-    let game: Game
-
-    private var gameTypeLabel: String {
-        game.gameType == .six ? "Double Six" : "Double Nine"
-    }
-
-    var body: some View {
-        VStack(alignment: .leading) {
-            MetadataRow(label: "Game Type", value: gameTypeLabel)
-            MetadataRow(
-                label: "Score to Win",
-                value: game.maxScore.formatted(.number.precision(.fractionLength(0)))
-            )
-            MetadataRow(
-                label: "Date",
-                value: game.timestamp.formatted(date: .long, time: .omitted)
-            )
-        }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Theme.surface.opacity(0.5))
-        .clipShape(.rect(cornerRadius: CornerRadius.thirteen.value))
-    }
-}
-
-private struct MetadataRow: View {
-
-    let label: String
-    let value: String
-
-    var body: some View {
-        HStack {
-            Text(label)
-                .foregroundStyle(Theme.textSecondary)
-
-            Spacer()
-
-            Text(value)
-                .foregroundStyle(Theme.textPrimary)
-        }
-    }
-}
-
-// MARK: - Action Buttons
-
-private struct ActionButtons: View {
-
-    let game: Game
-    let dismiss: DismissAction
-
-    var body: some View {
-        VStack {
-            ShareLink(
-                item: shareImage,
-                preview: SharePreview(
-                    "Game Results",
-                    image: shareImage
-                )
-            ) {
-                Label("Share Results", systemImage: "square.and.arrow.up")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Theme.surface)
-                    .foregroundStyle(Theme.textPrimary)
-                    .clipShape(.rect(cornerRadius: CornerRadius.thirteen.value))
-            }
-
-            Button("Done", systemImage: "checkmark") {
-                dismiss()
-            }
-            .bold()
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Theme.accent)
-            .foregroundStyle(Theme.background)
-            .clipShape(.rect(cornerRadius: CornerRadius.thirteen.value))
+        .task {
+            shareImage = renderShareImage()
         }
     }
 
-    /// Renders a shareable summary image using ImageRenderer.
-    @MainActor
-    private var shareImage: Image {
+    /// Renders the shareable card once, instead of on every body update.
+    private func renderShareImage() -> Image? {
         let renderer = ImageRenderer(content: ShareableGameSummary(game: game))
-        renderer.scale = 3.0
-        if let cgImage = renderer.cgImage {
-            return Image(decorative: cgImage, scale: 3.0)
+        renderer.scale = 3
+        return renderer.cgImage.map { Image(decorative: $0, scale: 3) }
+    }
+}
+
+/// "Rounds" with each team's avatars and total as column headers.
+private struct SummaryRounds: View {
+
+    let game: Game
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(alignment: .firstTextBaseline) {
+                Text("Rounds")
+                    .font(.headline.weight(.heavy))
+                    .foregroundStyle(Theme.textPrimary)
+                Spacer()
+                Text("\(game.rounds.count) played")
+                    .font(.caption.weight(.heavy))
+                    .foregroundStyle(Theme.textMuted)
+            }
+
+            HStack(spacing: 0) {
+                Color.clear.frame(width: 44, height: 1)
+                columnHeader(for: .team1)
+                columnHeader(for: .team2)
+            }
+            .padding(.vertical, 8)
+            .overlay(alignment: .bottom) {
+                Rectangle().fill(Theme.divider).frame(height: 2)
+            }
+
+            ForEach(game.rounds.reversed()) { round in
+                RoundRow(round: round)
+            }
         }
-        return Image(systemName: "trophy.fill")
+    }
+
+    private func columnHeader(for team: Team) -> some View {
+        HStack(spacing: 6) {
+            TeamAvatars(names: game.names(for: team), palette: Theme.palette(for: team), size: 22)
+            Text("\(game.total(for: team))")
+                .font(.caption.weight(.heavy))
+                .foregroundStyle(Theme.textMuted)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(game.displayName(for: team)): \(game.total(for: team))")
     }
 }
 
 // MARK: - Shareable Summary (rendered to image)
 
-/// A simplified view rendered via ImageRenderer for sharing.
+/// The card people share: wordmark, trophy, winner, team-colored scores.
 private struct ShareableGameSummary: View {
 
     let game: Game
 
-    private var winnerNames: [String] {
-        game.winningTeam == .team1 ? game.team1 : game.team2
-    }
-
-    private var gameTypeLabel: String {
-        game.gameType == .six ? "Double Six" : "Double Nine"
-    }
-
     var body: some View {
-        VStack {
+        VStack(spacing: 12) {
+            Text("dominoes")
+                .font(DuoFont.score(22))
+                .foregroundStyle(Theme.teamA)
+
             Image(systemName: "trophy.fill")
-                .font(.system(size: 48))
-                .foregroundStyle(.yellow)
+                .font(.system(size: 34))
+                .foregroundStyle(Theme.surface)
+                .frame(width: 68, height: 68)
+                .background(Theme.gold, in: .circle)
 
-            Text("\(game.winningTeam.description) Wins!")
-                .font(.title)
-                .bold()
+            Text(game.headline)
+                .font(DuoFont.score(26))
+                .foregroundStyle(Theme.textPrimary)
+                .multilineTextAlignment(.center)
 
-            Text("\(winnerNames[0]) & \(winnerNames[1])")
-                .font(.headline)
-                .foregroundStyle(.secondary)
-
-            Spacer()
-                .frame(height: 16)
-
-            HStack {
-                Text("Team 1: \(game.totalScore1)")
-                    .frame(maxWidth: .infinity)
-
-                Text("Team 2: \(game.totalScore2)")
-                    .frame(maxWidth: .infinity)
+            HStack(spacing: 12) {
+                score(for: .team1)
+                score(for: .team2)
             }
-            .font(.title3)
 
-            Spacer()
-                .frame(height: 8)
-
-            Text("\(gameTypeLabel) | Score to \(game.maxScore, format: .number.precision(.fractionLength(0)))")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-
-            Text("iScore Dominoes")
-                .font(.caption2)
-                .foregroundStyle(.tertiary)
+            Text(game.setupSummary)
+                .font(.caption.weight(.bold))
+                .foregroundStyle(Theme.textMuted)
         }
-        .padding()
+        .padding(24)
         .frame(width: 360)
-        .background(.white)
+        .background(Theme.surface)
+        .fontDesign(.rounded)
+        .environment(\.colorScheme, .light)
+    }
+
+    private func score(for team: Team) -> some View {
+        VStack(spacing: 2) {
+            Text("\(game.total(for: team))")
+                .font(DuoFont.score(34))
+                .foregroundStyle(Theme.palette(for: team).fill)
+            Text(game.displayName(for: team))
+                .font(.caption.weight(.heavy))
+                .foregroundStyle(Theme.textSecondary)
+                .lineLimit(1)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 10)
+        .duoCard(edge: 2, border: game.winningTeam == team ? Theme.palette(for: team).fill : Theme.divider)
     }
 }
 
@@ -402,15 +215,14 @@ private struct ShareableGameSummary: View {
     do {
         let previewer = try Previewer()
 
-        // Simulate a finished game for the preview.
-        previewer.game.scoreTeam.append([120, 0])
-        previewer.game.scoreTeam.append([0, 45])
-        previewer.game.scoreTeam.append([85, 0])
+        // Finish the demo game for the preview.
+        previewer.game.addRound(95, for: .team1)
         previewer.game.state = .finished
         previewer.game.inProcess = false
 
         return GameSummaryView(game: previewer.game)
             .modelContainer(previewer.container)
+            .fontDesign(.rounded)
     } catch {
         return Text("Failed to create preview: \(error.localizedDescription)")
     }

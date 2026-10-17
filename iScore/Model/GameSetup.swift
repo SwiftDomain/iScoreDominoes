@@ -47,6 +47,33 @@ extension GameType {
     }
 }
 
+/// New Game's starting game type and target, saved by Settings.
+enum GameDefaults {
+
+    static let typeKey = "defaultGameType"
+    static let targetKey = "defaultMaxScore"
+
+    static func load(from defaults: UserDefaults = .standard) -> (type: GameType, target: Int) {
+        let type = defaults.string(forKey: typeKey).flatMap(GameType.init(rawValue:)) ?? .nine
+        let stored = defaults.object(forKey: targetKey) as? Double
+        return (type, type.clampedTarget(stored ?? Double(type.defaultTarget)))
+    }
+}
+
+/// One seat on New Game (team 1 or 2, first or second player).
+struct PlayerSeat: Identifiable {
+
+    let team: Team
+    let position: Int
+
+    var id: Int { PlayerLineup.seat(team: team, position: position) }
+
+    /// "Team 2 · Player 2"
+    var title: String {
+        "\(team.description) · Player \(position + 1)"
+    }
+}
+
 /// The four seats on New Game: team 1 is seats 0–1, team 2 is seats 2–3.
 struct PlayerLineup: Equatable {
 
