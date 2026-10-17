@@ -84,13 +84,19 @@ final class SpeechCapture {
         guard !isListening else { return }
         refreshAvailability()
         do {
-            guard availability == .ready else { throw SpeechCaptureError.unavailable(availability) }
+            try Self.preflight(availability: availability, recognizerPresent: recognizer != nil)
             guard let recognizer else { throw SpeechCaptureError.unavailable(.unsupported) }
             try begin(with: recognizer)
         } catch {
             lastError = error
             throw error
         }
+    }
+
+    /// Throws when capture cannot start. Pure: it decides nothing from live state.
+    nonisolated static func preflight(availability: SpeechAvailability, recognizerPresent: Bool) throws {
+        guard availability == .ready else { throw SpeechCaptureError.unavailable(availability) }
+        guard recognizerPresent else { throw SpeechCaptureError.unavailable(.unsupported) }
     }
 
     private func begin(with recognizer: SFSpeechRecognizer) throws {

@@ -27,17 +27,21 @@ struct SpeechAvailabilityTests {
         #expect(SpeechAvailability.from(speech: .denied, microphone: .denied, recognizerAvailable: false) == .denied)
     }
 
-    /// The refusal path depends on live authorization state, which cannot be
-    /// faked without a device. Whatever this environment reports, `start()`
-    /// must either throw `.unavailable` carrying that state, or be ready.
-    @MainActor @Test func startThrowsWhenNotReady() {
-        let capture = SpeechCapture(locale: Locale(identifier: "en_US"))
-        guard capture.availability != .ready else { return }
-        let expected = capture.availability
-        #expect(throws: SpeechCaptureError.unavailable(expected)) {
-            try capture.start()
+    @Test func preflightRejectsEveryNotReadyState() {
+        for state in [SpeechAvailability.denied, .needsPermission, .unsupported] {
+            #expect(throws: SpeechCaptureError.unavailable(state)) {
+                try SpeechCapture.preflight(availability: state, recognizerPresent: true)
+            }
         }
-        #expect(!capture.isListening)
-        #expect(capture.lastError as? SpeechCaptureError == .unavailable(expected))
+    }
+
+    @Test func preflightRejectsAMissingRecognizer() {
+        #expect(throws: SpeechCaptureError.unavailable(.unsupported)) {
+            try SpeechCapture.preflight(availability: .ready, recognizerPresent: false)
+        }
+    }
+
+    @Test func preflightPassesWhenReadyWithARecognizer() throws {
+        try SpeechCapture.preflight(availability: .ready, recognizerPresent: true)
     }
 }
