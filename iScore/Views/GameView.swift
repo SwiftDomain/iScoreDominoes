@@ -3,277 +3,216 @@ import SwiftData
 import TipKit
 
 struct GameView: View {
-    
-    @Environment(\.modelContext) var context
-    // @FocusState private var fieldIsFocused: Bool
-    
+
     @Binding var path: NavigationPath
     @Bindable var game: Game
     @State private var team: Team?
-    @State private var progress1 = 0.0
-    @State private var progress2 = 0.0
     @State private var showGameSummary = false
-    @State private var gameScoreIndex:GameScoreIndex?
+    @State private var gameScoreIndex: GameScoreIndex?
     @State private var showInfoView: Bool = false
-    @State private var isNotified: Bool = false
     @State private var showUndoConfirmation = false
+    @State private var roundCountBeforeSheet = 0
+    @State private var feedback: Round?
     let editScore = editScoreTip()
-    
-    private let lazyVGridSetup:LazyVGridSetup = LazyVGridSetup()
-    
+
+    /// The toolbar bar follows the leader; muted and on team 1's value when tied.
+    private var progressTeam: Team {
+        game.leader == .none ? .team1 : game.leader
+    }
+
+    private var progressTint: Color {
+        game.leader == .none ? Theme.textMuted : Theme.palette(for: game.leader).fill
+    }
+
     var body: some View {
-        
-            ZStack{
-                
-                VStack {
-                    
-                    Spacer()
-                        .frame(height: 32)
-                    
-                    // Top current score and progress line
-                    HStack{
-                        
-                        Spacer()
-                        
-                        VStack{
-                            ZStack{
-                                
-                                Text("\(game.totalScore1)")
-                                    .font(.system(size: 45))
-                                    .foregroundStyle(Theme.textPrimary)
-                                    .bold()
-                                
-                                //CircularProgressAroundIcon(progress: $progress1)
-                                
-                            }
-                        }
-                        .frame(width: 80, height: 80, alignment: .center)
-                        
-                        
-                        Spacer()
-                        
-                        ZStack{
-                            
-                            Text("\(game.totalScore2)")
-                                .font(.system(size: 45))
-                                .foregroundStyle(Theme.textPrimary)
-                                .bold()
-                            
-                        }
-                        .frame(width: 80, height: 80, alignment: .center)
-                        
-                        Spacer()
-                    }
-
-                    .glassEffect(.clear)
-
-                    Spacer()
-                        .frame(height: 16)
-                    
-                    //Players Names
-                    HStack(alignment: .center) {
-                        
-                        Spacer()
-                        
-                        BlobShape()
-                            .frame(width: 180, height: 80, alignment: .center)
-                            .foregroundStyle(.clear)
-                            .overlay(
-                                
-                                TeamView(team: .team1, game: game)
-                            )
-                        
-                        Spacer()
-                        BlobShape()
-                            .frame(width: 180, height: 80, alignment: .center)
-                            .foregroundStyle(.clear)
-                            .overlay(
-                                
-                                TeamView(team: .team2, game: game)
-                            )
-                        
-                        Spacer()
-                        
-                    }
-                    .disabled(game.state != GameState.playing)
-                    .glassEffect(.clear)
-                    
-                    Spacer()
-                        .frame(height: 16)
-                    
-                    
-                    //Score for each team
-                    ScrollView {
-
-                        HStack(alignment: .center){
-
-                            Spacer()
-
-                            VStack(alignment: .leading){
-
-                                ForEach(game.scoreTeam.indices, id:\.self){index in
-                                    if game.scoreTeam[index][0] > 0{
-
-                                        Text("\(game.scoreTeam[index][0] )")
-                                            .frame(width: 180, height: 58, alignment: .center)
-                                            .minimumScaleFactor(0.75)
-                                            .clipShape(.rect(cornerRadius: CornerRadius.thirteen.value))
-                                            .onLongPressGesture(minimumDuration: 1){
-
-
-                                                if game.inProcess {
-
-                                                    gameScoreIndex = GameScoreIndex()
-
-                                                    self.gameScoreIndex!.index = index
-                                                    self.gameScoreIndex!.team = .team1
-                                                    self.gameScoreIndex!.value = game.scoreTeam[index][0]
-                                                }
-
-                                            }
-                                    }
-                                }
-                                .glassEffect(.clear)
-
-                                if game.totalScore1 == 0{
-                                    Text("")
-                                        .frame(width: 180, height: 58, alignment: .center)
-                                        .background(.clear)
-                                }
-                                Spacer()
-                            }
-
-                            Spacer()
-
-                            VStack(alignment: .leading){
-
-                                ForEach(game.scoreTeam.indices, id:\.self){index in
-                                    if game.scoreTeam[index][1] > 0{
-
-                                        Text("\(game.scoreTeam[index][1] )")
-                                            .frame(width: 180, height: 58, alignment: .center)
-                                            .fontWeight(.light)
-                                            .minimumScaleFactor(0.75)
-                                            .clipShape(.rect(cornerRadius: CornerRadius.thirteen.value))
-                                            .onLongPressGesture(minimumDuration: 1){
-
-                                                if game.inProcess {
-
-                                                    gameScoreIndex = GameScoreIndex()
-
-                                                    self.gameScoreIndex!.index = index
-                                                    self.gameScoreIndex!.team = .team2
-                                                    self.gameScoreIndex!.value = game.scoreTeam[index][1]
-                                                }
-
-                                            }
-                                    }
-                                }
-                                .glassEffect(.clear)
-
-                                if game.totalScore2 == 0{
-                                    Text("")
-                                        .frame(width: 180, height: 60, alignment: .center)
-                                        .background(.clear)
-                                }
-                                Spacer()
-                            }
-                            .popoverTip(editScore)
-                            Spacer()
-                        }
-                    }
-                    .scrollIndicators(.hidden)
-                    HStack{
-                        
-                        Spacer()
-                        
-                        VStack {
-
-                            Button("Add Score", systemImage: "plus") {
-                                self.team = .team1
-                            }
-                            .buttonStyle(.glass)
-                        }
-                        
-                        Spacer()
-                        
-                        VStack{
-                            Text("Score To Win: \(game.maxScore, format: .number.precision(.fractionLength(0)))")
-                                .fontWeight(.thin)
-                                .minimumScaleFactor(0.75)
-                        }
-                        
-                        Spacer()
-                        
-                        VStack {
-
-                            Button("Add Score", systemImage: "plus") {
-                                self.team = .team2
-                            }
-                            .buttonStyle(.glass)
-                        }
-                        Spacer()
-                    }
-                    .sheet(item: $team, onDismiss: onDismiss){ team in
-                        AddGameScoreView(game: self.game, team: team)
-                    }
-                    .sheet(item: $gameScoreIndex, onDismiss: onDismiss) {gameScoreIndex in
-                        EditScoreView(game: self.game, gameScoreIndex: gameScoreIndex)
-                    }
-                    .disabled(game.state != GameState.playing)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Round \(game.currentRoundNumber) · First to \(Int(game.maxScore))")
+                        .duoLabel()
+                    Text(game.headline)
+                        .font(DuoFont.title)
+                        .foregroundStyle(Theme.textPrimary)
                 }
-                .padding(.top, -27)
-                .frame(maxWidth: 700)
+
+                HStack(spacing: 12) {
+                    TeamScoreCard(game: game, team: .team1)
+                    TeamScoreCard(game: game, team: .team2)
+                }
+                .padding(.top, 8)
+
+                roundsSection
             }
-            .background(Background())
-            .sheet(isPresented: $showGameSummary) {
-                GameSummaryView(game: game)
+            .padding()
+            .frame(maxWidth: 700)
+            .frame(maxWidth: .infinity)
+        }
+        .scrollIndicators(.hidden)
+        .background(Background())
+        .safeAreaInset(edge: .bottom) {
+            bottomBar
+        }
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                DuoProgressBar(value: game.progress(for: progressTeam), tint: progressTint)
+                    .frame(width: 180)
             }
-            .sheet(isPresented: $showInfoView) {
-                CollectionView()
-            }
-        .onAppear(perform: onAppear)
-        .toolbar{
-            ToolbarItemGroup(placement: .topBarLeading) {
-                Button("Undo", systemImage: "arrow.uturn.backward") {
+            .sharedBackgroundVisibility(.hidden)
+
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                Button {
                     showUndoConfirmation = true
+                } label: {
+                    Image(systemName: "arrow.uturn.backward")
+                        .foregroundStyle(Theme.textMuted)
                 }
+                .accessibilityLabel("Undo last score")
                 .disabled(game.scoreTeam.count <= 1 || game.state != .playing)
-            }
-            ToolbarItemGroup(placement: .topBarTrailing){
 
-                Button(action: {self.showInfoView.toggle()}) {
+                Button {
+                    showInfoView.toggle()
+                } label: {
                     Image(systemName: "info.circle")
+                        .foregroundStyle(Theme.textMuted)
                 }
+                .accessibilityLabel("How to play")
                 .disabled(game.state != GameState.playing)
             }
+            .sharedBackgroundVisibility(.hidden)
+        }
+        .sheet(item: $team, onDismiss: addScoreDismissed) { team in
+            AddGameScoreView(game: self.game, team: team)
+        }
+        .sheet(item: $gameScoreIndex, onDismiss: { finishIfWon() }) { gameScoreIndex in
+            EditScoreView(game: self.game, gameScoreIndex: gameScoreIndex)
+        }
+        .sheet(isPresented: $showGameSummary) {
+            GameSummaryView(game: game)
+        }
+        .sheet(isPresented: $showInfoView) {
+            CollectionView()
         }
         .alert("Undo Last Score", isPresented: $showUndoConfirmation) {
             Button("Undo", role: .destructive) {
                 game.scoreTeam.removeLast()
-                onAppear()
             }
             Button("Cancel", role: .cancel) { }
         } message: {
             Text("Are you sure you want to remove the last score entry?")
         }
+        .task(id: feedback) {
+            guard feedback != nil else { return }
+            try? await Task.sleep(for: .seconds(2))
+            withAnimation(.spring) { feedback = nil }
+        }
     }
-    
-    func onAppear(){
-        
-        progress1 = (Double(game.totalScore1 ) / game.maxScore > 1 ? 1 : Double(game.totalScore1 ) / game.maxScore)
-        progress2 = (Double(game.totalScore2 ) / game.maxScore > 1 ? 1 : Double(game.totalScore2 ) / game.maxScore)
+
+    // MARK: - Rounds
+
+    private var roundsSection: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(alignment: .firstTextBaseline) {
+                Text("Rounds")
+                    .font(.headline.weight(.heavy))
+                    .foregroundStyle(Theme.textPrimary)
+                Spacer()
+                Text("\(game.rounds.count) played")
+                    .font(.caption.weight(.heavy))
+                    .foregroundStyle(Theme.textMuted)
+            }
+            .padding(.bottom, 6)
+
+            if game.rounds.isEmpty {
+                Text("No rounds yet. Add the first score below.")
+                    .font(.subheadline.weight(.bold))
+                    .foregroundStyle(Theme.textMuted)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 24)
+            } else {
+                ForEach(game.rounds.reversed()) { round in
+                    RoundRow(round: round)
+                        .contentShape(.rect)
+                        .onLongPressGesture(minimumDuration: 1) {
+                            edit(round)
+                        }
+                        .accessibilityAction(named: "Edit score") {
+                            edit(round)
+                        }
+                }
+            }
+        }
+        .popoverTip(editScore)
     }
-    
-    func onDismiss(){
-        
-        progress1 = (Double(game.totalScore1 ) / game.maxScore > 1 ? 1 : Double(game.totalScore1 ) / game.maxScore)
-        progress2 = (Double(game.totalScore2 ) / game.maxScore > 1 ? 1 : Double(game.totalScore2 ) / game.maxScore)
-        
-        if game.winningTeam != .none && game.state == .playing {
-            game.state = .finished
-            game.inProcess = false
-            showGameSummary = true
+
+    // MARK: - Bottom bar
+
+    private var bottomBar: some View {
+        VStack(spacing: 0) {
+            Rectangle()
+                .fill(Theme.divider)
+                .frame(height: 2)
+
+            Group {
+                if let feedback {
+                    RoundFeedbackBanner(round: feedback, game: game)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                } else {
+                    HStack(spacing: 10) {
+                        addButton(for: .team1)
+                        addButton(for: .team2)
+                    }
+                    .disabled(game.state != GameState.playing)
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 12)
+            .padding(.bottom, 8)
+            .frame(maxWidth: 700)
+        }
+        .background(Theme.background)
+    }
+
+    private func addButton(for team: Team) -> some View {
+        Button {
+            roundCountBeforeSheet = game.rounds.count
+            self.team = team
+        } label: {
+            Label(game.displayName(for: team), systemImage: "plus")
+        }
+        .buttonStyle(.duo(Theme.palette(for: team)))
+        .accessibilityLabel("Add score for \(game.displayName(for: team))")
+    }
+
+    // MARK: - Actions
+
+    private func edit(_ round: Round) {
+        guard game.inProcess else { return }
+        let index = GameScoreIndex()
+        index.index = round.id
+        index.team = round.team
+        index.value = round.points
+        gameScoreIndex = index
+    }
+
+    /// Ends the game when a team reached the target. Returns true if it did.
+    @discardableResult
+    private func finishIfWon() -> Bool {
+        guard game.winningTeam != .none, game.state == .playing else { return false }
+        game.state = .finished
+        game.inProcess = false
+        showGameSummary = true
+        return true
+    }
+
+    /// After Add Score: finish on a win, otherwise celebrate the new round.
+    /// (Edit Score only runs `finishIfWon` — editing never shows the banner.)
+    private func addScoreDismissed() {
+        if finishIfWon() { return }
+
+        if game.rounds.count > roundCountBeforeSheet, let last = game.rounds.last {
+            withAnimation(.spring) { feedback = last }
+            AccessibilityNotification.Announcement("Nice round! \(game.feedbackDetail(for: last))").post()
         }
     }
 }
@@ -281,122 +220,14 @@ struct GameView: View {
 #Preview {
     do {
         let previewer = try Previewer()
-        
-        return GameView(path: .constant(NavigationPath()), game: previewer.game)
-            .modelContainer(previewer.container)
-        //            .task {
-        //                try? Tips.resetDatastore()
-        //                try? Tips.configure([
-        //                    .displayFrequency(.immediate),
-        //                    .datastoreLocation(.applicationDefault)])
-        //            }
+
+        return NavigationStack {
+            GameView(path: .constant(NavigationPath()), game: previewer.game)
+        }
+        .modelContainer(previewer.container)
+        .fontDesign(.rounded)
     }
     catch {
         return Text("Failed to create preview: \(error.localizedDescription)")
-    }
-}
-
-
-enum NotifyAnimationPhase: CaseIterable {
-    case initial, lift, shakeLeft, shakeRight
-    
-    var yOffset: CGFloat {
-        switch self {
-        case .initial: 0
-        case .lift, .shakeLeft, .shakeRight: -15
-        }
-    }
-    
-    var scale: CGFloat {
-        switch self {
-        case .initial: 1
-        case .lift, .shakeLeft, .shakeRight: 4.2
-        }
-    }
-    
-    var rotationDegress: Double {
-        switch self {
-        case .initial, .lift: 0
-        case .shakeLeft: -30
-        case .shakeRight: 30
-        }
-    }
-}
-
-struct CircularProgressAroundIcon: View {
-    
-    @Binding var progress:Double
-    
-    var body: some View {
-        
-        // Circular progress ring around it
-        Circle()
-            .stroke(
-                Color.gray.opacity(0.3),
-                lineWidth: 8
-            )
-            .frame(width: 100, height: 100)
-        
-        Circle()
-            .trim(from: 0, to: progress)
-            .stroke(
-                AngularGradient(
-                    gradient: Gradient(colors: [Theme.accent, Theme.danger]),
-                    center: .center
-                ),
-                style: StrokeStyle(lineWidth: 8, lineCap: .butt)
-            )
-            .frame(width: 100, height: 120)
-            .rotationEffect(.degrees(-90)) // start from top
-            .animation(.bouncy, value: progress)
-    }
-}
-
-struct TeamView: View {
-    
-    let team: Team
-    let game: Game
-    
-    
-    var body: some View {
-        HStack(alignment: .center){
-            Image(systemName: game.setSymbol(team: team))
-                .resizable()
-                .scaledToFit()
-                .frame(height: 36)
-                .clipShape(.rect(cornerRadius: 8))
-                .foregroundStyle((game.winningTeam == team || game.inProcess == true) ? Theme.accentInk : Theme.danger)
-                .phaseAnimator ([ NotifyAnimationPhase.initial,
-                                  .lift,
-                                  .shakeLeft,
-                                  .shakeRight,
-                                  .shakeLeft,
-                                  .shakeRight
-                ], trigger: (game.winningTeam == team)) { content, phase in
-                    content
-                        .scaleEffect (phase.scale)
-                        .rotationEffect(.degrees(phase.rotationDegress), anchor: .top)
-                        .offset(y: phase.yOffset)
-                }
-            animation: { phase in
-                switch phase {
-                case .initial, .lift: .spring (bounce: 0.5)
-                case .shakeLeft, .shakeRight: .easeInOut(duration: 0.15)
-                }
-            }
-            
-            VStack(alignment: .leading){
-                Text(team == .team1 ? game.team1[0] : game.team2[0])
-                    .fontWeight(.light)
-                    .minimumScaleFactor(0.75)
-                
-                Text(team == .team1 ? game.team1[1] : game.team2[1])
-                    .fontWeight(.light)
-                    .minimumScaleFactor(0.75)
-            }
-            Spacer()
-        }
-        .padding()
-        .shadow(radius: 19)
     }
 }
