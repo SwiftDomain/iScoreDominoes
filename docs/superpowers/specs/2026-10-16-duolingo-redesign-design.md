@@ -10,8 +10,8 @@ Source: Refero style "Duolingo — Playful classroom mascot on white paper" (sty
 | `surfaceSecondary` | `#F7F7F7` | Wells (number display, round circles, cancelled chip) |
 | `dividerColor` | `#E5E5E5` | 2pt borders, card bottom edge, empty round cell "—" |
 | `textPrimary` | `#4B4B4B` | Titles, body |
-| `textSecondary` | `#777777` | Secondary and informational text ("95 to win", round numbers, "5 played", tile subtitles, dates); Increase Contrast `#595959` |
-| `textMuted` (new) | `#AFAFAF` | Uppercase labels, toolbar icons, placeholder, disabled titles; Increase Contrast `#767676` |
+| `textSecondary` | `#777777` | Secondary and informational text: uppercase labels ("ROUND 6 · FIRST TO 200"), "95 to win", round numbers, "5 played", tile subtitles, dates; Increase Contrast `#595959` |
+| `textMuted` (new) | `#AFAFAF` | Toolbar icons, placeholder, disabled titles (not text people need to read); Increase Contrast `#767676` |
 | `AccentColor`, `success`, `teamA` (new) | `#58CC02` | Team 1, primary action, wordmark |
 | `accentInk`, `teamAShadow` (new) | `#58A700` | Pressed edge under green; green text on wash |
 | `teamAWash` (new) | `#D7FFB8` | Green tint (FINISHED chip, feedback banner, preview bar) |
@@ -51,7 +51,7 @@ Flat. No gradients, shadows, blur or glass on redesigned screens. Depth = a dark
 - Toolbar: system back, progress bar (leader's progress toward the target, leader's color; muted when tied), undo, info. Undo and info turn `dividerColor` when disabled (game over, or no rounds to undo).
 - Label "ROUND 6 · FIRST TO 200" ("3 ROUNDS · FIRST TO 200" once finished or cancelled), headline (see copy).
 - Two team cards: overlapping initial avatars, names, total (42pt, team color), team progress bar, "95 to win". Leader card gets a team-colored border and a gold crown badge.
-- "Rounds" + "5 played"; rows newest first: gray numbered circle, "+35" in the scoring team's color in its column, "—" in the other. Long-press edits (existing behavior).
+- "Rounds" + "5 played"; rows newest first: gray numbered circle, "+35" in the scoring team's color in its column, "—" in the other. Long-press edits (existing behavior) while the game is playing; the "Edit Scores" tip and the VoiceOver "Edit score" action only appear then, and only once there are rounds.
 - Bottom bar: green "+ Ana & Luis" and blue "+ Rafa & Mia" pressable buttons; disabled when the game isn't playing.
 - After a round is added (and the game isn't won): feedback banner replaces the bottom bar for 2 seconds — wash background in the scoring team's color, check badge, "Nice round!", "Ana & Luis +35 · 60 to win".
 

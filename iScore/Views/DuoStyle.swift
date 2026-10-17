@@ -155,8 +155,9 @@ extension View {
         modifier(DuoSolidChrome(fill: fill, edge: edge, radius: radius))
     }
 
-    /// Uppercase tracked label ("ROUND 6 · FIRST TO 200").
-    func duoLabel(_ color: Color = Theme.textMuted) -> some View {
+    /// Uppercase tracked label ("ROUND 6 · FIRST TO 200"). Labels carry
+    /// information, so they default to the readable secondary gray.
+    func duoLabel(_ color: Color = Theme.textSecondary) -> some View {
         font(DuoFont.label)
             .textCase(.uppercase)
             .tracking(0.8)
