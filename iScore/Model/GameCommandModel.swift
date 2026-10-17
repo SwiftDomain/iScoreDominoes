@@ -36,12 +36,14 @@ enum GameCommandModel {
 
     private static func team(_ heard: [String], completedBy suggested: [String], transcript: String) -> [String] {
         guard heard.count != 2, suggested.count == 2 else { return heard }
-        if heard.isEmpty {
-            // Nothing was heard for this team, so the transcript is the only evidence: a model
-            // that invents players from noise like "uh" must not seat them.
-            let spoken = Set(transcriptWords(transcript))
-            return suggested.flatMap(words).allSatisfy { spoken.contains(fold($0)) } ? suggested : heard
-        }
+        // Whatever the model suggests must have been said: a name it invented would become a
+        // real, synced Player once the user taps Start. That holds whether or not the parser
+        // heard anything for this team.
+        let spoken = Set(transcriptWords(transcript))
+        guard suggested.flatMap(words).allSatisfy(spoken.contains) else { return heard }
+        if heard.isEmpty { return suggested }
+        // A partial team must also be covered: the suggestion may extend what was heard, never
+        // contradict it.
         let suggestedWords = Set(suggested.flatMap(words))
         return heard.flatMap(words).allSatisfy(suggestedWords.contains) ? suggested : heard
     }
@@ -55,7 +57,7 @@ enum GameCommandModel {
     }
 
     private static func words(_ name: String) -> [String] {
-        name.lowercased().split(whereSeparator: \.isWhitespace).map(String.init)
+        fold(name).split(whereSeparator: \.isWhitespace).map(String.init)
     }
 
     /// Turns the model's raw fields into a command, dropping anything unusable: an unknown game
@@ -100,7 +102,9 @@ enum GameCommandModel {
     /// The race, with the asker injected so it is testable on any device. Returns `deterministic`
     /// unchanged when `ask` throws, returns nil, or is still running when `timeout` passes;
     /// otherwise merges its answer. The asker runs in an unstructured task, so one that ignores
-    /// cancellation cannot hold the caller up.
+    /// cancellation cannot hold the caller up. (It also means an injected asker that never
+    /// returns and ignores cancellation leaves the observer task below alive; the real asker
+    /// always finishes, so this only matters for test doubles.)
     static func enhance(_ deterministic: GameCommand,
                         transcript: String,
                         timeout: Duration,

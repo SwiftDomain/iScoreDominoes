@@ -82,8 +82,8 @@ struct NewGameView: View {
                 VStack(spacing: 8) {
                     if let hint = lineup.hint {
                         Text(hint)
-                            .font(.subheadline.weight(.bold))
-                            .foregroundStyle(Theme.textMuted)
+                            .font(DuoFont.body)
+                            .foregroundStyle(Theme.textSecondary)
                     }
 
                     Button("Start game", action: startGame)
@@ -112,14 +112,7 @@ struct NewGameView: View {
                 .tint(Theme.accentInk)
             }
         }
-        .sheet(isPresented: $isSpeaking) {
-            VoiceGameSheet(
-                defaults: GameDefaults.load(),
-                known: players.map(\.name),
-                owner: OwnerIdentity.resolve(OwnerIdentity.load(), known: players.map(\.name)),
-                onConfirm: start
-            )
-        }
+        .voiceGameSheet(isPresented: $isSpeaking, players: players, onConfirm: start)
         .navigationDestination(item: $startedGame) { game in
             GameView(path: $path, game: game)
         }

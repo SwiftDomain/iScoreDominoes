@@ -163,8 +163,13 @@ enum PlayerName {
     }
 
     static func isSame(_ lhs: String, _ rhs: String) -> Bool {
-        let clean = { (name: String) in name.trimmingCharacters(in: .whitespacesAndNewlines) }
-        return clean(lhs).caseInsensitiveCompare(clean(rhs)) == .orderedSame
+        // Folded for case and accents: the recognizer's accenting ("Papó" vs "Papo") is not
+        // under the user's control, and a miss here would create a duplicate Player.
+        let clean = { (name: String) in
+            name.trimmingCharacters(in: .whitespacesAndNewlines)
+                .folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil)
+        }
+        return clean(lhs) == clean(rhs)
     }
 
     /// Picker search; an empty query matches everyone.

@@ -107,6 +107,19 @@ struct PlayerNameTests {
         #expect(PlayerName.isSame("Ana", " ana"))
         #expect(!PlayerName.isSame("Ana", "Anabel"))
     }
+
+    @Test func sameNameIgnoresAccents() {
+        #expect(PlayerName.isSame("Papó", "Papo"))
+        #expect(PlayerName.isSame("Luís", "luis"))
+        #expect(PlayerName.isSame("José", " JOSE "))
+        #expect(!PlayerName.isSame("Luis", "Luisa"))
+        #expect(!PlayerName.isSame("Ana", "Anna"))
+    }
+
+    @Test func resolveReusesTheSavedSpellingAcrossAccents() {
+        #expect(PlayerName.resolve("papo", existing: ["Papó"]) == "Papó")
+        #expect(PlayerName.resolve("Luís", existing: ["Luis"]) == "Luis")
+    }
 }
 
 struct GameDefaultsTests {

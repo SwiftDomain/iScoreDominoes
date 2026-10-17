@@ -21,7 +21,9 @@ struct VoiceGameSheet: View {
 
     @Environment(\.dismiss) private var dismiss
 
-    @State private var capture = SpeechCapture(locale: .current)
+    /// `@State` initial values are built on every parent body pass; the holder is nearly free
+    /// and creates the recognizer and audio engine once, on first use.
+    @State private var captureHolder = CaptureHolder()
     @State private var phase = Phase.listening
     @State private var notice: String?
     /// True once the user (or the system) has taken over ending the session.
@@ -47,6 +49,8 @@ struct VoiceGameSheet: View {
         _gameType = State(initialValue: defaults.type)
         _target = State(initialValue: defaults.target)
     }
+
+    private var capture: SpeechCapture { captureHolder.capture }
 
     private var newNames: [String] {
         VoiceSetup.newNames(in: lineup, known: known, owner: owner)
@@ -88,7 +92,7 @@ struct VoiceGameSheet: View {
 
             if let notice {
                 Label(notice, systemImage: "info.circle.fill")
-                    .font(.subheadline.weight(.bold))
+                    .font(DuoFont.body)
                     .foregroundStyle(Theme.textSecondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -146,9 +150,15 @@ struct VoiceGameSheet: View {
             VStack(alignment: .leading, spacing: 14) {
                 if let notice {
                     Label(notice, systemImage: "info.circle.fill")
-                        .font(.subheadline.weight(.bold))
+                        .font(DuoFont.body)
                         .foregroundStyle(Theme.textSecondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                }
+
+                if VoiceSetup.opening(for: capture.availability) == .listen {
+                    // A misheard name should cost one tap, not a re-open of the sheet.
+                    Button("Say it again", systemImage: "mic.fill", action: sayItAgain)
+                        .buttonStyle(.duo(Theme.palette(for: .team2)))
                 }
 
                 if notice != nil { typedField }
@@ -194,7 +204,7 @@ struct VoiceGameSheet: View {
     private var typedField: some View {
         VStack(alignment: .leading, spacing: 8) {
             TextField("Nine, 200, me and Ana vs Luis and Rafa", text: $typed, axis: .vertical)
-                .font(.body.weight(.bold))
+                .font(DuoFont.body)
                 .foregroundStyle(Theme.textPrimary)
                 .autocorrectionDisabled()
                 .submitLabel(.go)
@@ -235,8 +245,8 @@ struct VoiceGameSheet: View {
             VStack(spacing: 8) {
                 if let hint = lineup.hint {
                     Text(hint)
-                        .font(.subheadline.weight(.bold))
-                        .foregroundStyle(Theme.textMuted)
+                        .font(DuoFont.body)
+                        .foregroundStyle(Theme.textSecondary)
                 }
 
                 Button("Start game", action: confirm)
@@ -309,6 +319,14 @@ struct VoiceGameSheet: View {
         phase = .review
     }
 
+    /// Back to the mic from Review; the filled-in game stays until something new is heard.
+    private func sayItAgain() {
+        notice = nil
+        isEnding = false
+        phase = .listening
+        Task { await startListening() }
+    }
+
     private func fallBackToTyping(error: Error?) {
         notice = VoiceSetup.explanation(availability: capture.availability, error: error ?? capture.lastError)
             ?? VoiceSetup.couldntStart
@@ -349,6 +367,34 @@ struct VoiceGameSheet: View {
         let resolved = ResolvedGame(gameType: gameType, target: target, lineup: lineup, newNames: newNames)
         dismiss()
         onConfirm(resolved)
+    }
+}
+
+/// Creates the `SpeechCapture` (recognizer and audio engine) on first use only.
+@MainActor
+private final class CaptureHolder {
+    lazy var capture = SpeechCapture(locale: .current)
+}
+
+extension View {
+    /// Presents the "say the game" sheet. Every mic entry point goes through here so the
+    /// owner lookup and known-player list are built one way. `defaults` is read each time the
+    /// sheet opens. The sheet only calls `onConfirm` with a complete lineup.
+    func voiceGameSheet(
+        isPresented: Binding<Bool>,
+        players: [Player],
+        defaults: @escaping () -> (type: GameType, target: Int) = { GameDefaults.load() },
+        onConfirm: @escaping (ResolvedGame) -> Void
+    ) -> some View {
+        sheet(isPresented: isPresented) {
+            let known = players.map(\.name)
+            VoiceGameSheet(
+                defaults: defaults(),
+                known: known,
+                owner: OwnerIdentity.resolve(OwnerIdentity.load(), known: known),
+                onConfirm: onConfirm
+            )
+        }
     }
 }
 

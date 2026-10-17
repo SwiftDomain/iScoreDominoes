@@ -88,10 +88,17 @@ struct GameSummaryView: View {
                         .accessibilityLabel("Share results")
                     }
 
-                    Button("Done") {
+                    // Neutral on purpose: "Next game" carries the colour, and Done no longer
+                    // paints team-2 blue over a team-1 win.
+                    Button {
                         dismiss()
+                    } label: {
+                        Text("Done")
+                            .font(DuoFont.label)
+                            .foregroundStyle(Theme.textPrimary)
+                            .frame(maxWidth: .infinity, minHeight: 46)
                     }
-                    .buttonStyle(.duo(Theme.palette(for: .team2)))
+                    .buttonStyle(.duoCard)
 
                     Button("Next game", systemImage: "mic.fill") {
                         isSpeaking = true
@@ -108,19 +115,16 @@ struct GameSummaryView: View {
         .task {
             shareImage = renderShareImage()
         }
-        .sheet(isPresented: $isSpeaking) {
-            // The night keeps its settings: seed with this game's, not the saved defaults.
-            VoiceGameSheet(
-                defaults: (type: game.gameType, target: Int(game.maxScore)),
-                known: players.map(\.name),
-                owner: OwnerIdentity.resolve(OwnerIdentity.load(), known: players.map(\.name)),
-                onConfirm: startNext
-            )
-        }
+        // The night keeps its settings: seed with this game's, not the saved defaults.
+        .voiceGameSheet(
+            isPresented: $isSpeaking,
+            players: players,
+            defaults: { (type: game.gameType, target: Int(game.maxScore)) },
+            onConfirm: startNext
+        )
     }
 
     private func startNext(_ resolved: ResolvedGame) {
-        guard resolved.lineup.isComplete else { return }
         let next = GameFactory.make(resolved, existing: players, in: context)
         dismiss()
         onNextGame(next)

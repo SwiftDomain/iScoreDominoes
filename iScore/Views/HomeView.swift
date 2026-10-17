@@ -134,21 +134,13 @@ struct HomeView: View {
         .sheet(isPresented: $showSettingsView) {
             SettingsView()
         }
-        .sheet(isPresented: $isSpeaking) {
-            VoiceGameSheet(
-                defaults: GameDefaults.load(),
-                known: players.map(\.name),
-                owner: OwnerIdentity.resolve(OwnerIdentity.load(), known: players.map(\.name)),
-                onConfirm: start
-            )
-        }
+        .voiceGameSheet(isPresented: $isSpeaking, players: players, onConfirm: start)
     }
 }
 
 extension HomeView {
     /// Creates the spoken game and goes straight to its scoreboard.
     fileprivate func start(_ resolved: ResolvedGame) {
-        guard resolved.lineup.isComplete else { return }
         path.append(GameFactory.make(resolved, existing: players, in: context))
     }
 }

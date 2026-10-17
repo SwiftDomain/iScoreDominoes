@@ -71,7 +71,9 @@ struct GameCommandModelTests {
         var model = GameCommand()
         model.team1 = ["Juan Carlos", "Ana"]
         model.team2 = ["Luis", "Papo"]
-        let merged = GameCommandModel.merged(deterministic: deterministic, model: model, transcript: Self.spoken)
+        let merged = GameCommandModel.merged(
+            deterministic: deterministic, model: model,
+            transcript: "Juan Carlos y Ana contra Luis y Papo")
         #expect(merged.team1 == ["Juan Carlos", "Ana"])
         #expect(merged.team2 == ["Luis", "Papo"])
     }
@@ -82,6 +84,22 @@ struct GameCommandModelTests {
         var model = GameCommand()
         model.team1 = ["Wrong", "Names"]
         #expect(GameCommandModel.merged(deterministic: deterministic, model: model, transcript: Self.spoken).team1 == ["Ana"])
+    }
+
+    @Test func mergeRejectsAnInventedNameAddedToAPartialTeam() {
+        var deterministic = GameCommand()
+        deterministic.team1 = ["Ana"]
+        var model = GameCommand()
+        model.team1 = ["Ana", "Invented"]
+        #expect(GameCommandModel.merged(deterministic: deterministic, model: model, transcript: "uh Ana").team1 == ["Ana"])
+    }
+
+    @Test func mergeCompletesAPartialTeamWithANameThatWasSaid() {
+        var deterministic = GameCommand()
+        deterministic.team1 = ["Ana"]
+        var model = GameCommand()
+        model.team1 = ["Ana", "Luís"]
+        #expect(GameCommandModel.merged(deterministic: deterministic, model: model, transcript: "uh Ana y LUIS").team1 == ["Ana", "Luís"])
     }
 
     @Test func mergeFillsAnEmptyCommandFromTheModel() {
