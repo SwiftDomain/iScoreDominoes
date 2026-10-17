@@ -8,15 +8,52 @@
 import SwiftUI
 import WebKit
 
+/// A YouTube video in an iframe. YouTube rejects embeds without an
+/// identifying Referer ("Error 153"), so the page is loaded with the app's
+/// own origin as its base URL, which WebKit sends as the Referer.
 struct YouTubeView: UIViewRepresentable {
     let videoId: String
-    func makeUIView(context: Context) ->  WKWebView {
-        return WKWebView()
+
+    func makeUIView(context: Context) -> WKWebView {
+        let webView = WKWebView()
+        webView.scrollView.isScrollEnabled = false
+        // Loaded once here, not in updateUIView, which runs on every view update.
+        webView.loadHTMLString(Self.embedHTML(videoId: videoId), baseURL: Self.appOrigin())
+        return webView
     }
-    func updateUIView(_ uiView: WKWebView, context: Context) {
-        guard let demoURL = URL(string: "https://www.youtube.com/embed/\(videoId)") else { return }
-        uiView.scrollView.isScrollEnabled = false
-        uiView.load(URLRequest(url: demoURL))
+
+    func updateUIView(_ uiView: WKWebView, context: Context) {}
+
+    /// `https://<bundle id, lowercased>`, the Referer YouTube asks WebView apps to send.
+    static func appOrigin(bundleIdentifier: String? = Bundle.main.bundleIdentifier) -> URL? {
+        guard let bundleIdentifier else { return nil }
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = bundleIdentifier.lowercased()
+        return components.url
+    }
+
+    static func embedHTML(videoId: String) -> String {
+        var components = URLComponents(string: "https://www.youtube.com")
+        components?.path = "/embed/\(videoId)"
+        let src = components?.url?.absoluteString ?? ""
+        return """
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+        html, body { margin: 0; height: 100%; overflow: hidden; }
+        iframe { display: block; width: 100%; height: 100%; border: 0; }
+        </style>
+        </head>
+        <body>
+        <iframe src="\(src)" title="YouTube video player" \
+        allow="autoplay; encrypted-media; picture-in-picture; web-share" \
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </body>
+        </html>
+        """
     }
 }
 
