@@ -67,7 +67,7 @@ struct GameView: View {
                         .foregroundStyle(Theme.textMuted)
                 }
                 .accessibilityLabel("Undo last score")
-                .disabled(game.scoreTeam.count <= 1 || game.state != .playing)
+                .disabled(!game.canUndo || game.state != .playing)
 
                 Button {
                     showInfoView.toggle()
@@ -94,7 +94,7 @@ struct GameView: View {
         }
         .alert("Undo Last Score", isPresented: $showUndoConfirmation) {
             Button("Undo", role: .destructive) {
-                game.scoreTeam.removeLast()
+                game.undoLastRound()
             }
             Button("Cancel", role: .cancel) { }
         } message: {

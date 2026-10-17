@@ -15,6 +15,14 @@ struct ThemeTests {
         #expect(Set(Theme.colorAssetNames).count == 24)
     }
 
+    /// Red (`danger`) is for destructive actions only; a lost or cancelled
+    /// game in All Games must read as muted, not as an error.
+    @Test func gameCellSymbolColors() {
+        #expect(GameCellView.symbolColor(isWinner: true, inProcess: false) == Theme.accentInk)
+        #expect(GameCellView.symbolColor(isWinner: false, inProcess: true) == Theme.textSecondary)
+        #expect(GameCellView.symbolColor(isWinner: false, inProcess: false) == Theme.textMuted)
+    }
+
     @Test func teamPalettes() {
         let team1 = Theme.palette(for: .team1)
         #expect(team1.fill == Theme.teamA)

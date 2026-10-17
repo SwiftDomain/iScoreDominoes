@@ -2,12 +2,13 @@
 //  DemoData.swift
 //  iScore
 //
-//  DEBUG-only sample games for previews and simulator checks.
-//  Launch with `-demoData` to start the app on an in-memory store seeded
-//  with these games (real data and CloudKit are left untouched).
+//  Sample games for previews and simulator checks. Debug builds launched
+//  with `-demoData` start on an in-memory store seeded with these games
+//  (real data and CloudKit are left untouched). The launch-argument check in
+//  `iScoreApp` is DEBUG-only; this file is not, because `#Preview` blocks
+//  (via `Previewer`) also compile in Release.
 //
 
-#if DEBUG
 import Foundation
 import SwiftData
 
@@ -53,4 +54,3 @@ enum DemoData {
         return game
     }
 }
-#endif

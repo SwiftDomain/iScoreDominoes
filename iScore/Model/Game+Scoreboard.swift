@@ -79,6 +79,18 @@ extension Game {
         rounds.count + 1
     }
 
+    /// Undo only makes sense when there is a visible round to take back.
+    var canUndo: Bool {
+        !rounds.isEmpty
+    }
+
+    /// Removes the last visible round, plus any hidden zero rows after it
+    /// (rounds edited down to 0), so Undo always changes what's on screen.
+    func undoLastRound() {
+        guard let last = rounds.last else { return }
+        scoreTeam.removeSubrange(last.id...)
+    }
+
     /// Appends a one-sided round. Ignores non-positive points and `.none`.
     func addRound(_ points: Int, for team: Team) {
         guard points > 0 else { return }

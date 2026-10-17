@@ -112,6 +112,22 @@ struct GameScoreboardTests {
         #expect(game.scoreTeam.count == count)
     }
 
+    @Test func undoRemovesLastVisibleRound() {
+        // Round 2 was edited down to 0 after being scored: the trailing row is hidden.
+        let game = makeGame(rows: [[0, 0], [10, 0], [0, 5], [0, 0]])
+        #expect(game.canUndo)
+        game.undoLastRound()
+        #expect(game.scoreTeam == [[0, 0], [10, 0]])
+        #expect(game.rounds.map(\.points) == [10])
+    }
+
+    @Test func undoIsUnavailableWithoutVisibleRounds() {
+        let game = makeGame(rows: [[0, 0], [0, 0]])
+        #expect(!game.canUndo)
+        game.undoLastRound()
+        #expect(game.scoreTeam == [[0, 0], [0, 0]])
+    }
+
     @Test func pips() {
         #expect(GameType.six.pips == 6)
         #expect(GameType.nine.pips == 9)

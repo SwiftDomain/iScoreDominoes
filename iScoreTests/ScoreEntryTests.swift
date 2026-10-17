@@ -51,6 +51,16 @@ struct ScoreEntryTests {
         #expect(entry.digits == "")
     }
 
+    @Test func takeReturnsValueOnlyOnce() {
+        // A double-tap on Add must not save the round twice.
+        var entry = ScoreEntry()
+        entry.append(3)
+        entry.append(5)
+        #expect(entry.take() == 35)
+        #expect(entry.take() == nil)
+        #expect(entry.digits == "")
+    }
+
     @Test func buttonTitles() {
         var entry = ScoreEntry()
         #expect(entry.buttonTitle == "Add points")

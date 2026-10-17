@@ -121,7 +121,7 @@ struct AddGameScoreView: View {
     // MARK: - Actions
 
     private func addScore() {
-        guard let value = entry.value else { return }
+        guard let value = entry.take() else { return }
         game.addRound(value, for: team)
         dismiss()
     }

@@ -69,6 +69,13 @@ struct GameCellView: View {
         self.winner = (game.winningTeam == team)
     }
 
+    /// Winner in green, games in progress in gray, losses muted.
+    /// (`Theme.danger` is red in the Duo palette and reserved for destructive actions.)
+    static func symbolColor(isWinner: Bool, inProcess: Bool) -> Color {
+        if isWinner { return Theme.accentInk }
+        return inProcess ? Theme.textSecondary : Theme.textMuted
+    }
+
     var body: some View {
         ZStack {
             HStack(alignment: .center) {
@@ -76,7 +83,7 @@ struct GameCellView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 40, height: 40)
-                    .foregroundStyle(winner ? Theme.accentInk : (game.inProcess ? Theme.textSecondary : Theme.danger))
+                    .foregroundStyle(Self.symbolColor(isWinner: winner, inProcess: game.inProcess))
 
                 Spacer()
                     .frame(width: 16)

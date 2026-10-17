@@ -35,6 +35,13 @@ struct ScoreEntry: Equatable {
         Int(digits)
     }
 
+    /// Returns the value and clears the entry, so a second tap gets nil
+    /// (the Add button stays live while the sheet animates away).
+    mutating func take() -> Int? {
+        defer { clear() }
+        return value
+    }
+
     var buttonTitle: String {
         switch value {
         case nil: "Add points"
