@@ -53,7 +53,7 @@ struct ScoreKeypad: View {
                 .foregroundStyle(Theme.textPrimary)
                 .frame(maxWidth: .infinity, minHeight: 52)
         }
-        .buttonStyle(.duoCard)
+        .buttonStyle(.duoKey)
     }
 }
 

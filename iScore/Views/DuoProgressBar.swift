@@ -16,6 +16,8 @@ struct DuoProgressBar: View {
     var previewTint: Color = Theme.teamAWash
     var track: Color = Theme.divider
     var height: CGFloat = 16
+    /// VoiceOver name, e.g. "Ana & Luis progress".
+    var label: String = "Progress"
 
     /// Clamps to 0…1; NaN and infinity (e.g. a 0-point target) read as 0.
     static func clamped(_ value: Double) -> Double {
@@ -54,7 +56,7 @@ struct DuoProgressBar: View {
         .animation(.spring(duration: 0.4), value: value)
         .animation(.spring(duration: 0.3), value: preview)
         .accessibilityElement()
-        .accessibilityLabel("Progress")
+        .accessibilityLabel(label)
         .accessibilityValue(Text(Self.clamped(value), format: .percent.precision(.fractionLength(0))))
     }
 }

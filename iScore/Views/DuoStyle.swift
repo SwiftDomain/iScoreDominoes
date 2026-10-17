@@ -92,34 +92,47 @@ extension ButtonStyle where Self == DuoButtonStyle {
 struct DuoCardStyle: ButtonStyle {
 
     var edge: CGFloat = 4
+    var radius: CGFloat = 16
+
+    /// How far the face drops onto its edge when pressed.
+    var pressDrop: CGFloat { DuoCardChrome.drop(forEdge: edge) }
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .modifier(DuoCardChrome(edge: edge, border: Theme.divider, pressed: configuration.isPressed))
+            .modifier(DuoCardChrome(edge: edge, border: Theme.divider, radius: radius, pressed: configuration.isPressed))
             .animation(.easeOut(duration: 0.08), value: configuration.isPressed)
     }
 }
 
 extension ButtonStyle where Self == DuoCardStyle {
     static var duoCard: DuoCardStyle { DuoCardStyle() }
+
+    /// Keypad key: a white card with the button shape (radius 14, 4pt drop).
+    static var duoKey: DuoCardStyle { DuoCardStyle(edge: 6, radius: 14) }
 }
 
 /// White card surface. `edge` is the total bottom border thickness (2 = flat).
 private struct DuoCardChrome: ViewModifier {
 
-    let edge: CGFloat
-    let border: Color
-    var pressed = false
-
-    private let shape = RoundedRectangle(cornerRadius: 16)
+    static let borderWidth: CGFloat = 2
 
     /// The 2pt stroke already draws part of the bottom border.
-    private var drop: CGFloat { max(edge - 2, 0) }
+    static func drop(forEdge edge: CGFloat) -> CGFloat {
+        max(edge - borderWidth, 0)
+    }
+
+    let edge: CGFloat
+    let border: Color
+    var radius: CGFloat = 16
+    var pressed = false
+
+    private var shape: RoundedRectangle { RoundedRectangle(cornerRadius: radius) }
+    private var drop: CGFloat { Self.drop(forEdge: edge) }
 
     func body(content: Content) -> some View {
         content
             .background(Theme.surface, in: shape)
-            .overlay(shape.strokeBorder(border, lineWidth: 2))
+            .overlay(shape.strokeBorder(border, lineWidth: Self.borderWidth))
             .offset(y: pressed ? drop : 0)
             .padding(.bottom, drop)
             .background(alignment: .bottom) {
@@ -177,7 +190,7 @@ extension View {
             Button {} label: {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("New game").font(DuoFont.body)
-                    Text("Start playing").font(.caption).foregroundStyle(Theme.textMuted)
+                    Text("Start playing").font(.caption).foregroundStyle(Theme.textSecondary)
                 }
                 .foregroundStyle(Theme.textPrimary)
                 .frame(maxWidth: .infinity, alignment: .leading)

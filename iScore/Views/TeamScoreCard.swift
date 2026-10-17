@@ -42,7 +42,7 @@ struct TeamScoreCard: View {
 
             Text("\(game.pointsToWin(for: team)) to win")
                 .font(.caption.weight(.heavy))
-                .foregroundStyle(Theme.textMuted)
+                .foregroundStyle(Theme.textSecondary)
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 12)

@@ -43,8 +43,9 @@ def setup_tests
     tests = project.new_target(:unit_test_bundle, TEST_TARGET, :ios, '26.0', project.products_group, :swift)
     tests.add_dependency(app)
   end
+  remove_sdk_frameworks(tests)
 
-  team = app.build_configurations.map { |c| c.build_settings['DEVELOPMENT_TEAM'] }.compact.first
+  team =app.build_configurations.map { |c| c.build_settings['DEVELOPMENT_TEAM'] }.compact.first
   tests.build_configurations.each do |config|
     settings = config.build_settings
     settings['PRODUCT_NAME'] = '$(TARGET_NAME)'
@@ -62,6 +63,27 @@ def setup_tests
   find_group(TEST_TARGET, create: true)
   project.save
   add_to_shared_scheme(tests)
+end
+
+# `new_target` links Foundation.framework by a path inside a pinned SDK
+# (e.g. iPhoneOS18.0.sdk) that goes missing with newer Xcodes. Swift
+# imports it implicitly, so drop it and the Frameworks/iOS groups it made.
+def remove_sdk_frameworks(target)
+  target.frameworks_build_phase.files.dup.each do |build_file|
+    ref = build_file.file_ref
+    next unless ref.respond_to?(:source_tree) && ref.source_tree == 'DEVELOPER_DIR' && ref.path.to_s.include?('.sdk/')
+
+    build_file.remove_from_project
+    ref.remove_from_project if ref.build_files.empty?
+  end
+  remove_if_empty(project.main_group.children.find { |c| c.isa == 'PBXGroup' && c.display_name == 'Frameworks' })
+end
+
+def remove_if_empty(group)
+  return unless group
+
+  group.groups.each { |child| remove_if_empty(child) }
+  group.remove_from_project if group.children.empty?
 end
 
 def add_to_shared_scheme(tests)

@@ -10,8 +10,8 @@ Source: Refero style "Duolingo — Playful classroom mascot on white paper" (sty
 | `surfaceSecondary` | `#F7F7F7` | Wells (number display, round circles, cancelled chip) |
 | `dividerColor` | `#E5E5E5` | 2pt borders, card bottom edge, empty round cell "—" |
 | `textPrimary` | `#4B4B4B` | Titles, body |
-| `textSecondary` | `#777777` | Secondary text |
-| `textMuted` (new) | `#AFAFAF` | Labels, toolbar icons, placeholder |
+| `textSecondary` | `#777777` | Secondary and informational text ("95 to win", round numbers, "5 played", tile subtitles, dates); Increase Contrast `#595959` |
+| `textMuted` (new) | `#AFAFAF` | Uppercase labels, toolbar icons, placeholder, disabled titles; Increase Contrast `#767676` |
 | `AccentColor`, `success`, `teamA` (new) | `#58CC02` | Team 1, primary action, wordmark |
 | `accentInk`, `teamAShadow` (new) | `#58A700` | Pressed edge under green; green text on wash |
 | `teamAWash` (new) | `#D7FFB8` | Green tint (FINISHED chip, feedback banner, preview bar) |
@@ -32,7 +32,8 @@ SF Pro Rounded everywhere (`.fontDesign(.rounded)` at the app root). Scores: wei
 ## Shape and depth
 
 Flat. No gradients, shadows, blur or glass on redesigned screens. Depth = a darker bottom edge:
-- Buttons and keypad keys: radius 14, solid fill, 4pt bottom edge in the shadow color; pressed = content drops 4pt and the edge disappears. Disabled = `dividerColor` fill, `textMuted` title, no edge.
+- Buttons: radius 14, solid fill, 4pt bottom edge in the shadow color; pressed = content drops 4pt and the edge disappears. Disabled = `dividerColor` fill, `textMuted` title, no edge.
+- Keypad keys: white cards with the button shape — radius 14, 2pt `dividerColor` border, 4pt edge below it; pressed = drops 4pt.
 - Cards: radius 16, white, 2pt `dividerColor` border, 4pt bottom edge (2pt for small stat tiles and the speech bubble).
 - Progress bars: capsule, `dividerColor` track, colored fill, a lighter 4pt highlight strip inset along the top of the fill.
 - Chips: radius 8.
@@ -47,8 +48,8 @@ Flat. No gradients, shadows, blur or glass on redesigned screens. Depth = a dark
 
 ## Game
 
-- Toolbar: system back, progress bar (leader's progress toward the target, leader's color; muted when tied), undo, info.
-- Label "ROUND 6 · FIRST TO 200", headline (see copy).
+- Toolbar: system back, progress bar (leader's progress toward the target, leader's color; muted when tied), undo, info. Undo and info turn `dividerColor` when disabled (game over, or no rounds to undo).
+- Label "ROUND 6 · FIRST TO 200" ("3 ROUNDS · FIRST TO 200" once finished or cancelled), headline (see copy).
 - Two team cards: overlapping initial avatars, names, total (42pt, team color), team progress bar, "95 to win". Leader card gets a team-colored border and a gold crown badge.
 - "Rounds" + "5 played"; rows newest first: gray numbered circle, "+35" in the scoring team's color in its column, "—" in the other. Long-press edits (existing behavior).
 - Bottom bar: green "+ Ana & Luis" and blue "+ Rafa & Mia" pressable buttons; disabled when the game isn't playing.
@@ -65,7 +66,9 @@ Flat. No gradients, shadows, blur or glass on redesigned screens. Depth = a dark
 
 ## Copy (exact)
 
-- Headline: "{team} won!" (finished) · "Let's play!" (no rounds) · "All tied up" (tie) · "{leader} lead by {n}".
+- Status label: "Round {n} · First to {target}" while playing · "{n} rounds · First to {target}" ("1 round") once finished or cancelled.
+- Headline: "{team} won!" (finished) · "Game cancelled" (cancelled) · "Let's play!" (no rounds) · "All tied up" (tie) · "{leader} lead by {n}".
+- VoiceOver: rounds read "Round {n}, {team}, {points} points"; progress bars are named "{team} progress" ("Game progress" when tied).
 - Projection: "{old} → {new} · {n} to win" or "{old} → {new} · Wins the game!".
 - Add button: "Add {n} points" / "Add 1 point" / "Add points" (rendered uppercase).
 - Team name: player names joined with " & "; fallback "Team 1" / "Team 2".

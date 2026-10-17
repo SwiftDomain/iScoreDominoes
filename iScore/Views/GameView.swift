@@ -24,11 +24,20 @@ struct GameView: View {
         game.leader == .none ? Theme.textMuted : Theme.palette(for: game.leader).fill
     }
 
+    private var isPlaying: Bool {
+        game.state == .playing
+    }
+
+    /// Toolbar icons carry an explicit color, so they have to dim themselves.
+    static func toolbarIconColor(isEnabled: Bool) -> Color {
+        isEnabled ? Theme.textMuted : Theme.divider
+    }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Round \(game.currentRoundNumber) · First to \(Int(game.maxScore))")
+                    Text(game.statusLabel)
                         .duoLabel()
                     Text(game.headline)
                         .font(DuoFont.title)
@@ -54,8 +63,12 @@ struct GameView: View {
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                DuoProgressBar(value: game.progress(for: progressTeam), tint: progressTint)
-                    .frame(width: 180)
+                DuoProgressBar(
+                    value: game.progress(for: progressTeam),
+                    tint: progressTint,
+                    label: game.progressLabel(for: game.leader)
+                )
+                .frame(width: 180)
             }
             .sharedBackgroundVisibility(.hidden)
 
@@ -64,19 +77,19 @@ struct GameView: View {
                     showUndoConfirmation = true
                 } label: {
                     Image(systemName: "arrow.uturn.backward")
-                        .foregroundStyle(Theme.textMuted)
+                        .foregroundStyle(Self.toolbarIconColor(isEnabled: game.canUndo))
                 }
                 .accessibilityLabel("Undo last score")
-                .disabled(!game.canUndo || game.state != .playing)
+                .disabled(!game.canUndo)
 
                 Button {
                     showInfoView.toggle()
                 } label: {
                     Image(systemName: "info.circle")
-                        .foregroundStyle(Theme.textMuted)
+                        .foregroundStyle(Self.toolbarIconColor(isEnabled: isPlaying))
                 }
                 .accessibilityLabel("How to play")
-                .disabled(game.state != GameState.playing)
+                .disabled(!isPlaying)
             }
             .sharedBackgroundVisibility(.hidden)
         }
@@ -118,20 +131,20 @@ struct GameView: View {
                 Spacer()
                 Text("\(game.rounds.count) played")
                     .font(.caption.weight(.heavy))
-                    .foregroundStyle(Theme.textMuted)
+                    .foregroundStyle(Theme.textSecondary)
             }
             .padding(.bottom, 6)
 
             if game.rounds.isEmpty {
                 Text("No rounds yet. Add the first score below.")
                     .font(.subheadline.weight(.bold))
-                    .foregroundStyle(Theme.textMuted)
+                    .foregroundStyle(Theme.textSecondary)
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 24)
             } else {
                 ForEach(game.rounds.reversed()) { round in
-                    RoundRow(round: round)
+                    RoundRow(round: round, teamName: game.displayName(for: round.team))
                         .contentShape(.rect)
                         .onLongPressGesture(minimumDuration: 1) {
                             edit(round)
@@ -162,7 +175,7 @@ struct GameView: View {
                         addButton(for: .team1)
                         addButton(for: .team2)
                     }
-                    .disabled(game.state != GameState.playing)
+                    .disabled(!isPlaying)
                 }
             }
             .padding(.horizontal, 16)

@@ -11,12 +11,20 @@ import SwiftUI
 struct RoundRow: View {
 
     let round: Round
+    /// Display name of the scoring team, for VoiceOver.
+    let teamName: String
+
+    /// "Round 5, Ana & Luis, 35 points"
+    static func spokenLabel(for round: Round, teamName: String) -> String {
+        let points = round.points == 1 ? "1 point" : "\(round.points) points"
+        return "Round \(round.number), \(teamName), \(points)"
+    }
 
     var body: some View {
         HStack(spacing: 0) {
             Text("\(round.number)")
                 .font(.caption.weight(.heavy))
-                .foregroundStyle(Theme.textMuted)
+                .foregroundStyle(Theme.textSecondary)
                 .frame(width: 28, height: 28)
                 .background(Theme.surfaceSecondary, in: .circle)
                 .overlay(Circle().strokeBorder(Theme.divider, lineWidth: 2))
@@ -31,7 +39,7 @@ struct RoundRow: View {
             Rectangle().fill(Theme.divider).frame(height: 2)
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Round \(round.number), \(round.team.description), \(round.points) points")
+        .accessibilityLabel(Self.spokenLabel(for: round, teamName: teamName))
     }
 
     @ViewBuilder
@@ -51,8 +59,8 @@ struct RoundRow: View {
 
 #Preview {
     VStack(spacing: 0) {
-        RoundRow(round: Round(id: 5, number: 5, team: .team1, points: 35))
-        RoundRow(round: Round(id: 4, number: 4, team: .team2, points: 15))
+        RoundRow(round: Round(id: 5, number: 5, team: .team1, points: 35), teamName: "Ana & Luis")
+        RoundRow(round: Round(id: 4, number: 4, team: .team2, points: 15), teamName: "Rafa & Mia")
     }
     .padding()
 }
