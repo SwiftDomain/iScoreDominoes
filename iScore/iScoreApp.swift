@@ -18,6 +18,14 @@ struct iScoreApp: App {
     init() {
         do {
             let schema = Schema([Game.self, Player.self])
+            #if DEBUG
+            if ProcessInfo.processInfo.arguments.contains(DemoData.launchArgument) {
+                let config = ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none)
+                modelContainer = try ModelContainer(for: schema, configurations: config)
+                DemoData.seed(into: modelContainer.mainContext)
+                return
+            }
+            #endif
             let config = ModelConfiguration(cloudKitDatabase: .automatic)
             modelContainer = try ModelContainer(for: schema, configurations: config)
         } catch {
