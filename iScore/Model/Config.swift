@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-/// App background — gradient from cloud white to white.
+/// App background — flat white.
 struct Background: View {
 
     var body: some View {
-        Theme.backgroundGradient
+        Theme.background
             .ignoresSafeArea()
     }
 }

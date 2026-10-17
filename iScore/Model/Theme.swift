@@ -3,9 +3,11 @@
 //  iScore
 //
 //  Semantic color system for iScoreDominoes.
-//  "Manga Paper" palette — B&W noir/manga: paper white, ink black,
-//  screentone grays. Text on accent fills must use `background` (paper),
-//  since the accent itself is ink.
+//  "Duo" palette — Duolingo-inspired: white canvas, rounded gray text,
+//  green for team 1 and primary actions, blue for team 2, gold/orange/purple
+//  as feature accents. Depth comes from a darker bottom edge (the `…Shadow`
+//  colors), never from shadows or gradients. Text on any saturated fill is
+//  white (`surface`).
 //
 
 import SwiftUI
@@ -16,56 +18,121 @@ enum Theme {
 
     // MARK: - Backgrounds
 
-    /// Primary app background — Paper
+    /// Primary app background — White
     static let background = Color("background_primary")
 
-    /// Cards, containers, elevated surfaces — White
+    /// Cards, containers, text on saturated fills — White
     static let surface = Color("surface")
 
-    /// Form rows, input wells, secondary containers — Screentone Gray
+    /// Wells: number display, round circles, neutral chips — Polar
     static let surfaceSecondary = Color("surfaceSecondary")
 
     // MARK: - Text
 
-    /// Primary text — Ink
+    /// Titles and body — Eel gray
     static let textPrimary = Color("textPrimary")
 
-    /// Subtitles, metadata, labels — Mid Gray
+    /// Secondary text — Wolf gray
     static let textSecondary = Color("textSecondary")
+
+    /// Labels, toolbar icons, placeholders — Hare gray
+    static let textMuted = Color("textMuted")
 
     // MARK: - Accent
 
-    /// CTAs, win indicators, active states — Ink
+    /// Primary actions and win indicators — Feather green
     static let accent = Color.accentColor
 
-    /// Accent-colored text and glyphs — Ink (same as accent in this
-    /// monochrome palette; kept separate so future palettes can split them)
+    /// Green text and glyphs on white or on `teamAWash` — darker green for legibility
     static let accentInk = Color("accentInk")
+
+    // MARK: - Teams
+
+    /// Team 1 fill — Feather green
+    static let teamA = Color("teamA")
+    /// Pressed edge under team 1 fills
+    static let teamAShadow = Color("teamAShadow")
+    /// Team 1 tint (chips, feedback banner, preview bar)
+    static let teamAWash = Color("teamAWash")
+
+    /// Team 2 fill and links — Macaw blue
+    static let teamB = Color("teamB")
+    /// Pressed edge under team 2 fills
+    static let teamBShadow = Color("teamBShadow")
+    /// Team 2 tint
+    static let teamBWash = Color("teamBWash")
+
+    // MARK: - Feature accents
+
+    /// Leader crown, trophies, Hall of Fame
+    static let gold = Color("gold")
+    static let goldShadow = Color("goldShadow")
+
+    /// Day streak, win rate
+    static let streak = Color("streak")
+    static let streakShadow = Color("streakShadow")
+
+    /// How to Play
+    static let learn = Color("learn")
+    static let learnShadow = Color("learnShadow")
 
     // MARK: - Semantic
 
-    /// Win badges, positive stats — Charcoal (dark = emphasis)
+    /// Win badges, positive stats — green
     static let success = Color("success")
 
-    /// Loss indicators, delete actions — Faded Gray (light = receded)
+    /// Destructive actions — Cardinal red
     static let danger = Color("danger")
+    static let dangerShadow = Color("dangerShadow")
 
-    /// Subtle separation lines
+    /// 2pt borders, card bottom edges, empty cells — Swan gray
     static let divider = Color("dividerColor")
 
-    // MARK: - Gradients
+    // MARK: - Team palettes
 
-    /// Standard background gradient (top to bottom)
-    static let backgroundGradient = LinearGradient(
-        colors: [Color("background_primary"), Color("surface")],
-        startPoint: .top,
-        endPoint: .bottom
-    )
+    /// Fill, pressed edge and tint for a team. `.none` gets a neutral gray set.
+    static func palette(for team: Team) -> TeamPalette {
+        switch team {
+        case .team1:
+            TeamPalette(fill: teamA, edge: teamAShadow, wash: teamAWash)
+        case .team2:
+            TeamPalette(fill: teamB, edge: teamBShadow, wash: teamBWash)
+        case .none:
+            TeamPalette(fill: textMuted, edge: textSecondary, wash: surfaceSecondary)
+        }
+    }
 
-    /// Surface card gradient for elevated containers
-    static let surfaceGradient = LinearGradient(
-        colors: [Color("surface"), Color("surfaceSecondary")],
-        startPoint: .topLeading,
-        endPoint: .bottomTrailing
-    )
+    /// Every colorset name used above; tests check each one exists so a typo
+    /// can't silently render as clear.
+    static let colorAssetNames = [
+        "AccentColor", "accentInk", "background_primary", "surface", "surfaceSecondary",
+        "textPrimary", "textSecondary", "textMuted", "success", "danger", "dangerShadow", "dividerColor",
+        "teamA", "teamAShadow", "teamAWash", "teamB", "teamBShadow", "teamBWash",
+        "gold", "goldShadow", "streak", "streakShadow", "learn", "learnShadow"
+    ]
+}
+
+/// The three colors a team's UI is drawn with.
+struct TeamPalette {
+    let fill: Color
+    let edge: Color
+    let wash: Color
+}
+
+/// Rounded type scale for the Duo style.
+enum DuoFont {
+
+    /// Scores and big numbers
+    static func score(_ size: CGFloat) -> Font {
+        .system(size: size, weight: .black, design: .rounded)
+    }
+
+    /// Screen headlines
+    static let title: Font = .system(.title2, design: .rounded, weight: .heavy)
+
+    /// Names, body copy, bubbles
+    static let body: Font = .system(.body, design: .rounded, weight: .bold)
+
+    /// Uppercase labels and button titles
+    static let label: Font = .system(.footnote, design: .rounded, weight: .heavy)
 }

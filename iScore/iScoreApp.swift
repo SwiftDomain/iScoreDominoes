@@ -30,9 +30,10 @@ struct iScoreApp: App {
         WindowGroup {
 
             HomeView()
-                // Cloud Blue theme is a fixed light palette; keep system
-                // chrome (nav bars, sheets) light regardless of device mode.
+                // Duo theme is a fixed light palette with rounded type; keep
+                // system chrome (nav bars, sheets) light regardless of device mode.
                 .preferredColorScheme(.light)
+                .fontDesign(.rounded)
                 .task {
                     try? Tips.resetDatastore()
                     try? Tips.configure([

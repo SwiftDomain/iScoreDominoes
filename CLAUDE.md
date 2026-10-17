@@ -12,15 +12,18 @@
 - `iScore/Views/` — `HomeView`, `GameView`, `GamesView`, `NewGameView`, `AddGameScoreView`, `EditScoreView`, `HallOfFameView`, `NewPlayerView`, `InfoView`, `Glass`, `AnimatedMeshGradient`
 - `iScoreApp.swift` — Entry point, SwiftData ModelContainer
 
-## Theme ("Manga Paper")
+## Theme ("Duo")
 
-B&W noir/manga palette — paper white, ink black, screentone grays. Fixed light palette; `.preferredColorScheme(.light)` is forced at the app root. All colors are semantic via `Theme` (`iScore/Model/Theme.swift`) backed by colorsets in `Assets.xcassets` — never hardcode `Color` literals in views.
+Duolingo-inspired: white canvas, rounded gray text, green team 1, blue team 2, pressable buttons. Fixed light palette; `.preferredColorScheme(.light)` and `.fontDesign(.rounded)` are set at the app root. All colors are semantic via `Theme` (`iScore/Model/Theme.swift`) backed by colorsets in `Assets.xcassets` — never hardcode `Color` literals in views. `ThemeTests` checks every name in `Theme.colorAssetNames` exists; add new colorsets there. Full spec: `docs/superpowers/specs/2026-10-16-duolingo-redesign-design.md`.
 
-- `Theme.background` `#F7F7F5` paper · `surface` `#FFFFFF` · `surfaceSecondary` `#E9E9E6` screentone (input wells, form rows)
-- `Theme.accent` `#1A1A1A` ink — text ON accent fills must use `Theme.background` (paper), never `accentInk`
-- `Theme.accentInk` `#1A1A1A` — accent-colored text/glyphs (same as accent here; kept separate so future palettes can split them)
-- `Theme.textPrimary` `#1A1A1A` ink · `textSecondary` `#767676` · `divider` `#1A1A1A` ink hairlines
-- Win/loss is encoded by brightness: `success` `#3D3D3D` charcoal (dark = emphasis) · `danger` `#9B9B9B` faded gray (light = receded)
+- `background`/`surface` `#FFFFFF` · `surfaceSecondary` `#F7F7F7` wells · `divider` `#E5E5E5` borders and bottom edges
+- `textPrimary` `#4B4B4B` · `textSecondary` `#777777` · `textMuted` `#AFAFAF` labels and toolbar icons
+- Team 1: `teamA` `#58CC02` / `teamAShadow` `#58A700` / `teamAWash` `#D7FFB8` (also `accent`, `success`, `accentInk` = shadow)
+- Team 2: `teamB` `#1CB0F6` / `teamBShadow` `#1899D6` / `teamBWash` `#DDF4FF`
+- Accents: `gold` `#FFC800` (leader, trophies) · `streak` `#FF9600` · `learn` `#CE82FF` · `danger` `#FF4B4B` — each has a `…Shadow` edge color
+- Use `Theme.palette(for: Team)` for team-colored UI; text on any saturated fill is `Theme.surface` (white)
+- Type: `DuoFont.score(_:)` (.black) for numbers, `.title` (.heavy), `.body` (.bold), `.label` (.heavy, uppercase, tracking 0.8)
+- Shape: cards radius 16 with 2pt border + 4pt bottom edge; buttons/keys radius 14 with 4pt darker bottom edge; no gradients, shadows, blur or glass on Duo screens
 
 ## Data model
 
@@ -42,6 +45,6 @@ B&W noir/manga palette — paper white, ink black, screentone grays. Fixed light
 
 ## Active plan
 
-See `/Users/beastmode/.claude/plans/gentle-wibbling-widget.md`
+See `docs/superpowers/plans/2026-10-16-duolingo-redesign.md` — Duo theme, then Home, Game and Add Score redesigns.
 
-Phases: CLAUDE.md updates → Color system (now Cloud Blue, see Theme section) → Home redesign → iPad adaptive → Settings → Undo score → Game summary
+New or deleted Swift files must be registered with `ruby scripts/xcodeproj.rb add|remove` (classic Xcode groups). Tests: Swift Testing target `iScoreTests`, run with `xcodebuild test -project iScore.xcodeproj -scheme iScore -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`.
