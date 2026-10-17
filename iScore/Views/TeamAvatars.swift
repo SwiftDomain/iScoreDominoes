@@ -33,6 +33,23 @@ struct TeamAvatars: View {
     }
 }
 
+/// One player's initial circle. Defaults to the player's own stable color.
+struct PlayerAvatar: View {
+
+    let name: String
+    var size: CGFloat = 36
+    var fill: Color?
+
+    var body: some View {
+        Text(Game.initials(of: name))
+            .font(DuoFont.score(size * 0.42))
+            .foregroundStyle(Theme.surface)
+            .frame(width: size, height: size)
+            .background(fill ?? Theme.avatarColor(for: name), in: .circle)
+            .accessibilityHidden(true)
+    }
+}
+
 #Preview {
     VStack(spacing: 16) {
         TeamAvatars(names: ["Ana", "Luis"], palette: Theme.palette(for: .team1))

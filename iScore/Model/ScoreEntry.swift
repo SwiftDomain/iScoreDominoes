@@ -43,10 +43,15 @@ struct ScoreEntry: Equatable {
     }
 
     var buttonTitle: String {
+        title("Add")
+    }
+
+    /// "Save 35 points" / "Save 1 point" / "Save points"
+    func title(_ verb: String) -> String {
         switch value {
-        case nil: "Add points"
-        case 1: "Add 1 point"
-        case let points?: "Add \(points) points"
+        case nil: "\(verb) points"
+        case 1: "\(verb) 1 point"
+        case let points?: "\(verb) \(points) points"
         }
     }
 }

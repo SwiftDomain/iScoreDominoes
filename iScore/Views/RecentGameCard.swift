@@ -41,25 +41,3 @@ struct RecentGameCard: View {
         .accessibilityElement(children: .combine)
     }
 }
-
-/// FINISHED / CANCELLED pill.
-private struct StatusChip: View {
-
-    let state: GameState
-
-    private var title: String {
-        switch state {
-        case .finished: "Finished"
-        case .cancelled: "Cancelled"
-        case .playing: "In progress"
-        }
-    }
-
-    var body: some View {
-        Text(title)
-            .duoLabel(state == .finished ? Theme.accentInk : Theme.textSecondary)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 2)
-            .background(state == .finished ? Theme.teamAWash : Theme.surfaceSecondary, in: .rect(cornerRadius: 8))
-    }
-}

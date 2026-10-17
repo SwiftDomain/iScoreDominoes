@@ -67,4 +67,13 @@ struct ScoreEntryTests {
         entry.append(1)
         #expect(entry.buttonTitle == "Add 1 point")
     }
+
+    @Test func saveTitles() {
+        var entry = ScoreEntry()
+        #expect(entry.title("Save") == "Save points")
+        entry.append(1)
+        #expect(entry.title("Save") == "Save 1 point")
+        entry.append(0)
+        #expect(entry.title("Save") == "Save 10 points")
+    }
 }

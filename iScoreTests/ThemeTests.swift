@@ -17,10 +17,28 @@ struct ThemeTests {
 
     /// Red (`danger`) is for destructive actions only; a lost or cancelled
     /// game in All Games must read as muted, not as an error.
-    @Test func gameCellSymbolColors() {
-        #expect(GameCellView.symbolColor(isWinner: true, inProcess: false) == Theme.accentInk)
-        #expect(GameCellView.symbolColor(isWinner: false, inProcess: true) == Theme.textSecondary)
-        #expect(GameCellView.symbolColor(isWinner: false, inProcess: false) == Theme.textMuted)
+    @Test func gameListScoreColors() {
+        #expect(GameListCard.scoreColor(for: .won) == Theme.textPrimary)
+        #expect(GameListCard.scoreColor(for: .playing) == Theme.textPrimary)
+        #expect(GameListCard.scoreColor(for: .lost) == Theme.textMuted)
+        #expect(GameListCard.scoreColor(for: .cancelled) == Theme.textMuted)
+    }
+
+    @Test func medals() {
+        #expect(Theme.medal(forRank: 1)?.fill == Theme.gold)
+        #expect(Theme.medal(forRank: 1)?.edge == Theme.goldShadow)
+        #expect(Theme.medal(forRank: 2)?.fill == Theme.textMuted)
+        #expect(Theme.medal(forRank: 3)?.fill == Theme.streak)
+        #expect(Theme.medal(forRank: 4) == nil)
+    }
+
+    /// Avatar colors are stable per name (no `hashValue`, which changes every launch).
+    @Test func avatarColors() {
+        #expect(Theme.avatarColor(for: "Ana") == Theme.teamA)
+        #expect(Theme.avatarColor(for: " ana ") == Theme.teamA)
+        #expect(Theme.avatarColor(for: "Luis") == Theme.teamB)
+        #expect(Theme.avatarColors.contains(Theme.avatarColor(for: "Mia")))
+        #expect(Theme.avatarColor(for: "") == Theme.teamA)
     }
 
     @Test func teamPalettes() {

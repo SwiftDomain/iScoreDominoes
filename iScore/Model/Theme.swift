@@ -102,6 +102,30 @@ enum Theme {
         }
     }
 
+    // MARK: - Hall of Fame
+
+    /// Gold, silver and bronze for ranks 1–3; nil below the podium.
+    static func medal(forRank rank: Int) -> TeamPalette? {
+        switch rank {
+        case 1: TeamPalette(fill: gold, edge: goldShadow, wash: surfaceSecondary)
+        case 2: TeamPalette(fill: textMuted, edge: textSecondary, wash: surfaceSecondary)
+        case 3: TeamPalette(fill: streak, edge: streakShadow, wash: surfaceSecondary)
+        default: nil
+        }
+    }
+
+    // MARK: - Player avatars
+
+    /// Fills for a single player's initial circle (players aren't tied to a team).
+    static let avatarColors = [teamA, teamB, learn, streak]
+
+    /// Stable per name across launches (`hashValue` is reseeded every run).
+    static func avatarColor(for name: String) -> Color {
+        let key = name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let sum = key.unicodeScalars.reduce(0) { $0 + Int($1.value) }
+        return avatarColors[sum % avatarColors.count]
+    }
+
     /// Every colorset name used above; tests check each one exists so a typo
     /// can't silently render as clear.
     static let colorAssetNames = [
