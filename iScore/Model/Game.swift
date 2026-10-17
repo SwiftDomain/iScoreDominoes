@@ -78,28 +78,6 @@ class Game: Identifiable {
         
     }
     
-    /* Get the current System icon based on state */
-    func setSymbol(team: Team) -> String{
-        
-        var symbolName = ""
-        
-        if self.state == GameState.playing {
-            symbolName = "person.2"
-        }
-        else if self.state == GameState.cancelled{
-            symbolName = "figure.walk.motion.trianglebadge.exclamationmark"
-        }
-        else if winningTeam == (team == .team1 ? .team1 : .team2)
-        {
-            symbolName = "trophy"
-        }
-        else{
-            symbolName = "xmark"
-        }
-        
-        return symbolName
-        
-    }
 }
 
 enum GameType: String, Codable, RawRepresentable, CaseIterable, Equatable{
@@ -136,36 +114,4 @@ enum Team:Identifiable{
             return "Game in progress"
         }
     }
-}
-
-struct LazyVGridSetup{
-    
-    let colors: [Color] = [.red, .green, .blue, .yellow]
-    
-    // Flexible, custom amount of columns that fill the remaining space
-    let numberColumns = [
-        GridItem(.flexible())
-        //, GridItem(.flexible())
-    ]
-    
-    // Adaptive, make sure it's the size of your smallest element.
-    let adaptiveColumns = [
-        GridItem(.adaptive(minimum: 200))
-    ]
-    
-    // Fixed, creates columns with fixed dimensions
-    let fixedColumns = [
-        GridItem(.flexible(minimum: 200, maximum: 2500))
-        //        ,GridItem(.fixed(200))
-    ]
-}
-
-class GameScoreIndex:Identifiable{
-   
-    public var id: GameScoreIndex{return self}
-    
-    var index: Int = 0
-    var team: Team = .none
-     var value: Int = 0
-    
 }

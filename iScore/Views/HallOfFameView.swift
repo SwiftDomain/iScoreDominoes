@@ -1,171 +1,132 @@
 //
-//  MetaDataView.swift
+//  HallOfFameView.swift
 //  iScore
 //
 //  Created by BeastMode on 2/9/24.
 //
+//  Players ranked by wins, then win rate: the top three on a podium,
+//  everyone else in rows below.
+//
+
 import SwiftUI
 import SwiftData
-import Charts
 
 struct HallOfFameView: View {
 
-    @Environment(\.modelContext) var context
-    @Environment(\.dismiss) private var dismiss
-
-    @Query( sort:\Player.name, order: .forward ) var players: [Player]
-
-    private let lazyVGridSetup:LazyVGridSetup = LazyVGridSetup()
+    @Query(sort: \Player.name) private var players: [Player]
 
     var body: some View {
+        let board = Leaderboard.split(Leaderboard.standings(players.map(PlayerRecord.init)))
 
-        ZStack{
+        ScrollView {
+            VStack(spacing: 0) {
+                SheetHeader(title: "Hall of fame")
+                    .padding(.bottom, 8)
 
-                ScrollView {
+                if board.podium.isEmpty {
+                    EmptyHallOfFame()
+                } else {
+                    PodiumView(leaders: board.podium)
+                }
 
-                    LazyVGrid(columns: lazyVGridSetup.numberColumns, spacing: 20) {
+                if !board.rest.isEmpty {
+                    Rectangle()
+                        .fill(Theme.divider)
+                        .frame(height: 2)
 
-                        ForEach(players, id:\.self) { player in
-
-                            VStack{
-
-                                HStack(alignment: .center, spacing: 10){
-                                    Button(action: {
-                                    })
-                                    {
-
-                                        DataBackgroundShape()
-                                            .overlay(
-
-                                                HStack(alignment: .center){
-
-                                                    Text("\(player.name)")
-                                                        .fontWeight(.light)
-                                                        .minimumScaleFactor(0.75)
-                                                        .foregroundStyle(Theme.textPrimary)
-                                                        .padding(.leading, 20)
-                                                        .shadow(color: Theme.accent.opacity(0.3), radius: 25)
-                                                        .frame(width: 150, alignment: .leading)
-
-                                                    Spacer()
-
-                                                    VStack(alignment: .center){
-
-                                                        MetaDataCellView(player: player)
-
-                                                    }
-
-                                                }
-                                            )
-                                            .offset(y:20)
-                                            .padding(.horizontal)
-                                            .scenePadding(.horizontal)
-
-
-                                    }
-                                    .visualEffect { content, proxy in
-                                        content
-                                            .hueRotation(Angle(degrees:
-                                                                proxy.frame(in: .global).origin.y/10
-                                                              ))
-                                    }
-                                }
-                            }
-                        }
+                    ForEach(Array(board.rest.enumerated()), id: \.offset) { _, standing in
+                        LeaderRow(standing: standing)
                     }
-                    .frame(maxWidth: 700)
                 }
-                .scrollIndicators(.hidden)
-
-                VStack{
-
-                    Spacer()
-
-                    Text("Hall of Fame")
-                        .padding(20)
-                        .glassEffect(.clear)
-                        .foregroundStyle(Theme.accentInk)
-                        .fontWeight(.light)
-                        .font(.largeTitle)
-                        .padding(.top, 60)
-                }
-
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 12)
+            .padding(.bottom, 24)
+            .frame(maxWidth: 700)
+            .frame(maxWidth: .infinity)
         }
-        .background{
-            Background()
-                .ignoresSafeArea()
-
-        }
-
+        .scrollIndicators(.hidden)
+        .background(Background())
     }
 }
 
-struct MetaDataCellView:View{
+/// A player below the podium: rank, avatar, name, record, wins.
+private struct LeaderRow: View {
 
-    let player: Player
+    let standing: Standing
 
-    init(player: Player) {
-        self.player = player
-    }
+    private var record: PlayerRecord { standing.record }
 
     var body: some View {
+        HStack(spacing: 12) {
+            Text("\(standing.rank)")
+                .font(.body.weight(.black))
+                .foregroundStyle(Theme.textMuted)
+                .frame(width: 28)
 
-        VStack(alignment: .leading){
+            PlayerAvatar(name: record.name, size: 40, fill: record.played > 0 ? nil : Theme.textMuted)
 
-            HStack {
-                Text("Played: ")
-                Spacer()
-                Text("\(player.gamesPlayed)")
-                    .paddingLeading()
-
+            VStack(alignment: .leading, spacing: 0) {
+                Text(record.name)
+                    .font(DuoFont.body)
+                    .foregroundStyle(record.played > 0 ? Theme.textPrimary : Theme.textSecondary)
+                    .lineLimit(1)
+                Text(record.summary)
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(Theme.textMuted)
             }
 
-            HStack {
-                Text("Won:")
-                Spacer()
-                Text("\(player.gamesWon)")
-                    .paddingLeading()
+            Spacer(minLength: 8)
 
-
+            if record.played > 0 {
+                VStack(alignment: .trailing, spacing: 0) {
+                    Text("\(record.won)")
+                        .font(DuoFont.score(22))
+                        .foregroundStyle(Theme.textPrimary)
+                    Text(record.won == 1 ? "Win" : "Wins")
+                        .duoLabel()
+                }
             }
-
-            HStack{
-                Text("Wins: ")
-                Spacer()
-
-                Text(player.winPercentage, format: .number.precision(.fractionLength(0)))
-                    .paddingLeading()
-
-            }
-
         }
-        .foregroundStyle(Theme.textPrimary)
-        .frame(width: 150)
+        .padding(.vertical, 10)
+        .padding(.horizontal, 4)
+        .overlay(alignment: .bottom) {
+            Rectangle().fill(Theme.divider).frame(height: 2)
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Rank \(standing.rank): \(record.name), \(record.winsLabel), \(record.summary)")
     }
 }
 
+/// Nobody has won a game yet.
+private struct EmptyHallOfFame: View {
+
+    var body: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "trophy.fill")
+                .font(.largeTitle)
+                .foregroundStyle(Theme.surface)
+                .frame(width: 72, height: 72)
+                .duoSolid(fill: Theme.gold, edge: Theme.goldShadow, radius: 20)
+                .accessibilityHidden(true)
+
+            Text("Finish a game to get on the board.")
+                .font(DuoFont.body)
+                .foregroundStyle(Theme.textSecondary)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 32)
+    }
+}
 
 #Preview {
-
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Game.self, configurations: config)
-
-    let game = Game(gameType:GameType.six, maxScore: 20)
-
-    container.mainContext.insert(game)
-
-    game.players?.append(Player(name: "12345678901"))
-    game.team1.append("12345678901")
-
-    game.players?.append(Player(name: "sjdkvmsjdieo"))
-    game.team1.append("12345678901")
-
-    game.players?.append(Player(name: "ksslsla"))
-    game.team2.append("ksslsla")
-
-    game.players?.append(Player(name: "kklkj4"))
-    game.team2.append("ksslsla")
-
-    return HallOfFameView()
-        .modelContainer(container)
+    do {
+        let previewer = try Previewer()
+        return HallOfFameView()
+            .modelContainer(previewer.container)
+            .fontDesign(.rounded)
+    } catch {
+        return Text("Failed to create preview: \(error.localizedDescription)")
+    }
 }

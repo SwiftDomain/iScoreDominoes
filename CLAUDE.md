@@ -8,9 +8,9 @@
 
 ## Structure
 
-- `iScore/Model/` — `Game.swift` (core model + enums), `Game+Scoreboard.swift` (totals, rounds, undo, Duo copy), `Player.swift`, `ScoreEntry.swift` (keypad entry), `PlayStreak.swift` (day streak), `DemoData.swift` (sample games; Debug `-demoData` launch argument), `Config.swift` (Background, shapes, cell views), `Theme.swift` (semantic colors, team palettes, `DuoFont`), `Tip.swift`
-- `iScore/Views/` screens — `HomeView`, `GameView`, `AddGameScoreView` (Duo redesign), `GamesView`, `NewGameView`, `EditScoreView`, `GameSummaryView`, `HallOfFameView`, `NewPlayerView`, `SettingsView`, `InfoView`
-- `iScore/Views/` Duo components — `DuoStyle` (`.duo` buttons, `.duoCard`/`.duoKey` styles, `duoCard`/`duoSolid`/`duoLabel` modifiers), `DuoProgressBar`, `TeamAvatars`, `TeamScoreCard`, `RoundRow`, `RoundFeedbackBanner`, `ScoreKeypad`, `ActiveGameBanner`, `HomeCardView`, `RecentGameCard`, `QuickStatsBar`; plus `Glass`, `Previewer`
+- `iScore/Model/` — `Game.swift` (core model + enums), `Player.swift`, `Theme.swift` (semantic colors, team palettes, `DuoFont`), `Config.swift` (`Background`, legacy cell views), `Tip.swift`, and pure, tested logic: `Game+Scoreboard` (totals, rounds, undo, Duo copy), `Game+Editing` (edit/delete rounds, outcomes, `deleteGameKeepingPlayers`), `GameSetup` (targets, `GameDefaults`, `PlayerLineup`, `PlayerName`), `GameList` (filters, month sections), `Leaderboard`, `ScoreEntry` (keypad entry), `PlayStreak` (day streak), `DemoData` (sample games; Debug `-demoData` launch argument)
+- `iScore/Views/` screens — `HomeView`, `GameView`, `AddGameScoreView`, `EditScoreView`, `NewGameView` (+ `NewPlayerView` picker), `GamesView`, `HallOfFameView`, `SettingsView`, `GameSummaryView`, `InfoView` (`CollectionView`, How to play)
+- `iScore/Views/` Duo components — `DuoStyle` (`.duo` buttons; `.duoCard`, `.duoKey`, `.duoChoice` card styles; `duoCard`/`duoSolid`/`duoLabel` modifiers), `DuoProgressBar`, `TeamAvatars`/`PlayerAvatar`, `TeamScoreCard`, `TeamSeatsCard`, `RoundRow`, `RoundFeedbackBanner`, `ScoreKeypad`, `ScoreWell`, `TeamSpeechBubble`, `SheetHeader`, `GameTypePicker`, `TargetStepper`, `SearchWell`, `StatusChip`, `GameListCard`, `PodiumView`, `SummaryStatTile`, `TrophyBurst`, `DominoGlyph`, `ActiveGameBanner`, `HomeCardView`, `RecentGameCard`, `QuickStatsBar`; plus `Previewer`
 - `iScoreApp.swift` — Entry point, SwiftData ModelContainer
 - `iScoreTests/` — Swift Testing target; `scripts/xcodeproj.rb` — registers files in the Xcode project
 
@@ -35,11 +35,13 @@ Duolingo-inspired: white canvas, rounded gray text, green team 1, blue team 2, p
 
 ## Known technical debt
 
-- Button images missing text labels (accessibility issue)
-- Some `fontWeight(.light)` usage (EditScoreView, HallOfFameView, InfoView, NewGameView, NewPlayerView) — evaluate if needed
+- Navigation mixes `NavigationLink(destination:)` (Home tiles, All Games, New Game) with `navigationDestination(for: Game.self)` (Home) — move to value-based links
+- `Glass.swift`, `Twirl` (`Config.swift`) and `Game.printPlayers()` are unused
+- `Game.players` has a cascade delete rule although players are shared between games; always delete games with `ModelContext.deleteGameKeepingPlayers`
+- Button images missing text labels (accessibility issue) — re-check after the Duo restyle
 
 ## Active plan
 
-See `docs/superpowers/plans/2026-10-16-duolingo-redesign.md` — Duo theme, then Home, Game and Add Score redesigns.
+See `docs/superpowers/plans/2026-10-16-duolingo-redesign.md` (Home, Game, Add Score) and the spec's "Remaining screens" section (New Game, All Games, Hall of Fame, Settings, Edit Score, Game Summary, How to Play — all restyled).
 
-New or deleted Swift files must be registered with `ruby scripts/xcodeproj.rb add|remove` (classic Xcode groups). Tests: Swift Testing target `iScoreTests`, run with `xcodebuild test -project iScore.xcodeproj -scheme iScore -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`.
+New or deleted Swift files must be registered with `ruby scripts/xcodeproj.rb add|remove` (classic Xcode groups). Tests: Swift Testing target `iScoreTests`, run with `xcodebuild test -project iScore.xcodeproj -scheme iScore -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`. Debug builds launched with `-demoData` use an in-memory store with sample games and players.

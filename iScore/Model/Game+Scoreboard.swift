@@ -159,10 +159,7 @@ extension Game {
 
     func projectionSummary(adding points: Int, to team: Team) -> String {
         let current = total(for: team)
-        let projected = current + points
-        let target = Int(maxScore)
-        let outcome = projected >= target ? "Wins the game!" : "\(target - projected) to win"
-        return "\(current) → \(projected) · \(outcome)"
+        return projection(from: current, to: current + points)
     }
 
     func feedbackDetail(for round: Round) -> String {

@@ -8,7 +8,7 @@ struct GameView: View {
     @Bindable var game: Game
     @State private var team: Team?
     @State private var showGameSummary = false
-    @State private var gameScoreIndex: GameScoreIndex?
+    @State private var editingRound: Round?
     @State private var showInfoView: Bool = false
     @State private var showUndoConfirmation = false
     @State private var roundCountBeforeSheet = 0
@@ -96,8 +96,8 @@ struct GameView: View {
         .sheet(item: $team, onDismiss: addScoreDismissed) { team in
             AddGameScoreView(game: self.game, team: team)
         }
-        .sheet(item: $gameScoreIndex, onDismiss: { finishIfWon() }) { gameScoreIndex in
-            EditScoreView(game: self.game, gameScoreIndex: gameScoreIndex)
+        .sheet(item: $editingRound, onDismiss: { finishIfWon() }) { round in
+            EditScoreView(game: game, round: round)
         }
         .sheet(isPresented: $showGameSummary) {
             GameSummaryView(game: game)
@@ -201,11 +201,7 @@ struct GameView: View {
 
     private func edit(_ round: Round) {
         guard game.inProcess else { return }
-        let index = GameScoreIndex()
-        index.index = round.id
-        index.team = round.team
-        index.value = round.points
-        gameScoreIndex = index
+        editingRound = round
     }
 
     /// Ends the game when a team reached the target. Returns true if it did.

@@ -88,18 +88,26 @@ extension ButtonStyle where Self == DuoButtonStyle {
 
 // MARK: - Card
 
-/// Pressable white card with a 2pt border and a thicker bottom edge.
+/// Pressable card with a 2pt border and a thicker bottom edge.
 struct DuoCardStyle: ButtonStyle {
 
     var edge: CGFloat = 4
     var radius: CGFloat = 16
+    var border: Color = Theme.divider
+    var fill: Color = Theme.surface
 
     /// How far the face drops onto its edge when pressed.
     var pressDrop: CGFloat { DuoCardChrome.drop(forEdge: edge) }
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .modifier(DuoCardChrome(edge: edge, border: Theme.divider, radius: radius, pressed: configuration.isPressed))
+            .modifier(DuoCardChrome(
+                edge: edge,
+                border: border,
+                fill: fill,
+                radius: radius,
+                pressed: configuration.isPressed
+            ))
             .animation(.easeOut(duration: 0.08), value: configuration.isPressed)
     }
 }
@@ -109,9 +117,18 @@ extension ButtonStyle where Self == DuoCardStyle {
 
     /// Keypad key: a white card with the button shape (radius 14, 4pt drop).
     static var duoKey: DuoCardStyle { DuoCardStyle(edge: 6, radius: 14) }
+
+    /// Choice tile or chip: blue outline and tint when selected.
+    static func duoChoice(isSelected: Bool, edge: CGFloat = 4) -> DuoCardStyle {
+        DuoCardStyle(
+            edge: edge,
+            border: isSelected ? Theme.teamB : Theme.divider,
+            fill: isSelected ? Theme.teamBWash : Theme.surface
+        )
+    }
 }
 
-/// White card surface. `edge` is the total bottom border thickness (2 = flat).
+/// Card surface. `edge` is the total bottom border thickness (2 = flat).
 private struct DuoCardChrome: ViewModifier {
 
     static let borderWidth: CGFloat = 2
@@ -123,6 +140,7 @@ private struct DuoCardChrome: ViewModifier {
 
     let edge: CGFloat
     let border: Color
+    var fill: Color = Theme.surface
     var radius: CGFloat = 16
     var pressed = false
 
@@ -131,7 +149,7 @@ private struct DuoCardChrome: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .background(Theme.surface, in: shape)
+            .background(fill, in: shape)
             .overlay(shape.strokeBorder(border, lineWidth: Self.borderWidth))
             .offset(y: pressed ? drop : 0)
             .padding(.bottom, drop)
