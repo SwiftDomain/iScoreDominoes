@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftData
 
 extension GameType {
 
@@ -170,5 +171,96 @@ enum PlayerName {
     static func matches(_ name: String, query: String) -> Bool {
         let query = query.trimmingCharacters(in: .whitespacesAndNewlines)
         return query.isEmpty || name.localizedStandardContains(query)
+    }
+}
+
+/// Turns a confirmed setup into a stored game. New Game and the voice sheet
+/// both start games through here.
+enum GameFactory {
+
+    /// Inserts a game for `resolved`, reusing `existing` players by name and
+    /// creating the rest. Expects a complete lineup.
+    @discardableResult
+    static func make(_ resolved: ResolvedGame, existing: [Player], in context: ModelContext) -> Game {
+        let game = Game(gameType: resolved.gameType, maxScore: Double(resolved.target))
+        context.insert(game)
+
+        let team1 = resolved.lineup.names(for: .team1)
+        let team2 = resolved.lineup.names(for: .team2)
+        for name in team1 + team2 {
+            let player = existing.first { PlayerName.isSame($0.name, name) } ?? Player(name: name)
+            game.players?.append(player)
+        }
+        game.team1 = team1
+        game.team2 = team2
+        return game
+    }
+}
+
+/// The decisions behind the "say the game" sheet, kept out of the view.
+enum VoiceSetup {
+
+    enum Opening: Equatable {
+        /// Start listening straight away.
+        case listen
+        /// Ask for microphone and speech access first, then listen.
+        case askPermission
+        /// Speech cannot work here: go to typing.
+        case typeInstead
+    }
+
+    static func opening(for availability: SpeechAvailability) -> Opening {
+        switch availability {
+        case .ready: .listen
+        case .needsPermission: .askPermission
+        case .denied, .unsupported: .typeInstead
+        }
+    }
+
+    /// One line saying why the user is typing instead of talking; nil when
+    /// nothing went wrong. A thrown unavailability names its own reason.
+    static func explanation(availability: SpeechAvailability, error: Error?) -> String? {
+        var reason = availability
+        if let error {
+            guard let failure = error as? SpeechCaptureError else {
+                return String(localized: "Listening stopped: \(error.localizedDescription) Type the game instead.")
+            }
+            if case .unavailable(let why) = failure { reason = why }
+        }
+        switch reason {
+        case .ready:
+            return nil
+        case .needsPermission:
+            return String(localized: "Allow the microphone and speech recognition to talk, or type the game instead.")
+        case .denied:
+            return String(localized: "Microphone or speech access is off. Turn it on in Settings, or type the game instead.")
+        case .unsupported:
+            return String(localized: "Speech recognition isn't available on this device. Type the game instead.")
+        }
+    }
+
+    static var heardNothing: String {
+        String(localized: "Didn't catch anything. Try again, or type the game instead.")
+    }
+
+    /// Seated names that match no saved player (and are not the owner), in seat order.
+    static func newNames(in lineup: PlayerLineup, known: [String], owner: String?) -> [String] {
+        let saved = known + (owner.map { [$0] } ?? [])
+        return lineup.names
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { name in !name.isEmpty && !saved.contains { PlayerName.isSame($0, name) } }
+    }
+
+    /// The pipeline behind both the mic and the typed sentence.
+    static func resolve(
+        _ sentence: String,
+        locale: Locale,
+        defaults: (type: GameType, target: Int),
+        known: [String],
+        owner: String?
+    ) async -> ResolvedGame {
+        let parsed = GameCommand.parse(sentence, locale: locale)
+        let command = await GameCommandModel.enhance(parsed, transcript: sentence, locale: locale, timeout: .seconds(3))
+        return command.resolved(defaults: defaults, known: known, owner: owner)
     }
 }
