@@ -4,6 +4,9 @@ import Testing
 
 struct GameCommandModelTests {
 
+    static let spoken = "six, 100, Ana Carlos against Luis Papo wrong names"
+
+
     @Test func skipsTheModelWhenTheSentenceIsComplete() {
         var command = GameCommand()
         command.gameType = .nine
@@ -32,7 +35,7 @@ struct GameCommandModelTests {
         model.team1 = ["Wrong", "Names"]
         model.team2 = ["Luis", "Papo"]
 
-        let merged = GameCommandModel.merged(deterministic: deterministic, model: model)
+        let merged = GameCommandModel.merged(deterministic: deterministic, model: model, transcript: Self.spoken)
         #expect(merged.gameType == .six)
         #expect(merged.team1 == ["Ana", "Carlos"])
         #expect(merged.target == 150)
@@ -58,7 +61,7 @@ struct GameCommandModelTests {
         deterministic.team1 = ["Ana"]
         var model = GameCommand()
         model.team1 = ["Ana", "Carlos"]
-        #expect(GameCommandModel.merged(deterministic: deterministic, model: model).team1 == ["Ana", "Carlos"])
+        #expect(GameCommandModel.merged(deterministic: deterministic, model: model, transcript: Self.spoken).team1 == ["Ana", "Carlos"])
     }
 
     @Test func mergeJoinsATwoWordNameTheParserSplit() {
@@ -68,7 +71,7 @@ struct GameCommandModelTests {
         var model = GameCommand()
         model.team1 = ["Juan Carlos", "Ana"]
         model.team2 = ["Luis", "Papo"]
-        let merged = GameCommandModel.merged(deterministic: deterministic, model: model)
+        let merged = GameCommandModel.merged(deterministic: deterministic, model: model, transcript: Self.spoken)
         #expect(merged.team1 == ["Juan Carlos", "Ana"])
         #expect(merged.team2 == ["Luis", "Papo"])
     }
@@ -78,7 +81,7 @@ struct GameCommandModelTests {
         deterministic.team1 = ["Ana"]
         var model = GameCommand()
         model.team1 = ["Wrong", "Names"]
-        #expect(GameCommandModel.merged(deterministic: deterministic, model: model).team1 == ["Ana"])
+        #expect(GameCommandModel.merged(deterministic: deterministic, model: model, transcript: Self.spoken).team1 == ["Ana"])
     }
 
     @Test func mergeFillsAnEmptyCommandFromTheModel() {
@@ -87,7 +90,7 @@ struct GameCommandModelTests {
         model.target = 100
         model.team1 = ["Ana", "Carlos"]
         model.team2 = ["Luis", "Papo"]
-        #expect(GameCommandModel.merged(deterministic: GameCommand(), model: model) == model)
+        #expect(GameCommandModel.merged(deterministic: GameCommand(), model: model, transcript: Self.spoken) == model)
     }
 
     @Test func modelOutputIsCleanedBeforeItCanBeMerged() {
@@ -150,7 +153,7 @@ struct GameCommandModelTests {
         let clock = ContinuousClock()
         var result = GameCommand()
         let elapsed = await clock.measure {
-            result = await GameCommandModel.enhance(Self.short, timeout: .milliseconds(50)) {
+            result = await GameCommandModel.enhance(Self.short, transcript: "nine, Ana and Carlos against Luis and Papo", timeout: .milliseconds(50)) {
                 // Ignores cancellation on purpose: the caller must not wait for it.
                 await withCheckedContinuation { (c: CheckedContinuation<Void, Never>) in
                     DispatchQueue.global().asyncAfter(deadline: .now() + 5) { c.resume() }
@@ -165,17 +168,17 @@ struct GameCommandModelTests {
     }
 
     @Test func aThrowingAskerReturnsTheDeterministicCommand() async {
-        let result = await GameCommandModel.enhance(Self.short, timeout: .seconds(5)) { throw Boom() }
+        let result = await GameCommandModel.enhance(Self.short, transcript: "nine, Ana and Carlos against Luis and Papo", timeout: .seconds(5)) { throw Boom() }
         #expect(result == Self.short)
     }
 
     @Test func anAskerReturningNothingReturnsTheDeterministicCommand() async {
-        let result = await GameCommandModel.enhance(Self.short, timeout: .seconds(5)) { nil }
+        let result = await GameCommandModel.enhance(Self.short, transcript: "nine, Ana and Carlos against Luis and Papo", timeout: .seconds(5)) { nil }
         #expect(result == Self.short)
     }
 
     @Test func aUsefulAnswerIsMerged() async {
-        let result = await GameCommandModel.enhance(Self.short, timeout: .seconds(5)) {
+        let result = await GameCommandModel.enhance(Self.short, transcript: "nine, Ana and Carlos against Luis and Papo", timeout: .seconds(5)) {
             var heard = GameCommand()
             heard.target = 150
             heard.team1 = ["Ana", "Carlos"]
@@ -186,5 +189,41 @@ struct GameCommandModelTests {
         #expect(result.target == 150)
         #expect(result.team1 == ["Ana", "Carlos"])
         #expect(result.team2 == ["Luis", "Papo"])
+    }
+
+    // MARK: - Empty team vs the transcript
+
+    private func modelTeams(_ team1: [String], _ team2: [String]) -> GameCommand {
+        var model = GameCommand()
+        model.team1 = team1
+        model.team2 = team2
+        return model
+    }
+
+    @Test func anEmptyTeamTakesModelNamesThatWereSaid() {
+        var heard = GameCommand()
+        heard.team1 = ["Ana", "Carlos"]
+        let merged = GameCommandModel.merged(
+            deterministic: heard, model: modelTeams(["Ana", "Carlos"], ["Luis", "Papo"]),
+            transcript: "Ana y CARLOS contra Luís y Papo")
+        #expect(merged.team2 == ["Luis", "Papo"])
+    }
+
+    @Test func anEmptyTeamRejectsModelNamesNobodySaid() {
+        var heard = GameCommand()
+        heard.team1 = ["Ana", "Carlos"]
+        let merged = GameCommandModel.merged(
+            deterministic: heard, model: modelTeams(["Ana", "Carlos"], ["Invented", "Players"]),
+            transcript: "uh Ana and Carlos")
+        #expect(merged.team2.isEmpty)
+        #expect(merged.team1 == ["Ana", "Carlos"])
+    }
+
+    @Test func noiseCannotSeatAnyone() {
+        let merged = GameCommandModel.merged(
+            deterministic: GameCommand(), model: modelTeams(["Ana", "Carlos"], ["Luis", "Papo"]),
+            transcript: "uh")
+        #expect(merged.team1.isEmpty)
+        #expect(merged.team2.isEmpty)
     }
 }

@@ -223,7 +223,9 @@ enum VoiceSetup {
         var reason = availability
         if let error {
             guard let failure = error as? SpeechCaptureError else {
-                return String(localized: "Listening stopped: \(error.localizedDescription) Type the game instead.")
+                var detail = error.localizedDescription.trimmingCharacters(in: .whitespacesAndNewlines)
+                while detail.hasSuffix(".") { detail.removeLast() }
+                return String(localized: "Listening stopped: \(detail). Type the game instead.")
             }
             if case .unavailable(let why) = failure { reason = why }
         }

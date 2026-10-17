@@ -25,20 +25,33 @@ enum GameCommandModel {
     /// team, but only if that team accounts for every word the parser heard ("Juan", "Carlos"
     /// becomes "Juan Carlos"; ["Ana"] becomes ["Ana", "Carlos"]). A model team that contradicts
     /// what was heard is ignored.
-    static func merged(deterministic: GameCommand, model: GameCommand) -> GameCommand {
+    static func merged(deterministic: GameCommand, model: GameCommand, transcript: String) -> GameCommand {
         var result = deterministic
         if result.gameType == nil { result.gameType = model.gameType }
         if result.target == nil { result.target = model.target }
-        result.team1 = team(deterministic.team1, completedBy: model.team1)
-        result.team2 = team(deterministic.team2, completedBy: model.team2)
+        result.team1 = team(deterministic.team1, completedBy: model.team1, transcript: transcript)
+        result.team2 = team(deterministic.team2, completedBy: model.team2, transcript: transcript)
         return result
     }
 
-    private static func team(_ heard: [String], completedBy suggested: [String]) -> [String] {
+    private static func team(_ heard: [String], completedBy suggested: [String], transcript: String) -> [String] {
         guard heard.count != 2, suggested.count == 2 else { return heard }
-        if heard.isEmpty { return suggested }
+        if heard.isEmpty {
+            // Nothing was heard for this team, so the transcript is the only evidence: a model
+            // that invents players from noise like "uh" must not seat them.
+            let spoken = Set(transcriptWords(transcript))
+            return suggested.flatMap(words).allSatisfy { spoken.contains(fold($0)) } ? suggested : heard
+        }
         let suggestedWords = Set(suggested.flatMap(words))
         return heard.flatMap(words).allSatisfy(suggestedWords.contains) ? suggested : heard
+    }
+
+    private static func fold(_ word: String) -> String {
+        word.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil)
+    }
+
+    private static func transcriptWords(_ text: String) -> [String] {
+        fold(text).split(whereSeparator: { !$0.isLetter && !$0.isNumber }).map(String.init)
     }
 
     private static func words(_ name: String) -> [String] {
@@ -79,7 +92,7 @@ enum GameCommandModel {
               SystemLanguageModel.default.availability == .available,
               SystemLanguageModel.default.supportsLocale(locale) else { return deterministic }
 
-        return await enhance(deterministic, timeout: timeout) {
+        return await enhance(deterministic, transcript: transcript, timeout: timeout) {
             await ask(transcript: transcript, locale: locale)
         }
     }
@@ -89,6 +102,7 @@ enum GameCommandModel {
     /// otherwise merges its answer. The asker runs in an unstructured task, so one that ignores
     /// cancellation cannot hold the caller up.
     static func enhance(_ deterministic: GameCommand,
+                        transcript: String,
                         timeout: Duration,
                         ask: @escaping @Sendable () async throws -> GameCommand?) async -> GameCommand {
         let answer = await withCheckedContinuation { (continuation: CheckedContinuation<GameCommand?, Never>) in
@@ -102,7 +116,7 @@ enum GameCommandModel {
             Task { _ = await work.value; timer.cancel() }
         }
         guard let answer else { return deterministic }
-        return merged(deterministic: deterministic, model: answer)
+        return merged(deterministic: deterministic, model: answer, transcript: transcript)
     }
 
     // MARK: - Model call

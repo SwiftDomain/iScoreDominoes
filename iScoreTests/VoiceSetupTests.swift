@@ -31,6 +31,7 @@ struct VoiceSetupTests {
         struct Boom: LocalizedError { var errorDescription: String? { "mic busy" } }
         let text = VoiceSetup.explanation(availability: .ready, error: Boom())
         #expect(text?.contains("mic busy") == true)
+        #expect(text?.contains("mic busy. Type the game instead.") == true)
     }
 
     private struct Boom: LocalizedError { var errorDescription: String? { "recognizer died" } }
