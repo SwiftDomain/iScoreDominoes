@@ -33,6 +33,34 @@ struct VoiceSetupTests {
         #expect(text?.contains("mic busy") == true)
     }
 
+    private struct Boom: LocalizedError { var errorDescription: String? { "recognizer died" } }
+
+    @Test func nothingHeardAndNoErrorSaysSo() {
+        let text = VoiceSetup.notice(heard: "  ", availability: .ready, lastError: nil)
+        #expect(text == VoiceSetup.heardNothing)
+    }
+
+    /// The simulator case: the recognizer fails at once, nothing is heard.
+    @Test func nothingHeardWithAnErrorExplainsTheError() {
+        let text = VoiceSetup.notice(heard: "", availability: .ready, lastError: Boom())
+        #expect(text?.contains("recognizer died") == true)
+        #expect(text != VoiceSetup.heardNothing)
+    }
+
+    @Test func heardWordsAndNoErrorNeedNoNotice() {
+        #expect(VoiceSetup.notice(heard: "nine", availability: .ready, lastError: nil) == nil)
+    }
+
+    @Test func heardWordsCutOffByAnErrorStillExplain() {
+        let text = VoiceSetup.notice(heard: "nine, two", availability: .ready, lastError: Boom())
+        #expect(text?.contains("recognizer died") == true)
+    }
+
+    @Test func aStartFailureWithReadyAvailabilityGetsHonestCopy() {
+        let text = VoiceSetup.notice(heard: "", availability: .ready, lastError: SpeechCaptureError.unavailable(.ready))
+        #expect(text == VoiceSetup.couldntStart)
+    }
+
     @Test func flagsOnlyUnsavedNames() {
         var lineup = PlayerLineup()
         lineup.names = ["Ana", "carlos", "Luis", ""]

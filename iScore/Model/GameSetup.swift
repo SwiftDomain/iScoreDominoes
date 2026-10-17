@@ -240,7 +240,20 @@ enum VoiceSetup {
     }
 
     static var heardNothing: String {
-        String(localized: "Didn't catch anything. Try again, or type the game instead.")
+        String(localized: "Didn't catch anything. Type the game instead.")
+    }
+
+    static var couldntStart: String {
+        String(localized: "Couldn't start listening. Type the game instead.")
+    }
+
+    /// What to tell the user once a listening session is over, whoever ended it.
+    /// `lastError` must be read before anything can restart the recognizer.
+    /// Heard words with no error need no notice; an error always gets one.
+    static func notice(heard: String, availability: SpeechAvailability, lastError: Error?) -> String? {
+        let hasWords = !heard.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        guard let lastError else { return hasWords ? nil : heardNothing }
+        return explanation(availability: availability, error: lastError) ?? couldntStart
     }
 
     /// Seated names that match no saved player (and are not the owner), in seat order.

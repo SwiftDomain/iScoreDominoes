@@ -24,6 +24,9 @@ struct VoiceGameSheet: View {
     @State private var capture = SpeechCapture(locale: .current)
     @State private var phase = Phase.listening
     @State private var notice: String?
+    /// True once the user (or the system) has taken over ending the session.
+    @State private var isEnding = false
+    @State private var isDismissed = false
     @State private var typed = ""
     @State private var lineup = PlayerLineup()
     @State private var gameType: GameType
@@ -61,6 +64,13 @@ struct VoiceGameSheet: View {
         }
         .background(Background())
         .task { await open() }
+        .onChange(of: capture.isListening) { wasListening, isListening in
+            if wasListening, !isListening { Task { await listeningEndedByItself() } }
+        }
+        .onDisappear {
+            isDismissed = true
+            capture.stop()
+        }
         .sheet(item: $editingSeat) { seat in
             NewPlayerView(
                 player: $lineup.names[seat.id],
@@ -75,6 +85,13 @@ struct VoiceGameSheet: View {
     private var listeningContent: some View {
         VStack(spacing: 20) {
             Spacer()
+
+            if let notice {
+                Label(notice, systemImage: "info.circle.fill")
+                    .font(.subheadline.weight(.bold))
+                    .foregroundStyle(Theme.textSecondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
 
             micButton
 
@@ -267,25 +284,34 @@ struct VoiceGameSheet: View {
 
     /// The recognizer delivers the last word a moment after the user stops talking.
     private func finishListening() async {
+        isEnding = true
         phase = .working
         try? await Task.sleep(for: .milliseconds(400))
-        let heard = capture.stop().trimmingCharacters(in: .whitespacesAndNewlines)
-        if heard.isEmpty {
-            notice = capture.lastError == nil
-                ? VoiceSetup.heardNothing
-                : VoiceSetup.explanation(availability: capture.availability, error: capture.lastError)
-            phase = .review
-            return
-        }
-        await apply(heard)
-        // A recognizer that failed mid-sentence should still say why.
-        notice = capture.lastError.flatMap { VoiceSetup.explanation(availability: capture.availability, error: $0) }
+        guard !isDismissed else { return }
+        await conclude(heard: capture.stop())
+    }
+
+    /// The recognizer ended the session itself (it failed, or the user fell silent).
+    private func listeningEndedByItself() async {
+        guard phase == .listening, !isEnding, !isDismissed else { return }
+        isEnding = true
+        phase = .working
+        await conclude(heard: capture.transcript)
+    }
+
+    /// Shared wrap-up: reads the reason first, then fills the game from what was heard.
+    private func conclude(heard: String) async {
+        let reason = VoiceSetup.notice(heard: heard, availability: capture.availability, lastError: capture.lastError)
+        let words = heard.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !words.isEmpty { await apply(words) }
+        guard !isDismissed else { return }
+        notice = reason
         phase = .review
     }
 
     private func fallBackToTyping(error: Error?) {
         notice = VoiceSetup.explanation(availability: capture.availability, error: error ?? capture.lastError)
-            ?? VoiceSetup.heardNothing
+            ?? VoiceSetup.couldntStart
         phase = .review
     }
 
@@ -313,6 +339,7 @@ struct VoiceGameSheet: View {
     }
 
     private func cancel() {
+        isDismissed = true
         capture.stop()
         dismiss()
     }

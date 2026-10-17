@@ -19,7 +19,8 @@
     "Allow the microphone and speech recognition to talk, or type the game instead." : {},
     "Microphone or speech access is off. Turn it on in Settings, or type the game instead." : {},
     "Speech recognition isn't available on this device. Type the game instead." : {},
-    "Didn't catch anything. Try again, or type the game instead." : {}
+    "Didn't catch anything. Type the game instead." : {},
+    "Couldn't start listening. Type the game instead." : {}
   },
   "version" : "1.0"
 }
