@@ -68,16 +68,7 @@ class Game: Identifiable {
             return .none
         }
     }
-    
-    func printPlayers() {
-        
-        for index in (players ?? []).indices {
 
-            print("\(index) - \((players ?? [])[index])")
-        }
-        
-    }
-    
 }
 
 enum GameType: String, Codable, RawRepresentable, CaseIterable, Equatable{

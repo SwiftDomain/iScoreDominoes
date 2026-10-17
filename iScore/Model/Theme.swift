@@ -78,12 +78,8 @@ enum Theme {
 
     // MARK: - Semantic
 
-    /// Win badges, positive stats — green
-    static let success = Color("success")
-
     /// Destructive actions — Cardinal red
     static let danger = Color("danger")
-    static let dangerShadow = Color("dangerShadow")
 
     /// 2pt borders, card bottom edges, empty cells — Swan gray
     static let divider = Color("dividerColor")
@@ -134,7 +130,7 @@ enum Theme {
     /// can't silently render as clear.
     static let colorAssetNames = [
         "AccentColor", "accentInk", "background_primary", "surface", "surfaceSecondary",
-        "textPrimary", "textSecondary", "textMuted", "success", "danger", "dangerShadow", "dividerColor",
+        "textPrimary", "textSecondary", "textMuted", "danger", "dividerColor",
         "teamA", "teamAShadow", "teamAWash", "teamB", "teamBShadow", "teamBWash",
         "gold", "goldShadow", "streak", "streakShadow", "learn", "learnShadow"
     ]

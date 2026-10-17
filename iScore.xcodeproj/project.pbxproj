@@ -12,7 +12,6 @@
 		076444A92ACD1C0200E39F12 /* iScoreApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076444A82ACD1C0200E39F12 /* iScoreApp.swift */; };
 		076444AB2ACD1C0200E39F12 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076444AA2ACD1C0200E39F12 /* HomeView.swift */; };
 		076444AD2ACD1C0200E39F12 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076444AC2ACD1C0200E39F12 /* Game.swift */; };
-		076444B22ACD1C0500E39F12 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 076444B12ACD1C0500E39F12 /* Preview Assets.xcassets */; };
 		07D9DD772AD3787B00EA6D90 /* NewGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D9DD762AD3787B00EA6D90 /* NewGameView.swift */; };
 		07D9DD792AD3819E00EA6D90 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D9DD782AD3819E00EA6D90 /* GameView.swift */; };
 		19808D352D365A88587FF5D6 /* GameTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F22A2FD208CB7670DB633C /* GameTypePicker.swift */; };
@@ -32,7 +31,6 @@
 		3E2F8CAE2B7D9EE4003468F0 /* Previewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F8CAD2B7D9EE4003468F0 /* Previewer.swift */; };
 		3EA4184E2B995AE900905C9B /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA4184D2B995AE900905C9B /* InfoView.swift */; };
 		3EA418502B996C5500905C9B /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA4184F2B996C5500905C9B /* Config.swift */; };
-		3EAF23602E84A6AD00E185B0 /* Glass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAF235F2E84A6AD00E185B0 /* Glass.swift */; };
 		3EC7F2862DEE448200FD9D01 /* Tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC7F2852DEE448200FD9D01 /* Tip.swift */; };
 		3EF472A72B756DF80018276A /* EditScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF472A62B756DF80018276A /* EditScoreView.swift */; };
 		3EF472C92B769F130018276A /* HallOfFameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF472C82B769F130018276A /* HallOfFameView.swift */; };
@@ -94,7 +92,6 @@
 		076444A82ACD1C0200E39F12 /* iScoreApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iScoreApp.swift; sourceTree = "<group>"; };
 		076444AA2ACD1C0200E39F12 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		076444AC2ACD1C0200E39F12 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
-		076444B12ACD1C0500E39F12 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		079DD9471845DAF260C57FDE /* PlayStreakTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlayStreakTests.swift; sourceTree = "<group>"; };
 		07D9DD762AD3787B00EA6D90 /* NewGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGameView.swift; sourceTree = "<group>"; };
 		07D9DD782AD3819E00EA6D90 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
@@ -112,7 +109,6 @@
 		3E2F8CAD2B7D9EE4003468F0 /* Previewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Previewer.swift; sourceTree = "<group>"; };
 		3EA4184D2B995AE900905C9B /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		3EA4184F2B996C5500905C9B /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
-		3EAF235F2E84A6AD00E185B0 /* Glass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Glass.swift; sourceTree = "<group>"; };
 		3EC7F2852DEE448200FD9D01 /* Tip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tip.swift; sourceTree = "<group>"; };
 		3EF472A62B756DF80018276A /* EditScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScoreView.swift; sourceTree = "<group>"; };
 		3EF472C82B769F130018276A /* HallOfFameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HallOfFameView.swift; sourceTree = "<group>"; };
@@ -203,24 +199,14 @@
 				076444A82ACD1C0200E39F12 /* iScoreApp.swift */,
 				3EF472CB2B769F580018276A /* Model */,
 				3EF472CA2B769F2B0018276A /* Views */,
-				076444B02ACD1C0500E39F12 /* Preview Content */,
 			);
 			path = iScore;
-			sourceTree = "<group>";
-		};
-		076444B02ACD1C0500E39F12 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				076444B12ACD1C0500E39F12 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		3EF472CA2B769F2B0018276A /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				076444AA2ACD1C0200E39F12 /* HomeView.swift */,
-				3EAF235F2E84A6AD00E185B0 /* Glass.swift */,
 				07D9DD782AD3819E00EA6D90 /* GameView.swift */,
 				073231EE2AD3C23A003214D2 /* GamesView.swift */,
 				07D9DD762AD3787B00EA6D90 /* NewGameView.swift */,
@@ -379,7 +365,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E2763F32E7BA083004DF143 /* Assets.xcassets in Resources */,
-				076444B22ACD1C0500E39F12 /* Preview Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,7 +384,6 @@
 			files = (
 				3E193B6C2B6D8AC5008F41D7 /* AddGameScoreView.swift in Sources */,
 				3EC7F2862DEE448200FD9D01 /* Tip.swift in Sources */,
-				3EAF23602E84A6AD00E185B0 /* Glass.swift in Sources */,
 				073231EF2AD3C23A003214D2 /* GamesView.swift in Sources */,
 				076444AB2ACD1C0200E39F12 /* HomeView.swift in Sources */,
 				3EA418502B996C5500905C9B /* Config.swift in Sources */,
@@ -616,10 +600,8 @@
 				CODE_SIGN_ENTITLEMENTS = iScore/iScore.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_ASSET_PATHS = "\"iScore/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = iScore/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = iScoreDominoes;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -654,10 +636,8 @@
 				CODE_SIGN_ENTITLEMENTS = iScore/iScore.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_ASSET_PATHS = "\"iScore/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = iScore/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = iScoreDominoes;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

@@ -11,8 +11,8 @@ struct ThemeTests {
     }
 
     @Test func colorAssetNamesAreComplete() {
-        #expect(Theme.colorAssetNames.count == 24)
-        #expect(Set(Theme.colorAssetNames).count == 24)
+        #expect(Theme.colorAssetNames.count == 22)
+        #expect(Set(Theme.colorAssetNames).count == 22)
     }
 
     /// Red (`danger`) is for destructive actions only; a lost or cancelled

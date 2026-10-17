@@ -8,7 +8,7 @@
 
 ## Structure
 
-- `iScore/Model/` — `Game.swift` (core model + enums), `Player.swift`, `Theme.swift` (semantic colors, team palettes, `DuoFont`), `Config.swift` (`Background`, legacy cell views), `Tip.swift`, and pure, tested logic: `Game+Scoreboard` (totals, rounds, undo, Duo copy), `Game+Editing` (edit/delete rounds, outcomes, `deleteGameKeepingPlayers`), `GameSetup` (targets, `GameDefaults`, `PlayerLineup`, `PlayerName`), `GameList` (filters, month sections), `Leaderboard`, `ScoreEntry` (keypad entry), `PlayStreak` (day streak), `DemoData` (sample games; Debug `-demoData` launch argument)
+- `iScore/Model/` — `Game.swift` (core model + enums), `Player.swift`, `Theme.swift` (semantic colors, team palettes, `DuoFont`), `Config.swift` (`Background`), `Tip.swift`, and pure, tested logic: `Game+Scoreboard` (totals, rounds, undo, Duo copy), `Game+Editing` (edit/delete rounds, outcomes, `deleteGameKeepingPlayers`), `GameSetup` (targets, `GameDefaults`, `PlayerLineup`, `PlayerName`), `GameList` (filters, month sections), `Leaderboard`, `ScoreEntry` (keypad entry), `PlayStreak` (day streak), `DemoData` (sample games; Debug `-demoData` launch argument)
 - `iScore/Views/` screens — `HomeView`, `GameView`, `AddGameScoreView`, `EditScoreView`, `NewGameView` (+ `NewPlayerView` picker), `GamesView`, `HallOfFameView`, `SettingsView`, `GameSummaryView`, `InfoView` (`CollectionView`, How to play)
 - `iScore/Views/` Duo components — `DuoStyle` (`.duo` buttons; `.duoCard`, `.duoKey`, `.duoChoice` card styles; `duoCard`/`duoSolid`/`duoLabel` modifiers), `DuoProgressBar`, `TeamAvatars`/`PlayerAvatar`, `TeamScoreCard`, `TeamSeatsCard`, `RoundRow`, `RoundFeedbackBanner`, `ScoreKeypad`, `ScoreWell`, `TeamSpeechBubble`, `SheetHeader`, `GameTypePicker`, `TargetStepper`, `SearchWell`, `StatusChip`, `GameListCard`, `PodiumView`, `SummaryStatTile`, `TrophyBurst`, `DominoGlyph`, `ActiveGameBanner`, `HomeCardView`, `RecentGameCard`, `QuickStatsBar`; plus `Previewer`
 - `iScoreApp.swift` — Entry point, SwiftData ModelContainer
@@ -20,9 +20,9 @@ Duolingo-inspired: white canvas, rounded gray text, green team 1, blue team 2, p
 
 - `background`/`surface` `#FFFFFF` · `surfaceSecondary` `#F7F7F7` wells · `divider` `#E5E5E5` borders and bottom edges
 - `textPrimary` `#4B4B4B` · `textSecondary` `#777777` informational text (uppercase labels via `duoLabel()`, counts, dates, "to win") · `textMuted` `#AFAFAF` only for icons, placeholders and disabled titles. Both grays have Increase Contrast variants (`#595959`, `#767676`)
-- Team 1: `teamA` `#58CC02` / `teamAShadow` `#58A700` / `teamAWash` `#D7FFB8` (also `accent`, `success`, `accentInk` = shadow)
+- Team 1: `teamA` `#58CC02` / `teamAShadow` `#58A700` / `teamAWash` `#D7FFB8` (also `accent`, `accentInk` = shadow)
 - Team 2: `teamB` `#1CB0F6` / `teamBShadow` `#1899D6` / `teamBWash` `#DDF4FF`
-- Accents: `gold` `#FFC800` (leader, trophies) · `streak` `#FF9600` · `learn` `#CE82FF` · `danger` `#FF4B4B` — each has a `…Shadow` edge color
+- Accents: `gold` `#FFC800` (leader, trophies) · `streak` `#FF9600` · `learn` `#CE82FF` — each has a `…Shadow` edge color · `danger` `#FF4B4B` (destructive text)
 - Use `Theme.palette(for: Team)` for team-colored UI; text on any saturated fill is `Theme.surface` (white)
 - Type: `DuoFont.score(_:)` (.black) for numbers, `.title` (.heavy), `.body` (.bold), `.label` (.heavy, uppercase, tracking 0.8)
 - Shape: cards radius 16 with 2pt border + 4pt bottom edge (`.duoCard`); buttons radius 14 with 4pt darker bottom edge (`.duo`); keypad keys are white cards with the button shape (`.duoKey`: radius 14, 4pt press drop); no gradients, shadows, blur or glass on Duo screens
@@ -36,7 +36,6 @@ Duolingo-inspired: white canvas, rounded gray text, green team 1, blue team 2, p
 ## Known technical debt
 
 - Navigation mixes `NavigationLink(destination:)` (Home tiles, All Games, New Game) with `navigationDestination(for: Game.self)` (Home) — move to value-based links
-- `Glass.swift`, `Twirl` (`Config.swift`) and `Game.printPlayers()` are unused
 - `Game.players` has a cascade delete rule although players are shared between games; always delete games with `ModelContext.deleteGameKeepingPlayers`
 - Button images missing text labels (accessibility issue) — re-check after the Duo restyle
 
