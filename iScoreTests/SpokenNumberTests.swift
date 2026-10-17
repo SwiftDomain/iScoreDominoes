@@ -25,6 +25,13 @@ struct SpokenNumberTests {
         #expect(SpokenNumber.parse("doscientos", locale: es) == 200)
     }
 
+    /// Speech recognition returns accented Spanish; the tables are unaccented.
+    @Test func parsesAccentedSpanish() {
+        #expect(SpokenNumber.parse("dieciséis", locale: es) == 16)
+        #expect(SpokenNumber.parse("veintidós", locale: es) == 22)
+        #expect(SpokenNumber.parse("veintitrés", locale: es) == 23)
+    }
+
     @Test func scansCompoundsAcrossWords() {
         let hits = SpokenNumber.scan(["two", "hundred"], locale: en)
         #expect(hits.count == 1)
@@ -35,6 +42,13 @@ struct SpokenNumberTests {
     @Test func scansSpanishCompounds() {
         let hits = SpokenNumber.scan(["ciento", "cincuenta"], locale: es)
         #expect(hits.map(\.value) == [150])
+    }
+
+    @Test func scansAccentedCompounds() {
+        let hits = SpokenNumber.scan(["ciento", "veintidós"], locale: es)
+        #expect(hits.count == 1)
+        #expect(hits[0].value == 122)
+        #expect(hits[0].range == 0..<2)
     }
 
     @Test func scansSeveralNumbersWithWordsBetween() {

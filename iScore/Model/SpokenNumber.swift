@@ -47,7 +47,11 @@ enum SpokenNumber {
             return Int(words[0])
         }
         let table = locale.language.languageCode?.identifier == "es" ? spanish : english
-        let pieces = words.flatMap { $0.lowercased().split(separator: "-").map(String.init) }.map { table[$0] }
+        // Speech recognition returns accented Spanish ("dieciséis"); the tables are unaccented.
+        let pieces = words.flatMap { word in
+            word.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: locale)
+                .split(separator: "-").map(String.init)
+        }.map { table[$0] }
         guard !pieces.isEmpty else { return nil }
 
         var hundreds = 0, rest = 0
