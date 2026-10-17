@@ -101,6 +101,8 @@ struct GameView: View {
         }
         .sheet(isPresented: $showGameSummary) {
             GameSummaryView(game: game) { next in
+                // Replace the finished game (the top of the path) rather than stacking on it.
+                if !path.isEmpty { path.removeLast() }
                 path.append(next)
             }
         }
