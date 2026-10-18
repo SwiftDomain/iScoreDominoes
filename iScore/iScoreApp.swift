@@ -15,6 +15,9 @@ struct iScoreApp: App {
     
     var modelContainer: ModelContainer
 
+    /// Carries a Lock Screen "Other…" tap to the game's own screen.
+    @State private var linkRouter = ScoreLinkRouter()
+
     /// Tips remember being dismissed. Only Debug `-demoData` runs start with
     /// fresh tips, so simulator checks always see them.
     static func resetsTips(launchArguments: [String]) -> Bool {
@@ -50,6 +53,7 @@ struct iScoreApp: App {
             HomeView()
                 // Duo theme is a fixed light palette with rounded type; keep
                 // system chrome (nav bars, sheets) light regardless of device mode.
+                .environment(linkRouter)
                 .preferredColorScheme(.light)
                 .fontDesign(.rounded)
                 .task {

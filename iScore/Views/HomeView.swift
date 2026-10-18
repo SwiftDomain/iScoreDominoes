@@ -24,6 +24,10 @@ struct HomeView: View {
 
     @Query(sort: \Game.timestamp, order: .reverse) private var allGames: [Game]
 
+    @Environment(\.modelContext) private var context
+    @Environment(ScoreLinkRouter.self) private var linkRouter
+    @Environment(\.scenePhase) private var scenePhase
+
     @State private var showHallOfFameView = false
     @State private var showInfoView = false
     @State private var showSettingsView = false
@@ -119,6 +123,28 @@ struct HomeView: View {
         .sheet(isPresented: $showSettingsView) {
             SettingsView()
         }
+        // Rounds may have been scored on the Lock Screen while the app sat
+        // on Home; the app is the only writer, so it drains them here too.
+        .task { drainLockScreenRounds() }
+        .onOpenURL { url in
+            if case let .openAddScore(gameID, team) = ScoreLinkHandler.handle(url, context: context),
+               let game = allGames.first(where: { $0.id == gameID }) {
+                linkRouter.pendingAddScore = (gameID, team)
+                path.append(game)
+            }
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { drainLockScreenRounds() }
+        }
+    }
+
+    private func drainLockScreenRounds() {
+        guard let game = activeGames.first(where: { $0.state == .playing }) else { return }
+        ScoreActivityController.shared.drain(
+            into: game,
+            context: context,
+            history: GameHistory.roundValues(in: allGames, type: game.gameType)
+        )
     }
 }
 
