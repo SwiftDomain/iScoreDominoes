@@ -79,6 +79,8 @@ struct AddGameScoreView: View {
             .frame(maxWidth: 500)
             .frame(maxWidth: .infinity)
         }
+        // Any keypad interaction retires a stale notice.
+        .onChange(of: entry) { notice = nil }
         .scrollIndicators(.hidden)
         .scrollBounceBehavior(.basedOnSize)
         .background(Background())
@@ -138,6 +140,8 @@ struct AddGameScoreView: View {
             }
             // Replace, never append, then take the Add button's own path.
             entry.set(points)
+            // Fail safe: never record digits typed earlier if `set` declined the value.
+            guard entry.value == points else { return }
             addScore()
         case .undone:
             // The round being entered does not exist yet, so there is nothing to undo here.
@@ -154,6 +158,7 @@ struct AddGameScoreView: View {
     }
 
     private func addScore() {
+        notice = nil
         guard let value = entry.take() else { return }
         game.addRound(value, for: team)
         dismiss()

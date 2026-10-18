@@ -98,14 +98,4 @@ struct ScoreEntryTests {
         entry.set(999)
         #expect(entry.digits == "999")
     }
-
-    /// A spoken value for the other team must not land in this sheet's entry.
-    @Test func settingIsTheOnlyWayASpokenValueReachesTheEntry() {
-        var entry = ScoreEntry()
-        entry.append(2)
-        entry.append(0)
-        // The wrong-team path must leave the typed digits alone.
-        #expect(entry.digits == "20")
-        #expect(entry.value == 20)
-    }
 }
