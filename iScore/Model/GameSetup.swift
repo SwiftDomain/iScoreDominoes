@@ -278,6 +278,14 @@ enum VoiceSetup {
         String(localized: "Couldn't start listening. Type the game instead.")
     }
 
+    static var scoringHeardNothing: String {
+        String(localized: "Didn't catch anything. Try again, or use the keypad.")
+    }
+
+    static var scoringCouldntStart: String {
+        String(localized: "Couldn't start listening. Use the keypad instead.")
+    }
+
     /// What to tell the user once a listening session is over, whoever ended it.
     /// `lastError` must be read before anything can restart the recognizer.
     /// Heard words with no error need no notice; an error always gets one.
@@ -285,6 +293,13 @@ enum VoiceSetup {
         let hasWords = !heard.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         guard let lastError else { return hasWords ? nil : heardNothing }
         return explanation(availability: availability, error: lastError) ?? couldntStart
+    }
+
+    /// `notice`, worded for the Game screen, where the fallback is the keypad.
+    static func scoringNotice(heard: String, availability: SpeechAvailability, lastError: Error?) -> String? {
+        let hasWords = !heard.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        guard let lastError else { return hasWords ? nil : scoringHeardNothing }
+        return scoringExplanation(availability: availability, error: lastError) ?? scoringCouldntStart
     }
 
     /// Seated names that match no saved player (and are not the owner), in seat order.

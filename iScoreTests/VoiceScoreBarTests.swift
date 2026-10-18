@@ -47,4 +47,11 @@ struct VoiceScoreBarTests {
             #expect(text?.contains("type the game") == false, "\(availability)")
         }
     }
+
+    /// The most common blocked case: the mic heard nothing. The way out is the keypad.
+    @Test func aSilentSessionPointsAtTheKeypad() {
+        let text = VoiceSetup.scoringNotice(heard: "  ", availability: .ready, lastError: nil)
+        #expect(text?.contains("keypad") == true)
+        #expect(text?.contains("type the game") == false)
+    }
 }

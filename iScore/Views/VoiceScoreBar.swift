@@ -141,13 +141,13 @@ struct VoiceScoreBar: View {
         // A tap proves the user is here, including after a stand-down with no new appear.
         isOnScreen = true
         guard VoiceSetup.opening(for: capture.availability) == .listen else {
-            notice = VoiceSetup.scoringExplanation(availability: capture.availability, error: nil) ?? VoiceSetup.couldntStart
+            notice = VoiceSetup.scoringExplanation(availability: capture.availability, error: nil) ?? VoiceSetup.scoringCouldntStart
             return
         }
         do {
             try capture.start()
         } catch {
-            notice = VoiceSetup.scoringExplanation(availability: capture.availability, error: error) ?? VoiceSetup.couldntStart
+            notice = VoiceSetup.scoringExplanation(availability: capture.availability, error: error) ?? VoiceSetup.scoringCouldntStart
         }
     }
 
@@ -173,7 +173,7 @@ struct VoiceScoreBar: View {
 
     /// Shared wrap-up. Capture is already stopped here, so speaking is safe.
     private func conclude(heard: String) async {
-        let reason = VoiceSetup.notice(heard: heard, availability: capture.availability, lastError: capture.lastError)
+        let reason = VoiceSetup.scoringNotice(heard: heard, availability: capture.availability, lastError: capture.lastError)
         let words = heard.trimmingCharacters(in: .whitespacesAndNewlines)
         isThinking = false
         notice = reason
