@@ -24,7 +24,7 @@ struct GameView: View {
     /// A heard number with no team: the two team buttons finish the sentence.
     @State private var pendingPoints: Int?
     /// The last spoken answer or refusal, shown on screen as well as spoken.
-    @State private var voiceNotice: String?
+    @State private var voiceNotice: VoiceNotice?
     @AppStorage(OwnerIdentity.nameKey) private var ownerName: String = ""
     let editScore = editScoreTip()
 
@@ -42,6 +42,14 @@ struct GameView: View {
     }
 
     // MARK: - Voice
+
+    /// An answer or refusal on its way to the screen. The id changes with every
+    /// delivery, so asking the same question twice gives the second answer its
+    /// own full display window instead of the remains of the first's.
+    private struct VoiceNotice: Identifiable, Equatable {
+        let id = UUID()
+        let text: String
+    }
 
     /// "us"/"we" resolves through the owner the Settings screen stored.
     private var voiceContext: ScoreContext {
@@ -161,7 +169,8 @@ struct GameView: View {
         .alert("End this game?", isPresented: $showEndConfirmation) {
             Button("End game") {
                 game.endByUser()
-                showGameSummary = true
+                // Never open a summary for a game this alert did not end.
+                if game.state == .finished { showGameSummary = true }
             }
             Button("Keep playing", role: .cancel) { }
         } message: {
@@ -207,7 +216,7 @@ struct GameView: View {
             try? await Task.sleep(for: .seconds(2))
             withAnimation(.spring) { feedback = nil }
         }
-        .task(id: voiceNotice) {
+        .task(id: voiceNotice?.id) {
             guard voiceNotice != nil else { return }
             try? await Task.sleep(for: .seconds(6))
             withAnimation(.spring) { voiceNotice = nil }
@@ -275,38 +284,47 @@ struct GameView: View {
                 .fill(Theme.divider)
                 .frame(height: 2)
 
-            Group {
-                if let feedback {
-                    RoundFeedbackBanner(round: feedback, game: game) {
-                        game.undoLastRound()
-                        withAnimation(.spring) { self.feedback = nil }
-                    }
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-                } else {
-                    VStack(spacing: 8) {
-                        if let voiceNotice {
-                            Text(voiceNotice)
-                                .font(DuoFont.body)
-                                .foregroundStyle(Theme.textSecondary)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
+            VStack(spacing: 8) {
+                // Review Focus 6: an answer is never suppressed, whatever the row below
+                // is showing. The banner replaces the buttons, not the spoken answer.
+                if let voiceNotice {
+                    Text(voiceNotice.text)
+                        .font(DuoFont.body)
+                        .foregroundStyle(Theme.textSecondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
 
-                        if let pendingPoints {
-                            askTeamRow(points: pendingPoints)
+                Group {
+                    if let feedback {
+                        RoundFeedbackBanner(round: feedback, game: game) {
+                            game.undoLastRound()
+                            withAnimation(.spring) { self.feedback = nil }
                         }
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                    } else {
+                        VStack(spacing: 8) {
+                            if let pendingPoints {
+                                askTeamRow(points: pendingPoints)
+                            }
 
-                        HStack(spacing: 10) {
-                            // The mic sits beside the keypad doors; neither replaces the other.
-                            VoiceScoreBar(
-                                context: voiceContext,
-                                permissions: voicePermissions,
-                                answers: game.voiceAnswers,
-                                onOutcome: handle
-                            )
-                            addButton(for: .team1)
-                                .disabled(!isPlaying)
-                            addButton(for: .team2)
-                                .disabled(!isPlaying)
+                            HStack(spacing: 10) {
+                                // The mic sits beside the keypad doors; neither replaces the
+                                // other. The bar's own text column is the only compressible
+                                // part of it, so it keeps a floor wide enough for "Listening…"
+                                // and the live transcript; the team buttons keep their full
+                                // size and style and give up label width first.
+                                VoiceScoreBar(
+                                    context: voiceContext,
+                                    permissions: voicePermissions,
+                                    answers: game.voiceAnswers,
+                                    onOutcome: handle
+                                )
+                                .frame(minWidth: 160, alignment: .leading)
+                                addButton(for: .team1)
+                                    .disabled(!isPlaying)
+                                addButton(for: .team2)
+                                    .disabled(!isPlaying)
+                            }
                         }
                     }
                 }
@@ -324,7 +342,9 @@ struct GameView: View {
             roundCountBeforeSheet = game.rounds.count
             self.team = team
         } label: {
+            // Full size, full style, full behavior; the name is what gives up room.
             Label(game.displayName(for: team), systemImage: "plus")
+                .lineLimit(1)
         }
         .buttonStyle(.duo(Theme.palette(for: team)))
         .accessibilityLabel("Add score for \(game.displayName(for: team))")
@@ -354,13 +374,17 @@ struct GameView: View {
     // MARK: - Voice outcomes
 
     private func handle(_ outcome: VoiceScoring.Outcome) {
+        // Anything but a fresh ask-team closes a question the user has moved on from.
+        if case .askTeam = outcome {} else {
+            withAnimation(.spring) { pendingPoints = nil }
+        }
+
         switch outcome {
         case let .recorded(points, team):
             record(points, for: team)
         case .undone:
             game.undoLastRound()
             withAnimation(.spring) { feedback = nil }
-            pendingPoints = nil
         case let .askTeam(points):
             withAnimation(.spring) { pendingPoints = points }
         case .confirmEnd:
@@ -369,7 +393,7 @@ struct GameView: View {
             showCancelConfirmation = true
         // The bar speaks these two itself; showing them here is the other half.
         case let .said(text), let .refused(text):
-            withAnimation(.spring) { voiceNotice = text }
+            withAnimation(.spring) { voiceNotice = VoiceNotice(text: text) }
         }
     }
 
