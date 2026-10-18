@@ -38,4 +38,13 @@ struct VoiceScoreBarTests {
         // Mid-parse, a second tap would race the first.
         #expect(VoiceBarState.isMicEnabled(availability: .ready, isThinking: true) == false)
     }
+
+    /// The bar's fallback is the keypad, not typing a sentence.
+    @Test func aBlockedMicPointsAtTheKeypad() {
+        for availability in [SpeechAvailability.denied, .unsupported, .needsPermission] {
+            let text = VoiceSetup.scoringExplanation(availability: availability, error: nil)
+            #expect(text?.contains("keypad") == true, "\(availability)")
+            #expect(text?.contains("type the game") == false, "\(availability)")
+        }
+    }
 }

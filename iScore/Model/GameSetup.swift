@@ -246,6 +246,30 @@ enum VoiceSetup {
         }
     }
 
+    /// Same reasons as `explanation`, worded for the Game screen, where the
+    /// fallback is the keypad rather than typing a sentence.
+    static func scoringExplanation(availability: SpeechAvailability, error: Error?) -> String? {
+        var reason = availability
+        if let error {
+            guard let failure = error as? SpeechCaptureError else {
+                var detail = error.localizedDescription.trimmingCharacters(in: .whitespacesAndNewlines)
+                while detail.hasSuffix(".") { detail.removeLast() }
+                return String(localized: "Listening stopped: \(detail). Use the keypad.")
+            }
+            if case .unavailable(let why) = failure { reason = why }
+        }
+        switch reason {
+        case .ready:
+            return nil
+        case .needsPermission:
+            return String(localized: "Allow the microphone and speech recognition to talk, or use the keypad instead.")
+        case .denied:
+            return String(localized: "Microphone or speech access is off. Turn it on in Settings, or use the keypad.")
+        case .unsupported:
+            return String(localized: "Speech recognition isn't available on this device. Use the keypad.")
+        }
+    }
+
     static var heardNothing: String {
         String(localized: "Didn't catch anything. Type the game instead.")
     }

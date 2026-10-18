@@ -26,7 +26,7 @@ enum VoiceBarState {
     static func prompt(isListening: Bool, isThinking: Bool, availability: SpeechAvailability, notice: String?) -> Prompt {
         if isListening { return .listening }
         if isThinking { return .thinking }
-        if let why = VoiceSetup.explanation(availability: availability, error: nil) { return .blocked(why) }
+        if let why = VoiceSetup.scoringExplanation(availability: availability, error: nil) { return .blocked(why) }
         if let notice { return .blocked(notice) }
         return .tapToTalk
     }
@@ -47,6 +47,7 @@ struct VoiceScoreBar: View {
     let locale: Locale
     let onOutcome: (VoiceScoring.Outcome) -> Void
 
+    @Environment(\.scenePhase) private var scenePhase
     @AppStorage(VoiceOutput.speechKey) private var speaksAnswers = true
 
     /// `@State` initial values are built on every parent body pass; the holder is nearly free
@@ -101,17 +102,24 @@ struct VoiceScoreBar: View {
             visit += 1
             isOnScreen = true
         }
-        .onDisappear {
-            // Invalidates any wait in flight, then makes sure the mic is off. Our own stop()
-            // flips `isListening`, and that change must not be mistaken for the recognizer ending.
-            visit += 1
-            isOnScreen = false
-            isThinking = false
-            capture.stop()
+        .onDisappear { standDown() }
+        // A locked or backgrounded phone must not keep listening. Coming back does not restart it.
+        .onChange(of: scenePhase) { _, phase in
+            if phase != .active { standDown() }
         }
     }
 
     // MARK: - Actions
+
+    /// The one teardown path (screen gone, app backgrounded or locked). Invalidates any wait in
+    /// flight, then makes sure the mic is off. Our own stop() flips `isListening`, and that change
+    /// must not be mistaken for the recognizer ending. `isOnScreen` returns on the next appear or tap.
+    private func standDown() {
+        visit += 1
+        isOnScreen = false
+        isThinking = false
+        capture.stop()
+    }
 
     private func toggleListening() async {
         if capture.isListening {
@@ -130,14 +138,16 @@ struct VoiceScoreBar: View {
         }
         // The screen may have gone away while the permission sheet was up.
         guard current == visit else { return }
+        // A tap proves the user is here, including after a stand-down with no new appear.
+        isOnScreen = true
         guard VoiceSetup.opening(for: capture.availability) == .listen else {
-            notice = VoiceSetup.explanation(availability: capture.availability, error: nil) ?? VoiceSetup.couldntStart
+            notice = VoiceSetup.scoringExplanation(availability: capture.availability, error: nil) ?? VoiceSetup.couldntStart
             return
         }
         do {
             try capture.start()
         } catch {
-            notice = VoiceSetup.explanation(availability: capture.availability, error: error) ?? VoiceSetup.couldntStart
+            notice = VoiceSetup.scoringExplanation(availability: capture.availability, error: error) ?? VoiceSetup.couldntStart
         }
     }
 
@@ -147,16 +157,17 @@ struct VoiceScoreBar: View {
         let current = visit
         isThinking = true
         try? await Task.sleep(for: .milliseconds(400))
-        guard current == visit else { return }
+        guard current == visit else {
+            isThinking = false
+            return
+        }
         await conclude(heard: capture.stop())
     }
 
     /// The recognizer ended the session itself (it failed, or the user fell silent).
     private func listeningEndedByItself() async {
         guard isOnScreen, !isThinking else { return }
-        let current = visit
         isThinking = true
-        guard current == visit else { return }
         await conclude(heard: capture.stop())
     }
 
