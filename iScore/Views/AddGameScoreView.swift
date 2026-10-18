@@ -19,8 +19,21 @@ struct AddGameScoreView: View {
     let team: Team
 
     @State private var entry = ScoreEntry()
+    /// The last spoken answer or refusal, or the reason a command did nothing here.
+    @State private var notice: String?
+    @AppStorage(OwnerIdentity.nameKey) private var ownerName: String = ""
 
     private var palette: TeamPalette { Theme.palette(for: team) }
+
+    /// "us"/"we" resolves through the owner the Settings screen stored.
+    private var voiceContext: ScoreContext {
+        let trimmed = ownerName.trimmingCharacters(in: .whitespacesAndNewlines)
+        return game.scoreContext(owner: trimmed.isEmpty ? nil : trimmed)
+    }
+
+    private var voicePermissions: VoiceScoring.Permissions {
+        VoiceScoring.Permissions(canScore: game.state == .playing, canUndo: game.canUndo)
+    }
 
     var body: some View {
         ScrollView {
@@ -41,6 +54,23 @@ struct AddGameScoreView: View {
                     .foregroundStyle(Theme.textSecondary)
                     .opacity(entry.value == nil ? 0 : 1)
                     .accessibilityHidden(entry.value == nil)
+
+                // The team is known here, so a bare number is enough. The bar speaks its own
+                // answers; the notice line below only makes them readable.
+                VoiceScoreBar(
+                    context: voiceContext,
+                    permissions: voicePermissions,
+                    answers: game.voiceAnswers,
+                    assumedTeam: team,
+                    onOutcome: handle
+                )
+
+                if let notice {
+                    Text(notice)
+                        .font(.subheadline.weight(.heavy))
+                        .foregroundStyle(Theme.textSecondary)
+                        .multilineTextAlignment(.center)
+                }
 
                 ScoreKeypad(entry: $entry)
             }
@@ -94,6 +124,28 @@ struct AddGameScoreView: View {
     }
 
     // MARK: - Actions
+
+    private func handle(_ outcome: VoiceScoring.Outcome) {
+        notice = nil
+        switch outcome {
+        case let .recorded(points, _):
+            // Replace, never append, then take the Add button's own path.
+            entry.set(points)
+            addScore()
+        case .undone:
+            // The round being entered does not exist yet, so there is nothing to undo here.
+            notice = String(localized: "Close this first, then undo the last round")
+        case .confirmEnd, .confirmCancel:
+            // Ending a game from a score-entry sheet would be two decisions in one tap.
+            notice = String(localized: "Close this first, then end the game.")
+            dismiss()
+        // The bar speaks these itself. `.askTeam` cannot happen: the team is always assumed.
+        case let .said(text), let .refused(text):
+            notice = text
+        case .askTeam:
+            notice = String(localized: "Say the number again, or type it on the keypad")
+        }
+    }
 
     private func addScore() {
         guard let value = entry.take() else { return }

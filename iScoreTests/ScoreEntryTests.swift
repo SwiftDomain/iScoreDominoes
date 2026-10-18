@@ -76,4 +76,26 @@ struct ScoreEntryTests {
         entry.append(0)
         #expect(entry.title("Save") == "Save 10 points")
     }
+
+    /// Review Focus 3: a spoken value replaces what was typed. 3 + "twenty-five" is 25, never 325.
+    @Test func settingAValueReplacesTheTypedDigits() {
+        var entry = ScoreEntry()
+        entry.append(3)
+        entry.set(25)
+        #expect(entry.digits == "25")
+        #expect(entry.value == 25)
+    }
+
+    @Test func settingIgnoresValuesTheKeypadCouldNotHold() {
+        var entry = ScoreEntry()
+        entry.append(3)
+        entry.set(0)
+        #expect(entry.digits == "3")
+        entry.set(-5)
+        #expect(entry.digits == "3")
+        entry.set(1000)
+        #expect(entry.digits == "3")
+        entry.set(999)
+        #expect(entry.digits == "999")
+    }
 }

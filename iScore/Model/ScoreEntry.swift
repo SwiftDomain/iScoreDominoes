@@ -22,6 +22,14 @@ struct ScoreEntry: Equatable {
         digits.append(String(digit))
     }
 
+    /// Replaces whatever is typed with `points`, for a value that arrives whole (spoken).
+    /// `append` is digit-at-a-time, so a spoken 25 over a typed 3 would be 325; this is 25.
+    /// Ignores anything non-positive or wider than `maxDigits`, leaving the entry as it was.
+    mutating func set(_ points: Int) {
+        guard points > 0, String(points).count <= Self.maxDigits else { return }
+        digits = String(points)
+    }
+
     mutating func deleteLast() {
         guard !digits.isEmpty else { return }
         digits.removeLast()
