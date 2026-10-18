@@ -17,13 +17,17 @@ struct ScoreboardLockScreenView: View {
     let state: ScoreboardState
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        // The Lock Screen gives an activity about 160pt. Names sit beside
+        // their button row rather than above it, which is what keeps the
+        // header and the Undo row from being clipped.
+        VStack(alignment: .leading, spacing: 6) {
             header
             teamRow(.team1, name: attributes.name1, palette: Theme.palette(for: .team1))
             teamRow(.team2, name: attributes.name2, palette: Theme.palette(for: .team2))
             footer
         }
-        .padding(14)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 10)
         .activityBackgroundTint(Theme.surface)
         .activitySystemActionForegroundColor(Theme.textPrimary)
     }
@@ -41,13 +45,13 @@ struct ScoreboardLockScreenView: View {
                 .foregroundStyle(Theme.textSecondary)
             Spacer(minLength: 8)
             Text("\(state.total1)")
-                .font(DuoFont.score(22))
+                .font(DuoFont.score(20))
                 .foregroundStyle(Theme.teamA)
             Text("—")
                 .font(DuoFont.body)
                 .foregroundStyle(Theme.textMuted)
             Text("\(state.total2)")
-                .font(DuoFont.score(22))
+                .font(DuoFont.score(20))
                 .foregroundStyle(Theme.teamB)
         }
     }
@@ -61,11 +65,13 @@ struct ScoreboardLockScreenView: View {
     // MARK: - Teams
 
     private func teamRow(_ side: TeamSide, name: String, palette: TeamPalette) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        HStack(spacing: 6) {
             Text(name)
-                .font(DuoFont.body)
-                .foregroundStyle(Theme.textPrimary)
+                .font(DuoFont.label)
+                .foregroundStyle(palette.edge)
                 .lineLimit(1)
+                .minimumScaleFactor(0.6)
+                .frame(width: 62, alignment: .leading)
 
             HStack(spacing: 4) {
                 ForEach(state.grid, id: \.self) { points in
@@ -77,7 +83,7 @@ struct ScoreboardLockScreenView: View {
 
     @ViewBuilder
     private func scoreControl(_ points: Int, side: TeamSide, palette: TeamPalette) -> some View {
-        let face = ScoreButtonFace(title: "\(points)", fill: palette.fill, edge: palette.edge)
+        let face = ScoreButtonFace(title: "\(points)", fill: palette.fill, edge: palette.edge, height: 30)
 
         // With "Require unlock to score" on, the same control becomes a link,
         // so scoring costs an unlock instead of happening on the Lock Screen.
@@ -101,7 +107,7 @@ struct ScoreboardLockScreenView: View {
             Link(destination: ScoreLink.other(gameID: attributes.gameID, team: .team1)) {
                 ScoreButtonFace(
                     title: "Other…", fill: Theme.surfaceSecondary,
-                    edge: Theme.divider, titleColor: Theme.textSecondary
+                    edge: Theme.divider, titleColor: Theme.textSecondary, height: 30
                 )
             }
         }
@@ -109,7 +115,7 @@ struct ScoreboardLockScreenView: View {
 
     @ViewBuilder
     private var undoControl: some View {
-        let face = ScoreButtonFace(title: "Undo", fill: Theme.textMuted, edge: Theme.textSecondary)
+        let face = ScoreButtonFace(title: "Undo", fill: Theme.textMuted, edge: Theme.textSecondary, height: 30)
 
         if state.requiresUnlock {
             Link(destination: ScoreLink.undo(gameID: attributes.gameID)) { face }

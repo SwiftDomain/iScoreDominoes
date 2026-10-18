@@ -138,13 +138,13 @@ struct HomeView: View {
         }
     }
 
+    /// The spec is "while a game is in progress", not "while that game is on
+    /// screen", so Home starts the activity too — the app is often left here.
     private func drainLockScreenRounds() {
         guard let game = activeGames.first(where: { $0.state == .playing }) else { return }
-        ScoreActivityController.shared.drain(
-            into: game,
-            context: context,
-            history: GameHistory.roundValues(in: allGames, type: game.gameType)
-        )
+        let history = GameHistory.roundValues(in: allGames, type: game.gameType)
+        ScoreActivityController.shared.drain(into: game, context: context, history: history)
+        Task { await ScoreActivityController.shared.start(for: game, history: history) }
     }
 }
 
