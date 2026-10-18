@@ -4,6 +4,12 @@ import TipKit
 
 struct GameView: View {
 
+    @Environment(\.modelContext) private var context
+    @Environment(ScoreLinkRouter.self) private var linkRouter
+    @Environment(\.scenePhase) private var scenePhase
+
+    @Query(sort: \Game.timestamp, order: .reverse) private var allGames: [Game]
+
     @Binding var path: NavigationPath
     @Bindable var game: Game
     @State private var team: Team?
@@ -117,11 +123,50 @@ struct GameView: View {
         } message: {
             Text("Are you sure you want to remove the last score entry?")
         }
+        .task {
+            drainLockScreenRounds()
+            // "Other…" on the Lock Screen asked for this team's keypad.
+            if let deepLinked = linkRouter.takeAddScore(for: game.id) {
+                roundCountBeforeSheet = game.rounds.count
+                team = deepLinked
+            }
+            await ScoreActivityController.shared.start(for: game, history: roundHistory)
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { drainLockScreenRounds() }
+        }
+        // Keep the Lock Screen in step with every in-app change: adding,
+        // undoing, editing and deleting a round all land in `scoreTeam`.
+        .onChange(of: game.scoreTeam) { _, _ in
+            Task { await ScoreActivityController.shared.refresh(game, history: roundHistory) }
+        }
+        .onChange(of: game.state) { _, state in
+            Task {
+                if state == .playing {
+                    await ScoreActivityController.shared.start(for: game, history: roundHistory)
+                } else {
+                    await ScoreActivityController.shared.end(game)
+                }
+            }
+        }
         .task(id: feedback) {
             guard feedback != nil else { return }
             try? await Task.sleep(for: .seconds(2))
             withAnimation(.spring) { feedback = nil }
         }
+    }
+
+    // MARK: - Lock Screen activity
+
+    /// Round values this user has scored at this game type, which is what
+    /// re-ranks the Lock Screen point grid.
+    private var roundHistory: [Int] {
+        GameHistory.roundValues(in: allGames, type: game.gameType)
+    }
+
+    private func drainLockScreenRounds() {
+        ScoreActivityController.shared.drain(into: game, context: context, history: roundHistory)
+        finishIfWon()
     }
 
     // MARK: - Rounds

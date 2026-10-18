@@ -33,6 +33,30 @@ Duolingo-inspired: white canvas, rounded gray text, green team 1, blue team 2, p
 - `Player` — `@Model` with `name`, `gamesPlayed`, `gamesWon`, `winPercentage`, inverse relationship to `Game`
 - Score tracking: `scoreTeam` is an array of `[team1Score, team2Score]` pairs per round; totals are computed properties
 
+## Lock Screen scoreboard (`iScoreWidgets`)
+
+A Widget Extension target hosts a Live Activity: both totals, the round
+number, points to win for the leader, and a per-team grid of common point
+values with Undo and Other. Created and maintained by
+`ruby scripts/xcodeproj.rb setup-widget` — never hand-edit `project.pbxproj`.
+
+- **The app is the single owner of the store.** The widget process must never
+  link SwiftData or CloudKit. A Lock Screen tap runs a `LiveActivityIntent`
+  that appends to `pending-rounds.jsonl` in the App Group
+  (`group.SwiftDomainUI.iScore`) and updates the activity optimistically; the
+  app drains that file into SwiftData on foreground, in file order and
+  exactly once (`PendingRoundsDrain` plus `AppliedRoundsLedger`).
+- `iScore/Shared/` holds the types both processes compile. A shared file must
+  be registered against **each** target: `add iScore`, `add iScoreWidgets`,
+  `add iScoreTests`. Anything touching `Game` stays out of it.
+- Two build-system traps, both silent until install fails: an `.appex` needs a
+  real `Info.plist` (`INFOPLIST_KEY_NSExtensionPointIdentifier` generates
+  nothing) and version keys. `CFBundleURLTypes` and `NSSupportsLiveActivities`
+  likewise come from `iScore/Info.plist`, merged with the generated one.
+- The Lock Screen gives an activity roughly 160pt; past that the header and
+  the Undo row are clipped. Check a change on a real Lock Screen, not only in
+  the expanded Dynamic Island.
+
 ## Known technical debt
 
 - Navigation mixes `NavigationLink(destination:)` (Home tiles, All Games, New Game) with `navigationDestination(for: Game.self)` (Home) — move to value-based links

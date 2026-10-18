@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Merged with the generated Info.plist (GENERATE_INFOPLIST_FILE stays
+         YES). Only keys with no INFOPLIST_KEY_ equivalent belong here.
+
+         iscoredominoes:// is how the Lock Screen reaches the app for a round
+         the point grid does not carry, and for every control once "Require
+         unlock to score" is on. -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLName</key>
+            <string>SwiftDomainUI.iScore.score</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>iscoredominoes</string>
+            </array>
+        </dict>
+    </array>
+</dict>
+</plist>
