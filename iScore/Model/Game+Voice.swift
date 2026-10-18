@@ -34,6 +34,11 @@ extension Game {
         return String(localized: "\(name) need \(needed)")
     }
 
+    /// Both spoken answers, for `VoiceScoring`, which never sees a `Game`.
+    var voiceAnswers: VoiceScoring.Answers {
+        VoiceScoring.Answers(winning: winningAnswer, pointsToGo: pointsToGoAnswer)
+    }
+
     // MARK: - Parser context
 
     /// The teams and the owner, for `ScoreCommand.parse`. An owner who is not
