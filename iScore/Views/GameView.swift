@@ -19,6 +19,13 @@ struct GameView: View {
     @State private var showUndoConfirmation = false
     @State private var roundCountBeforeSheet = 0
     @State private var feedback: Round?
+    @State private var showEndConfirmation = false
+    @State private var showCancelConfirmation = false
+    /// A heard number with no team: the two team buttons finish the sentence.
+    @State private var pendingPoints: Int?
+    /// The last spoken answer or refusal, shown on screen as well as spoken.
+    @State private var voiceNotice: String?
+    @AppStorage(OwnerIdentity.nameKey) private var ownerName: String = ""
     let editScore = editScoreTip()
 
     /// The toolbar bar follows the leader; muted and on team 1's value when tied.
@@ -32,6 +39,18 @@ struct GameView: View {
 
     private var isPlaying: Bool {
         game.state == .playing
+    }
+
+    // MARK: - Voice
+
+    /// "us"/"we" resolves through the owner the Settings screen stored.
+    private var voiceContext: ScoreContext {
+        let trimmed = ownerName.trimmingCharacters(in: .whitespacesAndNewlines)
+        return game.scoreContext(owner: trimmed.isEmpty ? nil : trimmed)
+    }
+
+    private var voicePermissions: VoiceScoring.Permissions {
+        VoiceScoring.Permissions(canScore: isPlaying, canUndo: game.canUndo)
     }
 
     /// Toolbar icons carry an explicit color, so they have to dim themselves.
@@ -96,10 +115,24 @@ struct GameView: View {
                 }
                 .accessibilityLabel("How to play")
                 .disabled(!isPlaying)
+
+                Menu {
+                    Button("End game", systemImage: "flag.checkered") {
+                        showEndConfirmation = true
+                    }
+                    Button("Cancel game", systemImage: "xmark.circle", role: .destructive) {
+                        showCancelConfirmation = true
+                    }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                        .foregroundStyle(Self.toolbarIconColor(isEnabled: isPlaying))
+                }
+                .accessibilityLabel("Game options")
+                .disabled(!isPlaying)
             }
             .sharedBackgroundVisibility(.hidden)
         }
-        .sheet(item: $team, onDismiss: addScoreDismissed) { team in
+        .sheet(item: $team, onDismiss: applyNewRound) { team in
             AddGameScoreView(game: self.game, team: team)
         }
         .sheet(item: $editingRound, onDismiss: { finishIfWon() }) { round in
@@ -122,6 +155,26 @@ struct GameView: View {
             Button("Cancel", role: .cancel) { }
         } message: {
             Text("Are you sure you want to remove the last score entry?")
+        }
+        // Same idiom as above: `.alert(_:isPresented:)` with a Bool flag. The
+        // newer `item:` overload breaks the Xcode 26 CI build.
+        .alert("End this game?", isPresented: $showEndConfirmation) {
+            Button("End game") {
+                game.endByUser()
+                showGameSummary = true
+            }
+            Button("Keep playing", role: .cancel) { }
+        } message: {
+            Text("The score stands as it is.")
+        }
+        .alert("Cancel this game?", isPresented: $showCancelConfirmation) {
+            Button("Cancel game", role: .destructive) {
+                game.cancelByUser()
+                if !path.isEmpty { path.removeLast() }
+            }
+            Button("Keep playing", role: .cancel) { }
+        } message: {
+            Text("It won't count.")
         }
         .task {
             drainLockScreenRounds()
@@ -153,6 +206,11 @@ struct GameView: View {
             guard feedback != nil else { return }
             try? await Task.sleep(for: .seconds(2))
             withAnimation(.spring) { feedback = nil }
+        }
+        .task(id: voiceNotice) {
+            guard voiceNotice != nil else { return }
+            try? await Task.sleep(for: .seconds(6))
+            withAnimation(.spring) { voiceNotice = nil }
         }
     }
 
@@ -219,14 +277,38 @@ struct GameView: View {
 
             Group {
                 if let feedback {
-                    RoundFeedbackBanner(round: feedback, game: game)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                } else {
-                    HStack(spacing: 10) {
-                        addButton(for: .team1)
-                        addButton(for: .team2)
+                    RoundFeedbackBanner(round: feedback, game: game) {
+                        game.undoLastRound()
+                        withAnimation(.spring) { self.feedback = nil }
                     }
-                    .disabled(!isPlaying)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                } else {
+                    VStack(spacing: 8) {
+                        if let voiceNotice {
+                            Text(voiceNotice)
+                                .font(DuoFont.body)
+                                .foregroundStyle(Theme.textSecondary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+
+                        if let pendingPoints {
+                            askTeamRow(points: pendingPoints)
+                        }
+
+                        HStack(spacing: 10) {
+                            // The mic sits beside the keypad doors; neither replaces the other.
+                            VoiceScoreBar(
+                                context: voiceContext,
+                                permissions: voicePermissions,
+                                answers: game.voiceAnswers,
+                                onOutcome: handle
+                            )
+                            addButton(for: .team1)
+                                .disabled(!isPlaying)
+                            addButton(for: .team2)
+                                .disabled(!isPlaying)
+                        }
+                    }
                 }
             }
             .padding(.horizontal, 16)
@@ -248,7 +330,60 @@ struct GameView: View {
         .accessibilityLabel("Add score for \(game.displayName(for: team))")
     }
 
+    /// A heard number with no team. The two team buttons finish the sentence by touch.
+    private func askTeamRow(points: Int) -> some View {
+        HStack(spacing: 10) {
+            Text("\(points) — which team?")
+                .font(DuoFont.body)
+                .foregroundStyle(Theme.textPrimary)
+                .lineLimit(1)
+
+            Spacer(minLength: 0)
+
+            ForEach([Team.team1, Team.team2], id: \.self) { team in
+                Button(game.displayName(for: team)) {
+                    record(points, for: team)
+                }
+                .buttonStyle(.duo(Theme.palette(for: team)))
+                .accessibilityLabel("Give \(points) to \(game.displayName(for: team))")
+            }
+        }
+        .disabled(!isPlaying)
+    }
+
+    // MARK: - Voice outcomes
+
+    private func handle(_ outcome: VoiceScoring.Outcome) {
+        switch outcome {
+        case let .recorded(points, team):
+            record(points, for: team)
+        case .undone:
+            game.undoLastRound()
+            withAnimation(.spring) { feedback = nil }
+            pendingPoints = nil
+        case let .askTeam(points):
+            withAnimation(.spring) { pendingPoints = points }
+        case .confirmEnd:
+            showEndConfirmation = true
+        case .confirmCancel:
+            showCancelConfirmation = true
+        // The bar speaks these two itself; showing them here is the other half.
+        case let .said(text), let .refused(text):
+            withAnimation(.spring) { voiceNotice = text }
+        }
+    }
+
     // MARK: - Actions
+
+    /// The one way a new round lands, by voice or by the ask-team buttons.
+    /// Takes the same post-round path as the Add Score sheet.
+    private func record(_ points: Int, for team: Team) {
+        pendingPoints = nil
+        voiceNotice = nil
+        roundCountBeforeSheet = game.rounds.count
+        game.addRound(points, for: team)
+        applyNewRound()
+    }
 
     private func edit(_ round: Round) {
         guard game.inProcess else { return }
@@ -265,9 +400,10 @@ struct GameView: View {
         return true
     }
 
-    /// After Add Score: finish on a win, otherwise celebrate the new round.
+    /// After a new round, by sheet or by voice: finish on a win, otherwise
+    /// celebrate it. Shared by both doors so they cannot drift.
     /// (Edit Score only runs `finishIfWon` — editing never shows the banner.)
-    private func addScoreDismissed() {
+    private func applyNewRound() {
         if finishIfWon() { return }
 
         if game.rounds.count > roundCountBeforeSheet, let last = game.rounds.last {

@@ -39,6 +39,23 @@ extension Game {
         VoiceScoring.Answers(winning: winningAnswer, pointsToGo: pointsToGoAnswer)
     }
 
+    // MARK: - Ending a game
+
+    /// Ends a playing game as finished, with the score as it stands. No-op otherwise,
+    /// so a second "end the game" can never re-decide a settled game.
+    func endByUser() {
+        guard state == .playing else { return }
+        state = .finished
+        inProcess = false
+    }
+
+    /// Cancels a playing game. No-op otherwise.
+    func cancelByUser() {
+        guard state == .playing else { return }
+        state = .cancelled
+        inProcess = false
+    }
+
     // MARK: - Parser context
 
     /// The teams and the owner, for `ScoreCommand.parse`. An owner who is not
