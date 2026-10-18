@@ -94,6 +94,20 @@ struct ScoreCommandTests {
         #expect(ScoreCommand.parse("   ", locale: en, context: seated) == nil)
     }
 
+    /// A number inside a team reference is not the round's points.
+    @Test func teamWordsAreNotCountedAsPoints() {
+        #expect(ScoreCommand.parse("one team two", locale: en, context: seated)
+                == .record(points: 1, team: .team2))
+        #expect(ScoreCommand.parse("dos equipo uno", locale: es, context: seated)
+                == .record(points: 2, team: .team1))
+    }
+
+    /// With nothing but a team reference there is no round to record.
+    @Test func aTeamReferenceAloneIsNotARecord() {
+        #expect(ScoreCommand.parse("team two", locale: en, context: seated) == nil)
+        #expect(ScoreCommand.parse("equipo dos", locale: es, context: seated) == nil)
+    }
+
     /// A number a round cannot be is not a round. The keypad caps at 3 digits too.
     @Test func implausibleValuesAreNotPoints() {
         #expect(ScoreCommand.points(in: "zero us", locale: en) == nil)

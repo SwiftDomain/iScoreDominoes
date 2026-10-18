@@ -85,7 +85,12 @@ extension ScoreCommand {
 
     /// Largest positive number in `transcript` that a round can be, or nil. Capped at `maxPoints`.
     static func points(in transcript: String, locale: Locale) -> Int? {
-        SpokenNumber.scan(tokenize(transcript), locale: locale)
+        // Numbers inside a team reference ("team two", "equipo uno") are not points.
+        var words = tokenize(transcript)
+        for index in teamWords.flatMap({ team in team.1.flatMap { indices(of: $0, in: words) } }) {
+            words[index] = breakToken
+        }
+        return SpokenNumber.scan(words, locale: locale)
             .map(\.value)
             .filter { (1...maxPoints).contains($0) }
             .max()
@@ -123,6 +128,14 @@ extension ScoreCommand {
         let parts = phrase.split(separator: " ").map(String.init)
         guard !parts.isEmpty, words.count >= parts.count else { return false }
         return (0...words.count - parts.count).contains { Array(words[$0..<$0 + parts.count]) == parts }
+    }
+
+    /// Indices of every word covered by an occurrence of `phrase` in `words`.
+    private static func indices(of phrase: String, in words: [String]) -> [Int] {
+        let parts = phrase.split(separator: " ").map(String.init)
+        guard !parts.isEmpty, words.count >= parts.count else { return [] }
+        return (0...words.count - parts.count).filter { Array(words[$0..<$0 + parts.count]) == parts }
+            .flatMap { $0..<$0 + parts.count }
     }
 
     /// Checked in this order.
