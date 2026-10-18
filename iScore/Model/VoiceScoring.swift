@@ -45,27 +45,28 @@ enum VoiceScoring {
         guard let command else { return .refused(notUnderstood) }
 
         // Looking back at a score is not scoring, so questions ignore canScore.
-        switch command {
-        case .whoIsWinning: return .said(answers.winning)
-        case .pointsToGo: return .said(answers.pointsToGo)
-        default: break
-        }
-
-        guard permissions.canScore else { return .refused(gameIsOver) }
+        // Every other command is refused first when the game is over.
+        let gameOver: Outcome? = permissions.canScore ? nil : .refused(gameIsOver)
 
         switch command {
+        case .whoIsWinning:
+            return .said(answers.winning)
+        case .pointsToGo:
+            return .said(answers.pointsToGo)
         case let .record(points, team):
-            return .recorded(points: points, team: team)
+            return gameOver ?? .recorded(points: points, team: team)
         case let .askTeam(points):
+            if let gameOver { return gameOver }
             if let assumedTeam, assumedTeam != .none {
                 return .recorded(points: points, team: assumedTeam)
             }
             return .askTeam(points: points)
         case .undo:
-            return permissions.canUndo ? .undone : .refused(nothingToUndo)
-        case .endGame: return .confirmEnd
-        case .cancelGame: return .confirmCancel
-        case .whoIsWinning, .pointsToGo: return .refused(notUnderstood) // unreachable
+            return gameOver ?? (permissions.canUndo ? .undone : .refused(nothingToUndo))
+        case .endGame:
+            return gameOver ?? .confirmEnd
+        case .cancelGame:
+            return gameOver ?? .confirmCancel
         }
     }
 

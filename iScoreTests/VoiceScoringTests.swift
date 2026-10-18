@@ -71,4 +71,27 @@ struct VoiceScoringTests {
         #expect(VoiceScoring.notUnderstood.isEmpty == false)
         #expect(VoiceScoring.notUnderstood != VoiceScoring.nothingToUndo)
     }
+
+    /// A finished game still has its rounds, so this is the cell that pins the guard order.
+    @Test func undoOnAFinishedGameIsRefusedEvenWithRoundsToUndo() {
+        let finished = VoiceScoring.Permissions(canScore: false, canUndo: true)
+        #expect(outcome(.undo, finished) == .refused(VoiceScoring.gameIsOver))
+    }
+
+    @Test func questionsAreAnsweredWhilePlayingToo() {
+        #expect(outcome(.whoIsWinning, playing) == .said(answers.winning))
+        #expect(outcome(.pointsToGo, playing) == .said(answers.pointsToGo))
+    }
+
+    /// `Team` has a `.none` case, so an assumed `.none` is no team at all.
+    @Test func anAssumedTeamOfNoneIsNoAssumedTeam() {
+        #expect(outcome(.askTeam(points: 25), playing, assumedTeam: Team.none) == .askTeam(points: 25))
+        #expect(outcome(.askTeam(points: 25), playing, assumedTeam: .team1) == .recorded(points: 25, team: .team1))
+    }
+
+    @Test func theThreeRefusalsAreDistinct() {
+        let all = [VoiceScoring.notUnderstood, VoiceScoring.nothingToUndo, VoiceScoring.gameIsOver]
+        #expect(Set(all).count == 3)
+        #expect(all.allSatisfy { !$0.isEmpty })
+    }
 }
