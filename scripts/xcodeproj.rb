@@ -104,9 +104,12 @@ def setup_widget
     settings['DEVELOPMENT_TEAM'] = team if team
   end
 
-  # ActivityKit refuses to start an activity without this.
   app.build_configurations.each do |config|
+    # ActivityKit refuses to start an activity without this.
     config.build_settings['INFOPLIST_KEY_NSSupportsLiveActivities'] = 'YES'
+    # CFBundleURLTypes (the iscoredominoes:// scheme the Lock Screen falls
+    # back to) has no INFOPLIST_KEY_ equivalent either.
+    config.build_settings['INFOPLIST_FILE'] = "#{APP_TARGET}/Info.plist"
   end
 
   app.add_dependency(widget) unless app.dependencies.any? { |d| d.target == widget }

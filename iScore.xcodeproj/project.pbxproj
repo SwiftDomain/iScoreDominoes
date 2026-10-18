@@ -15,6 +15,7 @@
 		076444AD2ACD1C0200E39F12 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076444AC2ACD1C0200E39F12 /* Game.swift */; };
 		07D9DD772AD3787B00EA6D90 /* NewGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D9DD762AD3787B00EA6D90 /* NewGameView.swift */; };
 		07D9DD792AD3819E00EA6D90 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D9DD782AD3819E00EA6D90 /* GameView.swift */; };
+		14C32B15D038AA3295E313D6 /* ScoreLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DB2456D5637A9C8EF7E73 /* ScoreLinkTests.swift */; };
 		19808D352D365A88587FF5D6 /* GameTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F22A2FD208CB7670DB633C /* GameTypePicker.swift */; };
 		19B0E07A8F7A32C6E7807DDC /* Game+Scoreboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597763BB09275F8C6E88D9BF /* Game+Scoreboard.swift */; };
 		19D13DDE584572C5C43F1415 /* DuoProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BCDAD2649944BE768492E0 /* DuoProgressBar.swift */; };
@@ -23,8 +24,10 @@
 		1ECD436CDA6FEAD238776002 /* ScoreboardState+Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA8ACD179234A870F750A54 /* ScoreboardState+Game.swift */; };
 		1FB1B0C2015D7D90E122F86D /* GameListCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA992B48F8B69BC45F8F8C23 /* GameListCard.swift */; };
 		241A99600BA7B0C94A17A6F3 /* ScoreKeypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D2BD061B1DE651E9EB8C02 /* ScoreKeypad.swift */; };
+		26584F787847508C9FE88B58 /* ScoreIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BFECE4BFA4127B70D29F08 /* ScoreIntents.swift */; };
 		267FEB20D9A8B9DE2EEA212D /* iScoreWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E94CD18758FB54BAE4A01B1F /* iScoreWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2682D24A8E0E915946DEB625 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C4FCFF36048001166C7B9B /* Theme.swift */; };
+		309C88BCBB55FC49B4E2B1D2 /* ScoreIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BFECE4BFA4127B70D29F08 /* ScoreIntents.swift */; };
 		3171460F36282BCA2F9FFDB4 /* TeamSpeechBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9113D5E74BAF88AF799BE3CB /* TeamSpeechBubble.swift */; };
 		32B669692F7C2633CB90AED6 /* PendingRoundsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795D7B7159D6CA07F1469B89 /* PendingRoundsStoreTests.swift */; };
 		3429580F3F5ABFEB82D6C0D8 /* DuoProgressBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A908BDDE576152FFECEE9DE /* DuoProgressBarTests.swift */; };
@@ -62,8 +65,10 @@
 		83125088009B37719C618E12 /* DuoStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C70429A64AD8C7C02832DF /* DuoStyle.swift */; };
 		8A3B07D33E2C5E5BA24CD5F6 /* GameListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BAB45A2AD45169225F4640 /* GameListTests.swift */; };
 		8AEDB43B8E7DB8E9F67D246E /* TestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981211F1A788147D260B8DA1 /* TestSupport.swift */; };
+		8EE5229BF0EEADDAFA2E7D01 /* ScoreLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BBAB90C20A3337FC011911 /* ScoreLink.swift */; };
 		923F09803F50FB798B84689E /* LeaderboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8663B30FFF8411484AB019 /* LeaderboardTests.swift */; };
 		959C28188F3FC65ABF68EB10 /* PointGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2890B1631EBD6D29FB67CD72 /* PointGrid.swift */; };
+		96E143CEC73D943A10B53F9C /* ScoreLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BBAB90C20A3337FC011911 /* ScoreLink.swift */; };
 		9E143C22E5501D540C6D55D7 /* PendingRoundsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F3685E8E8C154F1B56EF35 /* PendingRoundsStore.swift */; };
 		A60C440CB7632D0958B6E040 /* ScoreWell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8EE8929D08BC4BB35CD787F /* ScoreWell.swift */; };
 		AADB5B4D8F8BCF00EDE3C805 /* TeamSeatsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0742BF2050F61DEF191FB7 /* TeamSeatsCard.swift */; };
@@ -132,6 +137,7 @@
 
 /* Begin PBXFileReference section */
 		00B0EF29A8126892C4DCC60A /* GameEnums.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameEnums.swift; sourceTree = "<group>"; };
+		01BFECE4BFA4127B70D29F08 /* ScoreIntents.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreIntents.swift; sourceTree = "<group>"; };
 		0527619F24AB514EADFA6808 /* ActiveGameBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveGameBanner.swift; sourceTree = "<group>"; };
 		06A2401113E446E9237D30D1 /* QuickStatsBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickStatsBar.swift; sourceTree = "<group>"; };
 		073231EE2AD3C23A003214D2 /* GamesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesView.swift; sourceTree = "<group>"; };
@@ -150,6 +156,7 @@
 		2890B1631EBD6D29FB67CD72 /* PointGrid.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PointGrid.swift; sourceTree = "<group>"; };
 		28F3685E8E8C154F1B56EF35 /* PendingRoundsStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PendingRoundsStore.swift; sourceTree = "<group>"; };
 		3020CC18CB8573F482765060 /* RoundRow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RoundRow.swift; sourceTree = "<group>"; };
+		30BBAB90C20A3337FC011911 /* ScoreLink.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreLink.swift; sourceTree = "<group>"; };
 		331D191213EA46F0CBBF4690 /* HomeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCardView.swift; sourceTree = "<group>"; };
 		385889EB5718D3580EB4AC93 /* RecentGameCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentGameCard.swift; sourceTree = "<group>"; };
 		393CFE3DD2DB18BBC4524E00 /* ThemeTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ThemeTests.swift; sourceTree = "<group>"; };
@@ -189,6 +196,7 @@
 		96F22A2FD208CB7670DB633C /* GameTypePicker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameTypePicker.swift; sourceTree = "<group>"; };
 		97FA08BE8905D937B98B739B /* GameEditingTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameEditingTests.swift; sourceTree = "<group>"; };
 		981211F1A788147D260B8DA1 /* TestSupport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TestSupport.swift; sourceTree = "<group>"; };
+		987DB2456D5637A9C8EF7E73 /* ScoreLinkTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreLinkTests.swift; sourceTree = "<group>"; };
 		9B9227AFB345418B938DF93A /* iScore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iScore.entitlements; sourceTree = "<group>"; };
 		A1F90B689BF37471ADC41312 /* Game+Editing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "Game+Editing.swift"; sourceTree = "<group>"; };
 		A3758C804622D6EE58490FC8 /* RoundFeedbackBanner.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RoundFeedbackBanner.swift; sourceTree = "<group>"; };
@@ -359,6 +367,8 @@
 				70278DCDADF110D3B472BE6C /* AppliedRoundsLedger.swift */,
 				2890B1631EBD6D29FB67CD72 /* PointGrid.swift */,
 				A3AE0796C2D9AB917F113EBA /* ScoreboardActivityAttributes.swift */,
+				30BBAB90C20A3337FC011911 /* ScoreLink.swift */,
+				01BFECE4BFA4127B70D29F08 /* ScoreIntents.swift */,
 			);
 			name = Shared;
 			path = Shared;
@@ -386,6 +396,7 @@
 				40BBF386318514566DD6504A /* PendingRoundsDrainTests.swift */,
 				AB623A369A3E3C7DC06DD994 /* PointGridTests.swift */,
 				3B001411EC0CCB6D55E82F58 /* ScoreboardStateTests.swift */,
+				987DB2456D5637A9C8EF7E73 /* ScoreLinkTests.swift */,
 			);
 			path = iScoreTests;
 			sourceTree = "<group>";
@@ -572,6 +583,8 @@
 				959C28188F3FC65ABF68EB10 /* PointGrid.swift in Sources */,
 				F97AA1B66A7BD22267CFF5E9 /* ScoreboardActivityAttributes.swift in Sources */,
 				1ECD436CDA6FEAD238776002 /* ScoreboardState+Game.swift in Sources */,
+				96E143CEC73D943A10B53F9C /* ScoreLink.swift in Sources */,
+				26584F787847508C9FE88B58 /* ScoreIntents.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,6 +611,7 @@
 				B6BF35E8CCAE932892708CF1 /* PendingRoundsDrainTests.swift in Sources */,
 				5361CA11F02076477B609685 /* PointGridTests.swift in Sources */,
 				CA7E347C1606CC9604EC1E6B /* ScoreboardStateTests.swift in Sources */,
+				14C32B15D038AA3295E313D6 /* ScoreLinkTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,6 +628,8 @@
 				F87072AA7BB4488D4506D70D /* AppliedRoundsLedger.swift in Sources */,
 				C500370D615544A8250B4B2D /* PointGrid.swift in Sources */,
 				D91DE7A02DED815C62660B56 /* ScoreboardActivityAttributes.swift in Sources */,
+				8EE5229BF0EEADDAFA2E7D01 /* ScoreLink.swift in Sources */,
+				309C88BCBB55FC49B4E2B1D2 /* ScoreIntents.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -769,6 +785,7 @@
 				CURRENT_PROJECT_VERSION = 4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = iScore/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = iScoreDominoes;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
@@ -806,6 +823,7 @@
 				CURRENT_PROJECT_VERSION = 4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = iScore/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = iScoreDominoes;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
