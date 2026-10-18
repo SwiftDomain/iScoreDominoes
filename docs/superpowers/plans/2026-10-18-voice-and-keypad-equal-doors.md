@@ -10,7 +10,11 @@
 
 **Spec:** `docs/superpowers/specs/2026-10-17-hands-free-dominoes-design.md` (Feature 3; the Intent, Goals, Anti-goals and Constraints sections apply in full)
 
-**Branch:** `voice-and-keypad`, off `worktree-say-the-game` (confirmed with the owner on 2026-10-18). Feature 3 reuses Feature 1's `SpeechCapture`, `SpokenNumber`, `VoiceSetup` and `OwnerIdentity`, which exist only on that branch, so this PR stacks on **PR #4** and can only merge after it. Feature 2 (`lock-screen-scoreboard`, PR #5) is **not** in this branch: expect a conflict in `GameView.swift` and `iScore.xcodeproj/project.pbxproj` whenever the second of the two lands. Work happens in the worktree at `.claude/worktrees/voice-doors`. The repo has unrelated staged app-icon changes — leave them alone and **never `git add -A`**.
+**Branch:** `voice-and-keypad`, off `worktree-say-the-game` with `origin/main` merged in — both confirmed with the owner on 2026-10-18. Feature 3 reuses Feature 1's `SpeechCapture`, `SpokenNumber`, `VoiceSetup` and `OwnerIdentity`, which exist only on Feature 1's branch, so **this PR stacks on PR #4 and can only merge after it.** Feature 2 landed on `main` as PR #5 while this plan was being written; the merge commit `c6bfc81` brought it in and resolved its three conflicts, so this branch already carries the `iScoreWidgets` target, `iScore/Shared/`, and `GameView`'s Live Activity wiring. Work happens in the worktree at `.claude/worktrees/voice-doors`.
+
+**Baseline at plan time:** 236 tests in 32 suites pass on this branch (Feature 1's suites on top of main's 145). Any task that reports fewer has lost something.
+
+**Git hygiene:** **never `git add -A`**, and note that a bare `git commit` commits the whole index, not the paths named alongside it — stage explicitly and check `git status` before every commit. (That is how an unrelated app-icon change ended up in Feature 2's history.)
 
 **Voice language:** Feature 4 (two language settings) is not built, so every recognizer and every synthesizer in this feature takes `Locale.current`, exactly as `VoiceGameSheet` already does. Each call site passes a `locale` parameter rather than reading `.current` inside, so Feature 4 changes one line per site and nothing in the pure layer.
 
@@ -22,13 +26,15 @@
 - No `Color` literals in views. Semantic colors come from `Theme` only. Any new colorset goes in `Assets.xcassets` **and** `Theme.colorAssetNames`, or `ThemeTests` fails. **This plan adds no new colorsets** — the mic button uses `Theme.palette(for:)` and `Theme.learn`/`Theme.learnShadow`, all of which exist.
 - Type is `DuoFont` (`.score`, `.title`, `.body`, `.label`). Cards: radius 16, 2pt border, 4pt bottom edge. Buttons: radius 14, 4pt darker bottom edge. No gradients, shadows, blur or glass.
 - Logic lives in pure types in `iScore/Model/` with Swift Testing coverage in `iScoreTests`. Views stay thin.
-- Every new Swift file is registered: `ruby scripts/xcodeproj.rb add iScore <path>` for app files, `add iScoreTests <path>` for test files. Run it in the same step the file is created, before the build.
+- Every new Swift file is registered: `ruby scripts/xcodeproj.rb add iScore <path>` for app files, `add iScoreTests <path>` for test files. Run it in the same step the file is created, before the build. **`project.pbxproj` is never hand-edited** — the script gained `set <target> KEY=value` in the merge commit for build settings, so extend the script if it cannot express something.
+- **Nothing in this feature belongs in `iScore/Shared/`.** That directory is the app↔widget boundary from Feature 2, and a file there must be registered against each of `iScore`, `iScoreWidgets` and `iScoreTests` separately. Voice is app-only: the widget process must never link `Speech` or `AVSpeechSynthesizer`. Every new file in this plan goes in `iScore/Model/` or `iScore/Views/`.
+- `GameView` now carries Feature 2's Live Activity wiring (`.task`, two `.onChange`, `drainLockScreenRounds()`, `roundHistory`). Task 6 adds to that view; it must not remove any of it. The existing `.onChange(of: game.scoreTeam)` means a voice-recorded round reaches the Lock Screen activity for free — do not add a second refresh call.
 - User-facing strings go through `String(localized:)` as Feature 1's do, so Feature 4's extraction pass finds them.
 - Player names cap at 15 characters and compare case-insensitively (`PlayerName.isSame`). Spoken names resolve through the existing helpers; voice never creates a player.
 - **Push-to-talk only.** No wake phrase, no continuous recognition, no recognizer started by anything other than a tap. A listening session always ends by itself, by a second tap, or on `onDisappear`.
 - Test command used throughout:
   `xcodebuild test -project iScore.xcodeproj -scheme iScore -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=26.5' -only-testing:<suite-path>`
-  **The OS must be pinned.** This machine has an iPhone 17 Pro on both 26.4 and 26.5, and the bare name makes `xcodebuild` fall through to a macOS destination and error out. Heavy CloudKit error logging in simulator output is known noise (no iCloud account in the simulator). The suite is 97 tests on `main` and ~145 on this branch's base.
+  **The OS must be pinned.** This machine has an iPhone 17 Pro on both 26.4 and 26.5, and the bare name makes `xcodebuild` fall through to a macOS destination and error out. Heavy CloudKit error logging in simulator output is known noise (no iCloud account in the simulator).
 
 ## Review Focus
 
@@ -809,7 +815,7 @@ git commit -m "feat: push-to-talk mic bar for in-game scoring"
 Wires the bar into the Game screen and adds the touch door for ending and cancelling, which the app does not have today. Confirmed with the owner on 2026-10-18: both commands get a visible control, and the voice path raises the same alert a touch user sees.
 
 **Files:**
-- Modify: `iScore/Views/GameView.swift`
+- Modify: `iScore/Views/GameView.swift` (adds to Feature 2's Live Activity wiring; removes none of it)
 - Modify: `iScore/Views/RoundFeedbackBanner.swift` (an Undo button)
 - Create: `iScoreTests/GameEndingTests.swift`
 - Modify: `iScore/Model/Game+Voice.swift` (add `endByUser()` / `cancelByUser()`)
@@ -1020,6 +1026,7 @@ Launch the app with `-demoData`, open the in-progress game, and confirm by scree
 - the mic sits beside the two team buttons and the team buttons still work end to end (keypad → round → banner);
 - tapping the mic either listens or shows a one-line explanation, and the screen is never stuck in `.thinking`;
 - the banner that follows a typed round carries a working Undo;
+- the Lock Screen activity still starts, still scores, and its totals still match in-app after a round added through the mic path's `applyNewRound()` — Feature 2 is in this branch and must not have regressed;
 - the ⋯ menu's End game and Cancel game each raise their alert, and confirming each lands the right `state`;
 - Settings shows the Voice section and its toggle.
 
