@@ -13,7 +13,7 @@ struct VoiceScoreBarTests {
     /// Review Focus 5: a blocked mic says why, and says it in the prompt, not nowhere.
     @Test func aBlockedMicExplainsItself() {
         let denied = VoiceBarState.prompt(isListening: false, isThinking: false, availability: .denied, notice: nil)
-        #expect(denied == .blocked(VoiceSetup.explanation(availability: .denied, error: nil)!))
+        #expect(denied == .blocked(VoiceSetup.scoringExplanation(availability: .denied, error: nil)!))
         let unsupported = VoiceBarState.prompt(isListening: false, isThinking: false, availability: .unsupported, notice: nil)
         #expect(unsupported != denied)
     }
