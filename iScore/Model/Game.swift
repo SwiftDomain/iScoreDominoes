@@ -71,38 +71,12 @@ class Game: Identifiable {
 
 }
 
-enum GameType: String, Codable, RawRepresentable, CaseIterable, Equatable{
-    
-    case six
-    case nine
-    
-}
-
 enum GameState: String, Codable, Equatable{
-    
+
     case finished
     case playing
     case cancelled
 }
 
-enum Team:Identifiable{
-    
-    case team1
-    case team2
-    case none
-    
-    public var id: Team {return self}
-    
-    var description:String{
-        
-        switch self{
-            
-        case .team1:
-            return "Team 1"
-        case .team2:
-            return "Team 2"
-        case .none:
-            return "Game in progress"
-        }
-    }
-}
+// `GameType` and `Team` moved to iScore/Shared/GameEnums.swift: the widget
+// extension needs them (point grids, team colors) and must not link SwiftData.

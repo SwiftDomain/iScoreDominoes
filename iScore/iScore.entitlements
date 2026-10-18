@@ -11,5 +11,9 @@
     <array>
         <string>iCloud.$(CFBundleIdentifier)</string>
     </array>
+    <key>com.apple.security.application-groups</key>
+    <array>
+        <string>group.SwiftDomainUI.iScore</string>
+    </array>
 </dict>
 </plist>

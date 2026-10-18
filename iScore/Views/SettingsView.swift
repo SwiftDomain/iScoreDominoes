@@ -19,6 +19,10 @@ struct SettingsView: View {
 
     @AppStorage(OwnerIdentity.nameKey) private var ownerName = ""
 
+    // In the App Group suite so the widget reads the same value.
+    @AppStorage(LockScreenScoring.requireUnlockKey, store: AppGroup.defaults)
+    private var requireUnlockToScore = false
+
     @State private var playerToDelete: Player?
 
     private var isConfirmingDelete: Binding<Bool> {
@@ -77,6 +81,26 @@ struct SettingsView: View {
                     }
                 }
                 .padding(.horizontal, 14)
+                .duoCard()
+
+                Text("Lock Screen")
+                    .duoLabel()
+                    .padding(.top, 10)
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Toggle(isOn: $requireUnlockToScore) {
+                        Text("Require unlock to score")
+                            .font(DuoFont.body)
+                            .foregroundStyle(Theme.textPrimary)
+                    }
+                    .tint(Theme.teamB)
+
+                    Text("Lock Screen buttons will open the app instead of scoring straight away.")
+                        .font(.footnote.weight(.bold))
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
                 .duoCard()
 
                 Text("About")
