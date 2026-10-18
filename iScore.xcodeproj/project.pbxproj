@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0109F65A8488437EA6122352 /* LockScreenScoringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B9599E71015E250477DAE9 /* LockScreenScoringTests.swift */; };
 		06954D7328358AAAC895C4B6 /* HomeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331D191213EA46F0CBBF4690 /* HomeCardView.swift */; };
 		0730DEAB4C27AC9F9F4BC1F6 /* AppGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8DE9BF8258A5CAE334D6B9 /* AppGroupTests.swift */; };
 		073231EF2AD3C23A003214D2 /* GamesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073231EE2AD3C23A003214D2 /* GamesView.swift */; };
@@ -149,6 +150,7 @@
 		01BFECE4BFA4127B70D29F08 /* ScoreIntents.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreIntents.swift; sourceTree = "<group>"; };
 		0527619F24AB514EADFA6808 /* ActiveGameBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveGameBanner.swift; sourceTree = "<group>"; };
 		06A2401113E446E9237D30D1 /* QuickStatsBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickStatsBar.swift; sourceTree = "<group>"; };
+		06B9599E71015E250477DAE9 /* LockScreenScoringTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LockScreenScoringTests.swift; sourceTree = "<group>"; };
 		073231EE2AD3C23A003214D2 /* GamesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesView.swift; sourceTree = "<group>"; };
 		076444A52ACD1C0200E39F12 /* iScore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iScore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		076444A82ACD1C0200E39F12 /* iScoreApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iScoreApp.swift; sourceTree = "<group>"; };
@@ -422,6 +424,7 @@
 				3B001411EC0CCB6D55E82F58 /* ScoreboardStateTests.swift */,
 				987DB2456D5637A9C8EF7E73 /* ScoreLinkTests.swift */,
 				B49DC78038BB80E589CE0049 /* GameHistoryTests.swift */,
+				06B9599E71015E250477DAE9 /* LockScreenScoringTests.swift */,
 			);
 			path = iScoreTests;
 			sourceTree = "<group>";
@@ -642,6 +645,7 @@
 				CA7E347C1606CC9604EC1E6B /* ScoreboardStateTests.swift in Sources */,
 				14C32B15D038AA3295E313D6 /* ScoreLinkTests.swift in Sources */,
 				4E7796E4027A4478080A8646 /* GameHistoryTests.swift in Sources */,
+				0109F65A8488437EA6122352 /* LockScreenScoringTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
