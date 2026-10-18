@@ -128,7 +128,14 @@ struct AddGameScoreView: View {
     private func handle(_ outcome: VoiceScoring.Outcome) {
         notice = nil
         switch outcome {
-        case let .recorded(points, _):
+        case let .recorded(points, spokenTeam):
+            // An explicit team in the sentence outranks the sheet's. This sheet shows one team
+            // only, so the other team is refused, never scored here unseen.
+            guard spokenTeam == team else {
+                let other = game.displayName(for: spokenTeam)
+                notice = String(localized: "That's for \(other). Close this and say it again.")
+                return
+            }
             // Replace, never append, then take the Add button's own path.
             entry.set(points)
             addScore()
@@ -137,13 +144,12 @@ struct AddGameScoreView: View {
             notice = String(localized: "Close this first, then undo the last round")
         case .confirmEnd, .confirmCancel:
             // Ending a game from a score-entry sheet would be two decisions in one tap.
+            // The sheet stays open so the line can be read.
             notice = String(localized: "Close this first, then end the game.")
-            dismiss()
-        // The bar speaks these itself. `.askTeam` cannot happen: the team is always assumed.
         case let .said(text), let .refused(text):
             notice = text
         case .askTeam:
-            notice = String(localized: "Say the number again, or type it on the keypad")
+            notice = VoiceScoring.notUnderstood
         }
     }
 
