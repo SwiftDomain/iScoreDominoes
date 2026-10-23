@@ -10,6 +10,9 @@ import SwiftData
 
 struct HomeView: View {
 
+    @Environment(\.modelContext) private var context
+    @Query(sort: \Player.name) private var players: [Player]
+
     @Query(
         filter: #Predicate<Game> { $0.inProcess == true },
         sort: \Game.timestamp,
@@ -24,13 +27,13 @@ struct HomeView: View {
 
     @Query(sort: \Game.timestamp, order: .reverse) private var allGames: [Game]
 
-    @Environment(\.modelContext) private var context
     @Environment(ScoreLinkRouter.self) private var linkRouter
     @Environment(\.scenePhase) private var scenePhase
 
     @State private var showHallOfFameView = false
     @State private var showInfoView = false
     @State private var showSettingsView = false
+    @State private var isSpeaking = false
     @State private var path = NavigationPath()
 
     private var finishedCount: Int {
@@ -101,6 +104,17 @@ struct HomeView: View {
 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
+                        isSpeaking = true
+                    } label: {
+                        Image(systemName: "mic.fill")
+                            .foregroundStyle(Theme.teamA)
+                    }
+                    .accessibilityLabel("Say the game")
+                }
+                .sharedBackgroundVisibility(.hidden)
+
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
                         showSettingsView = true
                     } label: {
                         Image(systemName: "gearshape.fill")
@@ -123,6 +137,7 @@ struct HomeView: View {
         .sheet(isPresented: $showSettingsView) {
             SettingsView()
         }
+        .voiceGameSheet(isPresented: $isSpeaking, players: players, onConfirm: start)
         // Rounds may have been scored on the Lock Screen while the app sat
         // on Home; the app is the only writer, so it drains them here too.
         .task { drainLockScreenRounds() }
@@ -136,6 +151,11 @@ struct HomeView: View {
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { drainLockScreenRounds() }
         }
+    }
+
+    /// Creates the spoken game and goes straight to its scoreboard.
+    fileprivate func start(_ resolved: ResolvedGame) {
+        path.append(GameFactory.make(resolved, existing: players, in: context))
     }
 
     /// The spec is "while a game is in progress", not "while that game is on

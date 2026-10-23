@@ -107,6 +107,19 @@ struct PlayerNameTests {
         #expect(PlayerName.isSame("Ana", " ana"))
         #expect(!PlayerName.isSame("Ana", "Anabel"))
     }
+
+    @Test func sameNameIgnoresAccents() {
+        #expect(PlayerName.isSame("Papó", "Papo"))
+        #expect(PlayerName.isSame("Luís", "luis"))
+        #expect(PlayerName.isSame("José", " JOSE "))
+        #expect(!PlayerName.isSame("Luis", "Luisa"))
+        #expect(!PlayerName.isSame("Ana", "Anna"))
+    }
+
+    @Test func resolveReusesTheSavedSpellingAcrossAccents() {
+        #expect(PlayerName.resolve("papo", existing: ["Papó"]) == "Papó")
+        #expect(PlayerName.resolve("Luís", existing: ["Luis"]) == "Luis")
+    }
 }
 
 struct GameDefaultsTests {
@@ -146,5 +159,49 @@ struct GameDefaultsTests {
         withDefaults([GameDefaults.typeKey: "twelve"]) { defaults in
             #expect(GameDefaults.load(from: defaults).type == .nine)
         }
+    }
+}
+
+struct OwnerIdentityTests {
+
+    /// Each test names its own suite and wipes it before and after, so nothing leaks
+    /// between tests or into the app's real defaults.
+    private func withSuite(_ name: String, _ body: (UserDefaults) -> Void) {
+        let suite = "OwnerIdentityTests.\(name)"
+        let defaults = UserDefaults(suiteName: suite)!
+        defaults.removePersistentDomain(forName: suite)
+        body(defaults)
+        defaults.removePersistentDomain(forName: suite)
+    }
+
+    @Test func loadsNothingByDefault() {
+        withSuite("empty") { defaults in
+            #expect(OwnerIdentity.load(from: defaults) == nil)
+        }
+    }
+
+    @Test func loadsTheStoredName() {
+        withSuite("stored") { defaults in
+            defaults.set("Ana", forKey: OwnerIdentity.nameKey)
+            #expect(OwnerIdentity.load(from: defaults) == "Ana")
+        }
+    }
+
+    /// "Nobody" in Settings stores an empty string.
+    @Test func treatsABlankStoredNameAsNobody() {
+        withSuite("blank") { defaults in
+            defaults.set("  ", forKey: OwnerIdentity.nameKey)
+            #expect(OwnerIdentity.load(from: defaults) == nil)
+        }
+    }
+
+    @Test func resolvesAgainstSavedPlayers() {
+        #expect(OwnerIdentity.resolve("ana", known: ["Ana", "Luis"]) == "Ana")
+        #expect(OwnerIdentity.resolve("Ana", known: ["Ana", "Luis"]) == "Ana")
+    }
+
+    @Test func forgetsADeletedPlayer() {
+        #expect(OwnerIdentity.resolve("Tito", known: ["Ana", "Luis"]) == nil)
+        #expect(OwnerIdentity.resolve(nil, known: ["Ana"]) == nil)
     }
 }

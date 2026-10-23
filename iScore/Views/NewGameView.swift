@@ -22,6 +22,7 @@ struct NewGameView: View {
     @State private var target: Int
     @State private var editingSeat: PlayerSeat?
     @State private var startedGame: Game?
+    @State private var isSpeaking = false
 
     init(path: Binding<NavigationPath>) {
         _path = path
@@ -81,8 +82,8 @@ struct NewGameView: View {
                 VStack(spacing: 8) {
                     if let hint = lineup.hint {
                         Text(hint)
-                            .font(.subheadline.weight(.bold))
-                            .foregroundStyle(Theme.textMuted)
+                            .font(DuoFont.body)
+                            .foregroundStyle(Theme.textSecondary)
                     }
 
                     Button("Start game", action: startGame)
@@ -103,6 +104,15 @@ struct NewGameView: View {
                 pickedNames: lineup.pickedNames(excludingSeat: seat.id)
             )
         }
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button("Say the game", systemImage: "mic.fill") {
+                    isSpeaking = true
+                }
+                .tint(Theme.accentInk)
+            }
+        }
+        .voiceGameSheet(isPresented: $isSpeaking, players: players, onConfirm: start)
         .navigationDestination(item: $startedGame) { game in
             GameView(path: $path, game: game)
         }
@@ -122,23 +132,12 @@ struct NewGameView: View {
 
     private func startGame() {
         guard lineup.isComplete else { return }
-
-        let game = Game(gameType: gameType, maxScore: Double(target))
-        context.insert(game)
-
-        let team1 = lineup.names(for: .team1)
-        let team2 = lineup.names(for: .team2)
-        for name in team1 + team2 {
-            game.players?.append(existingPlayer(named: name) ?? Player(name: name))
-        }
-        game.team1 = team1
-        game.team2 = team2
-
-        startedGame = game
+        start(ResolvedGame(gameType: gameType, target: target, lineup: lineup, newNames: []))
     }
 
-    private func existingPlayer(named name: String) -> Player? {
-        players.first { PlayerName.isSame($0.name, name) }
+    private func start(_ resolved: ResolvedGame) {
+        guard resolved.lineup.isComplete else { return }
+        startedGame = GameFactory.make(resolved, existing: players, in: context)
     }
 }
 

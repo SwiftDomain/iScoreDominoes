@@ -1,0 +1,27 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Check the game" : {},
+    "Fill in the game" : {},
+    "Game sentence" : {},
+    "Listening…" : {},
+    "Start listening" : {},
+    "Stop listening" : {},
+    "Tap to talk" : {},
+    "Next game" : {},
+    "Say the game" : {},
+    "Say the game type, the target and the two teams" : {},
+    "Nine, 200, me and Ana vs Luis and Rafa" : {},
+    "Working it out…" : {},
+    "“Nine, two hundred, me and Carlos against Luis and Papo”" : {},
+    "%@, new player" : {},
+    "%@ · new" : {},
+    "Listening stopped: %@. Type the game instead." : {},
+    "Allow the microphone and speech recognition to talk, or type the game instead." : {},
+    "Microphone or speech access is off. Turn it on in Settings, or type the game instead." : {},
+    "Speech recognition isn't available on this device. Type the game instead." : {},
+    "Didn't catch anything. Type the game instead." : {},
+    "Couldn't start listening. Type the game instead." : {}
+  },
+  "version" : "1.0"
+}

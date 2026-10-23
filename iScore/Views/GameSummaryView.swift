@@ -8,14 +8,20 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct GameSummaryView: View {
 
     let game: Game
+    /// Called with the new game after "Next game" creates it; the owner navigates to it.
+    var onNextGame: (Game) -> Void = { _ in }
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var context
+    @Query(sort: \Player.name) private var players: [Player]
 
     @State private var shareImage: Image?
+    @State private var isSpeaking = false
 
     private var winner: Team { game.winningTeam }
 
@@ -82,8 +88,20 @@ struct GameSummaryView: View {
                         .accessibilityLabel("Share results")
                     }
 
-                    Button("Done") {
+                    // Neutral on purpose: "Next game" carries the colour, and Done no longer
+                    // paints team-2 blue over a team-1 win.
+                    Button {
                         dismiss()
+                    } label: {
+                        Text("Done")
+                            .font(DuoFont.label)
+                            .foregroundStyle(Theme.textPrimary)
+                            .frame(maxWidth: .infinity, minHeight: 46)
+                    }
+                    .buttonStyle(.duoCard)
+
+                    Button("Next game", systemImage: "mic.fill") {
+                        isSpeaking = true
                     }
                     .buttonStyle(.duo(Theme.palette(for: .team1)))
                 }
@@ -97,6 +115,19 @@ struct GameSummaryView: View {
         .task {
             shareImage = renderShareImage()
         }
+        // The night keeps its settings: seed with this game's, not the saved defaults.
+        .voiceGameSheet(
+            isPresented: $isSpeaking,
+            players: players,
+            defaults: { (type: game.gameType, target: Int(game.maxScore)) },
+            onConfirm: startNext
+        )
+    }
+
+    private func startNext(_ resolved: ResolvedGame) {
+        let next = GameFactory.make(resolved, existing: players, in: context)
+        dismiss()
+        onNextGame(next)
     }
 
     /// Renders the shareable card once, instead of on every body update.

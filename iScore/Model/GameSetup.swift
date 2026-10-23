@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftData
 
 extension GameType {
 
@@ -57,6 +58,26 @@ enum GameDefaults {
         let type = defaults.string(forKey: typeKey).flatMap(GameType.init(rawValue:)) ?? .nine
         let stored = defaults.object(forKey: targetKey) as? Double
         return (type, type.clampedTarget(stored ?? Double(type.defaultTarget)))
+    }
+}
+
+/// Which saved player owns this phone, so a spoken "me" has someone to mean.
+enum OwnerIdentity {
+
+    static let nameKey = "ownerPlayerName"
+
+    /// The stored name; nil when unset or "Nobody" (stored as an empty string).
+    static func load(from defaults: UserDefaults = .standard) -> String? {
+        guard let name = defaults.string(forKey: nameKey)?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !name.isEmpty else { return nil }
+        return name
+    }
+
+    /// The saved player's own spelling of `stored`, or nil when that player no
+    /// longer exists, so a deleted player cannot haunt "me".
+    static func resolve(_ stored: String?, known: [String]) -> String? {
+        guard let stored else { return nil }
+        return known.first { PlayerName.isSame($0, stored) }
     }
 }
 
@@ -142,13 +163,124 @@ enum PlayerName {
     }
 
     static func isSame(_ lhs: String, _ rhs: String) -> Bool {
-        let clean = { (name: String) in name.trimmingCharacters(in: .whitespacesAndNewlines) }
-        return clean(lhs).caseInsensitiveCompare(clean(rhs)) == .orderedSame
+        // Folded for case and accents: the recognizer's accenting ("Papó" vs "Papo") is not
+        // under the user's control, and a miss here would create a duplicate Player.
+        let clean = { (name: String) in
+            name.trimmingCharacters(in: .whitespacesAndNewlines)
+                .folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil)
+        }
+        return clean(lhs) == clean(rhs)
     }
 
     /// Picker search; an empty query matches everyone.
     static func matches(_ name: String, query: String) -> Bool {
         let query = query.trimmingCharacters(in: .whitespacesAndNewlines)
         return query.isEmpty || name.localizedStandardContains(query)
+    }
+}
+
+/// Turns a confirmed setup into a stored game. New Game and the voice sheet
+/// both start games through here.
+enum GameFactory {
+
+    /// Inserts a game for `resolved`, reusing `existing` players by name and
+    /// creating the rest. Expects a complete lineup.
+    @discardableResult
+    static func make(_ resolved: ResolvedGame, existing: [Player], in context: ModelContext) -> Game {
+        let game = Game(gameType: resolved.gameType, maxScore: Double(resolved.target))
+        context.insert(game)
+
+        let team1 = resolved.lineup.names(for: .team1)
+        let team2 = resolved.lineup.names(for: .team2)
+        for name in team1 + team2 {
+            let player = existing.first { PlayerName.isSame($0.name, name) } ?? Player(name: name)
+            game.players?.append(player)
+        }
+        game.team1 = team1
+        game.team2 = team2
+        return game
+    }
+}
+
+/// The decisions behind the "say the game" sheet, kept out of the view.
+enum VoiceSetup {
+
+    enum Opening: Equatable {
+        /// Start listening straight away.
+        case listen
+        /// Ask for microphone and speech access first, then listen.
+        case askPermission
+        /// Speech cannot work here: go to typing.
+        case typeInstead
+    }
+
+    static func opening(for availability: SpeechAvailability) -> Opening {
+        switch availability {
+        case .ready: .listen
+        case .needsPermission: .askPermission
+        case .denied, .unsupported: .typeInstead
+        }
+    }
+
+    /// One line saying why the user is typing instead of talking; nil when
+    /// nothing went wrong. A thrown unavailability names its own reason.
+    static func explanation(availability: SpeechAvailability, error: Error?) -> String? {
+        var reason = availability
+        if let error {
+            guard let failure = error as? SpeechCaptureError else {
+                var detail = error.localizedDescription.trimmingCharacters(in: .whitespacesAndNewlines)
+                while detail.hasSuffix(".") { detail.removeLast() }
+                return String(localized: "Listening stopped: \(detail). Type the game instead.")
+            }
+            if case .unavailable(let why) = failure { reason = why }
+        }
+        switch reason {
+        case .ready:
+            return nil
+        case .needsPermission:
+            return String(localized: "Allow the microphone and speech recognition to talk, or type the game instead.")
+        case .denied:
+            return String(localized: "Microphone or speech access is off. Turn it on in Settings, or type the game instead.")
+        case .unsupported:
+            return String(localized: "Speech recognition isn't available on this device. Type the game instead.")
+        }
+    }
+
+    static var heardNothing: String {
+        String(localized: "Didn't catch anything. Type the game instead.")
+    }
+
+    static var couldntStart: String {
+        String(localized: "Couldn't start listening. Type the game instead.")
+    }
+
+    /// What to tell the user once a listening session is over, whoever ended it.
+    /// `lastError` must be read before anything can restart the recognizer.
+    /// Heard words with no error need no notice; an error always gets one.
+    static func notice(heard: String, availability: SpeechAvailability, lastError: Error?) -> String? {
+        let hasWords = !heard.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        guard let lastError else { return hasWords ? nil : heardNothing }
+        return explanation(availability: availability, error: lastError) ?? couldntStart
+    }
+
+    /// Seated names that match no saved player (and are not the owner), in seat order.
+    static func newNames(in lineup: PlayerLineup, known: [String], owner: String?) -> [String] {
+        let saved = known + (owner.map { [$0] } ?? [])
+        return lineup.names
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { name in !name.isEmpty && !saved.contains { PlayerName.isSame($0, name) } }
+    }
+
+    /// The pipeline behind both the mic and the typed sentence.
+    static func resolve(
+        _ sentence: String,
+        locale: Locale,
+        defaults: (type: GameType, target: Int),
+        known: [String],
+        owner: String?
+    ) async -> ResolvedGame {
+        let parsed = GameCommand.parse(sentence, locale: locale)
+        let command = await GameCommandModel.enhance(parsed, transcript: sentence, locale: locale, timeout: .seconds(3))
+        return command.resolved(defaults: defaults, known: known, owner: owner)
     }
 }
