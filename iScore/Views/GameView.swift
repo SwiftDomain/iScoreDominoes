@@ -289,8 +289,9 @@ struct GameView: View {
             VStack(spacing: 8) {
                 // One line, so a mic that cannot work and an answer the user just
                 // asked for never argue with each other. An answer outranks the
-                // mic's own state, and the banner below replaces the buttons,
-                // never this line: an answer is never suppressed.
+                // mic's idle state, and the banner below replaces the buttons,
+                // never this line: an answer is never suppressed. A live session
+                // outranks both — see `show(_:)`.
                 if let line = voiceNotice?.text ?? micLine {
                     Text(line)
                         .font(DuoFont.body)
@@ -303,38 +304,44 @@ struct GameView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                Group {
-                    if let feedback {
-                        RoundFeedbackBanner(round: feedback, game: game) {
-                            game.undoLastRound()
-                            withAnimation(.spring) { self.feedback = nil }
-                        }
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                    } else {
-                        VStack(spacing: 8) {
-                            if let pendingPoints {
-                                askTeamRow(points: pendingPoints)
-                            }
+                VStack(spacing: 8) {
+                    if let pendingPoints, feedback == nil {
+                        askTeamRow(points: pendingPoints)
+                    }
 
-                            HStack(spacing: 10) {
-                                // The mic sits beside the keypad doors; neither replaces the
-                                // other. Three things cannot share one row and all stay
-                                // legible, so the mic comes as the button alone and says what
-                                // it has to say on the full-width line above, where even the
-                                // longest reason reads at any text size.
-                                VoiceScoreBar(
-                                    context: voiceContext,
-                                    permissions: voicePermissions,
-                                    answers: game.voiceAnswers,
-                                    showsText: false,
-                                    onOutcome: handle,
-                                    onPrompt: { micLine = $0 }
-                                )
-                                addButton(for: .team1)
-                                    .disabled(!isPlaying)
-                                addButton(for: .team2)
-                                    .disabled(!isPlaying)
+                    // The mic sits beside the keypad doors; neither replaces the other.
+                    // Three things cannot share one row and all stay legible, so the mic
+                    // comes as the button alone and says what it has to say on the
+                    // full-width line above, where even the longest reason reads at any
+                    // text size.
+                    HStack(spacing: 10) {
+                        VoiceScoreBar(
+                            context: voiceContext,
+                            permissions: voicePermissions,
+                            answers: game.voiceAnswers,
+                            showsText: false,
+                            onOutcome: handle,
+                            onPrompt: show
+                        )
+                        addButton(for: .team1)
+                            .disabled(!isPlaying)
+                        addButton(for: .team2)
+                            .disabled(!isPlaying)
+                    }
+                    // The banner covers the row rather than replacing it. Taking the row
+                    // away would unmount the mic after every round, tearing down and
+                    // rebuilding the recognizer and the audio engine once per round —
+                    // exactly what the capture holder exists to avoid — and laying the
+                    // banner out beside the mic instead leaves it too narrow for its own
+                    // title and Undo. Covered, it keeps the full width it was drawn for.
+                    .accessibilityHidden(feedback != nil)
+                    .overlay {
+                        if let feedback {
+                            RoundFeedbackBanner(round: feedback, game: game) {
+                                game.undoLastRound()
+                                withAnimation(.spring) { self.feedback = nil }
                             }
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
                         }
                     }
                 }
@@ -379,6 +386,14 @@ struct GameView: View {
             }
         }
         .disabled(!isPlaying)
+    }
+
+    /// The mic's own line. A session that is under way clears the last answer:
+    /// a notice lives for six seconds, and within that window the user who taps
+    /// the mic again must see `Listening…` and their words, not the last reply.
+    private func show(_ report: VoiceBarState.Report) {
+        if report.isLive { voiceNotice = nil }
+        micLine = report.line
     }
 
     // MARK: - Voice outcomes

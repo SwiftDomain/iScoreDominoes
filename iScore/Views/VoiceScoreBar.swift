@@ -59,12 +59,34 @@ enum VoiceBarState {
     /// Everything the bar has to say, as one line, for a host that shows it on
     /// a full-width row of its own. The mic standing next to two team buttons
     /// has no room for prose, and a reason the user cannot read is no reason at
-    /// all. `nil` when the bar is idle and the mic icon says it all.
-    static func line(for prompt: Prompt, transcript: String) -> String? {
-        guard prompt != .tapToTalk else { return nil }
+    /// all. Idle says "Tap to talk" here too: a bare glyph tells a first-time
+    /// scorekeeper nothing, and three words cannot cause the wrap that made
+    /// the in-row text column untenable.
+    static func line(for prompt: Prompt, transcript: String) -> String {
         let headline = title(for: prompt)
         guard let detail = detail(for: prompt, transcript: transcript) else { return headline }
         return "\(headline) \(detail)"
+    }
+
+    /// What the bar hands a host that draws its text: the line, plus whether a
+    /// session is in flight. A host clears its own stale notice on a live
+    /// report, so the last answer can never blank the next `Listening…`.
+    struct Report: Equatable {
+        let line: String?
+        /// Listening or working it out: the user is mid-session, right now.
+        let isLive: Bool
+
+        static let idleAway = Report(line: nil, isLive: false)
+
+        init(line: String?, isLive: Bool) {
+            self.line = line
+            self.isLive = isLive
+        }
+
+        init(prompt: Prompt, transcript: String) {
+            line = VoiceBarState.line(for: prompt, transcript: transcript)
+            isLive = prompt == .listening || prompt == .thinking
+        }
     }
 }
 
@@ -75,12 +97,16 @@ struct VoiceScoreBar: View {
     let answers: VoiceScoring.Answers
     let assumedTeam: Team?
     let locale: Locale
-    /// False where the bar shares a row with the team buttons: the mic alone,
+    /// False where the bar shares a row with other controls: the mic alone,
     /// with the host showing `onPrompt`'s line on a full-width row of its own.
+    /// No default: the drawn-in-place layout needs a host wide enough for prose,
+    /// and silently handing a new host the layout that failed would be a trap.
     let showsText: Bool
     let onOutcome: (VoiceScoring.Outcome) -> Void
-    /// What the bar would say, for a host that shows it. `nil` when idle.
-    let onPrompt: (String?) -> Void
+    /// What the bar has to say, for the host that shows it. Required for the
+    /// same reason: with `showsText: false` and nowhere to send this, the mic
+    /// would have no voice at all.
+    let onPrompt: (VoiceBarState.Report) -> Void
 
     @Environment(\.scenePhase) private var scenePhase
     @AppStorage(VoiceOutput.speechKey) private var speaksAnswers = true
@@ -100,9 +126,9 @@ struct VoiceScoreBar: View {
         answers: VoiceScoring.Answers,
         assumedTeam: Team? = nil,
         locale: Locale = .current,
-        showsText: Bool = true,
+        showsText: Bool,
         onOutcome: @escaping (VoiceScoring.Outcome) -> Void,
-        onPrompt: @escaping (String?) -> Void = { _ in }
+        onPrompt: @escaping (VoiceBarState.Report) -> Void
     ) {
         self.context = context
         self.permissions = permissions
@@ -127,8 +153,8 @@ struct VoiceScoreBar: View {
     }
 
     /// What a compact host puts on its own row.
-    private var promptLine: String? {
-        VoiceBarState.line(for: prompt, transcript: capture.transcript)
+    private var report: VoiceBarState.Report {
+        VoiceBarState.Report(prompt: prompt, transcript: capture.transcript)
     }
 
     var body: some View {
@@ -143,15 +169,15 @@ struct VoiceScoreBar: View {
         .onChange(of: capture.isListening) { wasListening, isListening in
             if wasListening, !isListening { Task { await listeningEndedByItself() } }
         }
-        .onChange(of: promptLine) { _, line in onPrompt(line) }
+        .onChange(of: report) { _, report in onPrompt(report) }
         .onAppear {
             visit += 1
             isOnScreen = true
-            onPrompt(promptLine)
+            onPrompt(report)
         }
         .onDisappear {
             standDown()
-            onPrompt(nil)
+            onPrompt(.idleAway)
         }
         // A locked or backgrounded phone must not keep listening. Coming back does not restart it.
         .onChange(of: scenePhase) { _, phase in
@@ -277,6 +303,7 @@ private struct VoiceScoreBarContent: View {
     }
 
     private var title: String { VoiceBarState.title(for: prompt) }
+
 
     private var isTranscript: Bool { prompt == .listening && !transcript.isEmpty }
 

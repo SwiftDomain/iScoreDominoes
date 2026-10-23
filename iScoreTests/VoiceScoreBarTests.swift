@@ -39,6 +39,24 @@ struct VoiceScoreBarTests {
         #expect(VoiceBarState.isMicEnabled(availability: .ready, isThinking: true) == false)
     }
 
+    /// The idle mic is not a bare glyph: a host that draws the bar's text gets
+    /// words for it, and they are short enough not to crowd the row.
+    @Test func theIdleMicStillSaysWhatItIs() {
+        let idle = VoiceBarState.Report(prompt: .tapToTalk, transcript: "")
+        #expect(idle.line?.isEmpty == false)
+        #expect(idle.isLive == false)
+    }
+
+    /// A session under way must outrank a finished one, or the last answer
+    /// blanks the next "Listening…" for as long as its notice survives.
+    @Test func aSessionInFlightReportsItself() {
+        #expect(VoiceBarState.Report(prompt: .listening, transcript: "forty for us").isLive)
+        #expect(VoiceBarState.Report(prompt: .listening, transcript: "forty for us").line?.contains("forty for us") == true)
+        #expect(VoiceBarState.Report(prompt: .thinking, transcript: "").isLive)
+        #expect(VoiceBarState.Report(prompt: .blocked("Mic is off"), transcript: "").isLive == false)
+        #expect(VoiceBarState.Report.idleAway == VoiceBarState.Report(line: nil, isLive: false))
+    }
+
     /// The bar's fallback is the keypad, not typing a sentence.
     @Test func aBlockedMicPointsAtTheKeypad() {
         for availability in [SpeechAvailability.denied, .unsupported, .needsPermission] {

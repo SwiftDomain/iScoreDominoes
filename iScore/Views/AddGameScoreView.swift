@@ -28,7 +28,8 @@ struct AddGameScoreView: View {
 
     private var palette: TeamPalette { Theme.palette(for: team) }
 
-    /// An answer to something the user just said outranks the mic's own state.
+    /// An answer to something the user just said outranks the mic's idle state.
+    /// A live session outranks both — see `show(_:)`.
     private var voiceLine: String? { notice ?? micLine }
 
     /// "us"/"we" resolves through the owner the Settings screen stored.
@@ -70,7 +71,7 @@ struct AddGameScoreView: View {
                     assumedTeam: team,
                     showsText: false,
                     onOutcome: handle,
-                    onPrompt: { micLine = $0 }
+                    onPrompt: show
                 )
 
                 // One band, always the same height, holding either the mic's own line or
@@ -142,6 +143,14 @@ struct AddGameScoreView: View {
     }
 
     // MARK: - Actions
+
+    /// The mic's own line. Nothing here clears `notice` on a timer, so without
+    /// this a refusal would still be on screen through the whole next session,
+    /// hiding `Listening…`, the transcript, and why that session heard nothing.
+    private func show(_ report: VoiceBarState.Report) {
+        if report.isLive { notice = nil }
+        micLine = report.line
+    }
 
     private func handle(_ outcome: VoiceScoring.Outcome) {
         notice = nil

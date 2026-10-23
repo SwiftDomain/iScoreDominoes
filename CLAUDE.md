@@ -89,12 +89,17 @@ voice door are equals.
   `SpokenReply` speaks on `.ambient`, which the Ring/Silent switch silences.
   There is no silent-switch detection code and none should be added.
 - **The bar speaks `.said` and `.refused` itself**, so a host must not add a
-  second synthesizer; a host only shows the same line on screen. On the Game
-  screen the bar is the mic button alone (`showsText: false`) and reports its
-  line through `onPrompt`, because three flexible things in one row leave the
-  prompt about 48pt and it wraps a syllable per line; the host shows that line
-  full width, where even the longest reason stays readable at any text size.
-  In the Add Score sheet the bar has the full width and draws its own text.
+  second synthesizer; a host only shows the same line on screen. **Both hosts
+  pass `showsText: false`**: the bar is the mic button alone and reports a
+  `VoiceBarState.Report` through `onPrompt`, because three flexible things in
+  one row leave the prompt about 48pt and it wraps a syllable per line. The
+  Game screen prints that line full width above the row; the Add Score sheet
+  prints it in a fixed 48pt band below the mic, reserved so the keypad cannot
+  shift mid-entry. `showsText` and `onPrompt` have **no defaults** — the
+  draw-in-place layout has no call site today and needs a host wide enough for
+  prose, so a new host must choose it deliberately. A host shows a spoken
+  answer over the mic's idle state, and `Report.isLive` over both: a session
+  under way clears the last answer, so it can never blank `Listening…`.
 - `GameCommand` (spoken game setup) and `ScoreCommand` are deliberately separate
   parsers with separate stop words: "nine" is a game type in one and a round
   value in the other. Do not merge them.
