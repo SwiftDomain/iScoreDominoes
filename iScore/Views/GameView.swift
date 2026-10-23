@@ -25,6 +25,8 @@ struct GameView: View {
     @State private var pendingPoints: Int?
     /// The last spoken answer or refusal, shown on screen as well as spoken.
     @State private var voiceNotice: VoiceNotice?
+    /// What the mic has to say for itself, on the row's own full-width line.
+    @State private var micLine: String?
     @AppStorage(OwnerIdentity.nameKey) private var ownerName: String = ""
     let editScore = editScoreTip()
 
@@ -285,12 +287,19 @@ struct GameView: View {
                 .frame(height: 2)
 
             VStack(spacing: 8) {
-                // Review Focus 6: an answer is never suppressed, whatever the row below
-                // is showing. The banner replaces the buttons, not the spoken answer.
-                if let voiceNotice {
-                    Text(voiceNotice.text)
+                // One line, so a mic that cannot work and an answer the user just
+                // asked for never argue with each other. An answer outranks the
+                // mic's own state, and the banner below replaces the buttons,
+                // never this line: an answer is never suppressed.
+                if let line = voiceNotice?.text ?? micLine {
+                    Text(line)
                         .font(DuoFont.body)
                         .foregroundStyle(Theme.textSecondary)
+                        // This bar is a fixed inset, not a scroll: an unbounded line at an
+                        // accessibility size pushes the score off the screen. Three lines
+                        // that shrink hold every reason at ordinary sizes.
+                        .lineLimit(3)
+                        .minimumScaleFactor(0.7)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
@@ -309,17 +318,18 @@ struct GameView: View {
 
                             HStack(spacing: 10) {
                                 // The mic sits beside the keypad doors; neither replaces the
-                                // other. The bar's own text column is the only compressible
-                                // part of it, so it keeps a floor wide enough for "Listening…"
-                                // and the live transcript; the team buttons keep their full
-                                // size and style and give up label width first.
+                                // other. Three things cannot share one row and all stay
+                                // legible, so the mic comes as the button alone and says what
+                                // it has to say on the full-width line above, where even the
+                                // longest reason reads at any text size.
                                 VoiceScoreBar(
                                     context: voiceContext,
                                     permissions: voicePermissions,
                                     answers: game.voiceAnswers,
-                                    onOutcome: handle
+                                    showsText: false,
+                                    onOutcome: handle,
+                                    onPrompt: { micLine = $0 }
                                 )
-                                .frame(minWidth: 160, alignment: .leading)
                                 addButton(for: .team1)
                                     .disabled(!isPlaying)
                                 addButton(for: .team2)

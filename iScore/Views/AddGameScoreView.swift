@@ -14,6 +14,7 @@ import SwiftData
 struct AddGameScoreView: View {
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     let game: Game
     let team: Team
@@ -21,9 +22,14 @@ struct AddGameScoreView: View {
     @State private var entry = ScoreEntry()
     /// The last spoken answer or refusal, or the reason a command did nothing here.
     @State private var notice: String?
+    /// What the mic has to say for itself, shown in the same band as `notice`.
+    @State private var micLine: String?
     @AppStorage(OwnerIdentity.nameKey) private var ownerName: String = ""
 
     private var palette: TeamPalette { Theme.palette(for: team) }
+
+    /// An answer to something the user just said outranks the mic's own state.
+    private var voiceLine: String? { notice ?? micLine }
 
     /// "us"/"we" resolves through the owner the Settings screen stored.
     private var voiceContext: ScoreContext {
@@ -56,21 +62,31 @@ struct AddGameScoreView: View {
                     .accessibilityHidden(entry.value == nil)
 
                 // The team is known here, so a bare number is enough. The bar speaks its own
-                // answers; the notice line below only makes them readable.
+                // answers; this screen only makes them readable.
                 VoiceScoreBar(
                     context: voiceContext,
                     permissions: voicePermissions,
                     answers: game.voiceAnswers,
                     assumedTeam: team,
-                    onOutcome: handle
+                    showsText: false,
+                    onOutcome: handle,
+                    onPrompt: { micLine = $0 }
                 )
 
-                if let notice {
-                    Text(notice)
-                        .font(.subheadline.weight(.heavy))
-                        .foregroundStyle(Theme.textSecondary)
-                        .multilineTextAlignment(.center)
-                }
+                // One band, always the same height, holding either the mic's own line or
+                // this screen's answer. Reserved rather than conditional, so the keypad
+                // never slides out from under a thumb that is mid-entry, and bounded, so
+                // the longest reason cannot push the keys off a small phone.
+                Text(voiceLine ?? "")
+                    .font(.subheadline.weight(.heavy))
+                    .foregroundStyle(Theme.textSecondary)
+                    .multilineTextAlignment(.center)
+                    // Bounded at ordinary sizes so the keys stay in reach; unbounded at
+                    // accessibility sizes, where a truncated reason is worse than a scroll.
+                    .lineLimit(typeSize.isAccessibilitySize ? nil : 3)
+                    .minimumScaleFactor(0.75)
+                    .frame(maxWidth: .infinity, minHeight: 48, alignment: .top)
+                    .accessibilityHidden(voiceLine == nil)
 
                 ScoreKeypad(entry: $entry)
             }

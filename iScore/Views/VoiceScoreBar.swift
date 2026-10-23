@@ -36,6 +36,36 @@ enum VoiceBarState {
         guard !isThinking else { return false }
         return VoiceSetup.opening(for: availability) != .typeInstead
     }
+
+    /// The bar's headline for a prompt.
+    static func title(for prompt: Prompt) -> String {
+        switch prompt {
+        case .tapToTalk: String(localized: "Tap to talk")
+        case .listening: String(localized: "Listening…")
+        case .thinking: String(localized: "Working it out…")
+        case .blocked(let why): why
+        }
+    }
+
+    /// The second line under the headline, when there is one.
+    static func detail(for prompt: Prompt, transcript: String) -> String? {
+        switch prompt {
+        case .tapToTalk: String(localized: "“Forty for us”")
+        case .listening: transcript.isEmpty ? String(localized: "Say a score, undo, or ask who's winning") : transcript
+        case .thinking, .blocked: nil
+        }
+    }
+
+    /// Everything the bar has to say, as one line, for a host that shows it on
+    /// a full-width row of its own. The mic standing next to two team buttons
+    /// has no room for prose, and a reason the user cannot read is no reason at
+    /// all. `nil` when the bar is idle and the mic icon says it all.
+    static func line(for prompt: Prompt, transcript: String) -> String? {
+        guard prompt != .tapToTalk else { return nil }
+        let headline = title(for: prompt)
+        guard let detail = detail(for: prompt, transcript: transcript) else { return headline }
+        return "\(headline) \(detail)"
+    }
 }
 
 struct VoiceScoreBar: View {
@@ -45,7 +75,12 @@ struct VoiceScoreBar: View {
     let answers: VoiceScoring.Answers
     let assumedTeam: Team?
     let locale: Locale
+    /// False where the bar shares a row with the team buttons: the mic alone,
+    /// with the host showing `onPrompt`'s line on a full-width row of its own.
+    let showsText: Bool
     let onOutcome: (VoiceScoring.Outcome) -> Void
+    /// What the bar would say, for a host that shows it. `nil` when idle.
+    let onPrompt: (String?) -> Void
 
     @Environment(\.scenePhase) private var scenePhase
     @AppStorage(VoiceOutput.speechKey) private var speaksAnswers = true
@@ -65,14 +100,18 @@ struct VoiceScoreBar: View {
         answers: VoiceScoring.Answers,
         assumedTeam: Team? = nil,
         locale: Locale = .current,
-        onOutcome: @escaping (VoiceScoring.Outcome) -> Void
+        showsText: Bool = true,
+        onOutcome: @escaping (VoiceScoring.Outcome) -> Void,
+        onPrompt: @escaping (String?) -> Void = { _ in }
     ) {
         self.context = context
         self.permissions = permissions
         self.answers = answers
         self.assumedTeam = assumedTeam
         self.locale = locale
+        self.showsText = showsText
         self.onOutcome = onOutcome
+        self.onPrompt = onPrompt
         _holder = State(initialValue: CaptureHolder(locale: locale))
     }
 
@@ -87,22 +126,33 @@ struct VoiceScoreBar: View {
         )
     }
 
+    /// What a compact host puts on its own row.
+    private var promptLine: String? {
+        VoiceBarState.line(for: prompt, transcript: capture.transcript)
+    }
+
     var body: some View {
         VoiceScoreBarContent(
             prompt: prompt,
             transcript: capture.transcript,
             isListening: capture.isListening,
             isMicEnabled: VoiceBarState.isMicEnabled(availability: capture.availability, isThinking: isThinking),
+            showsText: showsText,
             onTap: { Task { await toggleListening() } }
         )
         .onChange(of: capture.isListening) { wasListening, isListening in
             if wasListening, !isListening { Task { await listeningEndedByItself() } }
         }
+        .onChange(of: promptLine) { _, line in onPrompt(line) }
         .onAppear {
             visit += 1
             isOnScreen = true
+            onPrompt(promptLine)
         }
-        .onDisappear { standDown() }
+        .onDisappear {
+            standDown()
+            onPrompt(nil)
+        }
         // A locked or backgrounded phone must not keep listening. Coming back does not restart it.
         .onChange(of: scenePhase) { _, phase in
             if phase != .active { standDown() }
@@ -198,47 +248,39 @@ private struct VoiceScoreBarContent: View {
     let transcript: String
     let isListening: Bool
     let isMicEnabled: Bool
+    var showsText = true
     let onTap: () -> Void
 
     var body: some View {
-        HStack(spacing: 16) {
-            micButton
+        if showsText {
+            HStack(spacing: 16) {
+                micButton
 
-            VStack(alignment: .leading, spacing: 2) {
-                Text(title)
-                    .font(DuoFont.title)
-                    .foregroundStyle(prompt == .listening ? Theme.learnShadow : Theme.textPrimary)
-                if let detail {
-                    Text(detail)
-                        .font(DuoFont.body)
-                        .foregroundStyle(isTranscript ? Theme.textPrimary : Theme.textSecondary)
-                        .lineLimit(2)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title)
+                        .font(DuoFont.title)
+                        .foregroundStyle(prompt == .listening ? Theme.learnShadow : Theme.textPrimary)
+                    if let detail {
+                        Text(detail)
+                            .font(DuoFont.body)
+                            .foregroundStyle(isTranscript ? Theme.textPrimary : Theme.textSecondary)
+                            .lineLimit(2)
+                    }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+        } else {
+            micButton
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
     }
 
-    private var title: String {
-        switch prompt {
-        case .tapToTalk: String(localized: "Tap to talk")
-        case .listening: String(localized: "Listening…")
-        case .thinking: String(localized: "Working it out…")
-        case .blocked(let why): why
-        }
-    }
+    private var title: String { VoiceBarState.title(for: prompt) }
 
     private var isTranscript: Bool { prompt == .listening && !transcript.isEmpty }
 
-    private var detail: String? {
-        switch prompt {
-        case .tapToTalk: String(localized: "“Forty for us”")
-        case .listening: transcript.isEmpty ? String(localized: "Say a score, undo, or ask who's winning") : transcript
-        case .thinking, .blocked: nil
-        }
-    }
+    private var detail: String? { VoiceBarState.detail(for: prompt, transcript: transcript) }
 
     private var micButton: some View {
         // Live is neither team's colour, so it can never be mistaken for a team button.
@@ -278,6 +320,7 @@ private final class CaptureHolder {
         VoiceScoreBarContent(prompt: .listening, transcript: "forty for Ana and Luis", isListening: true, isMicEnabled: true, onTap: {})
         VoiceScoreBarContent(prompt: .thinking, transcript: "", isListening: false, isMicEnabled: false, onTap: {})
         VoiceScoreBarContent(prompt: .blocked("Microphone access is off. Turn it on in Settings."), transcript: "", isListening: false, isMicEnabled: false, onTap: {})
+        VoiceScoreBarContent(prompt: .listening, transcript: "", isListening: true, isMicEnabled: true, showsText: false, onTap: {})
     }
     .background(Theme.background)
     .fontDesign(.rounded)

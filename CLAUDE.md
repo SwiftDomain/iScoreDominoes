@@ -57,6 +57,49 @@ values with Undo and Other. Created and maintained by
   the Undo row are clipped. Check a change on a real Lock Screen, not only in
   the expanded Dynamic Island.
 
+## Voice scoring
+
+A push-to-talk mic scores a round by voice: on the Game screen, and in the Add
+Score sheet where the team is already known. It is **push-to-talk only** — no
+always-listening, no wake phrase. A tap is the single thing that starts the
+recognizer; it ends on a second tap, when the recognizer ends itself, on
+`onDisappear`, or on any scene phase that is not `.active`. A locked or
+backgrounded phone never keeps the mic open, and coming back does not restart
+it. The keypad is never closed: when speech is denied or unsupported the mic
+stays **visible and disabled** with a one-line reason, so the touch door and the
+voice door are equals.
+
+- **The layers are pure, and only one of them has a mic.** `ScoreCommand`
+  (`iScore/Model/ScoreCommand.swift`) is the only place that reads words; it
+  turns a transcript into a command. `VoiceScoring`
+  (`iScore/Model/VoiceScoring.swift`) decides what that command does given
+  `Permissions`, and **never sees a `Game`** — anything it needs arrives as a
+  field on `Permissions` or `Answers`. `Game+Voice.swift` holds the spoken
+  answer copy and the `ScoreContext`. `VoiceScoreBar`
+  (`iScore/Views/VoiceScoreBar.swift`) is the only microphone in the app for
+  scoring; a third screen that wants voice **embeds the bar** rather than
+  growing its own recognizer.
+- **Team reference precedence**, in `ScoreCommand.team(in:locale:context:)`: an
+  explicit player name beats a team name or colour, which beats "us", which
+  beats "them". "Us"/"them" resolve through the owner's seat; when the owner is
+  not seated they fall back to team 1 / team 2 by seat order. A number with no
+  team is never guessed — it becomes `.askTeam`, and the two team buttons finish
+  the sentence by touch.
+- **Silent mode is honored by the audio session category, not by detection.**
+  `SpokenReply` speaks on `.ambient`, which the Ring/Silent switch silences.
+  There is no silent-switch detection code and none should be added.
+- **The bar speaks `.said` and `.refused` itself**, so a host must not add a
+  second synthesizer; a host only shows the same line on screen. On the Game
+  screen the bar is the mic button alone (`showsText: false`) and reports its
+  line through `onPrompt`, because three flexible things in one row leave the
+  prompt about 48pt and it wraps a syllable per line; the host shows that line
+  full width, where even the longest reason stays readable at any text size.
+  In the Add Score sheet the bar has the full width and draws its own text.
+- `GameCommand` (spoken game setup) and `ScoreCommand` are deliberately separate
+  parsers with separate stop words: "nine" is a game type in one and a round
+  value in the other. Do not merge them.
+- Every line the user can see **or hear** goes through `String(localized:)`.
+
 ## Known technical debt
 
 - Navigation mixes `NavigationLink(destination:)` (Home tiles, All Games, New Game) with `navigationDestination(for: Game.self)` (Home) — move to value-based links

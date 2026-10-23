@@ -25,7 +25,7 @@ struct VoiceScoringTests {
         #expect(outcome(.undo, fresh) == .refused(VoiceScoring.nothingToUndo))
     }
 
-    /// Review Focus 4: an extra undo is a refusal, never a phantom round.
+    /// An undo with nothing left to take back is a refusal, never a phantom round.
     @Test func undoOnAFinishedGameIsRefused() {
         #expect(outcome(.undo, over) == .refused(VoiceScoring.gameIsOver))
     }
@@ -43,7 +43,7 @@ struct VoiceScoringTests {
         #expect(outcome(.pointsToGo, over) == .said(answers.pointsToGo))
     }
 
-    /// Review Focus 1: no team, no guess.
+    /// No team in the sentence, no guess: the question goes back to the user.
     @Test func aBareNumberAsksWhichTeamWhenNoneIsImplied() {
         #expect(outcome(.askTeam(points: 25), playing) == .askTeam(points: 25))
     }
@@ -65,7 +65,7 @@ struct VoiceScoringTests {
         #expect(outcome(.cancelGame, playing) == .confirmCancel)
     }
 
-    /// Review Focus 1: an unparsed transcript is refused with a line, not swallowed.
+    /// An unparsed transcript is refused with a line the user can read, not swallowed.
     @Test func nothingUnderstoodIsRefusedWithAReason() {
         #expect(outcome(nil, playing) == .refused(VoiceScoring.notUnderstood))
         #expect(VoiceScoring.notUnderstood.isEmpty == false)
