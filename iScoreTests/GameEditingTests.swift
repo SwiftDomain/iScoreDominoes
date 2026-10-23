@@ -67,9 +67,9 @@ struct GameEditingTests {
     @Test func editProjection() {
         let game = makeTestGame(rows: demoGameRows)
         let round = roundThree(of: game)
-        #expect(game.editProjectionSummary(for: round, newPoints: 50) == "105 → 110 · 90 to win")
-        #expect(game.editProjectionSummary(for: round, newPoints: 140) == "105 → 200 · Wins the game!")
-        #expect(game.editProjectionSummary(for: round, newPoints: 5) == "105 → 65 · 135 to win")
+        #expect(String(localized: game.editProjectionSummary(for: round, newPoints: 50)) == "105 → 110 · 90 to win")
+        #expect(String(localized: game.editProjectionSummary(for: round, newPoints: 140)) == "105 → 200 · Wins the game!")
+        #expect(String(localized: game.editProjectionSummary(for: round, newPoints: 5)) == "105 → 65 · 135 to win")
     }
 
     @Test func roundEditCopy() {

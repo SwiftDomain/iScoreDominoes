@@ -73,7 +73,7 @@ struct PlayerLineupTests {
         #expect(PlayerLineup.seat(team: .team2, position: 0) == 2)
         #expect(PlayerLineup.seat(team: .team2, position: 1) == 3)
         #expect(PlayerSeat(team: .team2, position: 1).id == 3)
-        #expect(PlayerSeat(team: .team2, position: 1).title == "Team 2 · Player 2")
+        #expect(String(localized: PlayerSeat(team: .team2, position: 1).title) == "Team 2 · Player 2")
     }
 
     @Test func pickedNamesSkipTheSeatBeingEdited() {
