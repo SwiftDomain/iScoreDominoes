@@ -246,12 +246,44 @@ enum VoiceSetup {
         }
     }
 
+    /// Same reasons as `explanation`, worded for the Game screen, where the
+    /// fallback is the keypad rather than typing a sentence.
+    static func scoringExplanation(availability: SpeechAvailability, error: Error?) -> String? {
+        var reason = availability
+        if let error {
+            guard let failure = error as? SpeechCaptureError else {
+                var detail = error.localizedDescription.trimmingCharacters(in: .whitespacesAndNewlines)
+                while detail.hasSuffix(".") { detail.removeLast() }
+                return String(localized: "Listening stopped: \(detail). Use the keypad.")
+            }
+            if case .unavailable(let why) = failure { reason = why }
+        }
+        switch reason {
+        case .ready:
+            return nil
+        case .needsPermission:
+            return String(localized: "Allow the microphone and speech recognition to talk, or use the keypad instead.")
+        case .denied:
+            return String(localized: "Microphone or speech access is off. Turn it on in Settings, or use the keypad.")
+        case .unsupported:
+            return String(localized: "Speech recognition isn't available on this device. Use the keypad.")
+        }
+    }
+
     static var heardNothing: String {
         String(localized: "Didn't catch anything. Type the game instead.")
     }
 
     static var couldntStart: String {
         String(localized: "Couldn't start listening. Type the game instead.")
+    }
+
+    static var scoringHeardNothing: String {
+        String(localized: "Didn't catch anything. Try again, or use the keypad.")
+    }
+
+    static var scoringCouldntStart: String {
+        String(localized: "Couldn't start listening. Use the keypad instead.")
     }
 
     /// What to tell the user once a listening session is over, whoever ended it.
@@ -261,6 +293,13 @@ enum VoiceSetup {
         let hasWords = !heard.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         guard let lastError else { return hasWords ? nil : heardNothing }
         return explanation(availability: availability, error: lastError) ?? couldntStart
+    }
+
+    /// `notice`, worded for the Game screen, where the fallback is the keypad.
+    static func scoringNotice(heard: String, availability: SpeechAvailability, lastError: Error?) -> String? {
+        let hasWords = !heard.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        guard let lastError else { return hasWords ? nil : scoringHeardNothing }
+        return scoringExplanation(availability: availability, error: lastError) ?? scoringCouldntStart
     }
 
     /// Seated names that match no saved player (and are not the owner), in seat order.

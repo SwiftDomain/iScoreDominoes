@@ -23,6 +23,8 @@ struct SettingsView: View {
     @AppStorage(LockScreenScoring.requireUnlockKey, store: AppGroup.defaults)
     private var requireUnlockToScore = false
 
+    @AppStorage(VoiceOutput.speechKey) private var speaksAnswers = true
+
     @State private var playerToDelete: Player?
 
     private var isConfirmingDelete: Binding<Bool> {
@@ -97,6 +99,36 @@ struct SettingsView: View {
 
                     Text("Lock Screen buttons will open the app instead of scoring straight away.")
                         .font(.footnote.weight(.bold))
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
+                .duoCard()
+
+                Text(String(localized: "Voice"))
+                    .duoLabel()
+                    .padding(.top, 10)
+
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack(spacing: 10) {
+                        Image(systemName: "speaker.wave.2.fill")
+                            .font(.title3)
+                            .foregroundStyle(Theme.learn)
+                            .accessibilityHidden(true)
+
+                        Text(String(localized: "Speak answers"))
+                            .font(DuoFont.body)
+                            .foregroundStyle(Theme.textPrimary)
+
+                        Spacer(minLength: 8)
+
+                        Toggle(String(localized: "Speak answers"), isOn: $speaksAnswers)
+                            .labelsHidden()
+                            .tint(Theme.teamA)
+                    }
+
+                    Text(String(localized: "Answers are always shown on screen. Silent mode also silences them."))
+                        .font(DuoFont.body)
                         .foregroundStyle(Theme.textSecondary)
                 }
                 .padding(.horizontal, 14)

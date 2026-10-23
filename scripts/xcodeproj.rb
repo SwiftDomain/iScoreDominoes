@@ -181,6 +181,8 @@ def add_to_shared_scheme(tests)
   scheme.save!
 end
 
+SOURCE_EXTENSIONS = %w[.swift .m .mm .c .cc .cpp].freeze
+
 def add(target_name, paths)
   target = target_named(target_name)
   paths.each do |rel|
@@ -189,7 +191,28 @@ def add(target_name, paths)
     group = find_group(File.dirname(rel), create: true)
     name = File.basename(rel)
     ref = group.files.find { |f| f.path == name } || group.new_reference(name)
-    target.add_file_references([ref]) unless target.source_build_phase.files_references.include?(ref)
+    # Compiled code goes to Sources; everything else (a string catalog, a
+    # plist, an asset) is a resource. `add_file_references` cannot tell for a
+    # type Xcode infers from the extension, and a .xcstrings in Sources is
+    # silently never built into the app.
+    phase = SOURCE_EXTENSIONS.include?(File.extname(name)) ? target.source_build_phase : target.resources_build_phase
+    next if phase.files_references.include?(ref)
+
+    phase.add_file_reference(ref)
+  end
+  project.save
+end
+
+# `KEY=value` on every configuration of a target. Build settings are the right
+# home for anything with an INFOPLIST_KEY_ equivalent (see iScore/Info.plist),
+# and project.pbxproj is never hand-edited.
+def set_settings(target_name, assignments)
+  target = target_named(target_name)
+  assignments.each do |assignment|
+    key, value = assignment.split('=', 2)
+    abort("Expected KEY=value, got: #{assignment}") if value.nil?
+
+    target.build_configurations.each { |config| config.build_settings[key] = value }
   end
   project.save
 end
@@ -210,6 +233,7 @@ case ARGV.shift
 when 'setup-tests' then setup_tests
 when 'setup-widget' then setup_widget
 when 'add' then add(ARGV.shift, ARGV)
+when 'set' then set_settings(ARGV.shift, ARGV)
 when 'remove' then remove(ARGV)
-else abort('usage: xcodeproj.rb setup-tests | setup-widget | add <target> <path>... | remove <path>...')
+else abort('usage: xcodeproj.rb setup-tests | setup-widget | add <target> <path>... | set <target> KEY=value... | remove <path>...')
 end

@@ -174,8 +174,12 @@ struct GameCommandModelTests {
         let elapsed = await clock.measure {
             result = await GameCommandModel.enhance(Self.short, transcript: "nine, Ana and Carlos against Luis and Papo", timeout: .milliseconds(50)) {
                 // Ignores cancellation on purpose: the caller must not wait for it.
+                // 60s, against a 20s bound below, so the two outcomes are an order of
+                // magnitude apart: a working timeout returns in milliseconds (or a few
+                // seconds when a loaded runner starves its continuation), a broken one
+                // takes the full minute. A 5s-against-2s gap made this a coin flip.
                 await withCheckedContinuation { (c: CheckedContinuation<Void, Never>) in
-                    DispatchQueue.global().asyncAfter(deadline: .now() + 5) { c.resume() }
+                    DispatchQueue.global().asyncAfter(deadline: .now() + 60) { c.resume() }
                 }
                 var late = GameCommand()
                 late.team1 = ["Ana", "Carlos"]
@@ -183,7 +187,7 @@ struct GameCommandModelTests {
             }
         }
         #expect(result == Self.short)
-        #expect(elapsed < .seconds(2))
+        #expect(elapsed < .seconds(20))
     }
 
     @Test func aThrowingAskerReturnsTheDeterministicCommand() async {
