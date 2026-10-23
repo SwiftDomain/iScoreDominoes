@@ -24,7 +24,9 @@ enum Team: Identifiable {
 
     public var id: Team { self }
 
-    var description: String {
+    /// Shared with the widget target, which resolves it against its own
+    /// bundle — see Task 7 of the two-language-settings plan.
+    var description: LocalizedStringResource {
 
         switch self {
 

@@ -58,7 +58,7 @@ struct VoiceGameSheet: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            SheetHeader(title: phase == .review ? String(localized: "Check the game") : nil)
+            SheetHeader(title: phase == .review ? "Check the game" : nil)
                 .padding(.horizontal, 16)
 
             switch phase {

@@ -40,7 +40,7 @@ extension Game {
         return total(for: team) - round.points + points
     }
 
-    func editProjectionSummary(for round: Round, newPoints: Int) -> String {
+    func editProjectionSummary(for round: Round, newPoints: Int) -> LocalizedStringResource {
         projection(
             from: total(for: round.team),
             to: total(for: round.team, replacing: round, with: newPoints)
@@ -48,9 +48,11 @@ extension Game {
     }
 
     /// "105 → 140 · 60 to win" / "105 → 200 · Wins the game!"
-    func projection(from current: Int, to projected: Int) -> String {
+    func projection(from current: Int, to projected: Int) -> LocalizedStringResource {
         let target = Int(maxScore)
-        let outcome = projected >= target ? "Wins the game!" : "\(target - projected) to win"
+        let outcome = projected >= target
+            ? String(localized: "Wins the game!")
+            : String(localized: "\(target - projected) to win")
         return "\(current) → \(projected) · \(outcome)"
     }
 

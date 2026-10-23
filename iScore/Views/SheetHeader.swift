@@ -10,8 +10,8 @@ import SwiftUI
 
 struct SheetHeader: View {
 
-    var title: String?
-    var label: String?
+    var title: LocalizedStringResource?
+    var label: LocalizedStringResource?
 
     @Environment(\.dismiss) private var dismiss
 

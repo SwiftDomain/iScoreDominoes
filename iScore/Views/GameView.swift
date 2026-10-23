@@ -457,7 +457,7 @@ struct GameView: View {
 
         if game.rounds.count > roundCountBeforeSheet, let last = game.rounds.last {
             withAnimation(.spring) { feedback = last }
-            AccessibilityNotification.Announcement("Nice round! \(game.feedbackDetail(for: last))").post()
+            AccessibilityNotification.Announcement(String(localized: "Nice round! \(String(localized: game.feedbackDetail(for: last)))")).post()
         }
     }
 }

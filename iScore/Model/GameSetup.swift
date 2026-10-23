@@ -90,8 +90,9 @@ struct PlayerSeat: Identifiable {
     var id: Int { PlayerLineup.seat(team: team, position: position) }
 
     /// "Team 2 · Player 2"
-    var title: String {
-        "\(team.description) · Player \(position + 1)"
+    var title: LocalizedStringResource {
+        let team = String(localized: self.team.description)
+        return "\(team) · Player \(position + 1)"
     }
 }
 
