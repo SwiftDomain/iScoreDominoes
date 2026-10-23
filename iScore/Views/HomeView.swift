@@ -153,6 +153,11 @@ struct HomeView: View {
         }
     }
 
+    /// Creates the spoken game and goes straight to its scoreboard.
+    fileprivate func start(_ resolved: ResolvedGame) {
+        path.append(GameFactory.make(resolved, existing: players, in: context))
+    }
+
     /// The spec is "while a game is in progress", not "while that game is on
     /// screen", so Home starts the activity too — the app is often left here.
     private func drainLockScreenRounds() {
@@ -160,13 +165,6 @@ struct HomeView: View {
         let history = GameHistory.roundValues(in: allGames, type: game.gameType)
         ScoreActivityController.shared.drain(into: game, context: context, history: history)
         Task { await ScoreActivityController.shared.start(for: game, history: history) }
-    }
-}
-
-extension HomeView {
-    /// Creates the spoken game and goes straight to its scoreboard.
-    fileprivate func start(_ resolved: ResolvedGame) {
-        path.append(GameFactory.make(resolved, existing: players, in: context))
     }
 }
 
