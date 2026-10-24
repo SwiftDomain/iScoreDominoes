@@ -123,10 +123,9 @@ struct PlayerLineup: Equatable {
     }
 
     /// Why Start is disabled; nil when the lineup is complete.
-    var hint: String? {
+    var hint: LocalizedStringResource? {
         let missing = names.count - filled.count
-        if missing == 1 { return "Add 1 more player to start" }
-        if missing > 1 { return "Add \(missing) more players to start" }
+        if missing > 0 { return "Add \(missing) more players to start" }
         if hasDuplicates { return "Pick 4 different players" }
         return nil
     }

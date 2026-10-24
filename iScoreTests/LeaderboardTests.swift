@@ -1,3 +1,4 @@
+import Foundation
 import Testing
 @testable import iScore
 
@@ -13,11 +14,11 @@ struct LeaderboardTests {
     }
 
     @Test func copy() {
-        #expect(record("Ana", played: 12, won: 9).summary == "12 played · 75%")
-        #expect(record("Luis", played: 3, won: 2).summary == "3 played · 67%")
-        #expect(record("Carlos", played: 0, won: 0).summary == "No finished games yet")
-        #expect(record("Ana", played: 12, won: 9).winsLabel == "9 wins")
-        #expect(record("Eva", played: 7, won: 1).winsLabel == "1 win")
+        #expect(String(localized: record("Ana", played: 12, won: 9).summary) == "12 played · 75%")
+        #expect(String(localized: record("Luis", played: 3, won: 2).summary) == "3 played · 67%")
+        #expect(String(localized: record("Carlos", played: 0, won: 0).summary) == "No finished games yet")
+        #expect(String(localized: record("Ana", played: 12, won: 9).winsLabel) == "9 wins")
+        #expect(String(localized: record("Eva", played: 7, won: 1).winsLabel) == "1 win")
     }
 
     @Test func ranksByWinsThenWinRate() {
@@ -81,4 +82,12 @@ struct LeaderboardTests {
         #expect(split.podium.isEmpty)
         #expect(split.rest.isEmpty)
     }
+
+    /// Review Focus 2 — zero wins, and the Spanish plural.
+    @Test func winsLabelPluralizes() {
+        #expect(String(localized: record("Tito", played: 4, won: 0).winsLabel) == "0 wins")
+        #expect(localized(record("Eva", played: 7, won: 1).winsLabel, in: "es") == "1 victoria")
+        #expect(localized(record("Ana", played: 12, won: 9).winsLabel, in: "es") == "9 victorias")
+    }
+
 }
