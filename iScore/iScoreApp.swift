@@ -17,6 +17,9 @@ struct iScoreApp: App {
 
     /// Carries a Lock Screen "Other…" tap to the game's own screen.
     @State private var linkRouter = ScoreLinkRouter()
+    /// One per app, so sharing a game survives leaving its Game screen.
+    @State private var spectateHost = SpectateHostLink()
+    @Environment(\.scenePhase) private var scenePhase
 
     /// Tips remember being dismissed. Only Debug `-demoData` runs start with
     /// fresh tips, so simulator checks always see them.
@@ -58,6 +61,15 @@ struct iScoreApp: App {
                 // Duo theme is a fixed light palette with rounded type; keep
                 // system chrome (nav bars, sheets) light regardless of device mode.
                 .environment(linkRouter)
+                .environment(spectateHost)
+                // A locked scorekeeper's phone drops every guest, so it stays
+                // awake while sharing; advertising restarts on the way back.
+                .onChange(of: spectateHost.isSharing) { _, sharing in
+                    UIApplication.shared.isIdleTimerDisabled = sharing
+                }
+                .onChange(of: scenePhase) { _, phase in
+                    if phase == .active { spectateHost.resume() }
+                }
                 .preferredColorScheme(.light)
                 .fontDesign(.rounded)
                 .task {

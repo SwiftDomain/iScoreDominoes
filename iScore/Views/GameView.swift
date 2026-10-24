@@ -7,6 +7,7 @@ struct GameView: View {
     @Environment(\.modelContext) private var context
     @Environment(ScoreLinkRouter.self) private var linkRouter
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(SpectateHostLink.self) private var spectateHost
 
     @Query(sort: \Game.timestamp, order: .reverse) private var allGames: [Game]
 
@@ -21,6 +22,7 @@ struct GameView: View {
     @State private var feedback: Round?
     @State private var showEndConfirmation = false
     @State private var showCancelConfirmation = false
+    @State private var showShareSheet = false
     /// A heard number with no team: the two team buttons finish the sentence.
     @State private var pendingPoints: Int?
     /// The last spoken answer or refusal, shown on screen as well as spoken.
@@ -126,6 +128,15 @@ struct GameView: View {
                 .accessibilityLabel("How to play")
                 .disabled(!isPlaying)
 
+                Button {
+                    showShareSheet = true
+                } label: {
+                    Image(systemName: "person.2.wave.2")
+                        .foregroundStyle(spectateHost.isSharing ? Theme.teamA : Self.toolbarIconColor(isEnabled: isPlaying))
+                }
+                .accessibilityLabel("Share live score")
+                .disabled(!isPlaying && !spectateHost.isSharing)
+
                 Menu {
                     Button("End game", systemImage: "flag.checkered") {
                         showEndConfirmation = true
@@ -157,6 +168,10 @@ struct GameView: View {
         }
         .sheet(isPresented: $showInfoView) {
             CollectionView()
+        }
+        .sheet(isPresented: $showShareSheet) {
+            SpectateShareSheet(game: game)
+                .presentationDetents([.medium])
         }
         .alert("Undo Last Score", isPresented: $showUndoConfirmation) {
             Button("Undo", role: .destructive) {
@@ -195,6 +210,7 @@ struct GameView: View {
                 team = deepLinked
             }
             await ScoreActivityController.shared.start(for: game, history: roundHistory)
+            spectateHost.publish(game)
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { drainLockScreenRounds() }
@@ -203,8 +219,10 @@ struct GameView: View {
         // undoing, editing and deleting a round all land in `scoreTeam`.
         .onChange(of: game.scoreTeam) { _, _ in
             Task { await ScoreActivityController.shared.refresh(game, history: roundHistory) }
+            spectateHost.publish(game)
         }
         .onChange(of: game.state) { _, state in
+            spectateHost.publish(game)
             Task {
                 if state == .playing {
                     await ScoreActivityController.shared.start(for: game, history: roundHistory)

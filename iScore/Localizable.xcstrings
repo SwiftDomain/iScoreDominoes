@@ -2707,6 +2707,36 @@
           }
         }
       }
+    },
+    "Share live score": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compartir marcador en vivo"
+          }
+        }
+      }
+    },
+    "Read this code to the table": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lee este código a la mesa"
+          }
+        }
+      }
+    },
+    "Stop sharing": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dejar de compartir"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

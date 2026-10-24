@@ -28,6 +28,7 @@ struct HomeView: View {
     @Query(sort: \Game.timestamp, order: .reverse) private var allGames: [Game]
 
     @Environment(ScoreLinkRouter.self) private var linkRouter
+    @Environment(SpectateHostLink.self) private var spectateHost
     @Environment(\.scenePhase) private var scenePhase
 
     @State private var showHallOfFameView = false
@@ -165,6 +166,8 @@ struct HomeView: View {
         let history = GameHistory.roundValues(in: allGames, type: game.gameType)
         ScoreActivityController.shared.drain(into: game, context: context, history: history)
         Task { await ScoreActivityController.shared.start(for: game, history: history) }
+        // Rounds scored on the Lock Screen while sharing reach the watchers too.
+        spectateHost.publish(game)
     }
 }
 

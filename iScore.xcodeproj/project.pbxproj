@@ -116,6 +116,7 @@
 		B29F3AA289075CF31872655B /* ScoreCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45B378700CEC97F0143EBD3 /* ScoreCommand.swift */; };
 		B4C05496F9DC1091897F1DCF /* GameCommandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4401BD7FA32655B6A776B9CD /* GameCommandTests.swift */; };
 		B6BF35E8CCAE932892708CF1 /* PendingRoundsDrainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BBF386318514566DD6504A /* PendingRoundsDrainTests.swift */; };
+		B762BF431641E23088A49EF2 /* SpectateShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17823388ACDD40A152556B7 /* SpectateShareSheet.swift */; };
 		B80129D11302A9718DAAB48B /* GameVoiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C68623A0CC419B502D8F14D /* GameVoiceTests.swift */; };
 		BB432F14667710699CC35AC5 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1893D90D7BC4BDC04F6FEAFD /* AppGroup.swift */; };
 		BB64C9CDAE3E1528B732CCDD /* SpeechCaptureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39812E8E1476DD0B9FFF262 /* SpeechCaptureTests.swift */; };
@@ -305,6 +306,7 @@
 		C2194ABD75E7B8556D1BF6C7 /* VoiceGameSheet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VoiceGameSheet.swift; sourceTree = "<group>"; };
 		C21C133A6A0A5C263E4501B3 /* VoiceScoring.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VoiceScoring.swift; sourceTree = "<group>"; };
 		CC756DD4A6227855D22BFAFD /* SpokenReplyTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SpokenReplyTests.swift; sourceTree = "<group>"; };
+		D17823388ACDD40A152556B7 /* SpectateShareSheet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SpectateShareSheet.swift; sourceTree = "<group>"; };
 		D507428F2422328122F842DA /* SpokenNumber.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SpokenNumber.swift; sourceTree = "<group>"; };
 		D5E92F8AD2101C457B36DA2B /* GameSetup.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameSetup.swift; sourceTree = "<group>"; };
 		D9B9F264F5CF6F679B619DA6 /* GameScoreboardTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameScoreboardTests.swift; sourceTree = "<group>"; };
@@ -428,6 +430,7 @@
 				EDB5F280EBD00508FDA2F1BE /* TrophyBurst.swift */,
 				C2194ABD75E7B8556D1BF6C7 /* VoiceGameSheet.swift */,
 				87B7E33B83983CE426215BEF /* VoiceScoreBar.swift */,
+				D17823388ACDD40A152556B7 /* SpectateShareSheet.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -761,6 +764,7 @@
 				4E4F596384EEA4519A9A7D48 /* SpectateGuest.swift in Sources */,
 				512A05C96FD5E3049AEF39C6 /* SpectateHost.swift in Sources */,
 				CF0B24FD0541D0BB8E863CC7 /* SpectateLink.swift in Sources */,
+				B762BF431641E23088A49EF2 /* SpectateShareSheet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
