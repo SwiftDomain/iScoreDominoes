@@ -11,32 +11,37 @@ import Foundation
 extension Game {
 
     // MARK: - Answers
+    //
+    // Spoken answers are in the voice language, which can differ from the app
+    // language — so each takes the locale rather than using the process's.
 
     /// "Ana & Luis lead by 30, 105 to 75" / "All tied up at 60" / "Nobody has scored yet"
-    var winningAnswer: String {
-        if rounds.isEmpty { return String(localized: "Nobody has scored yet") }
+    func winningAnswer(in locale: Locale) -> String {
+        if rounds.isEmpty { return LocalizedStringResource("Nobody has scored yet").resolved(in: locale) }
         let high = max(totalScore1, totalScore2)
         let low = min(totalScore1, totalScore2)
-        if leader == .none { return String(localized: "All tied up at \(high)") }
+        if leader == .none { return LocalizedStringResource("All tied up at \(high)").resolved(in: locale) }
         let name = displayName(for: leader)
-        return String(localized: "\(name) lead by \(lead), \(high) to \(low)")
+        return LocalizedStringResource("\(name) lead by \(lead), \(high) to \(low)").resolved(in: locale)
     }
 
     /// "Ana & Luis need 95, Rafa & Mia need 155"; a team at the target has won.
-    var pointsToGoAnswer: String {
-        String(localized: "\(pointsToGoPhrase(for: .team1)), \(pointsToGoPhrase(for: .team2))")
+    func pointsToGoAnswer(in locale: Locale) -> String {
+        let first = pointsToGoPhrase(for: .team1, in: locale)
+        let second = pointsToGoPhrase(for: .team2, in: locale)
+        return LocalizedStringResource("\(first), \(second)").resolved(in: locale)
     }
 
-    private func pointsToGoPhrase(for team: Team) -> String {
+    private func pointsToGoPhrase(for team: Team, in locale: Locale) -> String {
         let name = displayName(for: team)
         let needed = pointsToWin(for: team)
-        if needed == 0 { return String(localized: "\(name) have won") }
-        return String(localized: "\(name) need \(needed)")
+        if needed == 0 { return LocalizedStringResource("\(name) have won").resolved(in: locale) }
+        return LocalizedStringResource("\(name) need \(needed)").resolved(in: locale)
     }
 
     /// Both spoken answers, for `VoiceScoring`, which never sees a `Game`.
-    var voiceAnswers: VoiceScoring.Answers {
-        VoiceScoring.Answers(winning: winningAnswer, pointsToGo: pointsToGoAnswer)
+    func voiceAnswers(in locale: Locale) -> VoiceScoring.Answers {
+        VoiceScoring.Answers(winning: winningAnswer(in: locale), pointsToGo: pointsToGoAnswer(in: locale))
     }
 
     // MARK: - Ending a game

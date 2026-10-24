@@ -136,23 +136,32 @@ extension Game {
 
     // MARK: - Copy
 
-    /// "Round 6 · First to 200" while playing; "5 rounds · First to 200" once over.
-    var statusLabel: String {
-        let target = "First to \(Int(maxScore))"
+    /// "3 rounds" — its own key so the catalog can vary it by plural. Spanish
+    /// does not split singular and plural where English does, so this must not
+    /// be built with `count == 1 ? … : …`.
+    var roundCountLabel: LocalizedStringResource {
+        "\(rounds.count) rounds"
+    }
+
+    /// "Round 6 · First to 200" while playing; "3 rounds · First to 200" once
+    /// over. The round count is resolved first and interpolated as data, so the
+    /// plural rule lives on its own key rather than on this composite one.
+    var statusLabel: LocalizedStringResource {
+        let target = Int(maxScore)
         guard state == .playing else {
-            let played = rounds.count == 1 ? "1 round" : "\(rounds.count) rounds"
-            return "\(played) · \(target)"
+            let played = String(localized: roundCountLabel)
+            return "\(played) · First to \(target)"
         }
-        return "Round \(currentRoundNumber) · \(target)"
+        return "Round \(currentRoundNumber) · First to \(target)"
     }
 
     /// VoiceOver name for a progress bar: "Ana & Luis progress", or
     /// "Game progress" for `.none` (the tied toolbar bar).
-    func progressLabel(for team: Team) -> String {
+    func progressLabel(for team: Team) -> LocalizedStringResource {
         team == .none ? "Game progress" : "\(displayName(for: team)) progress"
     }
 
-    var headline: String {
+    var headline: LocalizedStringResource {
         if state == .finished, winningTeam != .none {
             return "\(displayName(for: winningTeam)) won!"
         }
@@ -162,12 +171,12 @@ extension Game {
         return "\(displayName(for: leader)) lead by \(lead)"
     }
 
-    func projectionSummary(adding points: Int, to team: Team) -> String {
+    func projectionSummary(adding points: Int, to team: Team) -> LocalizedStringResource {
         let current = total(for: team)
         return projection(from: current, to: current + points)
     }
 
-    func feedbackDetail(for round: Round) -> String {
+    func feedbackDetail(for round: Round) -> LocalizedStringResource {
         "\(displayName(for: round.team)) +\(round.points) · \(pointsToWin(for: round.team)) to win"
     }
 }

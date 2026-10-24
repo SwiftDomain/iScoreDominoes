@@ -37,16 +37,17 @@ enum VoiceScoring {
     }
 
     /// `assumedTeam` is the team the host already knows (the Add Score sheet's team);
-    /// nil on `GameView`, where no team is implied.
+    /// nil on `GameView`, where no team is implied. `locale` is the voice language.
     static func outcome(for command: ScoreCommand?,
                         permissions: Permissions,
                         answers: Answers,
-                        assumedTeam: Team?) -> Outcome {
-        guard let command else { return .refused(notUnderstood) }
+                        assumedTeam: Team?,
+                        locale: Locale) -> Outcome {
+        guard let command else { return .refused(notUnderstood(in: locale)) }
 
         // Looking back at a score is not scoring, so questions ignore canScore.
         // Every other command is refused first when the game is over.
-        let gameOver: Outcome? = permissions.canScore ? nil : .refused(gameIsOver)
+        let gameOver: Outcome? = permissions.canScore ? nil : .refused(gameIsOver(in: locale))
 
         switch command {
         case .whoIsWinning:
@@ -62,7 +63,7 @@ enum VoiceScoring {
             }
             return .askTeam(points: points)
         case .undo:
-            return gameOver ?? (permissions.canUndo ? .undone : .refused(nothingToUndo))
+            return gameOver ?? (permissions.canUndo ? .undone : .refused(nothingToUndo(in: locale)))
         case .endGame:
             return gameOver ?? .confirmEnd
         case .cancelGame:
@@ -70,15 +71,17 @@ enum VoiceScoring {
         }
     }
 
-    static var notUnderstood: String {
-        String(localized: "Didn't catch that. Say a number and a team, or use the keypad.")
+    // Refusals are spoken, so they are in the voice language, not the app's.
+
+    static func notUnderstood(in locale: Locale) -> String {
+        LocalizedStringResource("Didn't catch that. Say a number and a team, or use the keypad.").resolved(in: locale)
     }
 
-    static var nothingToUndo: String {
-        String(localized: "There's nothing to undo yet.")
+    static func nothingToUndo(in locale: Locale) -> String {
+        LocalizedStringResource("There's nothing to undo yet.").resolved(in: locale)
     }
 
-    static var gameIsOver: String {
-        String(localized: "This game is over.")
+    static func gameIsOver(in locale: Locale) -> String {
+        LocalizedStringResource("This game is over.").resolved(in: locale)
     }
 }

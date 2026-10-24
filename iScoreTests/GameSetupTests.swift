@@ -5,8 +5,8 @@ import Testing
 struct GameTypeSetupTests {
 
     @Test func titles() {
-        #expect(GameType.six.title == "Double 6")
-        #expect(GameType.nine.title == "Double 9")
+        #expect(String(localized: GameType.six.title) == "Double 6")
+        #expect(String(localized: GameType.nine.title) == "Double 9")
     }
 
     @Test func targets() {
@@ -44,19 +44,19 @@ struct PlayerLineupTests {
     @Test func emptyLineup() {
         let empty = PlayerLineup()
         #expect(!empty.isComplete)
-        #expect(empty.hint == "Add 4 more players to start")
+        #expect(String(localized: empty.hint!) == "Add 4 more players to start")
     }
 
     @Test func oneSeatLeft() {
         let lineup = lineup(["Ana", "Luis", "Rafa", "  "])
         #expect(!lineup.isComplete)
-        #expect(lineup.hint == "Add 1 more player to start")
+        #expect(String(localized: lineup.hint!) == "Add 1 more player to start")
     }
 
     @Test func duplicatesAreCaseInsensitive() {
         let lineup = lineup(["Ana", "Luis", "Rafa", "ana "])
         #expect(!lineup.isComplete)
-        #expect(lineup.hint == "Pick 4 different players")
+        #expect(String(localized: lineup.hint!) == "Pick 4 different players")
     }
 
     @Test func completeLineup() {
@@ -73,7 +73,7 @@ struct PlayerLineupTests {
         #expect(PlayerLineup.seat(team: .team2, position: 0) == 2)
         #expect(PlayerLineup.seat(team: .team2, position: 1) == 3)
         #expect(PlayerSeat(team: .team2, position: 1).id == 3)
-        #expect(PlayerSeat(team: .team2, position: 1).title == "Team 2 · Player 2")
+        #expect(String(localized: PlayerSeat(team: .team2, position: 1).title) == "Team 2 · Player 2")
     }
 
     @Test func pickedNamesSkipTheSeatBeingEdited() {
@@ -204,4 +204,15 @@ struct OwnerIdentityTests {
         #expect(OwnerIdentity.resolve("Tito", known: ["Ana", "Luis"]) == nil)
         #expect(OwnerIdentity.resolve(nil, known: ["Ana"]) == nil)
     }
+
+    /// Review Focus 2 — the missing-seat count pluralizes through the catalog.
+    @Test func hintPluralizesInSpanish() {
+        var lineup = PlayerLineup()
+        lineup.names[0] = "Ana"
+        lineup.names[1] = "Carlos"
+        lineup.names[2] = "Luis"
+        #expect(localized(lineup.hint!, in: "es") == "Agrega 1 jugador más para empezar")
+        #expect(localized(PlayerLineup().hint!, in: "es") == "Agrega 4 jugadores más para empezar")
+    }
+
 }

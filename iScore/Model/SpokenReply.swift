@@ -68,8 +68,15 @@ final class SpokenReply {
         synthesizer.stopSpeaking(at: .immediate)
     }
 
+    /// Whether this language has an installed voice. When it does not, the
+    /// app still listens and still scores — it just does not speak back, and
+    /// Settings says so rather than going quiet mid-game with no explanation.
+    nonisolated static func canSpeak(_ locale: Locale) -> Bool {
+        voice(for: locale) != nil
+    }
+
     /// The voice for `locale`'s BCP-47 identifier, falling back to its bare language code.
-    static func voice(for locale: Locale) -> AVSpeechSynthesisVoice? {
+    nonisolated static func voice(for locale: Locale) -> AVSpeechSynthesisVoice? {
         if let voice = AVSpeechSynthesisVoice(language: locale.identifier(.bcp47)) {
             return voice
         }

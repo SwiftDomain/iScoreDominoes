@@ -19,6 +19,21 @@ env:
   XCODEBUILD_FLAGS: -project iScore.xcodeproj -scheme iScore CODE_SIGNING_ALLOWED=NO
 
 jobs:
+  lint:
+    name: Lint strings
+    runs-on: macos-26
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+
+      # Catches user-visible copy typed as String, which never reaches the
+      # String Catalog and so can never be translated. Not an Xcode build
+      # phase: those run under sandbox-exec, which a source linter cannot
+      # read the tree from, and turning that sandbox off project-wide to
+      # suit a lint is a worse trade than catching it here.
+      - name: Lint strings
+        run: ruby scripts/lint-strings.rb
+
   test:
     name: Unit tests
     runs-on: macos-26

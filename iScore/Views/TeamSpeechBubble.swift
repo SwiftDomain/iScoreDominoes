@@ -12,7 +12,7 @@ struct TeamSpeechBubble: View {
 
     let names: [String]
     let palette: TeamPalette
-    let text: String
+    let text: LocalizedStringResource
 
     var body: some View {
         HStack(alignment: .top, spacing: 10) {

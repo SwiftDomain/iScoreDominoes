@@ -318,7 +318,7 @@ struct GameView: View {
                         VoiceScoreBar(
                             context: voiceContext,
                             permissions: voicePermissions,
-                            answers: game.voiceAnswers,
+                            answers: game.voiceAnswers(in: LanguageSettings.voiceLocale()),
                             showsText: false,
                             onOutcome: handle,
                             onPrompt: show
@@ -457,7 +457,7 @@ struct GameView: View {
 
         if game.rounds.count > roundCountBeforeSheet, let last = game.rounds.last {
             withAnimation(.spring) { feedback = last }
-            AccessibilityNotification.Announcement("Nice round! \(game.feedbackDetail(for: last))").post()
+            AccessibilityNotification.Announcement(String(localized: "Nice round! \(String(localized: game.feedbackDetail(for: last)))")).post()
         }
     }
 }

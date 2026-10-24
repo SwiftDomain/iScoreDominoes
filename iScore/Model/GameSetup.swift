@@ -12,7 +12,7 @@ import SwiftData
 extension GameType {
 
     /// "Double 6" / "Double 9"
-    var title: String {
+    var title: LocalizedStringResource {
         "Double \(pips)"
     }
 
@@ -90,8 +90,9 @@ struct PlayerSeat: Identifiable {
     var id: Int { PlayerLineup.seat(team: team, position: position) }
 
     /// "Team 2 · Player 2"
-    var title: String {
-        "\(team.description) · Player \(position + 1)"
+    var title: LocalizedStringResource {
+        let team = String(localized: self.team.description)
+        return "\(team) · Player \(position + 1)"
     }
 }
 
@@ -122,10 +123,9 @@ struct PlayerLineup: Equatable {
     }
 
     /// Why Start is disabled; nil when the lineup is complete.
-    var hint: String? {
+    var hint: LocalizedStringResource? {
         let missing = names.count - filled.count
-        if missing == 1 { return "Add 1 more player to start" }
-        if missing > 1 { return "Add \(missing) more players to start" }
+        if missing > 0 { return "Add \(missing) more players to start" }
         if hasDuplicates { return "Pick 4 different players" }
         return nil
     }

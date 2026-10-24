@@ -17,7 +17,7 @@ struct DuoProgressBar: View {
     var track: Color = Theme.divider
     var height: CGFloat = 16
     /// VoiceOver name, e.g. "Ana & Luis progress".
-    var label: String = "Progress"
+    var label: LocalizedStringResource = "Progress"
 
     /// Clamps to 0…1; NaN and infinity (e.g. a 0-point target) read as 0.
     static func clamped(_ value: Double) -> Double {

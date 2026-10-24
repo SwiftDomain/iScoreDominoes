@@ -125,7 +125,7 @@ struct VoiceScoreBar: View {
         permissions: VoiceScoring.Permissions,
         answers: VoiceScoring.Answers,
         assumedTeam: Team? = nil,
-        locale: Locale = .current,
+        locale: Locale = LanguageSettings.voiceLocale(),
         showsText: Bool,
         onOutcome: @escaping (VoiceScoring.Outcome) -> Void,
         onPrompt: @escaping (VoiceBarState.Report) -> Void
@@ -256,7 +256,7 @@ struct VoiceScoreBar: View {
         guard !words.isEmpty else { return }
 
         let command = ScoreCommand.parse(words, locale: locale, context: context)
-        let outcome = VoiceScoring.outcome(for: command, permissions: permissions, answers: answers, assumedTeam: assumedTeam)
+        let outcome = VoiceScoring.outcome(for: command, permissions: permissions, answers: answers, assumedTeam: assumedTeam, locale: locale)
         onOutcome(outcome)
         switch outcome {
         case .said(let line), .refused(let line):

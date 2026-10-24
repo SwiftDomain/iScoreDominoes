@@ -20,9 +20,9 @@ struct DuoViewTests {
 
     @Test func roundRowNamesTheScoringTeam() {
         let round = Round(id: 5, number: 5, team: .team1, points: 35)
-        #expect(RoundRow.spokenLabel(for: round, teamName: "Ana & Luis") == "Round 5, Ana & Luis, 35 points")
+        #expect(String(localized: RoundRow.spokenLabel(for: round, teamName: "Ana & Luis")) == "Round 5, Ana & Luis, 35 points")
 
         let single = Round(id: 1, number: 1, team: .team2, points: 1)
-        #expect(RoundRow.spokenLabel(for: single, teamName: "Rafa & Mia") == "Round 1, Rafa & Mia, 1 point")
+        #expect(String(localized: RoundRow.spokenLabel(for: single, teamName: "Rafa & Mia")) == "Round 1, Rafa & Mia, 1 point")
     }
 }

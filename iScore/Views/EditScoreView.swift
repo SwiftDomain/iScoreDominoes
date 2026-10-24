@@ -101,7 +101,7 @@ struct EditScoreView: View {
                         Text("Removes +\(round.points) from \(game.displayName(for: round.team)).")
                     }
 
-                    Button(entry.title("Save"), action: save)
+                    Button(entry.title(.save), action: save)
                         .buttonStyle(.duo(palette))
                         .disabled(entry.value == nil)
                 }
