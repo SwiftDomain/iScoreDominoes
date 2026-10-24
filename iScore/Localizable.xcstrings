@@ -483,10 +483,40 @@
     },
     "%lld points": {
       "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld point"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld points"
+                }
+              }
+            }
+          }
+        },
         "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld puntos"
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld punto"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld puntos"
+                }
+              }
+            }
           }
         }
       }
@@ -2399,6 +2429,136 @@
           "stringUnit": {
             "state": "translated",
             "value": "%1$@ +%2$lld · %3$lld para ganar"
+          }
+        }
+      }
+    },
+    "Add %lld points": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Add %lld point"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Add %lld points"
+                }
+              }
+            }
+          }
+        },
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Agregar %lld punto"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Agregar %lld puntos"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Save %lld points": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Save %lld point"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Save %lld points"
+                }
+              }
+            }
+          }
+        },
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Guardar %lld punto"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Guardar %lld puntos"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Add points": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Agregar puntos"
+          }
+        }
+      }
+    },
+    "Save points": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar puntos"
+          }
+        }
+      }
+    },
+    "Round %lld, %@, %@": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ronda %lld, %@, %@"
+          }
+        }
+      }
+    },
+    "Round %1$lld, %2$@, %3$@": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ronda %1$lld, %2$@, %3$@"
+          }
+        }
+      }
+    },
+    "Search players": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar jugadores"
           }
         }
       }
