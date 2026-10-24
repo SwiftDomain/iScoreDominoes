@@ -526,7 +526,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 076444B52ACD1C0500E39F12 /* Build configuration list for PBXNativeTarget "iScore" */;
 			buildPhases = (
-				F9371DBE5EE2DA94ECC1B678 /* Lint strings */,
 				076444A12ACD1C0200E39F12 /* Sources */,
 				076444A22ACD1C0200E39F12 /* Frameworks */,
 				076444A32ACD1C0200E39F12 /* Resources */,
@@ -639,28 +638,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		F9371DBE5EE2DA94ECC1B678 /* Lint strings */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Lint strings";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "ruby \"$SRCROOT/scripts/lint-strings.rb\" --quiet\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		076444A12ACD1C0200E39F12 /* Sources */ = {
