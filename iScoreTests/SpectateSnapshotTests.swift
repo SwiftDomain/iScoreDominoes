@@ -34,6 +34,14 @@ struct SpectateSnapshotTests {
         #expect(SpectateSnapshot.decode(Data(count: SpectateSnapshot.maxBytes + 1)) == nil)
     }
 
+    /// Players named before the 15-character cap, and targets set before
+    /// today's ranges, are real games: they must still reach the guests.
+    @Test func legacyGamesStillGetThrough() throws {
+        let game = makeTestGame(maxScore: 250, team1: ["Bartholomew Rodriguez", "Luis"])
+        let snapshot = SpectateSnapshot(game: game)
+        #expect(SpectateSnapshot.decode(try snapshot.encoded()) == snapshot)
+    }
+
     @Test func anotherVersionIsIgnored() throws {
         var snapshot = SpectateSnapshot(game: makeTestGame())
         snapshot.version = 2
@@ -44,9 +52,9 @@ struct SpectateSnapshotTests {
         let base = SpectateSnapshot(game: makeTestGame())
         var a = base; a.scoreTeam = [[0, 0], [5]]
         var b = base; b.scoreTeam = [[0, 0], [-5, 0]]
-        var c = base; c.target = 990
+        var c = base; c.target = 50_000
         var d = base; d.team1 = ["Ana", "Luis", "Rafa"]
-        var e = base; e.team2 = [String(repeating: "x", count: 40)]
+        var e = base; e.team2 = [String(repeating: "x", count: 100)]
         var f = base; f.scoreTeam = []
         var g = base; g.scoreTeam = [[0, 0], [SpectateSnapshot.maxRoundPoints + 1, 0]]
         for bad in [a, b, c, d, e, f, g] {

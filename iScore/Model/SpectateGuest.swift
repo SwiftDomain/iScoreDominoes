@@ -62,11 +62,12 @@ enum SpectateSave {
     /// host's account, or from an earlier tap.
     static func isAlreadySaved(_ snapshot: SpectateSnapshot, in games: [Game]) -> Bool {
         games.contains { game in
-            game.gameType == snapshot.gameType
-                && Int(game.maxScore) == snapshot.target
-                && game.scoreTeam == snapshot.scoreTeam
-                && sameNames(game.team1, snapshot.team1)
-                && sameNames(game.team2, snapshot.team2)
+            game.id == snapshot.gameID
+                || (game.gameType == snapshot.gameType
+                    && Int(game.maxScore) == snapshot.target
+                    && game.scoreTeam == snapshot.scoreTeam
+                    && sameNames(game.team1, snapshot.team1)
+                    && sameNames(game.team2, snapshot.team2))
         }
     }
 
@@ -92,5 +93,16 @@ enum SpectateSave {
 
     private static func sameNames(_ lhs: [String], _ rhs: [String]) -> Bool {
         lhs.count == rhs.count && zip(lhs, rhs).allSatisfy { PlayerName.isSame($0, $1) }
+    }
+}
+
+/// A guest who shares the host's iCloud account can end up with the saved game
+/// twice — its own save and the host's copy syncing in. Both carry the host's
+/// id, so the later copies are the extras; the earliest stays.
+enum GameDedupe {
+
+    static func extras(in games: [Game]) -> [Game] {
+        var seen = Set<UUID>()
+        return games.sorted { $0.timestamp < $1.timestamp }.filter { !seen.insert($0.id).inserted }
     }
 }

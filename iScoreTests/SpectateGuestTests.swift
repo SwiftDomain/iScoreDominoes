@@ -126,6 +126,28 @@ struct SpectateGuestTests {
         #expect(try context.fetch(FetchDescriptor<Game>()).count == 1)
     }
 
+    /// The saved game keeps the host's id, so a copy that arrives later
+    /// through iCloud is recognisably the same game.
+    @MainActor @Test func aSavedGameKeepsTheHostsID() throws {
+        let context = try makeContext()
+        let saved = SpectateSave.save(snapshot(finished), existing: [], in: context)
+        #expect(saved?.id == finished.id)
+        let sameGameDifferentNames = makeTestGame(rows: [[0, 0]], team1: ["X"], state: .finished)
+        #expect(!SpectateSave.isAlreadySaved(snapshot(finished), in: [sameGameDifferentNames]))
+        #expect(SpectateSave.isAlreadySaved(snapshot(finished), in: [saved!]))
+    }
+
+    /// Two rows with one id can only be the same game twice; the earliest stays.
+    @Test func duplicatesByIDAreFound() {
+        let first = makeTestGame(state: .finished, timestamp: .now.addingTimeInterval(-60))
+        let copy = SpectateSnapshot(game: first).makeDetachedGame()
+        copy.timestamp = .now
+        let other = makeTestGame(state: .finished)
+        let extras = GameDedupe.extras(in: [copy, other, first])
+        #expect(extras.count == 1)
+        #expect(extras.first === copy)
+    }
+
     @Test func aDifferentScoreIsADifferentGame() {
         let other = makeTestGame(rows: [[0, 0], [10, 0]], state: .finished)
         #expect(!SpectateSave.isAlreadySaved(snapshot(finished), in: [other]))

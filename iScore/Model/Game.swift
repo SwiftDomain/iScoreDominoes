@@ -24,6 +24,13 @@ class Game: Identifiable {
      
     private(set) var id = UUID()
     
+    /// A game that keeps an id from elsewhere — a spectated game saved by a
+    /// guest — so the same game arriving again is recognisably the same.
+    convenience init(gameType: GameType, maxScore: Double, id: UUID) {
+        self.init(gameType: gameType, maxScore: maxScore)
+        self.id = id
+    }
+
     init(gameType: GameType, maxScore: Double) {
 
         self.gameType = gameType

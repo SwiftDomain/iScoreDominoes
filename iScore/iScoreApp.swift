@@ -64,8 +64,8 @@ struct iScoreApp: App {
                 .environment(spectateHost)
                 // A locked scorekeeper's phone drops every guest, so it stays
                 // awake while sharing; advertising restarts on the way back.
-                .onChange(of: spectateHost.isSharing) { _, sharing in
-                    UIApplication.shared.isIdleTimerDisabled = sharing
+                .onChange(of: spectateHost.keepsAwake) { _, awake in
+                    UIApplication.shared.isIdleTimerDisabled = awake
                 }
                 .onChange(of: scenePhase) { _, phase in
                     if phase == .active { spectateHost.resume() }

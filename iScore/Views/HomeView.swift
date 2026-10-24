@@ -141,7 +141,10 @@ struct HomeView: View {
         .voiceGameSheet(isPresented: $isSpeaking, players: players, onConfirm: start)
         // Rounds may have been scored on the Lock Screen while the app sat
         // on Home; the app is the only writer, so it drains them here too.
-        .task { drainLockScreenRounds() }
+        .task {
+            drainLockScreenRounds()
+            removeDuplicateGames()
+        }
         .onOpenURL { url in
             if case let .openAddScore(gameID, team) = ScoreLinkHandler.handle(url, context: context),
                let game = allGames.first(where: { $0.id == gameID }) {
@@ -157,6 +160,14 @@ struct HomeView: View {
     /// Creates the spoken game and goes straight to its scoreboard.
     fileprivate func start(_ resolved: ResolvedGame) {
         path.append(GameFactory.make(resolved, existing: players, in: context))
+    }
+
+    /// A watched game saved on a phone that shares the scorekeeper's iCloud
+    /// account arrives twice once iCloud syncs; both copies carry one id.
+    private func removeDuplicateGames() {
+        for extra in GameDedupe.extras(in: allGames) {
+            context.deleteGameKeepingPlayers(extra)
+        }
     }
 
     /// The spec is "while a game is in progress", not "while that game is on

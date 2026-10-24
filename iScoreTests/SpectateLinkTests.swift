@@ -35,6 +35,17 @@ struct SpectateLinkTests {
         }
     }
 
+    /// MCPeerID raises past 63 UTF-8 bytes; an emoji or legacy name must
+    /// never crash the app.
+    @Test func thePeerNameAlwaysFitsMultipeer() {
+        let long = String(repeating: "👨‍👩‍👧‍👦", count: 15)
+        let fitted = SpectateService.fitted(long)
+        #expect(fitted.utf8.count <= 63)
+        #expect(!fitted.isEmpty)
+        #expect(SpectateService.fitted("Ana") == "Ana")
+        #expect(SpectateService.fitted("") == "iScore")
+    }
+
     @MainActor @Test func aHostThatNeverStartedSendsNothing() {
         let link = SpectateHostLink()
         link.publish(makeTestGame())

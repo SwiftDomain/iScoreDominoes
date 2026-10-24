@@ -29,27 +29,64 @@ struct SpectateHostTests {
 
     // MARK: - What gets sent (Review Focus 5)
 
+    private func shared(_ game: Game) -> SpectatePolicy.SharedGame { .init(game) }
+
     @Test func theSharedGameIsPublishedWhilePlayingAndWhenItEnds() {
         let game = makeTestGame()
-        #expect(SpectatePolicy.shouldPublish(game, sharedGameID: game.id))
+        let current = shared(game)
+        #expect(SpectatePolicy.shouldPublish(game, shared: current))
         game.state = .finished
-        #expect(SpectatePolicy.shouldPublish(game, sharedGameID: game.id))
+        #expect(SpectatePolicy.shouldPublish(game, shared: current))
     }
 
-    @Test func aNewGameIsPublishedAndAnOldOneNeverIs() {
-        let shared = makeTestGame()
-        let next = makeTestGame()
-        let old = makeTestGame(rows: demoGameRows, state: .finished)
-        #expect(SpectatePolicy.shouldPublish(next, sharedGameID: shared.id))
-        #expect(!SpectatePolicy.shouldPublish(old, sharedGameID: shared.id))
+    @Test func nothingSharedYetTakesAPlayingGameOnly() {
+        #expect(SpectatePolicy.shouldPublish(makeTestGame(), shared: nil))
+        #expect(!SpectatePolicy.shouldPublish(makeTestGame(rows: demoGameRows, state: .finished), shared: nil))
     }
 
-    @Test func theSharedGameFollowsOnlyWhatIsPublished() {
-        let shared = makeTestGame()
-        let next = makeTestGame()
+    /// Opening a finished game from history while sharing must not take over
+    /// the broadcast — not even by opening the share sheet from it.
+    @Test func anOldFinishedGameIsNeverPublished() {
+        let current = shared(makeTestGame())
         let old = makeTestGame(rows: demoGameRows, state: .finished)
-        #expect(SpectatePolicy.sharedGameID(afterPublishing: old, current: shared.id) == shared.id)
-        #expect(SpectatePolicy.sharedGameID(afterPublishing: next, current: shared.id) == next.id)
+        #expect(!SpectatePolicy.shouldPublish(old, shared: current))
+        #expect(SpectatePolicy.shared(afterPublishing: old, current: current) == current)
+    }
+
+    /// An unfinished game abandoned weeks ago is still `.playing`; opening it
+    /// must not steal the broadcast from tonight's game.
+    @Test func anOlderPlayingGameDoesNotTakeOverAPlayingSharedGame() {
+        let tonight = makeTestGame(timestamp: .now)
+        let abandoned = makeTestGame(timestamp: .now.addingTimeInterval(-86_400 * 30))
+        #expect(!SpectatePolicy.shouldPublish(abandoned, shared: shared(tonight)))
+    }
+
+    /// The next game of the night is newer, so guests follow it.
+    @Test func theNextGameTakesOver() {
+        let first = makeTestGame(timestamp: .now.addingTimeInterval(-3_600))
+        let next = makeTestGame(timestamp: .now)
+        #expect(SpectatePolicy.shouldPublish(next, shared: shared(first)))
+        first.state = .finished
+        #expect(SpectatePolicy.shared(afterPublishing: next, current: shared(first))?.id == next.id)
+    }
+
+    // MARK: - Staying awake (finding 6)
+
+    @Test func theHostStaysAwakeOnlyWhileTheSharedGameIsPlaying() {
+        let game = makeTestGame()
+        #expect(SpectatePolicy.keepsHostAwake(shared(game)))
+        game.state = .finished
+        #expect(!SpectatePolicy.keepsHostAwake(shared(game)))
+        #expect(!SpectatePolicy.keepsHostAwake(nil))
+    }
+
+    // MARK: - Inviting (finding 2)
+
+    @Test func aGuestInvitesOnlyWhenIdleAndTheCodeMatches() {
+        let info = SpectatePolicy.discoveryInfo(for: code)
+        #expect(SpectatePolicy.shouldInvite(discoveryInfo: info, code: code, busy: false))
+        #expect(!SpectatePolicy.shouldInvite(discoveryInfo: info, code: code, busy: true))
+        #expect(!SpectatePolicy.shouldInvite(discoveryInfo: info, code: JoinCode(typed: "ABCD")!, busy: false))
     }
 
     // MARK: - Copy

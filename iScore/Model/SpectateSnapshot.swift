@@ -16,6 +16,10 @@ struct SpectateSnapshot: Codable, Equatable {
     static let maxBytes = 64 * 1024
     static let maxRounds = 500
     static let maxRoundPoints = 1000
+    /// Sanity bounds, not today's input rules: players named before the
+    /// 15-character cap and targets set before today's ranges are real games.
+    static let maxNameLength = 64
+    static let targetBounds = 1...1000
 
     var version: Int
     var gameID: UUID
@@ -56,20 +60,20 @@ struct SpectateSnapshot: Codable, Equatable {
 
     var isPlausible: Bool {
         let namesFit = [team1, team2].allSatisfy { names in
-            names.count <= 2 && names.allSatisfy { $0.count <= PlayerName.maxLength }
+            names.count <= 2 && names.allSatisfy { $0.count <= Self.maxNameLength }
         }
         let roundsFit = !scoreTeam.isEmpty
             && scoreTeam.count <= Self.maxRounds + 1
             && scoreTeam.allSatisfy { row in
                 row.count == 2 && row.allSatisfy { (0...Self.maxRoundPoints).contains($0) }
             }
-        return gameType.targetRange.contains(target) && namesFit && roundsFit
+        return Self.targetBounds.contains(target) && namesFit && roundsFit
     }
 
     /// A Game for the guest's screen that is never inserted into a context:
     /// the scoreboard reads it like any other game, and the store never sees it.
     func makeDetachedGame() -> Game {
-        let game = Game(gameType: gameType, maxScore: Double(target))
+        let game = Game(gameType: gameType, maxScore: Double(target), id: gameID)
         game.team1 = team1
         game.team2 = team2
         game.scoreTeam = scoreTeam

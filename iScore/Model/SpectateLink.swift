@@ -19,9 +19,19 @@ enum SpectateService {
 
     /// What other phones see this one as: the owner's name, or the app's.
     static func displayName(from defaults: UserDefaults = .standard) -> String {
-        let name = (defaults.string(forKey: OwnerIdentity.nameKey) ?? "")
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        return name.isEmpty ? "iScore" : name
+        fitted((defaults.string(forKey: OwnerIdentity.nameKey) ?? "")
+            .trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+
+    /// `MCPeerID` raises on a name over 63 UTF-8 bytes. Cut on a character
+    /// boundary, so an emoji name or one from before the length cap is safe.
+    static func fitted(_ name: String, maxBytes: Int = 63) -> String {
+        var result = ""
+        for character in name {
+            guard result.utf8.count + String(character).utf8.count <= maxBytes else { break }
+            result.append(character)
+        }
+        return result.isEmpty ? "iScore" : result
     }
 }
 
@@ -34,22 +44,28 @@ final class SpectateHostLink: NSObject {
 
     private(set) var code: JoinCode?
     private(set) var watching = 0
-    private(set) var sharedGameID: UUID?
+    private(set) var shared: SpectatePolicy.SharedGame?
 
     var isSharing: Bool { code != nil }
+    var sharedGameID: UUID? { shared?.id }
+    var keepsAwake: Bool { isSharing && SpectatePolicy.keepsHostAwake(shared) }
 
-    @ObservationIgnored private let peer: MCPeerID
+    @ObservationIgnored private let displayName: String
+    /// Made on first use, not at launch: the app owns a host link from start.
+    @ObservationIgnored private lazy var peer = MCPeerID(displayName: displayName)
     @ObservationIgnored private var session: MCSession?
     @ObservationIgnored private var advertiser: MCNearbyServiceAdvertiser?
     /// The latest snapshot, for a guest who connects after it was sent.
     @ObservationIgnored private var lastSnapshot: Data?
 
     init(displayName: String = SpectateService.displayName()) {
-        peer = MCPeerID(displayName: displayName)
+        self.displayName = displayName
         super.init()
     }
 
-    /// Picks a code the first time, starts advertising, and sends the game.
+    /// Picks a code the first time, starts advertising, and sends the game if
+    /// the policy lets it out. Opening the share sheet from an old game while
+    /// sharing only shows the code; it never re-targets the broadcast.
     func start(sharing game: Game) {
         if code == nil {
             let code = JoinCode.random()
@@ -66,14 +82,13 @@ final class SpectateHostLink: NSObject {
             self.session = session
             self.advertiser = advertiser
         }
-        sharedGameID = game.id
         publish(game)
     }
 
     /// Sends `game` to everyone watching, when the policy says it should go out.
     func publish(_ game: Game) {
-        guard isSharing, SpectatePolicy.shouldPublish(game, sharedGameID: sharedGameID) else { return }
-        sharedGameID = SpectatePolicy.sharedGameID(afterPublishing: game, current: sharedGameID)
+        guard isSharing, SpectatePolicy.shouldPublish(game, shared: shared) else { return }
+        shared = SpectatePolicy.SharedGame(game)
         guard let data = try? SpectateSnapshot(game: game).encoded() else { return }
         lastSnapshot = data
         send(data, to: session?.connectedPeers ?? [])
@@ -94,7 +109,7 @@ final class SpectateHostLink: NSObject {
         session = nil
         lastSnapshot = nil
         code = nil
-        sharedGameID = nil
+        shared = nil
         watching = 0
     }
 
@@ -151,19 +166,28 @@ final class SpectateGuestLink: NSObject {
 
     private(set) var phase: SpectateGuest.Phase = .searching
 
-    @ObservationIgnored private let peer: MCPeerID
+    @ObservationIgnored private let displayName: String
+    @ObservationIgnored private lazy var peer = MCPeerID(displayName: displayName)
     @ObservationIgnored private var code: JoinCode?
     @ObservationIgnored private var session: MCSession?
     @ObservationIgnored private var browser: MCNearbyServiceBrowser?
+    /// One invitation in flight at a time.
+    @ObservationIgnored private var isInviting = false
 
     init(displayName: String = SpectateService.displayName()) {
-        peer = MCPeerID(displayName: displayName)
+        self.displayName = displayName
         super.init()
     }
 
     func join(_ code: JoinCode) {
-        stopLooking()
         self.code = code
+        startLooking()
+    }
+
+    /// A fresh session and a fresh browse. Restarting the browse is what makes
+    /// Multipeer report the host again after a drop or a failed invitation.
+    private func startLooking() {
+        stopLooking()
         let session = MCSession(peer: peer, securityIdentity: nil, encryptionPreference: .required)
         session.delegate = self
         let browser = MCNearbyServiceBrowser(peer: peer, serviceType: SpectateService.type)
@@ -175,6 +199,7 @@ final class SpectateGuestLink: NSObject {
 
     /// Stops looking. The last score stays, marked lost rather than live.
     func leave() {
+        code = nil
         stopLooking()
         phase = SpectateGuest.reduce(phase, .disconnected)
     }
@@ -184,24 +209,56 @@ final class SpectateGuestLink: NSObject {
         session?.disconnect()
         browser = nil
         session = nil
+        isInviting = false
     }
 
-    fileprivate func found(_ peerID: MCPeerID, info: [String: String]?) {
-        guard let code, let session, let browser,
-              session.connectedPeers.isEmpty,
-              SpectatePolicy.matches(discoveryInfo: info, code: code) else { return }
+    /// Callbacks from a session or browser already replaced are ignored, so a
+    /// late drop from an old session never marks a live guest lost.
+    private func isCurrent(_ id: ObjectIdentifier, _ object: AnyObject?) -> Bool {
+        object.map { ObjectIdentifier($0) == id } ?? false
+    }
+
+    fileprivate func found(_ peerID: MCPeerID, info: [String: String]?, browserID: ObjectIdentifier) {
+        guard isCurrent(browserID, browser), let code, let session, let browser,
+              SpectatePolicy.shouldInvite(discoveryInfo: info, code: code,
+                                          busy: isInviting || !session.connectedPeers.isEmpty) else { return }
+        isInviting = true
         browser.invitePeer(peerID, to: session, withContext: SpectatePolicy.invitationContext(for: code), timeout: 10)
     }
 
-    fileprivate func handle(_ event: SpectateGuest.Event) {
-        phase = SpectateGuest.reduce(phase, event)
+    fileprivate func session(_ sessionID: ObjectIdentifier, changedTo state: MCSessionState) {
+        guard isCurrent(sessionID, session) else { return }
+        switch state {
+        case .connected:
+            isInviting = false
+        case .notConnected:
+            // A drop, or an invitation that failed or timed out. Look again
+            // after a beat; `leave()` clears the code, which cancels this.
+            isInviting = false
+            phase = SpectateGuest.reduce(phase, .disconnected)
+            Task { @MainActor [weak self] in
+                try? await Task.sleep(for: .seconds(1))
+                guard let self, self.code != nil, self.isCurrent(sessionID, self.session) else { return }
+                self.startLooking()
+            }
+        case .connecting:
+            break
+        @unknown default:
+            break
+        }
+    }
+
+    fileprivate func received(_ data: Data, sessionID: ObjectIdentifier) {
+        guard isCurrent(sessionID, session) else { return }
+        phase = SpectateGuest.reduce(phase, .received(data))
     }
 }
 
 extension SpectateGuestLink: MCNearbyServiceBrowserDelegate {
 
     nonisolated func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String: String]?) {
-        Task { @MainActor in self.found(peerID, info: info) }
+        let browserID = ObjectIdentifier(browser)
+        Task { @MainActor in self.found(peerID, info: info, browserID: browserID) }
     }
 
     nonisolated func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {}
@@ -210,12 +267,13 @@ extension SpectateGuestLink: MCNearbyServiceBrowserDelegate {
 extension SpectateGuestLink: MCSessionDelegate {
 
     nonisolated func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-        guard state == .notConnected else { return }
-        Task { @MainActor in self.handle(.disconnected) }
+        let sessionID = ObjectIdentifier(session)
+        Task { @MainActor in self.session(sessionID, changedTo: state) }
     }
 
     nonisolated func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        Task { @MainActor in self.handle(.received(data)) }
+        let sessionID = ObjectIdentifier(session)
+        Task { @MainActor in self.received(data, sessionID: sessionID) }
     }
 
     nonisolated func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {}
