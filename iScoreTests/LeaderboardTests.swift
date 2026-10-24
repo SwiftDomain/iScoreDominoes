@@ -90,4 +90,12 @@ struct LeaderboardTests {
         #expect(localized(record("Ana", played: 12, won: 9).winsLabel, in: "es") == "9 victorias")
     }
 
+    /// "1 jugadas" showed on every player with one game and every game after round 1.
+    @Test func playedCountPluralizesInSpanish() {
+        #expect(localized(record("Eva", played: 1, won: 1).summary, in: "es") == "1 jugada · 100%")
+        #expect(localized(record("Ana", played: 4, won: 1).summary, in: "es") == "4 jugadas · 25%")
+        #expect(localized("\(1) played", in: "es") == "1 jugada")
+        #expect(localized("\(3) played", in: "es") == "3 jugadas")
+    }
+
 }

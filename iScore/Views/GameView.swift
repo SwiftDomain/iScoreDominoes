@@ -318,7 +318,7 @@ struct GameView: View {
                         VoiceScoreBar(
                             context: voiceContext,
                             permissions: voicePermissions,
-                            answers: game.voiceAnswers,
+                            answers: game.voiceAnswers(in: LanguageSettings.voiceLocale()),
                             showsText: false,
                             onOutcome: handle,
                             onPrompt: show

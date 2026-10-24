@@ -25,8 +25,6 @@ enum WidgetLanguage {
     /// Resolves a resource in the app's chosen language rather than the
     /// widget process's own.
     static func text(_ resource: LocalizedStringResource) -> String {
-        var resource = resource
-        resource.locale = locale
-        return String(localized: resource)
+        resource.resolved(in: locale)
     }
 }

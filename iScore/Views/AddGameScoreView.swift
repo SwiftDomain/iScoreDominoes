@@ -67,7 +67,7 @@ struct AddGameScoreView: View {
                 VoiceScoreBar(
                     context: voiceContext,
                     permissions: voicePermissions,
-                    answers: game.voiceAnswers,
+                    answers: game.voiceAnswers(in: LanguageSettings.voiceLocale()),
                     assumedTeam: team,
                     showsText: false,
                     onOutcome: handle,
@@ -178,7 +178,7 @@ struct AddGameScoreView: View {
         case let .said(text), let .refused(text):
             notice = text
         case .askTeam:
-            notice = VoiceScoring.notUnderstood
+            notice = VoiceScoring.notUnderstood(in: LanguageSettings.voiceLocale())
         }
     }
 

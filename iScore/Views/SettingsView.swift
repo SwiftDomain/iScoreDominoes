@@ -214,13 +214,14 @@ struct SettingsView: View {
             isPresented: Binding(get: { pendingLanguage != nil }, set: { if !$0 { pendingLanguage = nil } }),
             presenting: pendingLanguage
         ) { language in
-            Button("Restart now") {
+            Button("Close iScore") {
                 LanguageRelaunch.apply(language, to: .standard)
+                LanguageRelaunch.saveBeforeClosing(context)
                 exit(0)
             }
             Button("Cancel", role: .cancel) { pendingLanguage = nil }
         } message: { language in
-            Text("iScore shows \(language.endonym) after it restarts. Your games are saved.")
+            Text("iScore will close. Open it again to see \(language.endonym). Your games are saved.")
         }
         .alert("Delete Player", isPresented: isConfirmingDelete, presenting: playerToDelete) { player in
             Button("Delete", role: .destructive) {

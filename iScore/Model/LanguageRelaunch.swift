@@ -12,6 +12,7 @@
 //
 
 import Foundation
+import SwiftData
 
 enum LanguageRelaunch {
 
@@ -30,5 +31,12 @@ enum LanguageRelaunch {
         // The widget is a separate process and cannot see the override or the
         // app's own defaults, so the choice goes into the shared container too.
         AppGroup.defaults.set(language.rawValue, forKey: LanguageSettings.appKey)
+    }
+
+    /// Quitting skips SwiftData's autosave, so anything still pending — a round
+    /// scored seconds ago — is written before the app closes.
+    @MainActor
+    static func saveBeforeClosing(_ context: ModelContext) {
+        try? context.save()
     }
 }

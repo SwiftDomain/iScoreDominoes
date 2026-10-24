@@ -54,4 +54,36 @@ struct LanguageSettingsTests {
         defaults.set("klingon", forKey: LanguageSettings.appKey)
         #expect(LanguageSettings.app(from: defaults) == .english)
     }
+
+    /// Review Focus 5: the Lock Screen's leader line comes from the widget
+    /// target, whose literals must reach the catalog like the app's do.
+    @Test func theLockScreenLeaderLineIsTranslated() {
+        #expect(localized("Round \(4) · \(80) to win", in: "es") == "Ronda 4 · 80 para ganar")
+        #expect(localized("Round \(4)", in: "es") == "Ronda 4")
+    }
+
+    /// Shipping two localizations gives the app a Language row in iOS
+    /// Settings, which changes what is shown without telling the picker.
+    @Test func theShownLanguageComesFromTheBundlesChoice() {
+        #expect(AppLanguage.shown(preferredLocalizations: ["es"]) == .spanish)
+        #expect(AppLanguage.shown(preferredLocalizations: ["en"]) == .english)
+        #expect(AppLanguage.shown(preferredLocalizations: ["Base"]) == .english)
+        #expect(AppLanguage.shown(preferredLocalizations: []) == .english)
+    }
+
+    /// At launch the language on screen wins, in the app's store and in the
+    /// widget's, so the picker and the Lock Screen agree with what is shown.
+    @Test func launchAdoptsTheLanguageActuallyShown() {
+        let app = emptyDefaults("LanguageSettingsTests.adoptApp")
+        let group = emptyDefaults("LanguageSettingsTests.adoptGroup")
+        defer {
+            app.removePersistentDomain(forName: "LanguageSettingsTests.adoptApp")
+            group.removePersistentDomain(forName: "LanguageSettingsTests.adoptGroup")
+        }
+        app.set("es", forKey: LanguageSettings.appKey)
+        group.set("es", forKey: LanguageSettings.appKey)
+        LanguageSettings.adopt(.english, app: app, group: group)
+        #expect(LanguageSettings.app(from: app) == .english)
+        #expect(group.string(forKey: LanguageSettings.appKey) == "en")
+    }
 }

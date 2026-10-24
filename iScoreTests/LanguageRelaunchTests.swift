@@ -1,4 +1,5 @@
 import Foundation
+import SwiftData
 import Testing
 @testable import iScore
 
@@ -34,5 +35,19 @@ struct LanguageRelaunchTests {
         LanguageRelaunch.apply(.english, to: defaults)
         #expect(defaults.stringArray(forKey: LanguageRelaunch.overrideKey)?.first == "en")
         #expect(LanguageSettings.app(from: defaults) == .english)
+    }
+
+    /// Changing language quits the app, which skips SwiftData's autosave. It
+    /// saves first, so a round scored seconds earlier survives.
+    @MainActor @Test func closingSavesWhatIsPending() throws {
+        let container = try ModelContainer(
+            for: Game.self, Player.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        let context = container.mainContext
+        context.insert(makeTestGame())
+        #expect(context.hasChanges)
+        LanguageRelaunch.saveBeforeClosing(context)
+        #expect(!context.hasChanges)
     }
 }
