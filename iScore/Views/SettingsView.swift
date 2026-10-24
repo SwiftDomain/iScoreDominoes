@@ -19,6 +19,34 @@ struct SettingsView: View {
 
     @AppStorage(OwnerIdentity.nameKey) private var ownerName = ""
 
+    @AppStorage(LanguageSettings.appKey) private var appLanguage = AppLanguage.matching(.current).rawValue
+    @AppStorage(LanguageSettings.voiceKey) private var voiceLanguage = ""
+
+    @State private var pendingLanguage: AppLanguage?
+
+    /// Changing this needs a relaunch, so it is staged rather than applied.
+    private var appLanguageSelection: Binding<AppLanguage> {
+        Binding(
+            get: { AppLanguage(rawValue: appLanguage) ?? .matching(.current) },
+            set: { new in
+                guard LanguageRelaunch.needsRelaunch(
+                    changing: AppLanguage(rawValue: appLanguage) ?? .matching(.current),
+                    to: new
+                ) else { return }
+                pendingLanguage = new
+            }
+        )
+    }
+
+    /// Takes effect immediately: it is only an identifier the recognizer and
+    /// the synthesizer are built from.
+    private var voiceLanguageSelection: Binding<AppLanguage> {
+        Binding(
+            get: { AppLanguage(rawValue: voiceLanguage) ?? AppLanguage(rawValue: appLanguage) ?? .matching(.current) },
+            set: { voiceLanguage = $0.rawValue }
+        )
+    }
+
     // In the App Group suite so the widget reads the same value.
     @AppStorage(LockScreenScoring.requireUnlockKey, store: AppGroup.defaults)
     private var requireUnlockToScore = false
@@ -135,6 +163,30 @@ struct SettingsView: View {
                 .padding(.vertical, 12)
                 .duoCard()
 
+                Text("Language")
+                    .duoLabel()
+                    .padding(.top, 10)
+
+                VStack(spacing: 0) {
+                    LanguageRow(
+                        icon: "character.bubble.fill",
+                        tint: Theme.learn,
+                        title: "App language",
+                        selection: appLanguageSelection
+                    )
+
+                    Rectangle().fill(Theme.divider).frame(height: 2)
+
+                    LanguageRow(
+                        icon: "waveform",
+                        tint: Theme.teamB,
+                        title: "Voice language",
+                        selection: voiceLanguageSelection
+                    )
+                }
+                .padding(.horizontal, 14)
+                .duoCard()
+
                 Text("About")
                     .duoLabel()
                     .padding(.top, 10)
@@ -157,6 +209,19 @@ struct SettingsView: View {
         .background(Background())
         // `isPresented:presenting:` rather than `item:` — the `item:` overload
         // only exists in the newest SDK and breaks the Xcode 26 CI build.
+        .alert(
+            "Restart to change language?",
+            isPresented: Binding(get: { pendingLanguage != nil }, set: { if !$0 { pendingLanguage = nil } }),
+            presenting: pendingLanguage
+        ) { language in
+            Button("Restart now") {
+                LanguageRelaunch.apply(language, to: .standard)
+                exit(0)
+            }
+            Button("Cancel", role: .cancel) { pendingLanguage = nil }
+        } message: { language in
+            Text("iScore shows \(language.endonym) after it restarts. Your games are saved.")
+        }
         .alert("Delete Player", isPresented: isConfirmingDelete, presenting: playerToDelete) { player in
             Button("Delete", role: .destructive) {
                 context.delete(player)
@@ -300,5 +365,40 @@ private struct AboutRow: View {
             .fontDesign(.rounded)
     } catch {
         return Text("Failed to create preview: \(error.localizedDescription)")
+    }
+}
+
+/// A language picker row, shaped like the rows beside it.
+private struct LanguageRow: View {
+
+    let icon: String
+    let tint: Color
+    let title: LocalizedStringResource
+    @Binding var selection: AppLanguage
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: icon)
+                .font(.title3)
+                .foregroundStyle(tint)
+                .accessibilityHidden(true)
+
+            Text(title)
+                .font(DuoFont.body)
+                .foregroundStyle(Theme.textPrimary)
+
+            Spacer(minLength: 8)
+
+            Picker(title, selection: $selection) {
+                ForEach(AppLanguage.allCases) { language in
+                    Text(language.endonym).tag(language)
+                }
+            }
+            .pickerStyle(.menu)
+            .font(DuoFont.body)
+            .tint(Theme.accentInk)
+            .accessibilityLabel(title)
+        }
+        .padding(.vertical, 6)
     }
 }
