@@ -341,7 +341,7 @@ struct VoiceGameSheet: View {
     private func apply(_ sentence: String) async {
         let resolved = await VoiceSetup.resolve(
             sentence,
-            locale: .current,
+            locale: LanguageSettings.voiceLocale(),
             defaults: defaults,
             known: known,
             owner: owner
@@ -373,7 +373,7 @@ struct VoiceGameSheet: View {
 /// Creates the `SpeechCapture` (recognizer and audio engine) on first use only.
 @MainActor
 private final class CaptureHolder {
-    lazy var capture = SpeechCapture(locale: .current)
+    lazy var capture = SpeechCapture(locale: LanguageSettings.voiceLocale())
 }
 
 extension View {

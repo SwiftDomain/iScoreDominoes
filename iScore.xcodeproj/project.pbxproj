@@ -62,6 +62,7 @@
 		46C492CA39B0A5C451479E6D /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1893D90D7BC4BDC04F6FEAFD /* AppGroup.swift */; };
 		4A5003E2D785BB6421065FBE /* PendingRoundsDrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E6EA2B4011B7D06E75612E /* PendingRoundsDrain.swift */; };
 		4A9DAFC01283AF2E5FB0262D /* RoundRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3020CC18CB8573F482765060 /* RoundRow.swift */; };
+		4C0E52E93A46320E27A5AB79 /* SpokenReplyVoiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1CEF3B3F7EA0547D611973 /* SpokenReplyVoiceTests.swift */; };
 		4C1638DB954162756BBD7798 /* PlayerNameSafetyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB1D2610A09A920B6DBFCE /* PlayerNameSafetyTests.swift */; };
 		4E7796E4027A4478080A8646 /* GameHistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49DC78038BB80E589CE0049 /* GameHistoryTests.swift */; };
 		5008BD3FE2D460E81F475FEC /* ScoreboardLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC48E7300A448AEE1CA2FD57 /* ScoreboardLiveActivity.swift */; };
@@ -273,6 +274,7 @@
 		BA992B48F8B69BC45F8F8C23 /* GameListCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameListCard.swift; sourceTree = "<group>"; };
 		BE1A7ED083B22B6CD594BBB3 /* ScoreLinkHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreLinkHandler.swift; sourceTree = "<group>"; };
 		BF0ED431DA6E0C820BA31F47 /* PlayStreak.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlayStreak.swift; sourceTree = "<group>"; };
+		BF1CEF3B3F7EA0547D611973 /* SpokenReplyVoiceTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SpokenReplyVoiceTests.swift; sourceTree = "<group>"; };
 		C1DDA834CC1165B9D9524986 /* GameHistory.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameHistory.swift; sourceTree = "<group>"; };
 		C2194ABD75E7B8556D1BF6C7 /* VoiceGameSheet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VoiceGameSheet.swift; sourceTree = "<group>"; };
 		C21C133A6A0A5C263E4501B3 /* VoiceScoring.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VoiceScoring.swift; sourceTree = "<group>"; };
@@ -506,6 +508,7 @@
 				FAE4F94C20E901DAA9A06BC8 /* LanguageSettingsTests.swift */,
 				78DB1D2610A09A920B6DBFCE /* PlayerNameSafetyTests.swift */,
 				4E291C1E09F95084DCC74A05 /* LanguageRelaunchTests.swift */,
+				BF1CEF3B3F7EA0547D611973 /* SpokenReplyVoiceTests.swift */,
 			);
 			path = iScoreTests;
 			sourceTree = "<group>";
@@ -754,6 +757,7 @@
 				18FCBEDB9699BF9E3588A3BF /* LanguageSettingsTests.swift in Sources */,
 				4C1638DB954162756BBD7798 /* PlayerNameSafetyTests.swift in Sources */,
 				A24EE3C2EAD441317103449C /* LanguageRelaunchTests.swift in Sources */,
+				4C0E52E93A46320E27A5AB79 /* SpokenReplyVoiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

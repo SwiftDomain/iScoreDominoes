@@ -125,7 +125,7 @@ struct VoiceScoreBar: View {
         permissions: VoiceScoring.Permissions,
         answers: VoiceScoring.Answers,
         assumedTeam: Team? = nil,
-        locale: Locale = .current,
+        locale: Locale = LanguageSettings.voiceLocale(),
         showsText: Bool,
         onOutcome: @escaping (VoiceScoring.Outcome) -> Void,
         onPrompt: @escaping (VoiceBarState.Report) -> Void
