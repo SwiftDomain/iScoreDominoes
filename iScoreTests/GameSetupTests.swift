@@ -5,8 +5,8 @@ import Testing
 struct GameTypeSetupTests {
 
     @Test func titles() {
-        #expect(GameType.six.title == "Double 6")
-        #expect(GameType.nine.title == "Double 9")
+        #expect(String(localized: GameType.six.title) == "Double 6")
+        #expect(String(localized: GameType.nine.title) == "Double 9")
     }
 
     @Test func targets() {

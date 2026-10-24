@@ -75,20 +75,21 @@ extension Game {
     }
 
     /// "Double 9 · First to 200"
-    var setupSummary: String {
-        "\(gameType.title) · First to \(Int(maxScore))"
+    var setupSummary: LocalizedStringResource {
+        let type = String(localized: gameType.title)
+        return "\(type) · First to \(Int(maxScore))"
     }
 }
 
 extension Round {
 
     /// Edit Score speech bubble.
-    var editPrompt: String {
+    var editPrompt: LocalizedStringResource {
         "Fixing round \(number)? What should it be?"
     }
 
     /// Edit Score label above the number well.
-    var editLabel: String {
+    var editLabel: LocalizedStringResource {
         "Round \(number) · was +\(points)"
     }
 }

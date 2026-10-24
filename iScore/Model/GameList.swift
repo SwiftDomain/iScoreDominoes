@@ -12,7 +12,7 @@ enum GameFilter: CaseIterable, Identifiable {
 
     var id: Self { self }
 
-    var title: String {
+    var title: LocalizedStringResource {
         switch self {
         case .all: "All"
         case .playing: "Playing"

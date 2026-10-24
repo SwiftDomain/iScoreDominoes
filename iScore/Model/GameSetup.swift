@@ -12,7 +12,7 @@ import SwiftData
 extension GameType {
 
     /// "Double 6" / "Double 9"
-    var title: String {
+    var title: LocalizedStringResource {
         "Double \(pips)"
     }
 

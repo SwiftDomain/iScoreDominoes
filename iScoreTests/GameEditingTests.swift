@@ -74,8 +74,8 @@ struct GameEditingTests {
 
     @Test func roundEditCopy() {
         let round = Round(id: 3, number: 3, team: .team1, points: 45)
-        #expect(round.editPrompt == "Fixing round 3? What should it be?")
-        #expect(round.editLabel == "Round 3 · was +45")
+        #expect(String(localized: round.editPrompt) == "Fixing round 3? What should it be?")
+        #expect(String(localized: round.editLabel) == "Round 3 · was +45")
     }
 
     @Test func outcomes() {
@@ -92,7 +92,7 @@ struct GameEditingTests {
     }
 
     @Test func setupSummary() {
-        #expect(makeTestGame(.nine, maxScore: 200).setupSummary == "Double 9 · First to 200")
-        #expect(makeTestGame(.six, maxScore: 20).setupSummary == "Double 6 · First to 20")
+        #expect(String(localized: makeTestGame(.nine, maxScore: 200).setupSummary) == "Double 9 · First to 200")
+        #expect(String(localized: makeTestGame(.six, maxScore: 20).setupSummary) == "Double 6 · First to 20")
     }
 }
