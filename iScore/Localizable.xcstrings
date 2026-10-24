@@ -41,6 +41,12 @@
             "state": "new",
             "value": "%1$@ · %2$lld in progress"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld en curso"
+          }
         }
       }
     },
@@ -50,6 +56,12 @@
           "stringUnit": {
             "state": "new",
             "value": "%1$@ · First to %2$lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · Primero a %2$lld"
           }
         }
       }
@@ -71,6 +83,12 @@
             "state": "new",
             "value": "%1$@ · Player %2$lld"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · Jugador %2$lld"
+          }
         }
       }
     },
@@ -90,6 +108,12 @@
           "stringUnit": {
             "state": "new",
             "value": "%1$@ +%2$lld · %3$lld to win"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ +%2$lld · %3$lld para ganar"
           }
         }
       }
@@ -111,6 +135,12 @@
             "state": "new",
             "value": "%1$@ lead by %2$lld"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ van ganando por %2$lld"
+          }
         }
       }
     },
@@ -121,6 +151,12 @@
             "state": "new",
             "value": "%1$@ lead by %2$lld, %3$lld to %4$lld"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ van ganando por %2$lld, %3$lld a %4$lld"
+          }
         }
       }
     },
@@ -130,6 +166,12 @@
           "stringUnit": {
             "state": "new",
             "value": "%1$@ need %2$lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A %1$@ le faltan %2$lld"
           }
         }
       }
@@ -151,6 +193,12 @@
             "state": "new",
             "value": "%1$@ vs %2$@"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ vs %2$@"
+          }
         }
       }
     },
@@ -160,6 +208,12 @@
           "stringUnit": {
             "state": "new",
             "value": "%1$@ vs %2$@ will be removed. Players stay in your list."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se eliminará %1$@ vs %2$@. Los jugadores quedan en tu lista."
           }
         }
       }
@@ -214,6 +268,116 @@
         }
       }
     },
+    "%1$@ · %2$lld in progress": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld en curso"
+          }
+        }
+      }
+    },
+    "%1$@ · First to %2$lld": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · Primero a %2$lld"
+          }
+        }
+      }
+    },
+    "%1$@ · Player %2$lld": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · Jugador %2$lld"
+          }
+        }
+      }
+    },
+    "%1$@ lead by %2$lld": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ van ganando por %2$lld"
+          }
+        }
+      }
+    },
+    "%1$@ lead by %2$lld, %3$lld to %4$lld": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ van ganando por %2$lld, %3$lld a %4$lld"
+          }
+        }
+      }
+    },
+    "%1$@ need %2$lld": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A %1$@ le faltan %2$lld"
+          }
+        }
+      }
+    },
+    "%1$@ vs %2$@": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ vs %2$@"
+          }
+        }
+      }
+    },
+    "%1$@ vs %2$@ will be removed. Players stay in your list.": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se eliminará %1$@ vs %2$@. Los jugadores quedan en tu lista."
+          }
+        }
+      }
+    },
+    "%1$lld → %2$lld · %3$@": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld → %2$lld · %3$@"
+          }
+        }
+      }
+    },
+    "%1$lld played · %2$lld%%": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld jugadas · %2$lld%%"
+          }
+        }
+      }
+    },
     "%lld": {},
     "%lld – %lld": {
       "localizations": {
@@ -240,6 +404,12 @@
         "en": {
           "stringUnit": {
             "state": "new",
+            "value": "%1$lld → %2$lld · %3$@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
             "value": "%1$lld → %2$lld · %3$@"
           }
         }
@@ -301,6 +471,12 @@
           "stringUnit": {
             "state": "new",
             "value": "%1$lld played · %2$lld%%"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld jugadas · %2$lld%%"
           }
         }
       }
@@ -747,6 +923,16 @@
         }
       }
     },
+    "Day streak": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Días seguidos"
+          }
+        }
+      }
+    },
     "Delete": {
       "localizations": {
         "es": {
@@ -919,6 +1105,16 @@
         }
       }
     },
+    "Final": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Final"
+          }
+        }
+      }
+    },
     "Finish a game to get on the board.": {
       "localizations": {
         "es": {
@@ -1049,12 +1245,49 @@
         }
       }
     },
+    "Games": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partidas"
+          }
+        }
+      }
+    },
+    "Games finished": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partidas terminadas"
+          }
+        }
+      }
+    },
+    "Give %1$lld to %2$@": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dale %1$lld a %2$@"
+          }
+        }
+      }
+    },
     "Give %lld to %@": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "new",
             "value": "Give %1$lld to %2$@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dale %1$lld a %2$@"
           }
         }
       }
@@ -1075,6 +1308,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cómo se juega"
+          }
+        }
+      }
+    },
+    "iCloud sync": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sincronización con iCloud"
+          }
+        }
+      }
+    },
+    "In progress": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En curso"
           }
         }
       }
@@ -1125,6 +1378,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Va ganando"
+          }
+        }
+      }
+    },
+    "Learn the rules": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aprende las reglas"
           }
         }
       }
@@ -1349,6 +1612,17 @@
         }
       }
     },
+    "Other…": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otro…"
+          }
+        }
+      }
+    },
     "Pick 4 different players": {
       "localizations": {
         "es": {
@@ -1419,12 +1693,29 @@
         }
       }
     },
+    "Rank %1$lld: %2$@, %3$@, %4$@": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puesto %1$lld: %2$@, %3$@, %4$@"
+          }
+        }
+      }
+    },
     "Rank %lld: %@, %@, %@": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "new",
             "value": "Rank %1$lld: %2$@, %3$@, %4$@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puesto %1$lld: %2$@, %3$@, %4$@"
           }
         }
       }
@@ -1449,12 +1740,29 @@
         }
       }
     },
+    "Removes +%1$lld from %2$@.": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le quita +%1$lld a %2$@."
+          }
+        }
+      }
+    },
     "Removes +%lld from %@.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "new",
             "value": "Removes +%1$lld from %2$@."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le quita +%1$lld a %2$@."
           }
         }
       }
@@ -1489,12 +1797,51 @@
         }
       }
     },
+    "Round %1$lld · First to %2$lld": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ronda %1$lld · Primero a %2$lld"
+          }
+        }
+      }
+    },
+    "Round %1$lld · was +%2$lld": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ronda %1$lld · era +%2$lld"
+          }
+        }
+      }
+    },
+    "Round %lld": {
+      "extractionState": "stale",
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ronda %lld"
+          }
+        }
+      }
+    },
     "Round %lld · First to %lld": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "new",
             "value": "Round %1$lld · First to %2$lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ronda %1$lld · Primero a %2$lld"
           }
         }
       }
@@ -1505,6 +1852,12 @@
           "stringUnit": {
             "state": "new",
             "value": "Round %1$lld · was +%2$lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ronda %1$lld · era +%2$lld"
           }
         }
       }
@@ -1659,6 +2012,16 @@
         }
       }
     },
+    "Start playing": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empieza a jugar"
+          }
+        }
+      }
+    },
     "Stop listening": {
       "localizations": {
         "es": {
@@ -1779,6 +2142,16 @@
         }
       }
     },
+    "Top players": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mejores jugadores"
+          }
+        }
+      }
+    },
     "Type a name": {
       "localizations": {
         "es": {
@@ -1835,6 +2208,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Deshacer esta ronda"
+          }
+        }
+      }
+    },
+    "Version": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versión"
           }
         }
       }
@@ -1920,6 +2303,16 @@
         }
       }
     },
+    "Win rate": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Porcentaje de victorias"
+          }
+        }
+      }
+    },
     "Winner": {
       "localizations": {
         "es": {
@@ -1946,6 +2339,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "¡Gana la partida!"
+          }
+        }
+      }
+    },
+    "Won by": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ganó"
           }
         }
       }
@@ -1990,172 +2393,12 @@
         }
       }
     },
-    "%1$@ lead by %2$lld": {
+    "%1$@ +%2$lld · %3$lld to win": {
       "localizations": {
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "%1$@ van ganando por %2$lld"
-          }
-        }
-      }
-    },
-    "%1$@ lead by %2$lld, %3$lld to %4$lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ van ganando por %2$lld, %3$lld a %4$lld"
-          }
-        }
-      }
-    },
-    "%1$@ need %2$lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A %1$@ le faltan %2$lld"
-          }
-        }
-      }
-    },
-    "%1$@ vs %2$@": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ vs %2$@"
-          }
-        }
-      }
-    },
-    "%1$@ vs %2$@ will be removed. Players stay in your list.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se eliminará %1$@ vs %2$@. Los jugadores quedan en tu lista."
-          }
-        }
-      }
-    },
-    "%1$@ · %2$lld in progress": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ · %2$lld en curso"
-          }
-        }
-      }
-    },
-    "%1$@ · First to %2$lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ · Primero a %2$lld"
-          }
-        }
-      }
-    },
-    "%1$@ · Player %2$lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ · Jugador %2$lld"
-          }
-        }
-      }
-    },
-    "%1$lld played · %2$lld%%": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld jugadas · %2$lld%%"
-          }
-        }
-      }
-    },
-    "%1$lld → %2$lld · %3$@": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld → %2$lld · %3$@"
-          }
-        }
-      }
-    },
-    "Give %1$lld to %2$@": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dale %1$lld a %2$@"
-          }
-        }
-      }
-    },
-    "Rank %1$lld: %2$@, %3$@, %4$@": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Puesto %1$lld: %2$@, %3$@, %4$@"
-          }
-        }
-      }
-    },
-    "Removes +%1$lld from %2$@.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Le quita +%1$lld a %2$@."
-          }
-        }
-      }
-    },
-    "Round %1$lld · First to %2$lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ronda %1$lld · Primero a %2$lld"
-          }
-        }
-      }
-    },
-    "Round %1$lld · was +%2$lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ronda %1$lld · era +%2$lld"
-          }
-        }
-      }
-    },
-    "Round %lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ronda %lld"
-          }
-        }
-      }
-    },
-    "Other…": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Otro…"
+            "value": "%1$@ +%2$lld · %3$lld para ganar"
           }
         }
       }

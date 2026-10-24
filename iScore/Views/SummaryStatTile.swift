@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SummaryStatTile: View {
 
-    let label: String
+    let label: LocalizedStringResource
     let value: String
     let palette: TeamPalette
 

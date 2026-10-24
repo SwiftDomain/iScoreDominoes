@@ -331,7 +331,7 @@ private struct AboutRow: View {
 
     let icon: String
     let tint: Color
-    let title: String
+    let title: LocalizedStringResource
     let value: String
     let valueColor: Color
 

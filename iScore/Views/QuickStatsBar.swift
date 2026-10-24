@@ -30,7 +30,7 @@ private struct StatTile: View {
     let icon: String
     let tint: Color
     let value: String
-    let label: String
+    let label: LocalizedStringResource
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {

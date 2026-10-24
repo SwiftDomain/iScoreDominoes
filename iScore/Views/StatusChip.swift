@@ -11,7 +11,7 @@ struct StatusChip: View {
 
     let state: GameState
 
-    private var title: String {
+    private var title: LocalizedStringResource {
         switch state {
         case .finished: "Finished"
         case .cancelled: "Cancelled"
