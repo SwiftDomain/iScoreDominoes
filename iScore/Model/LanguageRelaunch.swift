@@ -27,5 +27,8 @@ enum LanguageRelaunch {
     static func apply(_ language: AppLanguage, to defaults: UserDefaults = .standard) {
         defaults.set([language.rawValue], forKey: overrideKey)
         defaults.set(language.rawValue, forKey: LanguageSettings.appKey)
+        // The widget is a separate process and cannot see the override or the
+        // app's own defaults, so the choice goes into the shared container too.
+        AppGroup.defaults.set(language.rawValue, forKey: LanguageSettings.appKey)
     }
 }
