@@ -2737,6 +2737,76 @@
           }
         }
       }
+    },
+    "Watch a game": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ver una partida"
+          }
+        }
+      }
+    },
+    "Enter a code": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escribe un código"
+          }
+        }
+      }
+    },
+    "Join": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entrar"
+          }
+        }
+      }
+    },
+    "K7MQ": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "K7MQ"
+          }
+        }
+      }
+    },
+    "Save to my games": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar en mis partidas"
+          }
+        }
+      }
+    },
+    "Saved": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardada"
+          }
+        }
+      }
+    },
+    "Already in your games": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ya está en tus partidas"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

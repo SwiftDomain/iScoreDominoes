@@ -208,7 +208,31 @@ private struct HomeCardGrid: View {
         GridItem(.flexible(), spacing: 10)
     ]
 
+    /// "Watch a game": follow another phone's shared game, read-only.
+    @State private var showJoin = false
+
     var body: some View {
+        VStack(spacing: 10) {
+            tiles
+
+            Button {
+                showJoin = true
+            } label: {
+                HomeCardView(
+                    icon: "eye.fill",
+                    title: "Watch a game",
+                    subtitle: "Enter a code",
+                    tint: Theme.streak
+                )
+            }
+        }
+        .buttonStyle(.duoCard)
+        .fullScreenCover(isPresented: $showJoin) {
+            JoinGameView()
+        }
+    }
+
+    private var tiles: some View {
         LazyVGrid(columns: columns, spacing: 10) {
             NavigationLink(destination: NewGameView(path: $path)) {
                 HomeCardView(
@@ -250,7 +274,6 @@ private struct HomeCardGrid: View {
                 )
             }
         }
-        .buttonStyle(.duoCard)
     }
 }
 
