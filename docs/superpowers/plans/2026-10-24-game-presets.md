@@ -19,6 +19,9 @@
 - **Home row:** shows up to three presets. Full management lives in Settings.
 - **Voice:** preset names are matched before free-form parsing (spec wording).
 - **Valid presets only:** a preset needs a non-empty name and a complete lineup of four distinct players. Names are compared with `PlayerName.isSame`, which folds case and accents.
+- **Sync duplicates:** two devices on one iCloud account can each save the same name before they sync. Home shows one card per name (the oldest wins). Settings lists both copies and marks the later one "Duplicate name".
+- **Deleted players:** a preset that names a player who is no longer saved still starts, and recreates the player. Its Settings row says so, e.g. "Luis is no longer saved".
+- **VoiceOver:** every preset card and row has a full label, e.g. "Friday night, Double 9 to 200, Ana, Luis, Rafa, Mia".
 - **Copy:** every user-visible line is `LocalizedStringResource`, with Spanish in `iScore/Localizable.xcstrings`. `ruby scripts/lint-strings.rb` stays clean.
 - **Theme:** Duo only (`Theme`, `DuoFont`, `.duoCard()`, `.buttonStyle(.duo(_:))`).
 - **Project file:** new files go through `ruby scripts/xcodeproj.rb add <target> <path>`.
@@ -61,7 +64,10 @@
     - `static let maxLength = 24`
     - `static func cleaned(_ typed: String) -> String`: trims, then cuts to `maxLength`.
     - `static func isTaken(_ name: String, among existing: [String]) -> Bool`: compares folded, using `PlayerName.isSame`.
-  - `enum PresetList { static func homeRow(_ presets: [GamePreset]) -> [GamePreset] }`: at most 3, ordered by `lastUsed ?? created`, newest first.
+  - `enum PresetList { static func homeRow(_ presets: [GamePreset]) -> [GamePreset] }`: one card per folded name, keeping the oldest by `created`. The result is at most 3, ordered by `lastUsed ?? created`, newest first.
+  - `PresetList.duplicates(in: [GamePreset]) -> Set<PersistentIdentifier>`: every preset that is not the oldest for its folded name.
+  - `PresetSetup.missingPlayers(known: [String]) -> [String]`: the seat names that match no saved player, in seat order.
+  - `PresetSetup.accessibilityLabel -> LocalizedStringResource`: "%@, %@ to %lld, %@, %@, %@, %@". The pieces are the name, `gameType.title` resolved, the target and the four names. Spanish: "%@, %@ a %lld, %@, %@, %@, %@".
 
 - [ ] **Step 1: Write the failing tests.** Each is one `@Test`:
   - `resolved` reuses the saved spelling: a preset holds "ana", the known players include "Ana", and the seat comes out "Ana".
@@ -72,6 +78,9 @@
   - `cleaned` trims and cuts to 24.
   - `isTaken` ignores case and accents.
   - `homeRow` returns 3 out of 5, with recently used presets first.
+  - Two presets named "Friday night" and "friday night" give one card, the oldest (Global Constraints: sync duplicates). `duplicates` returns the newer one.
+  - `missingPlayers(known: ["Ana", "Rafa"])` on Ana/Luis/Rafa/Mia returns `["Luis", "Mia"]`. A spelling that differs only in accents is not missing.
+  - `accessibilityLabel` reads correctly in English and Spanish (`localized(_:in: "es")`).
   - `GamePreset(setup).setup == setup`, using an unattached model instance.
 - [ ] **Step 2: Run them.** Expected: compile failure.
 - [ ] **Step 3: Implement.** Add `GamePreset.self` to the app schema and to Previewer. Register the file with `add iScore`, and the test with `add iScoreTests`.
@@ -131,6 +140,7 @@ What to build:
 - **Hidden when empty:** the row is absent when there are no presets.
 - **A tap starts the game:** it resolves against the saved players, calls `GameFactory.make`, sets `lastUsed = .now` and appends the game to `path`. This is the same navigation as the voice start.
 - **Copy:** the row header is "Your presets" / "Tus partidas guardadas".
+- **VoiceOver:** each card sets `.accessibilityLabel(setup.accessibilityLabel)`, and its hint is "Starts the game" / "Empieza la partida".
 
 This task is wiring over Task 1's tested functions, so it adds no unit test (one written here would pass before the code exists).
 
@@ -148,7 +158,10 @@ This task is wiring over Task 1's tested functions, so it adds no unit test (one
 - Modify: `iScore/Views/SettingsView.swift` (add a "Presets" section)
 
 What to build:
-- **The section:** each preset is a row showing its name and setup, with a trash button. This mirrors the existing saved-player rows and their delete confirmation.
+- **The section:** each preset is a row showing its name and setup, with a trash button. Under the setup, a row may also show:
+  - "Duplicate name" (`.duoLabel(Theme.streak)`) when `PresetList.duplicates` contains it.
+  - "%@ is no longer saved" for one missing player, or "%lld players are no longer saved" for more, from `missingPlayers`.
+  - The row's VoiceOver label is `setup.accessibilityLabel`, plus whichever notes it shows. This mirrors the existing saved-player rows and their delete confirmation.
 - **New preset:** a "New preset" button opens `PresetEditorView`. Tapping a row opens the same editor on that preset.
 - **The editor:**
   - It is composed from the pieces New Game already uses: a name `TextField` (cleaned with `PresetName.cleaned`), `GameTypePicker`, `TargetStepper`, and two `TeamSeatsCard`s that open the `NewPlayerView` picker.
@@ -167,8 +180,12 @@ What to build:
   | Give it a name | Ponle un nombre |
   | You already have a preset called %@ | Ya tienes una partida guardada llamada %@ |
   | Pick all four players | Elige a los cuatro jugadores |
+  | Duplicate name | Nombre repetido |
+  | %@ is no longer saved | %@ ya no está guardado |
+  | %lld players are no longer saved (plural) | %lld jugadores ya no están guardados |
+  | Starts the game | Empieza la partida |
 
-- [ ] **Step 1: Write the failing test.** `PresetEditorRules.blocker(name:setup:existing:editing:) -> LocalizedStringResource?` is a pure function in `GamePreset.swift`. Test that it returns nil when valid, and each blocker in order (name, then taken, then incomplete), in both languages. A name taken only by the preset being edited is not a blocker.
+- [ ] **Step 1: Write the failing tests.** First, `PresetRowNotes.notes(for:isDuplicate:known:) -> [LocalizedStringResource]`, a pure function: no notes; the duplicate note; one missing player; two missing players (plural, in both languages). Second, `PresetEditorRules.blocker(name:setup:existing:editing:) -> LocalizedStringResource?` is a pure function in `GamePreset.swift`. Test that it returns nil when valid, and each blocker in order (name, then taken, then incomplete), in both languages. A name taken only by the preset being edited is not a blocker.
 - [ ] **Step 2: Run it.** Expected: compile failure.
 - [ ] **Step 3: Implement** `blocker`, the Settings section and the editor. Add the catalog entries.
 - [ ] **Step 4: Run the suite and the lint.** Expected: PASS.
