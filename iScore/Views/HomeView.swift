@@ -28,6 +28,7 @@ struct HomeView: View {
     @Query(sort: \Game.timestamp, order: .reverse) private var allGames: [Game]
 
     @Environment(ScoreLinkRouter.self) private var linkRouter
+    @Environment(SpectateHostLink.self) private var spectateHost
     @Environment(\.scenePhase) private var scenePhase
 
     @State private var showHallOfFameView = false
@@ -140,7 +141,10 @@ struct HomeView: View {
         .voiceGameSheet(isPresented: $isSpeaking, players: players, onConfirm: start)
         // Rounds may have been scored on the Lock Screen while the app sat
         // on Home; the app is the only writer, so it drains them here too.
-        .task { drainLockScreenRounds() }
+        .task {
+            drainLockScreenRounds()
+            removeDuplicateGames()
+        }
         .onOpenURL { url in
             if case let .openAddScore(gameID, team) = ScoreLinkHandler.handle(url, context: context),
                let game = allGames.first(where: { $0.id == gameID }) {
@@ -158,6 +162,14 @@ struct HomeView: View {
         path.append(GameFactory.make(resolved, existing: players, in: context))
     }
 
+    /// A watched game saved on a phone that shares the scorekeeper's iCloud
+    /// account arrives twice once iCloud syncs; both copies carry one id.
+    private func removeDuplicateGames() {
+        for extra in GameDedupe.extras(in: allGames) {
+            context.deleteGameKeepingPlayers(extra)
+        }
+    }
+
     /// The spec is "while a game is in progress", not "while that game is on
     /// screen", so Home starts the activity too — the app is often left here.
     private func drainLockScreenRounds() {
@@ -165,6 +177,8 @@ struct HomeView: View {
         let history = GameHistory.roundValues(in: allGames, type: game.gameType)
         ScoreActivityController.shared.drain(into: game, context: context, history: history)
         Task { await ScoreActivityController.shared.start(for: game, history: history) }
+        // Rounds scored on the Lock Screen while sharing reach the watchers too.
+        spectateHost.publish(game)
     }
 }
 
@@ -205,7 +219,31 @@ private struct HomeCardGrid: View {
         GridItem(.flexible(), spacing: 10)
     ]
 
+    /// "Watch a game": follow another phone's shared game, read-only.
+    @State private var showJoin = false
+
     var body: some View {
+        VStack(spacing: 10) {
+            tiles
+
+            Button {
+                showJoin = true
+            } label: {
+                HomeCardView(
+                    icon: "eye.fill",
+                    title: "Watch a game",
+                    subtitle: "Enter a code",
+                    tint: Theme.streak
+                )
+            }
+        }
+        .buttonStyle(.duoCard)
+        .fullScreenCover(isPresented: $showJoin) {
+            JoinGameView()
+        }
+    }
+
+    private var tiles: some View {
         LazyVGrid(columns: columns, spacing: 10) {
             NavigationLink(destination: NewGameView(path: $path)) {
                 HomeCardView(
@@ -247,7 +285,6 @@ private struct HomeCardGrid: View {
                 )
             }
         }
-        .buttonStyle(.duoCard)
     }
 }
 
