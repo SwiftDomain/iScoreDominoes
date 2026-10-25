@@ -105,6 +105,35 @@ voice door are equals.
   value in the other. Do not merge them.
 - Every line the user can see **or hear** goes through `String(localized:)`.
 
+## Live spectate
+
+The scorekeeper taps Share on the Game screen and reads a 4-character code to
+the table; the others tap **Watch a game** on Home and follow the score,
+read-only, over MultipeerConnectivity (Wi-Fi/Bluetooth, encryption required,
+no internet).
+
+- **Four pure types hold every decision**, all in `iScore/Model/`: `JoinCode`
+  (alphabet without 0/O/1/I), `SpectateSnapshot` (the whole game on every
+  change, validated on arrival — oversize, wrong version or an implausible shape
+  is ignored), `SpectateGuest` (connection phase reducer, plus `SpectateSave`)
+  and `SpectatePolicy` (who is let in, which game goes out). `SpectateLink`
+  only moves bytes; a new rule goes in a pure type with a test, not in the link.
+- **Guests render a detached `Game`** (`SpectateSnapshot.makeDetachedGame()`),
+  never inserted into a context, so the scoreboard is the scorekeeper's own
+  code and nothing reaches the guest's store.
+- **A guest writes exactly once**: "Save to my games" after a *finished* game,
+  refused when the same game is already there (iCloud, or a second tap).
+- **Guest screens have no keypad, undo, edit or mic** — absent, not disabled.
+- **Sharing outlives the Game screen.** `iScoreApp` owns one
+  `SpectateHostLink`. Every place that keeps the Live Activity in step also
+  calls `publish` (GameView's three hooks and Home's Lock Screen drain). The
+  policy sends the shared game and any game being played, never an old one.
+- **Both phones stay awake while it matters**: the host while sharing (a
+  locked scorekeeper drops every guest), the guest while watching. Advertising
+  restarts when the host comes back to the foreground.
+- A killed or out-of-range host takes Multipeer roughly 10 seconds to notice;
+  until then the guest still reads Live.
+
 ## Known technical debt
 
 - Navigation mixes `NavigationLink(destination:)` (Home tiles, All Games, New Game) with `navigationDestination(for: Game.self)` (Home) — move to value-based links

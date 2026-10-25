@@ -8,7 +8,15 @@
 
          iscoredominoes:// is how the Lock Screen reaches the app for a round
          the point grid does not carry, and for every control once "Require
-         unlock to score" is on. -->
+         unlock to score" is on.
+
+         NSBonjourServices lets live spectate advertise and browse for
+         SpectateService.type; without it the system refuses both. -->
+    <key>NSBonjourServices</key>
+    <array>
+        <string>_iscore-live._tcp</string>
+        <string>_iscore-live._udp</string>
+    </array>
     <key>CFBundleURLTypes</key>
     <array>
         <dict>
