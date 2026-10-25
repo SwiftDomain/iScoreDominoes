@@ -54,7 +54,12 @@ final class SpeechCapture {
     private(set) var availability: SpeechAvailability = .needsPermission
 
     @ObservationIgnored private let recognizer: SFSpeechRecognizer?
-    @ObservationIgnored private let engine = AVAudioEngine()
+    /// Built when listening starts and released when it stops. Its input node owns an IO unit
+    /// whose disposal is a blocking call to the audio server, which aborts the app when the
+    /// server is slow, so a capture that never listens must never create one.
+    @ObservationIgnored private var engine: AVAudioEngine?
+    /// Whether `begin` activated the shared audio session, so teardown only deactivates its own.
+    @ObservationIgnored private var activatedSession = false
     @ObservationIgnored private var request: SFSpeechAudioBufferRecognitionRequest?
     @ObservationIgnored private var task: SFSpeechRecognitionTask?
     /// Identifies the current session so late callbacks from a cancelled
@@ -104,6 +109,7 @@ final class SpeechCapture {
         let audioSession = AVAudioSession.sharedInstance()
         try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
         try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+        activatedSession = true
 
         let request = SFSpeechAudioBufferRecognitionRequest()
         request.shouldReportPartialResults = true
@@ -128,8 +134,9 @@ final class SpeechCapture {
         }
         self.request = request
 
+        let engine = AVAudioEngine()
+        self.engine = engine
         let input = engine.inputNode
-        input.removeTap(onBus: 0)
         input.installTap(onBus: 0, bufferSize: 1024, format: input.outputFormat(forBus: 0)) { buffer, _ in
             request.append(buffer)
         }
@@ -142,6 +149,9 @@ final class SpeechCapture {
         }
         isListening = true
     }
+
+    /// Whether an audio engine exists. True only between `start()` and the end of that session.
+    var hasAudioEngine: Bool { engine != nil }
 
     /// Stops the recognizer and returns the final transcript.
     @discardableResult
@@ -160,16 +170,23 @@ final class SpeechCapture {
         )
     }
 
-    /// Ends the engine, tap, request and task so a second `start()` works.
+    /// Ends the engine, tap, request and task so a second `start()` works. The engine is released
+    /// here rather than in `deinit`, and a capture that never started touches no audio at all.
     private func teardown() {
         session += 1
-        if engine.isRunning { engine.stop() }
-        engine.inputNode.removeTap(onBus: 0)
+        if let engine {
+            if engine.isRunning { engine.stop() }
+            engine.inputNode.removeTap(onBus: 0)
+            self.engine = nil
+        }
         request?.endAudio()
         task?.cancel()
         request = nil
         task = nil
         isListening = false
-        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        if activatedSession {
+            activatedSession = false
+            try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        }
     }
 }
