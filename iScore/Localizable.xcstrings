@@ -1,513 +1,568 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "": {},
-    "—": {},
-    "“Forty for us”": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "“Cuarenta para nosotros”"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "—" : {
+
+    },
+    "“Forty for us”" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Cuarenta para nosotros”"
           }
         }
       }
     },
-    "“Nine, two hundred, me and Carlos against Luis and Papo”": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "“Nueve, doscientos, yo y Carlos contra Luis y Papo”"
+    "“Nine, two hundred, me and Carlos against Luis and Papo”" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Nueve, doscientos, yo y Carlos contra Luis y Papo”"
           }
         }
       }
     },
-    "%@ · %@": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@ · %2$@"
+    "%@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@"
           }
         }
       }
     },
-    "%@ · %lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ · %2$lld"
+    "%@ · %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$lld"
           }
         }
       }
     },
-    "%@ · %lld in progress": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@ · %2$lld in progress"
+    "%@ · %lld in progress" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$lld in progress"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ · %2$lld en curso"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$lld en curso"
           }
         }
       }
     },
-    "%@ · First to %lld": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@ · First to %2$lld"
+    "%@ · First to %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · First to %2$lld"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ · Primero a %2$lld"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · Primero a %2$lld"
           }
         }
       }
     },
-    "%@ · new": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ · nuevo"
+    "%@ · new" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · nuevo"
           }
         }
       }
     },
-    "%@ · Player %lld": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@ · Player %2$lld"
+    "%@ · Player %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · Player %2$lld"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ · Jugador %2$lld"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · Jugador %2$lld"
           }
         }
       }
     },
-    "%@ %lld": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@ %2$lld"
+    "%@ %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$lld"
           }
         }
       }
     },
-    "%@ +%lld · %lld to win": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@ +%2$lld · %3$lld to win"
+    "%@ +%lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ +%lld"
+          }
+        }
+      }
+    },
+    "%@ +%lld · %lld to win" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ +%2$lld · %3$lld to win"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ +%2$lld · %3$lld para ganar"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ +%2$lld · %3$lld para ganar"
           }
         }
       }
     },
-    "%@ have won": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ ganaron"
+    "%@ closed it at both ends" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ cerró por las dos puntas"
           }
         }
       }
     },
-    "%@ is no longer saved": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ ya no está guardado"
+    "%@ didn't score" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ no anotó"
           }
         }
       }
     },
-    "%@ lead by %lld": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@ lead by %2$lld"
+    "%@ have won" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ganaron"
+          }
+        }
+      }
+    },
+    "%@ is no longer saved" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ya no está guardado"
+          }
+        }
+      }
+    },
+    "%@ lead by %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ lead by %2$lld"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ van ganando por %2$lld"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ van ganando por %2$lld"
           }
         }
       }
     },
-    "%@ lead by %lld, %lld to %lld": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@ lead by %2$lld, %3$lld to %4$lld"
+    "%@ lead by %lld, %lld to %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ lead by %2$lld, %3$lld to %4$lld"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ van ganando por %2$lld, %3$lld a %4$lld"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ van ganando por %2$lld, %3$lld a %4$lld"
           }
         }
       }
     },
-    "%@ need %lld": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@ need %2$lld"
+    "%@ need %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ need %2$lld"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A %1$@ le faltan %2$lld"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A %1$@ le faltan %2$lld"
           }
         }
       }
     },
-    "%@ progress": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Progreso de %@"
+    "%@ progress" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progreso de %@"
           }
         }
       }
     },
-    "%@ vs %@": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@ vs %2$@"
+    "%@ vs %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ vs %2$@"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ vs %2$@"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ vs %2$@"
           }
         }
       }
     },
-    "%@ vs %@ will be removed. Players stay in your list.": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@ vs %2$@ will be removed. Players stay in your list."
+    "%@ vs %@ will be removed. Players stay in your list." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ vs %2$@ will be removed. Players stay in your list."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se eliminará %1$@ vs %2$@. Los jugadores quedan en tu lista."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se eliminará %1$@ vs %2$@. Los jugadores quedan en tu lista."
           }
         }
       }
     },
-    "%@ won!": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡%@ ganaron!"
+    "%@ were behind until the end" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ iban perdiendo hasta el final"
           }
         }
       }
     },
-    "%@, %@": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@, %2$@"
+    "%@ won!" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡%@ ganaron!"
           }
         }
       }
     },
-    "%@, %@ to %lld, %@, %@, %@, %@": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@, %2$@ a %3$lld, %4$@, %5$@, %6$@, %7$@"
+    "%@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@"
           }
         }
       }
     },
-    "%@, %lld, %lld to win": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@, %2$lld, faltan %3$lld"
+    "%@, %@ to %lld, %@, %@, %@, %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, %2$@ a %3$lld, %4$@, %5$@, %6$@, %7$@"
           }
         }
       }
     },
-    "%@, %lld, won": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@, %2$lld, ganaron"
+    "%@, %lld, %lld to win" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, %2$lld, faltan %3$lld"
           }
         }
       }
     },
-    "%@, new player": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@, jugador nuevo"
+    "%@, %lld, won" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, %2$lld, ganaron"
           }
         }
       }
     },
-    "%@: %@": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@: %2$@"
+    "%@, new player" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, jugador nuevo"
           }
         }
       }
     },
-    "%@: %lld": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@: %2$lld"
+    "%@: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$@"
           }
         }
       }
     },
-    "%1$@ · %2$lld in progress": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ · %2$lld en curso"
+    "%@: %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$lld"
           }
         }
       }
     },
-    "%1$@ · First to %2$lld": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ · Primero a %2$lld"
+    "%@: %lld wins in a row" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: %lld victorias seguidas"
           }
         }
       }
     },
-    "%1$@ · Player %2$lld": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ · Jugador %2$lld"
+    "%@: down %lld, now in front" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: iban %lld abajo, ahora ganan"
           }
         }
       }
     },
-    "%1$@ +%2$lld · %3$lld to win": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ +%2$lld · %3$lld para ganar"
+    "%1$@ · %2$lld in progress" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$lld en curso"
           }
         }
       }
     },
-    "%1$@ lead by %2$lld": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ van ganando por %2$lld"
+    "%1$@ · First to %2$lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · Primero a %2$lld"
           }
         }
       }
     },
-    "%1$@ lead by %2$lld, %3$lld to %4$lld": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ van ganando por %2$lld, %3$lld a %4$lld"
+    "%1$@ · Player %2$lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · Jugador %2$lld"
           }
         }
       }
     },
-    "%1$@ need %2$lld": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A %1$@ le faltan %2$lld"
+    "%1$@ +%2$lld · %3$lld to win" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ +%2$lld · %3$lld para ganar"
           }
         }
       }
     },
-    "%1$@ vs %2$@": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ vs %2$@"
+    "%1$@ lead by %2$lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ van ganando por %2$lld"
           }
         }
       }
     },
-    "%1$@ vs %2$@ will be removed. Players stay in your list.": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se eliminará %1$@ vs %2$@. Los jugadores quedan en tu lista."
+    "%1$@ lead by %2$lld, %3$lld to %4$lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ van ganando por %2$lld, %3$lld a %4$lld"
           }
         }
       }
     },
-    "%1$lld → %2$lld · %3$@": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld → %2$lld · %3$@"
+    "%1$@ need %2$lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A %1$@ le faltan %2$lld"
           }
         }
       }
     },
-    "%1$lld played · %2$lld%%": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld jugadas · %2$lld%%"
+    "%1$@ vs %2$@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ vs %2$@"
           }
         }
       }
     },
-    "%lld": {},
-    "%lld – %lld": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$lld – %2$lld"
+    "%1$@ vs %2$@ will be removed. Players stay in your list." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se eliminará %1$@ vs %2$@. Los jugadores quedan en tu lista."
           }
         }
       }
     },
-    "%lld — which team?": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld — ¿para cuál equipo?"
+    "%1$lld → %2$lld · %3$@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld → %2$lld · %3$@"
           }
         }
       }
     },
-    "%lld → %lld · %@": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$lld → %2$lld · %3$@"
+    "%1$lld played · %2$lld%%" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld jugadas · %2$lld%%"
+          }
+        }
+      }
+    },
+    "%lld" : {
+
+    },
+    "%lld – %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld – %2$lld"
+          }
+        }
+      }
+    },
+    "%lld — which team?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld — ¿para cuál equipo?"
+          }
+        }
+      }
+    },
+    "%lld → %lld · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld → %2$lld · %3$@"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld → %2$lld · %3$@"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld → %2$lld · %3$@"
           }
         }
       }
     },
-    "%lld games": {
-      "localizations": {
-        "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld game"
+    "%lld games" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld game"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld games"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld games"
                 }
               }
             }
           }
         },
-        "es": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld partida"
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld partida"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld partidas"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld partidas"
                 }
               }
             }
@@ -515,39 +570,39 @@
         }
       }
     },
-    "%lld played": {
-      "localizations": {
-        "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld played"
+    "%lld played" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld played"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld played"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld played"
                 }
               }
             }
           }
         },
-        "es": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld jugada"
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld jugada"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld jugadas"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld jugadas"
                 }
               }
             }
@@ -555,29 +610,29 @@
         }
       }
     },
-    "%lld played · %lld%%": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%#@played@ · %2$lld%%"
+    "%lld played · %lld%%" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@played@ · %2$lld%%"
           },
-          "substitutions": {
-            "played": {
-              "argNum": 1,
-              "formatSpecifier": "lld",
-              "variations": {
-                "plural": {
-                  "one": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg jugada"
+          "substitutions" : {
+            "played" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg jugada"
                     }
                   },
-                  "other": {
-                    "stringUnit": {
-                      "state": "translated",
-                      "value": "%arg jugadas"
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg jugadas"
                     }
                   }
                 }
@@ -587,39 +642,39 @@
         }
       }
     },
-    "%lld players are no longer saved": {
-      "localizations": {
-        "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld player is no longer saved"
+    "%lld players are no longer saved" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld player is no longer saved"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld players are no longer saved"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld players are no longer saved"
                 }
               }
             }
           }
         },
-        "es": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld jugador ya no está guardado"
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld jugador ya no está guardado"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld jugadores ya no están guardados"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld jugadores ya no están guardados"
                 }
               }
             }
@@ -627,79 +682,39 @@
         }
       }
     },
-    "%lld points": {
-      "localizations": {
-        "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld point"
+    "%lld points" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld point"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld points"
-                }
-              }
-            }
-          }
-        },
-        "es": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld punto"
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld puntos"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "%lld rounds": {
-      "localizations": {
-        "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld round"
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld rounds"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld points"
                 }
               }
             }
           }
         },
-        "es": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld ronda"
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld punto"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld rondas"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld puntos"
                 }
               }
             }
@@ -707,49 +722,39 @@
         }
       }
     },
-    "%lld to win": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld para ganar"
-          }
-        }
-      }
-    },
-    "%lld watching": {
-      "localizations": {
-        "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld watching"
+    "%lld rounds" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld round"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld watching"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld rounds"
                 }
               }
             }
           }
         },
-        "es": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld mirando"
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld ronda"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld mirando"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld rondas"
                 }
               }
             }
@@ -757,91 +762,49 @@
         }
       }
     },
-    "%lld wins": {
-      "localizations": {
-        "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld win"
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld wins"
-                }
-              }
-            }
-          }
-        },
-        "es": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld victoria"
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld victorias"
-                }
-              }
-            }
+    "%lld to win" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld para ganar"
           }
         }
       }
     },
-    "+%lld": {},
-    "0": {},
-    "About": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Acerca de"
-          }
-        }
-      }
-    },
-    "Add %lld more players to start": {
-      "localizations": {
-        "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Add %lld more player to start"
+    "%lld watching" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld watching"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Add %lld more players to start"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld watching"
                 }
               }
             }
           }
         },
-        "es": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Agrega %lld jugador más para empezar"
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld mirando"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Agrega %lld jugadores más para empezar"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld mirando"
                 }
               }
             }
@@ -849,1588 +812,39 @@
         }
       }
     },
-    "Add %lld points": {
-      "localizations": {
-        "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Add %lld point"
+    "%lld wins" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld win"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Add %lld points"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld wins"
                 }
               }
             }
           }
         },
-        "es": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Agregar %lld punto"
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld victoria"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Agregar %lld puntos"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "Add a player": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Agregar un jugador"
-          }
-        }
-      }
-    },
-    "Add player": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Agregar jugador"
-          }
-        }
-      }
-    },
-    "Add points": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Agregar puntos"
-          }
-        }
-      }
-    },
-    "Add score for %@": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Anotar para %@"
-          }
-        }
-      }
-    },
-    "Adds points to a team without unlocking the phone.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Anota puntos sin desbloquear el teléfono."
-          }
-        }
-      }
-    },
-    "All": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todas"
-          }
-        }
-      }
-    },
-    "All games": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todas las partidas"
-          }
-        }
-      }
-    },
-    "All tied up": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Empatados"
-          }
-        }
-      }
-    },
-    "All tied up at %lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Empatados a %lld"
-          }
-        }
-      }
-    },
-    "Allow the microphone and speech recognition to talk, or type the game instead.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Permite el micrófono y el reconocimiento de voz para hablar, o escribe la partida."
-          }
-        }
-      }
-    },
-    "Allow the microphone and speech recognition to talk, or use the keypad instead.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Permite el micrófono y el reconocimiento de voz para hablar, o usa el teclado."
-          }
-        }
-      }
-    },
-    "Already in this game": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ya está en esta partida"
-          }
-        }
-      }
-    },
-    "Already in your games": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ya está en tus partidas"
-          }
-        }
-      }
-    },
-    "Answers are always shown on screen. Silent mode also silences them.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Las respuestas siempre se muestran en pantalla. El modo silencio también las silencia."
-          }
-        }
-      }
-    },
-    "App language": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Idioma de la app"
-          }
-        }
-      }
-    },
-    "Are you sure you want to delete %@? This will remove them from future games but won't affect past game records.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Seguro que quieres eliminar a %@? No aparecerá en próximas partidas, pero las partidas anteriores no cambian."
-          }
-        }
-      }
-    },
-    "Are you sure you want to remove the last score entry?": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Seguro que quieres quitar la última anotación?"
-          }
-        }
-      }
-    },
-    "Cancel": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancelar"
-          }
-        }
-      }
-    },
-    "Cancel game": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancelar partida"
-          }
-        }
-      }
-    },
-    "Cancel this game?": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Cancelar esta partida?"
-          }
-        }
-      }
-    },
-    "Cancelled": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancelada"
-          }
-        }
-      }
-    },
-    "Check the game": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Revisa la partida"
-          }
-        }
-      }
-    },
-    "Clear": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Borrar"
-          }
-        }
-      }
-    },
-    "Clear search": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Borrar la búsqueda"
-          }
-        }
-      }
-    },
-    "Close": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cerrar"
-          }
-        }
-      }
-    },
-    "Close iScore": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cerrar iScore"
-          }
-        }
-      }
-    },
-    "Close this first, then end the game.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cierra esto primero y luego termina la partida."
-          }
-        }
-      }
-    },
-    "Close this first, then undo the last round": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cierra esto primero y luego deshaz la última ronda"
-          }
-        }
-      }
-    },
-    "Continue": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Continuar"
-          }
-        }
-      }
-    },
-    "Couldn't start listening. Type the game instead.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se pudo empezar a escuchar. Escribe la partida."
-          }
-        }
-      }
-    },
-    "Couldn't start listening. Use the keypad instead.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se pudo empezar a escuchar. Usa el teclado."
-          }
-        }
-      }
-    },
-    "D%lld · %@": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "D%1$lld · %2$@"
-          }
-        }
-      }
-    },
-    "Day streak": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Días seguidos"
-          }
-        }
-      }
-    },
-    "Delete": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Eliminar"
-          }
-        }
-      }
-    },
-    "Delete %@": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Eliminar a %@"
-          }
-        }
-      }
-    },
-    "Delete game": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Eliminar partida"
-          }
-        }
-      }
-    },
-    "Delete Player": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Eliminar jugador"
-          }
-        }
-      }
-    },
-    "Delete Preset": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Borrar partida guardada"
-          }
-        }
-      }
-    },
-    "Delete preset %@": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Borrar %@"
-          }
-        }
-      }
-    },
-    "Delete round": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Eliminar ronda"
-          }
-        }
-      }
-    },
-    "Delete round %lld?": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Eliminar la ronda %lld?"
-          }
-        }
-      }
-    },
-    "Delete this game?": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Eliminar esta partida?"
-          }
-        }
-      }
-    },
-    "Didn't catch anything. Try again, or use the keypad.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se escuchó nada. Inténtalo otra vez o usa el teclado."
-          }
-        }
-      }
-    },
-    "Didn't catch anything. Type the game instead.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se escuchó nada. Escribe la partida."
-          }
-        }
-      }
-    },
-    "Didn't catch that. Say a number and a team, or use the keypad.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No se entendió. Di un número y un equipo, o usa el teclado."
-          }
-        }
-      }
-    },
-    "dominoes": {},
-    "Dominoes": {},
-    "Done": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Listo"
-          }
-        }
-      }
-    },
-    "Double %lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Doble %lld"
-          }
-        }
-      }
-    },
-    "Duplicate name": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nombre repetido"
-          }
-        }
-      }
-    },
-    "Edit preset": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Editar partida guardada"
-          }
-        }
-      }
-    },
-    "Edit score": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Editar anotación"
-          }
-        }
-      }
-    },
-    "Edit Scores": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Editar anotaciones"
-          }
-        }
-      }
-    },
-    "End game": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Terminar partida"
-          }
-        }
-      }
-    },
-    "End this game?": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Terminar esta partida?"
-          }
-        }
-      }
-    },
-    "Enter a code": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Escribe un código"
-          }
-        }
-      }
-    },
-    "Exit table mode": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Salir del modo mesa"
-          }
-        }
-      }
-    },
-    "Fill in the game": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Llenar la partida"
-          }
-        }
-      }
-    },
-    "Final": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Final"
-          }
-        }
-      }
-    },
-    "Final score": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Resultado final"
-          }
-        }
-      }
-    },
-    "Finish a game to get on the board.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Termina una partida para aparecer aquí."
-          }
-        }
-      }
-    },
-    "Finished": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Terminada"
-          }
-        }
-      }
-    },
-    "First to": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Primero a"
-          }
-        }
-      }
-    },
-    "First to %lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Primero a %lld"
-          }
-        }
-      }
-    },
-    "Fixing round %lld? What should it be?": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Arreglando la ronda %lld? ¿Cuánto debe ser?"
-          }
-        }
-      }
-    },
-    "Friday night": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Viernes por la noche"
-          }
-        }
-      }
-    },
-    "Game": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Partida"
-          }
-        }
-      }
-    },
-    "Game cancelled": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Partida cancelada"
-          }
-        }
-      }
-    },
-    "Game in progress": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Partida en curso"
-          }
-        }
-      }
-    },
-    "Game in progress · Double %lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Partida en curso · Doble %lld"
-          }
-        }
-      }
-    },
-    "Game options": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Opciones de la partida"
-          }
-        }
-      }
-    },
-    "Game progress": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Progreso de la partida"
-          }
-        }
-      }
-    },
-    "Game results": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Resultados de la partida"
-          }
-        }
-      }
-    },
-    "Game sentence": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Frase de la partida"
-          }
-        }
-      }
-    },
-    "Games": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Partidas"
-          }
-        }
-      }
-    },
-    "Games finished": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Partidas terminadas"
-          }
-        }
-      }
-    },
-    "Give %1$lld to %2$@": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dale %1$lld a %2$@"
-          }
-        }
-      }
-    },
-    "Give %lld to %@": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Give %1$lld to %2$@"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dale %1$lld a %2$@"
-          }
-        }
-      }
-    },
-    "Give it a name": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ponle un nombre"
-          }
-        }
-      }
-    },
-    "Hall of fame": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Salón de la fama"
-          }
-        }
-      }
-    },
-    "How to play": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cómo se juega"
-          }
-        }
-      }
-    },
-    "iCloud sync": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sincronización con iCloud"
-          }
-        }
-      }
-    },
-    "In progress": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "En curso"
-          }
-        }
-      }
-    },
-    "iScore will close. Open it again to see %@. Your games are saved.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iScore se cerrará. Ábrelo otra vez para verlo en %@. Tus partidas están guardadas."
-          }
-        }
-      }
-    },
-    "It won't count.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No va a contar."
-          }
-        }
-      }
-    },
-    "Join": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Entrar"
-          }
-        }
-      }
-    },
-    "K7MQ": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "K7MQ"
-          }
-        }
-      }
-    },
-    "Keep playing": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Seguir jugando"
-          }
-        }
-      }
-    },
-    "Language": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Idioma"
-          }
-        }
-      }
-    },
-    "Leading": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Va ganando"
-          }
-        }
-      }
-    },
-    "Learn the rules": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aprende las reglas"
-          }
-        }
-      }
-    },
-    "Let's play!": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡A jugar!"
-          }
-        }
-      }
-    },
-    "Listening stopped: %@. Type the game instead.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se dejó de escuchar: %@. Escribe la partida."
-          }
-        }
-      }
-    },
-    "Listening stopped: %@. Use the keypad.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se dejó de escuchar: %@. Usa el teclado."
-          }
-        }
-      }
-    },
-    "Listening…": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Escuchando…"
-          }
-        }
-      }
-    },
-    "Live": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "En vivo"
-          }
-        }
-      }
-    },
-    "Looking for the game…": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Buscando la partida…"
-          }
-        }
-      }
-    },
-    "Lost connection. Reconnecting…": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se perdió la conexión. Reconectando…"
-          }
-        }
-      }
-    },
-    "Microphone or speech access is off. Turn it on in Settings, or type the game instead.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El micrófono o el reconocimiento de voz está apagado. Actívalo en Ajustes, o escribe la partida."
-          }
-        }
-      }
-    },
-    "Microphone or speech access is off. Turn it on in Settings, or use the keypad.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El micrófono o el reconocimiento de voz está apagado. Actívalo en Ajustes, o usa el teclado."
-          }
-        }
-      }
-    },
-    "Name this setup": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ponle nombre a esta partida"
-          }
-        }
-      }
-    },
-    "New game": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Partida nueva"
-          }
-        }
-      }
-    },
-    "New game defaults": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Valores para partidas nuevas"
-          }
-        }
-      }
-    },
-    "New preset": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nueva partida guardada"
-          }
-        }
-      }
-    },
-    "Next game": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Siguiente partida"
-          }
-        }
-      }
-    },
-    "Nice round!": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡Buena ronda!"
-          }
-        }
-      }
-    },
-    "Nice round! %@": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡Buena ronda! %@"
-          }
-        }
-      }
-    },
-    "Nine, 200, me and Ana vs Luis and Rafa": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nueve, 200, yo y Ana contra Luis y Rafa"
-          }
-        }
-      }
-    },
-    "No finished games yet": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todavía no hay partidas terminadas"
-          }
-        }
-      }
-    },
-    "No games match.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No hay partidas que coincidan."
-          }
-        }
-      }
-    },
-    "No games yet": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todavía no hay partidas"
-          }
-        }
-      }
-    },
-    "No players yet": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todavía no hay jugadores"
-          }
-        }
-      }
-    },
-    "No presets yet": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todavía no hay partidas guardadas"
-          }
-        }
-      }
-    },
-    "No rounds yet": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todavía no hay rondas"
-          }
-        }
-      }
-    },
-    "No rounds yet. Add the first score below.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todavía no hay rondas. Anota la primera abajo."
-          }
-        }
-      }
-    },
-    "Nobody": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nadie"
-          }
-        }
-      }
-    },
-    "Nobody has scored yet": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todavía nadie ha anotado"
-          }
-        }
-      }
-    },
-    "Nobody watching yet": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nadie mirando todavía"
-          }
-        }
-      }
-    },
-    "Open Settings": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Abrir Ajustes"
-          }
-        }
-      }
-    },
-    "Opens the game in progress": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Abre la partida en curso"
-          }
-        }
-      }
-    },
-    "Other…": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Otro…"
-          }
-        }
-      }
-    },
-    "Pick 4 different players": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Escoge 4 jugadores distintos"
-          }
-        }
-      }
-    },
-    "Pick a player": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Escoge un jugador"
-          }
-        }
-      }
-    },
-    "Pick all four players": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Elige a los cuatro jugadores"
-          }
-        }
-      }
-    },
-    "Picked": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Escogido"
-          }
-        }
-      }
-    },
-    "Players · %lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jugadores · %lld"
-          }
-        }
-      }
-    },
-    "Playing": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "En curso"
-          }
-        }
-      }
-    },
-    "Points": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Puntos"
-          }
-        }
-      }
-    },
-    "Preset name": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nombre"
-          }
-        }
-      }
-    },
-    "Presets": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Partidas guardadas"
-          }
-        }
-      }
-    },
-    "Progress": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Progreso"
-          }
-        }
-      }
-    },
-    "Rank %1$lld: %2$@, %3$@, %4$@": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Puesto %1$lld: %2$@, %3$@, %4$@"
-          }
-        }
-      }
-    },
-    "Rank %lld: %@, %@, %@": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Rank %1$lld: %2$@, %3$@, %4$@"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Puesto %1$lld: %2$@, %3$@, %4$@"
-          }
-        }
-      }
-    },
-    "Read this code to the table": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lee este código a la mesa"
-          }
-        }
-      }
-    },
-    "Recent games": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Partidas recientes"
-          }
-        }
-      }
-    },
-    "Record a round": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Anotar una ronda"
-          }
-        }
-      }
-    },
-    "Removes +%1$lld from %2$@.": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Le quita +%1$lld a %2$@."
-          }
-        }
-      }
-    },
-    "Removes +%lld from %@.": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Removes +%1$lld from %2$@."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Le quita +%1$lld a %2$@."
-          }
-        }
-      }
-    },
-    "Restart to change language?": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Reiniciar para cambiar el idioma?"
-          }
-        }
-      }
-    },
-    "Round %1$lld · First to %2$lld": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ronda %1$lld · Primero a %2$lld"
-          }
-        }
-      }
-    },
-    "Round %1$lld · was +%2$lld": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ronda %1$lld · era +%2$lld"
-          }
-        }
-      }
-    },
-    "Round %1$lld, %2$@, %3$@": {
-      "extractionState": "stale",
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ronda %1$lld, %2$@, %3$@"
-          }
-        }
-      }
-    },
-    "Round %lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ronda %lld"
-          }
-        }
-      }
-    },
-    "Round %lld · %lld to win": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ronda %1$lld · %2$lld para ganar"
-          }
-        }
-      }
-    },
-    "Round %lld · First to %lld": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Round %1$lld · First to %2$lld"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ronda %1$lld · Primero a %2$lld"
-          }
-        }
-      }
-    },
-    "Round %lld · was +%lld": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Round %1$lld · was +%2$lld"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ronda %1$lld · era +%2$lld"
-          }
-        }
-      }
-    },
-    "Round %lld, %@, %@": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ronda %lld, %@, %@"
-          }
-        }
-      }
-    },
-    "Rounds": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rondas"
-          }
-        }
-      }
-    },
-    "Save": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Guardar"
-          }
-        }
-      }
-    },
-    "Save %lld points": {
-      "localizations": {
-        "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Save %lld point"
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Save %lld points"
-                }
-              }
-            }
-          }
-        },
-        "es": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Guardar %lld punto"
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Guardar %lld puntos"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld victorias"
                 }
               }
             }
@@ -2438,920 +852,67 @@
         }
       }
     },
-    "Save points": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Guardar puntos"
+    "%lld–%lld" : {
+      "comment" : "A win-loss record of a duo.",
+      "isCommentAutoGenerated" : true,
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld–%2$lld"
           }
         }
       }
     },
-    "Save this setup": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Guardar esta partida"
-          }
-        }
-      }
-    },
-    "Save to my games": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Guardar en mis partidas"
-          }
-        }
-      }
-    },
-    "Saved": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Guardada"
-          }
-        }
-      }
-    },
-    "Saved as %@": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Guardada como %@"
-          }
-        }
-      }
-    },
-    "Say a score": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Di una anotación"
-          }
-        }
-      }
-    },
-    "Say a score, undo, or ask who's winning": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Di una anotación, deshaz, o pregunta quién va ganando"
-          }
-        }
-      }
-    },
-    "Say it again": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dilo otra vez"
-          }
-        }
-      }
-    },
-    "Say the game": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Di la partida"
-          }
-        }
-      }
-    },
-    "Say the game type, the target and the two teams": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Di el tipo de partida, los puntos y los dos equipos"
-          }
-        }
-      }
-    },
-    "Search players": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Buscar jugadores"
-          }
-        }
-      }
-    },
-    "Set “That's me” in Settings to see your own games, wins and win rate.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Elige “Ese soy yo” en Ajustes para ver tus partidas, victorias y porcentaje de victorias."
-          }
-        }
-      }
-    },
-    "Settings": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajustes"
-          }
-        }
-      }
-    },
-    "Share live score": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compartir marcador en vivo"
-          }
-        }
-      }
-    },
-    "Share results": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compartir resultados"
-          }
-        }
-      }
-    },
-    "Short videos on the rules and scoring": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Videos cortos sobre las reglas y la anotación"
-          }
-        }
-      }
-    },
-    "Speak answers": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Decir las respuestas"
-          }
-        }
-      }
-    },
-    "Speech recognition isn't available on this device. Type the game instead.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El reconocimiento de voz no está disponible en este dispositivo. Escribe la partida."
-          }
-        }
-      }
-    },
-    "Speech recognition isn't available on this device. Use the keypad.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El reconocimiento de voz no está disponible en este dispositivo. Usa el teclado."
-          }
-        }
-      }
-    },
-    "Start a game": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Empezar una partida"
-          }
-        }
-      }
-    },
-    "Start game": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Empezar partida"
-          }
-        }
-      }
-    },
-    "Start games in table mode": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Empezar partidas en modo mesa"
-          }
-        }
-      }
-    },
-    "Start listening": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Empezar a escuchar"
-          }
-        }
-      }
-    },
-    "Start one and it shows up here.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Empieza una y aparece aquí."
-          }
-        }
-      }
-    },
-    "Start playing": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Empieza a jugar"
-          }
-        }
-      }
-    },
-    "Starts the game": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Empieza la partida"
-          }
-        }
-      }
-    },
-    "Stop listening": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dejar de escuchar"
-          }
-        }
-      }
-    },
-    "Stop sharing": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dejar de compartir"
-          }
-        }
-      }
-    },
-    "Table mode": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Modo mesa"
-          }
-        }
-      }
-    },
-    "Takes back the round just recorded.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quita la ronda que acabas de anotar."
-          }
-        }
-      }
-    },
-    "Tap to talk": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Toca para hablar"
-          }
-        }
-      }
-    },
-    "Team": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Equipo"
-          }
-        }
-      }
-    },
-    "Team 1": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Equipo 1"
-          }
-        }
-      }
-    },
-    "Team 2": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Equipo 2"
-          }
-        }
-      }
-    },
-    "That's for %@. Close this and say it again.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Eso es para %@. Cierra esto y dilo otra vez."
-          }
-        }
-      }
-    },
-    "That's me": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ese soy yo"
-          }
-        }
-      }
-    },
-    "The phone lies flat between the players: big scores, screen stays on.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El teléfono queda en la mesa: marcadores grandes y la pantalla encendida."
-          }
-        }
-      }
-    },
-    "The score stands as it is.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La anotación queda como está."
-          }
-        }
-      }
-    },
-    "There's nothing to undo yet.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Todavía no hay nada que deshacer."
-          }
-        }
-      }
-    },
-    "This game is over.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Esta partida ya terminó."
-          }
-        }
-      }
-    },
-    "This preset will be removed. Games already played stay.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se borrará esta partida guardada. Las partidas jugadas se quedan."
-          }
-        }
-      }
-    },
-    "to %lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "a %lld"
-          }
-        }
-      }
-    },
-    "Top players": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mejores jugadores"
-          }
-        }
-      }
-    },
-    "Type a name": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Escribe un nombre"
-          }
-        }
-      }
+    "+%lld" : {
+
     },
-    "Undo": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Deshacer"
-          }
-        }
-      }
-    },
-    "Undo last score": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Deshacer la última anotación"
-          }
-        }
-      }
-    },
-    "Undo Last Score": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Deshacer la última anotación"
-          }
-        }
-      }
-    },
-    "Undo the last round": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Deshacer la última ronda"
-          }
-        }
-      }
-    },
-    "Undo this round": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Deshacer esta ronda"
-          }
-        }
-      }
-    },
-    "Version": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Versión"
-          }
-        }
-      }
-    },
-    "Video %lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Video %lld"
-          }
-        }
-      }
-    },
-    "View all": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ver todas"
-          }
-        }
-      }
-    },
-    "Voice": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Voz"
-          }
-        }
-      }
-    },
-    "Voice language": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Idioma de la voz"
-          }
-        }
-      }
-    },
-    "VS": {},
-    "vs %@": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "vs %@"
-          }
-        }
-      }
-    },
-    "Watch a game": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ver una partida"
-          }
-        }
-      }
-    },
-    "We dominoed! How many points did we make?": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡Dominamos! ¿Cuántos puntos hicimos?"
-          }
-        }
-      }
-    },
-    "Who's playing?": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Quiénes juegan?"
-          }
-        }
-      }
-    },
-    "Win": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Victoria"
-          }
-        }
-      }
-    },
-    "Win rate": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Porcentaje de victorias"
-          }
-        }
-      }
-    },
-    "Winner": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ganador"
-          }
-        }
-      }
-    },
-    "Wins": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Victorias"
-          }
-        }
-      }
-    },
-    "Wins the game!": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡Gana la partida!"
-          }
-        }
-      }
-    },
-    "Won by": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ganó"
-          }
-        }
-      }
-    },
-    "Working it out…": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Resolviéndolo…"
-          }
-        }
-      }
-    },
-    "You already have a preset called %@": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ya tienes una partida guardada llamada %@"
-          }
-        }
-      }
-    },
-    "You can edit a score by pressing it for two seconds.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Puedes editar una anotación manteniéndola presionada dos segundos."
-          }
-        }
-      }
-    },
-    "Your players": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tus jugadores"
-          }
-        }
-      }
-    },
-    "Your presets": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tus partidas guardadas"
-          }
-        }
-      }
-    },
-    "Your stats": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tus números"
-          }
-        }
-      }
-    },
-    "Capicúa!": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡Capicúa!"
-          }
-        }
-      }
-    },
-    "Biggest round tonight!": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡La ronda más grande de la noche!"
-          }
-        }
-      }
-    },
-    "Comeback!": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡Remontada!"
-          }
-        }
-      }
-    },
-    "Zapato!": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡Zapato!"
-          }
-        }
-      }
-    },
-    "Comeback win!": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡Ganaron remontando!"
-          }
-        }
-      }
-    },
-    "Won it in the last round!": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡La ganaron en la última ronda!"
-          }
-        }
-      }
-    },
-    "On a streak!": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡En racha!"
-          }
-        }
-      }
-    },
-    "%@ closed it at both ends": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ cerró por las dos puntas"
-          }
-        }
-      }
-    },
-    "%@ +%lld": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ +%lld"
-          }
-        }
-      }
-    },
-    "%@ didn't score": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ no anotó"
-          }
-        }
-      }
-    },
-    "Won from %lld down": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ganaron desde %lld abajo"
-          }
-        }
-      }
-    },
-    "%@ were behind until the end": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ iban perdiendo hasta el final"
-          }
-        }
-      }
-    },
-    "%@: %lld wins in a row": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@: %lld victorias seguidas"
-          }
-        }
-      }
-    },
-    "Big moments": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Grandes jugadas"
-          }
-        }
-      }
-    },
-    "Call out big moments": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Anunciar las grandes jugadas"
-          }
-        }
-      }
-    },
-    "Capicúa, zapato, comebacks and streaks get a banner and, with spoken answers on, a line.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Capicúa, zapato, remontadas y rachas reciben un aviso y, con las respuestas habladas, una frase."
-          }
-        }
-      }
-    },
-    "Capicúa": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Capicúa"
-          }
-        }
-      }
+    "0" : {
+
     },
-    "%@: down %lld, now in front": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@: iban %lld abajo, ahora ganan"
+    "About" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acerca de"
           }
         }
       }
     },
-    "Tonight · %lld games": {
-      "localizations": {
-        "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Tonight · %lld game"
+    "Add %lld more players to start" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Add %lld more player to start"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Tonight · %lld games"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Add %lld more players to start"
                 }
               }
             }
           }
         },
-        "es": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Esta noche · %lld partida"
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Agrega %lld jugador más para empezar"
                 }
               },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Esta noche · %lld partidas"
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Agrega %lld jugadores más para empezar"
                 }
               }
             }
@@ -3359,76 +920,2525 @@
         }
       }
     },
-    "Standings": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Posiciones"
+    "Add %lld points" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Add %lld point"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Add %lld points"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Agregar %lld punto"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Agregar %lld puntos"
+                }
+              }
+            }
           }
         }
       }
     },
-    "Pairs": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Parejas"
+    "Add a player" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar un jugador"
           }
         }
       }
     },
-    "Biggest round": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ronda más grande"
+    "Add player" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar jugador"
           }
         }
       }
     },
-    "Streak": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Racha"
+    "Add points" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar puntos"
           }
         }
       }
     },
-    "Tonight's dominoes": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El dominó de esta noche"
+    "Add score for %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anotar para %@"
           }
         }
       }
     },
-    "Share the night": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compartir la noche"
+    "Adds points to a team without unlocking the phone." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anota puntos sin desbloquear el teléfono."
           }
         }
       }
     },
-    "Night recap": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Resumen de la noche"
+    "All" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas"
+          }
+        }
+      }
+    },
+    "All games" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas las partidas"
+          }
+        }
+      }
+    },
+    "All tied up" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empatados"
+          }
+        }
+      }
+    },
+    "All tied up at %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empatados a %lld"
+          }
+        }
+      }
+    },
+    "Allow the microphone and speech recognition to talk, or type the game instead." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite el micrófono y el reconocimiento de voz para hablar, o escribe la partida."
+          }
+        }
+      }
+    },
+    "Allow the microphone and speech recognition to talk, or use the keypad instead." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite el micrófono y el reconocimiento de voz para hablar, o usa el teclado."
+          }
+        }
+      }
+    },
+    "Already in this game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ya está en esta partida"
+          }
+        }
+      }
+    },
+    "Already in your games" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ya está en tus partidas"
+          }
+        }
+      }
+    },
+    "Answers are always shown on screen. Silent mode also silences them." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las respuestas siempre se muestran en pantalla. El modo silencio también las silencia."
+          }
+        }
+      }
+    },
+    "App language" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idioma de la app"
+          }
+        }
+      }
+    },
+    "Are you sure you want to delete %@? This will remove them from future games but won't affect past game records." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Seguro que quieres eliminar a %@? No aparecerá en próximas partidas, pero las partidas anteriores no cambian."
+          }
+        }
+      }
+    },
+    "Are you sure you want to remove the last score entry?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Seguro que quieres quitar la última anotación?"
+          }
+        }
+      }
+    },
+    "Big moments" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grandes jugadas"
+          }
+        }
+      }
+    },
+    "Biggest round" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda más grande"
+          }
+        }
+      }
+    },
+    "Biggest round tonight!" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡La ronda más grande de la noche!"
+          }
+        }
+      }
+    },
+    "Call out big moments" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anunciar las grandes jugadas"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar"
+          }
+        }
+      }
+    },
+    "Cancel game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar partida"
+          }
+        }
+      }
+    },
+    "Cancel this game?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Cancelar esta partida?"
+          }
+        }
+      }
+    },
+    "Cancelled" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelada"
+          }
+        }
+      }
+    },
+    "Capicúa" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capicúa"
+          }
+        }
+      }
+    },
+    "Capicúa, zapato, comebacks and streaks get a banner and, with spoken answers on, a line." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capicúa, zapato, remontadas y rachas reciben un aviso y, con las respuestas habladas, una frase."
+          }
+        }
+      }
+    },
+    "Capicúa!" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Capicúa!"
+          }
+        }
+      }
+    },
+    "Check the game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisa la partida"
+          }
+        }
+      }
+    },
+    "Clear" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar"
+          }
+        }
+      }
+    },
+    "Clear search" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar la búsqueda"
+          }
+        }
+      }
+    },
+    "Close" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar"
+          }
+        }
+      }
+    },
+    "Close iScore" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar iScore"
+          }
+        }
+      }
+    },
+    "Close this first, then end the game." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cierra esto primero y luego termina la partida."
+          }
+        }
+      }
+    },
+    "Close this first, then undo the last round" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cierra esto primero y luego deshaz la última ronda"
+          }
+        }
+      }
+    },
+    "Comeback win!" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Ganaron remontando!"
+          }
+        }
+      }
+    },
+    "Comeback!" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Remontada!"
+          }
+        }
+      }
+    },
+    "Continue" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuar"
+          }
+        }
+      }
+    },
+    "Couldn't start listening. Type the game instead." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo empezar a escuchar. Escribe la partida."
+          }
+        }
+      }
+    },
+    "Couldn't start listening. Use the keypad instead." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo empezar a escuchar. Usa el teclado."
+          }
+        }
+      }
+    },
+    "D%lld · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "D%1$lld · %2$@"
+          }
+        }
+      }
+    },
+    "Day streak" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Días seguidos"
+          }
+        }
+      }
+    },
+    "Delete" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar"
+          }
+        }
+      }
+    },
+    "Delete %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar a %@"
+          }
+        }
+      }
+    },
+    "Delete game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar partida"
+          }
+        }
+      }
+    },
+    "Delete Player" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar jugador"
+          }
+        }
+      }
+    },
+    "Delete Preset" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar partida guardada"
+          }
+        }
+      }
+    },
+    "Delete preset %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar %@"
+          }
+        }
+      }
+    },
+    "Delete round" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar ronda"
+          }
+        }
+      }
+    },
+    "Delete round %lld?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Eliminar la ronda %lld?"
+          }
+        }
+      }
+    },
+    "Delete this game?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Eliminar esta partida?"
+          }
+        }
+      }
+    },
+    "Didn't catch anything. Try again, or use the keypad." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se escuchó nada. Inténtalo otra vez o usa el teclado."
+          }
+        }
+      }
+    },
+    "Didn't catch anything. Type the game instead." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se escuchó nada. Escribe la partida."
+          }
+        }
+      }
+    },
+    "Didn't catch that. Say a number and a team, or use the keypad." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se entendió. Di un número y un equipo, o usa el teclado."
+          }
+        }
+      }
+    },
+    "dominoes" : {
+
+    },
+    "Dominoes" : {
+
+    },
+    "Done" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo"
+          }
+        }
+      }
+    },
+    "Double %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doble %lld"
+          }
+        }
+      }
+    },
+    "Duplicate name" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre repetido"
+          }
+        }
+      }
+    },
+    "Edit preset" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar partida guardada"
+          }
+        }
+      }
+    },
+    "Edit score" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar anotación"
+          }
+        }
+      }
+    },
+    "Edit Scores" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar anotaciones"
+          }
+        }
+      }
+    },
+    "End game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminar partida"
+          }
+        }
+      }
+    },
+    "End this game?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Terminar esta partida?"
+          }
+        }
+      }
+    },
+    "Enter a code" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escribe un código"
+          }
+        }
+      }
+    },
+    "Exit table mode" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salir del modo mesa"
+          }
+        }
+      }
+    },
+    "Fill in the game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Llenar la partida"
+          }
+        }
+      }
+    },
+    "Final" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Final"
+          }
+        }
+      }
+    },
+    "Final score" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resultado final"
+          }
+        }
+      }
+    },
+    "Finish a game to get on the board." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Termina una partida para aparecer aquí."
+          }
+        }
+      }
+    },
+    "Finished" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminada"
+          }
+        }
+      }
+    },
+    "First to" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Primero a"
+          }
+        }
+      }
+    },
+    "First to %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Primero a %lld"
+          }
+        }
+      }
+    },
+    "Fixing round %lld? What should it be?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Arreglando la ronda %lld? ¿Cuánto debe ser?"
+          }
+        }
+      }
+    },
+    "Friday night" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viernes por la noche"
+          }
+        }
+      }
+    },
+    "Game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partida"
+          }
+        }
+      }
+    },
+    "Game cancelled" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partida cancelada"
+          }
+        }
+      }
+    },
+    "Game in progress" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partida en curso"
+          }
+        }
+      }
+    },
+    "Game in progress · Double %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partida en curso · Doble %lld"
+          }
+        }
+      }
+    },
+    "Game options" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opciones de la partida"
+          }
+        }
+      }
+    },
+    "Game progress" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progreso de la partida"
+          }
+        }
+      }
+    },
+    "Game results" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resultados de la partida"
+          }
+        }
+      }
+    },
+    "Game sentence" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frase de la partida"
+          }
+        }
+      }
+    },
+    "Games" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partidas"
+          }
+        }
+      }
+    },
+    "Games finished" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partidas terminadas"
+          }
+        }
+      }
+    },
+    "Give %1$lld to %2$@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dale %1$lld a %2$@"
+          }
+        }
+      }
+    },
+    "Give %lld to %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Give %1$lld to %2$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dale %1$lld a %2$@"
+          }
+        }
+      }
+    },
+    "Give it a name" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ponle un nombre"
+          }
+        }
+      }
+    },
+    "Hall of fame" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salón de la fama"
+          }
+        }
+      }
+    },
+    "How to play" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cómo se juega"
+          }
+        }
+      }
+    },
+    "iCloud sync" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sincronización con iCloud"
+          }
+        }
+      }
+    },
+    "In progress" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En curso"
+          }
+        }
+      }
+    },
+    "iScore will close. Open it again to see %@. Your games are saved." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iScore se cerrará. Ábrelo otra vez para verlo en %@. Tus partidas están guardadas."
+          }
+        }
+      }
+    },
+    "It won't count." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No va a contar."
+          }
+        }
+      }
+    },
+    "Join" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entrar"
+          }
+        }
+      }
+    },
+    "K7MQ" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "K7MQ"
+          }
+        }
+      }
+    },
+    "Keep playing" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seguir jugando"
+          }
+        }
+      }
+    },
+    "Language" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idioma"
+          }
+        }
+      }
+    },
+    "Leading" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Va ganando"
+          }
+        }
+      }
+    },
+    "Learn the rules" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aprende las reglas"
+          }
+        }
+      }
+    },
+    "Let's play!" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡A jugar!"
+          }
+        }
+      }
+    },
+    "Listening stopped: %@. Type the game instead." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se dejó de escuchar: %@. Escribe la partida."
+          }
+        }
+      }
+    },
+    "Listening stopped: %@. Use the keypad." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se dejó de escuchar: %@. Usa el teclado."
+          }
+        }
+      }
+    },
+    "Listening…" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escuchando…"
+          }
+        }
+      }
+    },
+    "Live" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En vivo"
+          }
+        }
+      }
+    },
+    "Looking for the game…" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscando la partida…"
+          }
+        }
+      }
+    },
+    "Lost connection. Reconnecting…" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se perdió la conexión. Reconectando…"
+          }
+        }
+      }
+    },
+    "Microphone or speech access is off. Turn it on in Settings, or type the game instead." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El micrófono o el reconocimiento de voz está apagado. Actívalo en Ajustes, o escribe la partida."
+          }
+        }
+      }
+    },
+    "Microphone or speech access is off. Turn it on in Settings, or use the keypad." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El micrófono o el reconocimiento de voz está apagado. Actívalo en Ajustes, o usa el teclado."
+          }
+        }
+      }
+    },
+    "Name this setup" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ponle nombre a esta partida"
+          }
+        }
+      }
+    },
+    "New game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partida nueva"
+          }
+        }
+      }
+    },
+    "New game defaults" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valores para partidas nuevas"
+          }
+        }
+      }
+    },
+    "New preset" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nueva partida guardada"
+          }
+        }
+      }
+    },
+    "Next game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siguiente partida"
+          }
+        }
+      }
+    },
+    "Nice round!" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Buena ronda!"
+          }
+        }
+      }
+    },
+    "Nice round! %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Buena ronda! %@"
+          }
+        }
+      }
+    },
+    "Night recap" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resumen de la noche"
+          }
+        }
+      }
+    },
+    "Nine, 200, me and Ana vs Luis and Rafa" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nueve, 200, yo y Ana contra Luis y Rafa"
+          }
+        }
+      }
+    },
+    "No finished games yet" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía no hay partidas terminadas"
+          }
+        }
+      }
+    },
+    "No games match." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay partidas que coincidan."
+          }
+        }
+      }
+    },
+    "No games yet" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía no hay partidas"
+          }
+        }
+      }
+    },
+    "No players yet" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía no hay jugadores"
+          }
+        }
+      }
+    },
+    "No presets yet" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía no hay partidas guardadas"
+          }
+        }
+      }
+    },
+    "No rounds yet" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía no hay rondas"
+          }
+        }
+      }
+    },
+    "No rounds yet. Add the first score below." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía no hay rondas. Anota la primera abajo."
+          }
+        }
+      }
+    },
+    "Nobody" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nadie"
+          }
+        }
+      }
+    },
+    "Nobody has scored yet" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía nadie ha anotado"
+          }
+        }
+      }
+    },
+    "Nobody watching yet" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nadie mirando todavía"
+          }
+        }
+      }
+    },
+    "On a streak!" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡En racha!"
+          }
+        }
+      }
+    },
+    "Open Settings" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Ajustes"
+          }
+        }
+      }
+    },
+    "Opens the game in progress" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre la partida en curso"
+          }
+        }
+      }
+    },
+    "Other…" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otro…"
+          }
+        }
+      }
+    },
+    "Pairs" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parejas"
+          }
+        }
+      }
+    },
+    "Pick 4 different players" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escoge 4 jugadores distintos"
+          }
+        }
+      }
+    },
+    "Pick a player" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escoge un jugador"
+          }
+        }
+      }
+    },
+    "Pick all four players" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige a los cuatro jugadores"
+          }
+        }
+      }
+    },
+    "Picked" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escogido"
+          }
+        }
+      }
+    },
+    "Players · %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jugadores · %lld"
+          }
+        }
+      }
+    },
+    "Playing" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En curso"
+          }
+        }
+      }
+    },
+    "Points" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puntos"
+          }
+        }
+      }
+    },
+    "Preset name" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre"
+          }
+        }
+      }
+    },
+    "Presets" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partidas guardadas"
+          }
+        }
+      }
+    },
+    "Progress" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progreso"
+          }
+        }
+      }
+    },
+    "Rank %1$lld: %2$@, %3$@, %4$@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puesto %1$lld: %2$@, %3$@, %4$@"
+          }
+        }
+      }
+    },
+    "Rank %lld: %@, %@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Rank %1$lld: %2$@, %3$@, %4$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puesto %1$lld: %2$@, %3$@, %4$@"
+          }
+        }
+      }
+    },
+    "Read this code to the table" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lee este código a la mesa"
+          }
+        }
+      }
+    },
+    "Recent games" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partidas recientes"
+          }
+        }
+      }
+    },
+    "Record a round" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anotar una ronda"
+          }
+        }
+      }
+    },
+    "Removes +%1$lld from %2$@." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le quita +%1$lld a %2$@."
+          }
+        }
+      }
+    },
+    "Removes +%lld from %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Removes +%1$lld from %2$@."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le quita +%1$lld a %2$@."
+          }
+        }
+      }
+    },
+    "Restart to change language?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Reiniciar para cambiar el idioma?"
+          }
+        }
+      }
+    },
+    "Round %1$lld · First to %2$lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda %1$lld · Primero a %2$lld"
+          }
+        }
+      }
+    },
+    "Round %1$lld · was +%2$lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda %1$lld · era +%2$lld"
+          }
+        }
+      }
+    },
+    "Round %1$lld, %2$@, %3$@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda %1$lld, %2$@, %3$@"
+          }
+        }
+      }
+    },
+    "Round %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda %lld"
+          }
+        }
+      }
+    },
+    "Round %lld · %lld to win" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda %1$lld · %2$lld para ganar"
+          }
+        }
+      }
+    },
+    "Round %lld · First to %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Round %1$lld · First to %2$lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda %1$lld · Primero a %2$lld"
+          }
+        }
+      }
+    },
+    "Round %lld · was +%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Round %1$lld · was +%2$lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda %1$lld · era +%2$lld"
+          }
+        }
+      }
+    },
+    "Round %lld, %@, %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda %lld, %@, %@"
+          }
+        }
+      }
+    },
+    "Rounds" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rondas"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar"
+          }
+        }
+      }
+    },
+    "Save %lld points" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Save %lld point"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Save %lld points"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Guardar %lld punto"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Guardar %lld puntos"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Save points" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar puntos"
+          }
+        }
+      }
+    },
+    "Save this setup" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar esta partida"
+          }
+        }
+      }
+    },
+    "Save to my games" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar en mis partidas"
+          }
+        }
+      }
+    },
+    "Saved" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardada"
+          }
+        }
+      }
+    },
+    "Saved as %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardada como %@"
+          }
+        }
+      }
+    },
+    "Say a score" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di una anotación"
+          }
+        }
+      }
+    },
+    "Say a score, undo, or ask who's winning" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di una anotación, deshaz, o pregunta quién va ganando"
+          }
+        }
+      }
+    },
+    "Say it again" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dilo otra vez"
+          }
+        }
+      }
+    },
+    "Say the game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di la partida"
+          }
+        }
+      }
+    },
+    "Say the game type, the target and the two teams" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di el tipo de partida, los puntos y los dos equipos"
+          }
+        }
+      }
+    },
+    "Search players" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar jugadores"
+          }
+        }
+      }
+    },
+    "Set “That's me” in Settings to see your own games, wins and win rate." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige “Ese soy yo” en Ajustes para ver tus partidas, victorias y porcentaje de victorias."
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes"
+          }
+        }
+      }
+    },
+    "Share live score" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartir marcador en vivo"
+          }
+        }
+      }
+    },
+    "Share results" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartir resultados"
+          }
+        }
+      }
+    },
+    "Share the night" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartir la noche"
+          }
+        }
+      }
+    },
+    "Short videos on the rules and scoring" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Videos cortos sobre las reglas y la anotación"
+          }
+        }
+      }
+    },
+    "Speak answers" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Decir las respuestas"
+          }
+        }
+      }
+    },
+    "Speech recognition isn't available on this device. Type the game instead." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El reconocimiento de voz no está disponible en este dispositivo. Escribe la partida."
+          }
+        }
+      }
+    },
+    "Speech recognition isn't available on this device. Use the keypad." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El reconocimiento de voz no está disponible en este dispositivo. Usa el teclado."
+          }
+        }
+      }
+    },
+    "Standings" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posiciones"
+          }
+        }
+      }
+    },
+    "Start a game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezar una partida"
+          }
+        }
+      }
+    },
+    "Start game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezar partida"
+          }
+        }
+      }
+    },
+    "Start games in table mode" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezar partidas en modo mesa"
+          }
+        }
+      }
+    },
+    "Start listening" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezar a escuchar"
+          }
+        }
+      }
+    },
+    "Start one and it shows up here." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empieza una y aparece aquí."
+          }
+        }
+      }
+    },
+    "Start playing" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empieza a jugar"
+          }
+        }
+      }
+    },
+    "Starts the game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empieza la partida"
+          }
+        }
+      }
+    },
+    "Stop listening" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dejar de escuchar"
+          }
+        }
+      }
+    },
+    "Stop sharing" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dejar de compartir"
+          }
+        }
+      }
+    },
+    "Streak" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Racha"
+          }
+        }
+      }
+    },
+    "Table mode" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modo mesa"
+          }
+        }
+      }
+    },
+    "Takes back the round just recorded." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quita la ronda que acabas de anotar."
+          }
+        }
+      }
+    },
+    "Tap to talk" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca para hablar"
+          }
+        }
+      }
+    },
+    "Team" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Equipo"
+          }
+        }
+      }
+    },
+    "Team 1" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Equipo 1"
+          }
+        }
+      }
+    },
+    "Team 2" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Equipo 2"
+          }
+        }
+      }
+    },
+    "That's for %@. Close this and say it again." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eso es para %@. Cierra esto y dilo otra vez."
+          }
+        }
+      }
+    },
+    "That's me" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ese soy yo"
+          }
+        }
+      }
+    },
+    "The phone lies flat between the players: big scores, screen stays on." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El teléfono queda en la mesa: marcadores grandes y la pantalla encendida."
+          }
+        }
+      }
+    },
+    "The score stands as it is." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La anotación queda como está."
+          }
+        }
+      }
+    },
+    "There's nothing to undo yet." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía no hay nada que deshacer."
+          }
+        }
+      }
+    },
+    "This game is over." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta partida ya terminó."
+          }
+        }
+      }
+    },
+    "This preset will be removed. Games already played stay." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se borrará esta partida guardada. Las partidas jugadas se quedan."
+          }
+        }
+      }
+    },
+    "to %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "a %lld"
+          }
+        }
+      }
+    },
+    "Tonight · %lld games" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tonight · %lld game"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tonight · %lld games"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esta noche · %lld partida"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esta noche · %lld partidas"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Tonight's dominoes" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El dominó de esta noche"
+          }
+        }
+      }
+    },
+    "Top players" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mejores jugadores"
+          }
+        }
+      }
+    },
+    "Type a name" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escribe un nombre"
+          }
+        }
+      }
+    },
+    "Undo" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deshacer"
+          }
+        }
+      }
+    },
+    "Undo last score" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deshacer la última anotación"
+          }
+        }
+      }
+    },
+    "Undo Last Score" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deshacer la última anotación"
+          }
+        }
+      }
+    },
+    "Undo the last round" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deshacer la última ronda"
+          }
+        }
+      }
+    },
+    "Undo this round" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deshacer esta ronda"
+          }
+        }
+      }
+    },
+    "Version" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión"
+          }
+        }
+      }
+    },
+    "Video %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video %lld"
+          }
+        }
+      }
+    },
+    "View all" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver todas"
+          }
+        }
+      }
+    },
+    "Voice" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voz"
+          }
+        }
+      }
+    },
+    "Voice language" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idioma de la voz"
+          }
+        }
+      }
+    },
+    "VS" : {
+
+    },
+    "vs %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "vs %@"
+          }
+        }
+      }
+    },
+    "Watch a game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver una partida"
+          }
+        }
+      }
+    },
+    "We dominoed! How many points did we make?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Dominamos! ¿Cuántos puntos hicimos?"
+          }
+        }
+      }
+    },
+    "Who's playing?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Quiénes juegan?"
+          }
+        }
+      }
+    },
+    "Win" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Victoria"
+          }
+        }
+      }
+    },
+    "Win rate" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porcentaje de victorias"
+          }
+        }
+      }
+    },
+    "Winner" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ganador"
+          }
+        }
+      }
+    },
+    "Wins" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Victorias"
+          }
+        }
+      }
+    },
+    "Wins the game!" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Gana la partida!"
+          }
+        }
+      }
+    },
+    "Won by" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ganó"
+          }
+        }
+      }
+    },
+    "Won from %lld down" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ganaron desde %lld abajo"
+          }
+        }
+      }
+    },
+    "Won it in the last round!" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡La ganaron en la última ronda!"
+          }
+        }
+      }
+    },
+    "Working it out…" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resolviéndolo…"
+          }
+        }
+      }
+    },
+    "You already have a preset called %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ya tienes una partida guardada llamada %@"
+          }
+        }
+      }
+    },
+    "You can edit a score by pressing it for two seconds." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puedes editar una anotación manteniéndola presionada dos segundos."
+          }
+        }
+      }
+    },
+    "Your players" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tus jugadores"
+          }
+        }
+      }
+    },
+    "Your presets" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tus partidas guardadas"
+          }
+        }
+      }
+    },
+    "Your stats" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tus números"
+          }
+        }
+      }
+    },
+    "Zapato!" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Zapato!"
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.1"
 }

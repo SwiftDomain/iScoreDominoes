@@ -220,4 +220,6 @@ longest streak — rendered at 2x and shared as an image.
 
 See `docs/superpowers/plans/2026-10-16-duolingo-redesign.md` (Home, Game, Add Score) and the spec's "Remaining screens" section (New Game, All Games, Hall of Fame, Settings, Edit Score, Game Summary, How to Play — all restyled).
 
+String Catalogs are stored in Xcode's own JSON format through a git filter (`.gitattributes`, `scripts/xcstrings-format.swift`), so Xcode rewriting them is not a change. Run `sh scripts/setup-git.sh` once per clone. A script that edits a catalog writes ordinary JSON; pipe the result through the filter (or `git add` it) so the file on disk matches.
+
 New or deleted Swift files must be registered with `ruby scripts/xcodeproj.rb add|remove` (classic Xcode groups). Tests: Swift Testing target `iScoreTests`, run with `xcodebuild test -project iScore.xcodeproj -scheme iScore -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`. Debug builds launched with `-demoData` use an in-memory store with sample games and players.

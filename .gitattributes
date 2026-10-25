@@ -1,0 +1,3 @@
+# Xcode rewrites String Catalogs on every touch; this filter stores them in
+# Xcode's own format so a rewrite is not a change. Run scripts/setup-git.sh once.
+*.xcstrings filter=xcstrings
