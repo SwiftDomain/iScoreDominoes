@@ -33,7 +33,7 @@ struct GameView: View {
     @AppStorage(OwnerIdentity.nameKey) private var ownerName: String = ""
     let editScore = editScoreTip()
 
-    /// The toolbar bar follows the leader; muted and on team 1's value when tied.
+    /// The progress bar follows the leader; muted and on team 1's value when tied.
     private var progressTeam: Team {
         game.leader == .none ? .team1 : game.leader
     }
@@ -311,6 +311,15 @@ struct GameView: View {
     private var normalScreen: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
+                // In the content, full width, not in the toolbar: with back,
+                // undo, info, share and the menu up there, a fixed-width bar
+                // has no room and slid under the trailing buttons.
+                DuoProgressBar(
+                    value: game.progress(for: progressTeam),
+                    tint: progressTint,
+                    label: game.progressLabel(for: game.leader)
+                )
+
                 VStack(alignment: .leading, spacing: 2) {
                     Text(game.statusLabel)
                         .duoLabel()
@@ -337,16 +346,6 @@ struct GameView: View {
             bottomBar
         }
         .toolbar {
-            ToolbarItem(placement: .principal) {
-                DuoProgressBar(
-                    value: game.progress(for: progressTeam),
-                    tint: progressTint,
-                    label: game.progressLabel(for: game.leader)
-                )
-                .frame(width: 180)
-            }
-            .sharedBackgroundVisibility(.hidden)
-
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button {
                     showUndoConfirmation = true
