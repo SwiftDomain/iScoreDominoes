@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchWell: View {
 
-    let prompt: String
+    let prompt: LocalizedStringResource
     @Binding var text: String
 
     var body: some View {

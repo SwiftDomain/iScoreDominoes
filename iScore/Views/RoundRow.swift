@@ -14,9 +14,11 @@ struct RoundRow: View {
     /// Display name of the scoring team, for VoiceOver.
     let teamName: String
 
-    /// "Round 5, Ana & Luis, 35 points"
-    static func spokenLabel(for round: Round, teamName: String) -> String {
-        let points = round.points == 1 ? "1 point" : "\(round.points) points"
+    /// "Round 5, Ana & Luis, 35 points" — read aloud by VoiceOver, so it is
+    /// localized like anything else on screen. The point count pluralizes on
+    /// its own key.
+    static func spokenLabel(for round: Round, teamName: String) -> LocalizedStringResource {
+        let points = String(localized: "\(round.points) points")
         return "Round \(round.number), \(teamName), \(points)"
     }
 

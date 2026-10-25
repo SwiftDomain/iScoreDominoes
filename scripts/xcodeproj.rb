@@ -96,6 +96,9 @@ def setup_widget
     settings['TARGETED_DEVICE_FAMILY'] = '1,2'
     settings['IPHONEOS_DEPLOYMENT_TARGET'] = '26.0'
     settings['SKIP_INSTALL'] = 'YES'
+    # Without it the widget's literals never reach the String Catalog, and the
+    # Lock Screen stays English on a Spanish phone.
+    settings['SWIFT_EMIT_LOC_STRINGS'] = 'YES'
     # An .appex with no version keys fails to install ("Simulator device
     # failed to install the application"), and the numbers must track the app.
     settings['MARKETING_VERSION'] = app_setting(app, 'MARKETING_VERSION') || '1.0'

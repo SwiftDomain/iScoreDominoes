@@ -50,16 +50,27 @@ struct ScoreEntry: Equatable {
         return value
     }
 
-    var buttonTitle: String {
-        title("Add")
+    /// What the confirm button does. Whole phrases rather than a verb glued
+    /// onto a noun, so each language can order and inflect them its own way.
+    enum Verb {
+        case add, save
     }
 
-    /// "Save 35 points" / "Save 1 point" / "Save points"
-    func title(_ verb: String) -> String {
-        switch value {
-        case nil: "\(verb) points"
-        case 1: "\(verb) 1 point"
-        case let points?: "\(verb) \(points) points"
+    var buttonTitle: LocalizedStringResource {
+        title(.add)
+    }
+
+    /// "Save 35 points" / "Save points"
+    func title(_ verb: Verb) -> LocalizedStringResource {
+        guard let points = value else {
+            switch verb {
+            case .add: return "Add points"
+            case .save: return "Save points"
+            }
+        }
+        switch verb {
+        case .add: return "Add \(points) points"
+        case .save: return "Save \(points) points"
         }
     }
 }

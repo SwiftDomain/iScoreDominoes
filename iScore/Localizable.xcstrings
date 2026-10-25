@@ -1,27 +1,2639 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Check the game" : {},
-    "Fill in the game" : {},
-    "Game sentence" : {},
-    "Listening…" : {},
-    "Start listening" : {},
-    "Stop listening" : {},
-    "Tap to talk" : {},
-    "Next game" : {},
-    "Say the game" : {},
-    "Say the game type, the target and the two teams" : {},
-    "Nine, 200, me and Ana vs Luis and Rafa" : {},
-    "Working it out…" : {},
-    "“Nine, two hundred, me and Carlos against Luis and Papo”" : {},
-    "%@, new player" : {},
-    "%@ · new" : {},
-    "Listening stopped: %@. Type the game instead." : {},
-    "Allow the microphone and speech recognition to talk, or type the game instead." : {},
-    "Microphone or speech access is off. Turn it on in Settings, or type the game instead." : {},
-    "Speech recognition isn't available on this device. Type the game instead." : {},
-    "Didn't catch anything. Type the game instead." : {},
-    "Couldn't start listening. Type the game instead." : {}
+    "" : {
+
+    },
+    "—" : {
+
+    },
+    "“Forty for us”" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Cuarenta para nosotros”"
+          }
+        }
+      }
+    },
+    "“Nine, two hundred, me and Carlos against Luis and Papo”" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Nueve, doscientos, yo y Carlos contra Luis y Papo”"
+          }
+        }
+      }
+    },
+    "%@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@"
+          }
+        }
+      }
+    },
+    "%@ · %lld in progress" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$lld in progress"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$lld en curso"
+          }
+        }
+      }
+    },
+    "%@ · First to %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · First to %2$lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · Primero a %2$lld"
+          }
+        }
+      }
+    },
+    "%@ · new" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · nuevo"
+          }
+        }
+      }
+    },
+    "%@ · Player %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · Player %2$lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · Jugador %2$lld"
+          }
+        }
+      }
+    },
+    "%@ %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$lld"
+          }
+        }
+      }
+    },
+    "%@ +%lld · %lld to win" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ +%2$lld · %3$lld to win"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ +%2$lld · %3$lld para ganar"
+          }
+        }
+      }
+    },
+    "%@ have won" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ganaron"
+          }
+        }
+      }
+    },
+    "%@ lead by %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ lead by %2$lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ van ganando por %2$lld"
+          }
+        }
+      }
+    },
+    "%@ lead by %lld, %lld to %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ lead by %2$lld, %3$lld to %4$lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ van ganando por %2$lld, %3$lld a %4$lld"
+          }
+        }
+      }
+    },
+    "%@ need %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ need %2$lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A %1$@ le faltan %2$lld"
+          }
+        }
+      }
+    },
+    "%@ progress" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progreso de %@"
+          }
+        }
+      }
+    },
+    "%@ vs %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ vs %2$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ vs %2$@"
+          }
+        }
+      }
+    },
+    "%@ vs %@ will be removed. Players stay in your list." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ vs %2$@ will be removed. Players stay in your list."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se eliminará %1$@ vs %2$@. Los jugadores quedan en tu lista."
+          }
+        }
+      }
+    },
+    "%@ won!" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡%@ ganaron!"
+          }
+        }
+      }
+    },
+    "%@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@"
+          }
+        }
+      }
+    },
+    "%@, new player" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, jugador nuevo"
+          }
+        }
+      }
+    },
+    "%@: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$@"
+          }
+        }
+      }
+    },
+    "%@: %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$lld"
+          }
+        }
+      }
+    },
+    "%1$@ · %2$lld in progress" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$lld en curso"
+          }
+        }
+      }
+    },
+    "%1$@ · First to %2$lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · Primero a %2$lld"
+          }
+        }
+      }
+    },
+    "%1$@ · Player %2$lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · Jugador %2$lld"
+          }
+        }
+      }
+    },
+    "%1$@ +%2$lld · %3$lld to win" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ +%2$lld · %3$lld para ganar"
+          }
+        }
+      }
+    },
+    "%1$@ lead by %2$lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ van ganando por %2$lld"
+          }
+        }
+      }
+    },
+    "%1$@ lead by %2$lld, %3$lld to %4$lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ van ganando por %2$lld, %3$lld a %4$lld"
+          }
+        }
+      }
+    },
+    "%1$@ need %2$lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A %1$@ le faltan %2$lld"
+          }
+        }
+      }
+    },
+    "%1$@ vs %2$@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ vs %2$@"
+          }
+        }
+      }
+    },
+    "%1$@ vs %2$@ will be removed. Players stay in your list." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se eliminará %1$@ vs %2$@. Los jugadores quedan en tu lista."
+          }
+        }
+      }
+    },
+    "%1$lld → %2$lld · %3$@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld → %2$lld · %3$@"
+          }
+        }
+      }
+    },
+    "%1$lld played · %2$lld%%" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld jugadas · %2$lld%%"
+          }
+        }
+      }
+    },
+    "%lld" : {
+
+    },
+    "%lld – %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld – %2$lld"
+          }
+        }
+      }
+    },
+    "%lld — which team?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld — ¿para cuál equipo?"
+          }
+        }
+      }
+    },
+    "%lld → %lld · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld → %2$lld · %3$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld → %2$lld · %3$@"
+          }
+        }
+      }
+    },
+    "%lld games" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld game"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld games"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld partida"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld partidas"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld played" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld played"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld played"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld jugada"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld jugadas"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld played · %lld%%" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@played@ · %2$lld%%"
+          },
+          "substitutions" : {
+            "played" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg jugada"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg jugadas"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld points" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld point"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld points"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld punto"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld puntos"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld rounds" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld round"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld rounds"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld ronda"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld rondas"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld to win" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld para ganar"
+          }
+        }
+      }
+    },
+    "%lld wins" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld win"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld wins"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld victoria"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld victorias"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "+%lld" : {
+
+    },
+    "0" : {
+
+    },
+    "About" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acerca de"
+          }
+        }
+      }
+    },
+    "Add %lld more players to start" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Add %lld more player to start"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Add %lld more players to start"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Agrega %lld jugador más para empezar"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Agrega %lld jugadores más para empezar"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Add %lld points" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Add %lld point"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Add %lld points"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Agregar %lld punto"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Agregar %lld puntos"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Add a player" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar un jugador"
+          }
+        }
+      }
+    },
+    "Add player" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar jugador"
+          }
+        }
+      }
+    },
+    "Add points" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agregar puntos"
+          }
+        }
+      }
+    },
+    "Add score for %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anotar para %@"
+          }
+        }
+      }
+    },
+    "Adds points to a team without unlocking the phone." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anota puntos sin desbloquear el teléfono."
+          }
+        }
+      }
+    },
+    "All" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas"
+          }
+        }
+      }
+    },
+    "All games" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas las partidas"
+          }
+        }
+      }
+    },
+    "All tied up" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empatados"
+          }
+        }
+      }
+    },
+    "All tied up at %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empatados a %lld"
+          }
+        }
+      }
+    },
+    "Allow the microphone and speech recognition to talk, or type the game instead." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite el micrófono y el reconocimiento de voz para hablar, o escribe la partida."
+          }
+        }
+      }
+    },
+    "Allow the microphone and speech recognition to talk, or use the keypad instead." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite el micrófono y el reconocimiento de voz para hablar, o usa el teclado."
+          }
+        }
+      }
+    },
+    "Already in this game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ya está en esta partida"
+          }
+        }
+      }
+    },
+    "Answers are always shown on screen. Silent mode also silences them." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las respuestas siempre se muestran en pantalla. El modo silencio también las silencia."
+          }
+        }
+      }
+    },
+    "App language" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idioma de la app"
+          }
+        }
+      }
+    },
+    "Are you sure you want to delete %@? This will remove them from future games but won't affect past game records." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Seguro que quieres eliminar a %@? No aparecerá en próximas partidas, pero las partidas anteriores no cambian."
+          }
+        }
+      }
+    },
+    "Are you sure you want to remove the last score entry?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Seguro que quieres quitar la última anotación?"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar"
+          }
+        }
+      }
+    },
+    "Cancel game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar partida"
+          }
+        }
+      }
+    },
+    "Cancel this game?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Cancelar esta partida?"
+          }
+        }
+      }
+    },
+    "Cancelled" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelada"
+          }
+        }
+      }
+    },
+    "Check the game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisa la partida"
+          }
+        }
+      }
+    },
+    "Clear" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar"
+          }
+        }
+      }
+    },
+    "Clear search" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar la búsqueda"
+          }
+        }
+      }
+    },
+    "Close" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar"
+          }
+        }
+      }
+    },
+    "Close iScore" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar iScore"
+          }
+        }
+      }
+    },
+    "Close this first, then end the game." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cierra esto primero y luego termina la partida."
+          }
+        }
+      }
+    },
+    "Close this first, then undo the last round" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cierra esto primero y luego deshaz la última ronda"
+          }
+        }
+      }
+    },
+    "Continue" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuar"
+          }
+        }
+      }
+    },
+    "Couldn't start listening. Type the game instead." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo empezar a escuchar. Escribe la partida."
+          }
+        }
+      }
+    },
+    "Couldn't start listening. Use the keypad instead." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo empezar a escuchar. Usa el teclado."
+          }
+        }
+      }
+    },
+    "D%lld · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "D%1$lld · %2$@"
+          }
+        }
+      }
+    },
+    "Day streak" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Días seguidos"
+          }
+        }
+      }
+    },
+    "Delete" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar"
+          }
+        }
+      }
+    },
+    "Delete %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar a %@"
+          }
+        }
+      }
+    },
+    "Delete game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar partida"
+          }
+        }
+      }
+    },
+    "Delete Player" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar jugador"
+          }
+        }
+      }
+    },
+    "Delete round" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar ronda"
+          }
+        }
+      }
+    },
+    "Delete round %lld?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Eliminar la ronda %lld?"
+          }
+        }
+      }
+    },
+    "Delete this game?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Eliminar esta partida?"
+          }
+        }
+      }
+    },
+    "Didn't catch anything. Try again, or use the keypad." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se escuchó nada. Inténtalo otra vez o usa el teclado."
+          }
+        }
+      }
+    },
+    "Didn't catch anything. Type the game instead." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se escuchó nada. Escribe la partida."
+          }
+        }
+      }
+    },
+    "Didn't catch that. Say a number and a team, or use the keypad." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se entendió. Di un número y un equipo, o usa el teclado."
+          }
+        }
+      }
+    },
+    "dominoes" : {
+
+    },
+    "Dominoes" : {
+
+    },
+    "Done" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo"
+          }
+        }
+      }
+    },
+    "Double %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doble %lld"
+          }
+        }
+      }
+    },
+    "Edit score" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar anotación"
+          }
+        }
+      }
+    },
+    "Edit Scores" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar anotaciones"
+          }
+        }
+      }
+    },
+    "End game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminar partida"
+          }
+        }
+      }
+    },
+    "End this game?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Terminar esta partida?"
+          }
+        }
+      }
+    },
+    "Fill in the game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Llenar la partida"
+          }
+        }
+      }
+    },
+    "Final" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Final"
+          }
+        }
+      }
+    },
+    "Finish a game to get on the board." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Termina una partida para aparecer aquí."
+          }
+        }
+      }
+    },
+    "Finished" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminada"
+          }
+        }
+      }
+    },
+    "First to" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Primero a"
+          }
+        }
+      }
+    },
+    "First to %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Primero a %lld"
+          }
+        }
+      }
+    },
+    "Fixing round %lld? What should it be?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Arreglando la ronda %lld? ¿Cuánto debe ser?"
+          }
+        }
+      }
+    },
+    "Game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partida"
+          }
+        }
+      }
+    },
+    "Game cancelled" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partida cancelada"
+          }
+        }
+      }
+    },
+    "Game in progress" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partida en curso"
+          }
+        }
+      }
+    },
+    "Game in progress · Double %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partida en curso · Doble %lld"
+          }
+        }
+      }
+    },
+    "Game options" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opciones de la partida"
+          }
+        }
+      }
+    },
+    "Game progress" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progreso de la partida"
+          }
+        }
+      }
+    },
+    "Game results" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resultados de la partida"
+          }
+        }
+      }
+    },
+    "Game sentence" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frase de la partida"
+          }
+        }
+      }
+    },
+    "Games" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partidas"
+          }
+        }
+      }
+    },
+    "Games finished" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partidas terminadas"
+          }
+        }
+      }
+    },
+    "Give %1$lld to %2$@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dale %1$lld a %2$@"
+          }
+        }
+      }
+    },
+    "Give %lld to %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Give %1$lld to %2$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dale %1$lld a %2$@"
+          }
+        }
+      }
+    },
+    "Hall of fame" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salón de la fama"
+          }
+        }
+      }
+    },
+    "How to play" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cómo se juega"
+          }
+        }
+      }
+    },
+    "iCloud sync" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sincronización con iCloud"
+          }
+        }
+      }
+    },
+    "In progress" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En curso"
+          }
+        }
+      }
+    },
+    "iScore will close. Open it again to see %@. Your games are saved." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iScore se cerrará. Ábrelo otra vez para verlo en %@. Tus partidas están guardadas."
+          }
+        }
+      }
+    },
+    "It won't count." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No va a contar."
+          }
+        }
+      }
+    },
+    "Keep playing" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seguir jugando"
+          }
+        }
+      }
+    },
+    "Language" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idioma"
+          }
+        }
+      }
+    },
+    "Leading" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Va ganando"
+          }
+        }
+      }
+    },
+    "Learn the rules" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aprende las reglas"
+          }
+        }
+      }
+    },
+    "Let's play!" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡A jugar!"
+          }
+        }
+      }
+    },
+    "Listening stopped: %@. Type the game instead." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se dejó de escuchar: %@. Escribe la partida."
+          }
+        }
+      }
+    },
+    "Listening stopped: %@. Use the keypad." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se dejó de escuchar: %@. Usa el teclado."
+          }
+        }
+      }
+    },
+    "Listening…" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escuchando…"
+          }
+        }
+      }
+    },
+    "Lock Screen" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantalla bloqueada"
+          }
+        }
+      }
+    },
+    "Lock Screen buttons will open the app instead of scoring straight away." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los botones de la pantalla bloqueada abrirán la app en vez de anotar de una vez."
+          }
+        }
+      }
+    },
+    "Microphone or speech access is off. Turn it on in Settings, or type the game instead." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El micrófono o el reconocimiento de voz está apagado. Actívalo en Ajustes, o escribe la partida."
+          }
+        }
+      }
+    },
+    "Microphone or speech access is off. Turn it on in Settings, or use the keypad." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El micrófono o el reconocimiento de voz está apagado. Actívalo en Ajustes, o usa el teclado."
+          }
+        }
+      }
+    },
+    "New game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partida nueva"
+          }
+        }
+      }
+    },
+    "New game defaults" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valores para partidas nuevas"
+          }
+        }
+      }
+    },
+    "Next game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siguiente partida"
+          }
+        }
+      }
+    },
+    "Nice round!" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Buena ronda!"
+          }
+        }
+      }
+    },
+    "Nice round! %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Buena ronda! %@"
+          }
+        }
+      }
+    },
+    "Nine, 200, me and Ana vs Luis and Rafa" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nueve, 200, yo y Ana contra Luis y Rafa"
+          }
+        }
+      }
+    },
+    "No finished games yet" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía no hay partidas terminadas"
+          }
+        }
+      }
+    },
+    "No games match." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay partidas que coincidan."
+          }
+        }
+      }
+    },
+    "No games yet" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía no hay partidas"
+          }
+        }
+      }
+    },
+    "No players yet" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía no hay jugadores"
+          }
+        }
+      }
+    },
+    "No rounds yet. Add the first score below." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía no hay rondas. Anota la primera abajo."
+          }
+        }
+      }
+    },
+    "Nobody" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nadie"
+          }
+        }
+      }
+    },
+    "Nobody has scored yet" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía nadie ha anotado"
+          }
+        }
+      }
+    },
+    "Opens the game in progress" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre la partida en curso"
+          }
+        }
+      }
+    },
+    "Other…" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otro…"
+          }
+        }
+      }
+    },
+    "Pick 4 different players" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escoge 4 jugadores distintos"
+          }
+        }
+      }
+    },
+    "Pick a player" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escoge un jugador"
+          }
+        }
+      }
+    },
+    "Picked" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escogido"
+          }
+        }
+      }
+    },
+    "Players · %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jugadores · %lld"
+          }
+        }
+      }
+    },
+    "Playing" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En curso"
+          }
+        }
+      }
+    },
+    "Points" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puntos"
+          }
+        }
+      }
+    },
+    "Progress" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progreso"
+          }
+        }
+      }
+    },
+    "Rank %1$lld: %2$@, %3$@, %4$@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puesto %1$lld: %2$@, %3$@, %4$@"
+          }
+        }
+      }
+    },
+    "Rank %lld: %@, %@, %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Rank %1$lld: %2$@, %3$@, %4$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puesto %1$lld: %2$@, %3$@, %4$@"
+          }
+        }
+      }
+    },
+    "Recent games" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partidas recientes"
+          }
+        }
+      }
+    },
+    "Record a round" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anotar una ronda"
+          }
+        }
+      }
+    },
+    "Removes +%1$lld from %2$@." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le quita +%1$lld a %2$@."
+          }
+        }
+      }
+    },
+    "Removes +%lld from %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Removes +%1$lld from %2$@."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le quita +%1$lld a %2$@."
+          }
+        }
+      }
+    },
+    "Require unlock to score" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear para anotar"
+          }
+        }
+      }
+    },
+    "Restart to change language?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Reiniciar para cambiar el idioma?"
+          }
+        }
+      }
+    },
+    "Round %1$lld · First to %2$lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda %1$lld · Primero a %2$lld"
+          }
+        }
+      }
+    },
+    "Round %1$lld · was +%2$lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda %1$lld · era +%2$lld"
+          }
+        }
+      }
+    },
+    "Round %1$lld, %2$@, %3$@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda %1$lld, %2$@, %3$@"
+          }
+        }
+      }
+    },
+    "Round %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda %lld"
+          }
+        }
+      }
+    },
+    "Round %lld · %lld to win" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda %1$lld · %2$lld para ganar"
+          }
+        }
+      }
+    },
+    "Round %lld · First to %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Round %1$lld · First to %2$lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda %1$lld · Primero a %2$lld"
+          }
+        }
+      }
+    },
+    "Round %lld · was +%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Round %1$lld · was +%2$lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda %1$lld · era +%2$lld"
+          }
+        }
+      }
+    },
+    "Round %lld, %@, %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ronda %lld, %@, %@"
+          }
+        }
+      }
+    },
+    "Rounds" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rondas"
+          }
+        }
+      }
+    },
+    "Save %lld points" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Save %lld point"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Save %lld points"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Guardar %lld punto"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Guardar %lld puntos"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Save points" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar puntos"
+          }
+        }
+      }
+    },
+    "Say a score, undo, or ask who's winning" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di una anotación, deshaz, o pregunta quién va ganando"
+          }
+        }
+      }
+    },
+    "Say it again" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dilo otra vez"
+          }
+        }
+      }
+    },
+    "Say the game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di la partida"
+          }
+        }
+      }
+    },
+    "Say the game type, the target and the two teams" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di el tipo de partida, los puntos y los dos equipos"
+          }
+        }
+      }
+    },
+    "Search players" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar jugadores"
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes"
+          }
+        }
+      }
+    },
+    "Share results" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartir resultados"
+          }
+        }
+      }
+    },
+    "Short videos on the rules and scoring" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Videos cortos sobre las reglas y la anotación"
+          }
+        }
+      }
+    },
+    "Speak answers" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Decir las respuestas"
+          }
+        }
+      }
+    },
+    "Speech recognition isn't available on this device. Type the game instead." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El reconocimiento de voz no está disponible en este dispositivo. Escribe la partida."
+          }
+        }
+      }
+    },
+    "Speech recognition isn't available on this device. Use the keypad." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El reconocimiento de voz no está disponible en este dispositivo. Usa el teclado."
+          }
+        }
+      }
+    },
+    "Start a game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezar una partida"
+          }
+        }
+      }
+    },
+    "Start game" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezar partida"
+          }
+        }
+      }
+    },
+    "Start listening" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezar a escuchar"
+          }
+        }
+      }
+    },
+    "Start one and it shows up here." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empieza una y aparece aquí."
+          }
+        }
+      }
+    },
+    "Start playing" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empieza a jugar"
+          }
+        }
+      }
+    },
+    "Stop listening" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dejar de escuchar"
+          }
+        }
+      }
+    },
+    "Takes back the round just recorded." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quita la ronda que acabas de anotar."
+          }
+        }
+      }
+    },
+    "Tap to talk" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca para hablar"
+          }
+        }
+      }
+    },
+    "Team" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Equipo"
+          }
+        }
+      }
+    },
+    "Team 1" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Equipo 1"
+          }
+        }
+      }
+    },
+    "Team 2" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Equipo 2"
+          }
+        }
+      }
+    },
+    "That's for %@. Close this and say it again." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eso es para %@. Cierra esto y dilo otra vez."
+          }
+        }
+      }
+    },
+    "That's me" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ese soy yo"
+          }
+        }
+      }
+    },
+    "The score stands as it is." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La anotación queda como está."
+          }
+        }
+      }
+    },
+    "There's nothing to undo yet." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todavía no hay nada que deshacer."
+          }
+        }
+      }
+    },
+    "This game is over." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta partida ya terminó."
+          }
+        }
+      }
+    },
+    "to %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "a %lld"
+          }
+        }
+      }
+    },
+    "Top players" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mejores jugadores"
+          }
+        }
+      }
+    },
+    "Type a name" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escribe un nombre"
+          }
+        }
+      }
+    },
+    "Undo" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deshacer"
+          }
+        }
+      }
+    },
+    "Undo last score" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deshacer la última anotación"
+          }
+        }
+      }
+    },
+    "Undo Last Score" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deshacer la última anotación"
+          }
+        }
+      }
+    },
+    "Undo the last round" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deshacer la última ronda"
+          }
+        }
+      }
+    },
+    "Undo this round" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deshacer esta ronda"
+          }
+        }
+      }
+    },
+    "Version" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión"
+          }
+        }
+      }
+    },
+    "Video %lld" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video %lld"
+          }
+        }
+      }
+    },
+    "View all" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver todas"
+          }
+        }
+      }
+    },
+    "Voice" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voz"
+          }
+        }
+      }
+    },
+    "Voice language" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idioma de la voz"
+          }
+        }
+      }
+    },
+    "VS" : {
+
+    },
+    "vs %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "vs %@"
+          }
+        }
+      }
+    },
+    "We dominoed! How many points did we make?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Dominamos! ¿Cuántos puntos hicimos?"
+          }
+        }
+      }
+    },
+    "Who's playing?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Quiénes juegan?"
+          }
+        }
+      }
+    },
+    "Win" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Victoria"
+          }
+        }
+      }
+    },
+    "Win rate" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porcentaje de victorias"
+          }
+        }
+      }
+    },
+    "Winner" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ganador"
+          }
+        }
+      }
+    },
+    "Wins" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Victorias"
+          }
+        }
+      }
+    },
+    "Wins the game!" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Gana la partida!"
+          }
+        }
+      }
+    },
+    "Won by" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ganó"
+          }
+        }
+      }
+    },
+    "Working it out…" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resolviéndolo…"
+          }
+        }
+      }
+    },
+    "You can edit a score by pressing it for two seconds." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puedes editar una anotación manteniéndola presionada dos segundos."
+          }
+        }
+      }
+    },
+    "Your players" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tus jugadores"
+          }
+        }
+      }
+    },
+    "Your stats" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tus números"
+          }
+        }
+      }
+    }
   },
   "version" : "1.0"
 }

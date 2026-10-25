@@ -29,6 +29,10 @@ struct iScoreApp: App {
     }
 
     init() {
+        // iOS Settings can change the app's language behind the in-app picker,
+        // so the language the bundle chose is recorded as the truth each launch.
+        LanguageSettings.adopt(.shown(preferredLocalizations: Bundle.main.preferredLocalizations),
+                               group: AppGroup.defaults)
         do {
             let schema = Schema([Game.self, Player.self])
             #if DEBUG

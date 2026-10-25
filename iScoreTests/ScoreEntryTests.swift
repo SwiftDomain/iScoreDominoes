@@ -9,7 +9,7 @@ struct ScoreEntryTests {
         entry.append(5)
         #expect(entry.digits == "35")
         #expect(entry.value == 35)
-        #expect(entry.buttonTitle == "Add 35 points")
+        #expect(String(localized: entry.buttonTitle) == "Add 35 points")
     }
 
     @Test func ignoresLeadingZero() {
@@ -63,18 +63,18 @@ struct ScoreEntryTests {
 
     @Test func buttonTitles() {
         var entry = ScoreEntry()
-        #expect(entry.buttonTitle == "Add points")
+        #expect(String(localized: entry.buttonTitle) == "Add points")
         entry.append(1)
-        #expect(entry.buttonTitle == "Add 1 point")
+        #expect(String(localized: entry.buttonTitle) == "Add 1 point")
     }
 
     @Test func saveTitles() {
         var entry = ScoreEntry()
-        #expect(entry.title("Save") == "Save points")
+        #expect(String(localized: entry.title(.save)) == "Save points")
         entry.append(1)
-        #expect(entry.title("Save") == "Save 1 point")
+        #expect(String(localized: entry.title(.save)) == "Save 1 point")
         entry.append(0)
-        #expect(entry.title("Save") == "Save 10 points")
+        #expect(String(localized: entry.title(.save)) == "Save 10 points")
     }
 
     /// Review Focus 3: a spoken value replaces what was typed. 3 + "twenty-five" is 25, never 325.

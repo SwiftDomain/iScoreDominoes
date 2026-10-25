@@ -176,7 +176,7 @@ private struct StatChip: View {
     let icon: String
     let value: Int
     let tint: Color
-    let label: String
+    let label: LocalizedStringResource
 
     var body: some View {
         HStack(spacing: 4) {

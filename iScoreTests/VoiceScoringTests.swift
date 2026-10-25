@@ -4,6 +4,7 @@ import Testing
 
 struct VoiceScoringTests {
 
+    private let en = Locale(identifier: "en")
     private let playing = VoiceScoring.Permissions(canScore: true, canUndo: true)
     private let fresh = VoiceScoring.Permissions(canScore: true, canUndo: false)
     private let over = VoiceScoring.Permissions(canScore: false, canUndo: false)
@@ -13,7 +14,7 @@ struct VoiceScoringTests {
     private func outcome(_ command: ScoreCommand?,
                          _ permissions: VoiceScoring.Permissions,
                          assumedTeam: Team? = nil) -> VoiceScoring.Outcome {
-        VoiceScoring.outcome(for: command, permissions: permissions, answers: answers, assumedTeam: assumedTeam)
+        VoiceScoring.outcome(for: command, permissions: permissions, answers: answers, assumedTeam: assumedTeam, locale: en)
     }
 
     @Test func aRecordIsRecorded() {
@@ -22,19 +23,19 @@ struct VoiceScoringTests {
 
     @Test func undoNeedsARoundToTakeBack() {
         #expect(outcome(.undo, playing) == .undone)
-        #expect(outcome(.undo, fresh) == .refused(VoiceScoring.nothingToUndo))
+        #expect(outcome(.undo, fresh) == .refused(VoiceScoring.nothingToUndo(in: en)))
     }
 
     /// An undo with nothing left to take back is a refusal, never a phantom round.
     @Test func undoOnAFinishedGameIsRefused() {
-        #expect(outcome(.undo, over) == .refused(VoiceScoring.gameIsOver))
+        #expect(outcome(.undo, over) == .refused(VoiceScoring.gameIsOver(in: en)))
     }
 
     @Test func nothingIsScoredOnAGameThatIsOver() {
-        #expect(outcome(.record(points: 25, team: .team1), over) == .refused(VoiceScoring.gameIsOver))
-        #expect(outcome(.askTeam(points: 25), over) == .refused(VoiceScoring.gameIsOver))
-        #expect(outcome(.endGame, over) == .refused(VoiceScoring.gameIsOver))
-        #expect(outcome(.cancelGame, over) == .refused(VoiceScoring.gameIsOver))
+        #expect(outcome(.record(points: 25, team: .team1), over) == .refused(VoiceScoring.gameIsOver(in: en)))
+        #expect(outcome(.askTeam(points: 25), over) == .refused(VoiceScoring.gameIsOver(in: en)))
+        #expect(outcome(.endGame, over) == .refused(VoiceScoring.gameIsOver(in: en)))
+        #expect(outcome(.cancelGame, over) == .refused(VoiceScoring.gameIsOver(in: en)))
     }
 
     /// Looking at the score is not scoring.
@@ -67,15 +68,15 @@ struct VoiceScoringTests {
 
     /// An unparsed transcript is refused with a line the user can read, not swallowed.
     @Test func nothingUnderstoodIsRefusedWithAReason() {
-        #expect(outcome(nil, playing) == .refused(VoiceScoring.notUnderstood))
-        #expect(VoiceScoring.notUnderstood.isEmpty == false)
-        #expect(VoiceScoring.notUnderstood != VoiceScoring.nothingToUndo)
+        #expect(outcome(nil, playing) == .refused(VoiceScoring.notUnderstood(in: en)))
+        #expect(VoiceScoring.notUnderstood(in: en).isEmpty == false)
+        #expect(VoiceScoring.notUnderstood(in: en) != VoiceScoring.nothingToUndo(in: en))
     }
 
     /// A finished game still has its rounds, so this is the cell that pins the guard order.
     @Test func undoOnAFinishedGameIsRefusedEvenWithRoundsToUndo() {
         let finished = VoiceScoring.Permissions(canScore: false, canUndo: true)
-        #expect(outcome(.undo, finished) == .refused(VoiceScoring.gameIsOver))
+        #expect(outcome(.undo, finished) == .refused(VoiceScoring.gameIsOver(in: en)))
     }
 
     @Test func questionsAreAnsweredWhilePlayingToo() {
@@ -90,8 +91,15 @@ struct VoiceScoringTests {
     }
 
     @Test func theThreeRefusalsAreDistinct() {
-        let all = [VoiceScoring.notUnderstood, VoiceScoring.nothingToUndo, VoiceScoring.gameIsOver]
+        let all = [VoiceScoring.notUnderstood(in: en), VoiceScoring.nothingToUndo(in: en), VoiceScoring.gameIsOver(in: en)]
         #expect(Set(all).count == 3)
         #expect(all.allSatisfy { !$0.isEmpty })
+    }
+
+    /// A refusal is spoken, so it is in the voice's language too.
+    @Test func refusalsAreInTheVoiceLanguage() {
+        let outcome = VoiceScoring.outcome(for: nil, permissions: playing, answers: answers,
+                                           assumedTeam: nil, locale: Locale(identifier: "es"))
+        #expect(outcome == .refused("No se entendió. Di un número y un equipo, o usa el teclado."))
     }
 }

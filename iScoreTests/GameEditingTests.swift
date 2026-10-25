@@ -67,15 +67,15 @@ struct GameEditingTests {
     @Test func editProjection() {
         let game = makeTestGame(rows: demoGameRows)
         let round = roundThree(of: game)
-        #expect(game.editProjectionSummary(for: round, newPoints: 50) == "105 → 110 · 90 to win")
-        #expect(game.editProjectionSummary(for: round, newPoints: 140) == "105 → 200 · Wins the game!")
-        #expect(game.editProjectionSummary(for: round, newPoints: 5) == "105 → 65 · 135 to win")
+        #expect(String(localized: game.editProjectionSummary(for: round, newPoints: 50)) == "105 → 110 · 90 to win")
+        #expect(String(localized: game.editProjectionSummary(for: round, newPoints: 140)) == "105 → 200 · Wins the game!")
+        #expect(String(localized: game.editProjectionSummary(for: round, newPoints: 5)) == "105 → 65 · 135 to win")
     }
 
     @Test func roundEditCopy() {
         let round = Round(id: 3, number: 3, team: .team1, points: 45)
-        #expect(round.editPrompt == "Fixing round 3? What should it be?")
-        #expect(round.editLabel == "Round 3 · was +45")
+        #expect(String(localized: round.editPrompt) == "Fixing round 3? What should it be?")
+        #expect(String(localized: round.editLabel) == "Round 3 · was +45")
     }
 
     @Test func outcomes() {
@@ -92,7 +92,7 @@ struct GameEditingTests {
     }
 
     @Test func setupSummary() {
-        #expect(makeTestGame(.nine, maxScore: 200).setupSummary == "Double 9 · First to 200")
-        #expect(makeTestGame(.six, maxScore: 20).setupSummary == "Double 6 · First to 20")
+        #expect(String(localized: makeTestGame(.nine, maxScore: 200).setupSummary) == "Double 9 · First to 200")
+        #expect(String(localized: makeTestGame(.six, maxScore: 20).setupSummary) == "Double 6 · First to 20")
     }
 }

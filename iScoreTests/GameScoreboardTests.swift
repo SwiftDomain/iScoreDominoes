@@ -31,7 +31,7 @@ struct GameScoreboardTests {
         #expect(game.leader == .team1)
         #expect(game.lead == 60)
         #expect(game.currentRoundNumber == 6)
-        #expect(game.headline == "Ana & Luis lead by 60")
+        #expect(String(localized: game.headline) == "Ana & Luis lead by 60")
     }
 
     @Test func progressClampsPastTarget() {
@@ -49,51 +49,51 @@ struct GameScoreboardTests {
         let game = makeGame(rows: [[0, 0], [20, 0], [0, 20]])
         #expect(game.leader == .none)
         #expect(game.lead == 0)
-        #expect(game.headline == "All tied up")
+        #expect(String(localized: game.headline) == "All tied up")
     }
 
     @Test func emptyGame() {
         let game = makeGame(rows: [[0, 0]])
         #expect(game.rounds.isEmpty)
-        #expect(game.headline == "Let's play!")
+        #expect(String(localized: game.headline) == "Let's play!")
         #expect(game.currentRoundNumber == 1)
     }
 
     @Test func finishedHeadline() {
         let game = makeGame(rows: [[0, 0], [200, 0]], state: .finished)
-        #expect(game.headline == "Ana & Luis won!")
+        #expect(String(localized: game.headline) == "Ana & Luis won!")
     }
 
     @Test func cancelledHeadline() {
         let game = makeGame(rows: [[0, 0], [80, 0], [0, 95]], state: .cancelled)
-        #expect(game.headline == "Game cancelled")
+        #expect(String(localized: game.headline) == "Game cancelled")
 
         let empty = makeGame(rows: [[0, 0]], state: .cancelled)
-        #expect(empty.headline == "Game cancelled")
+        #expect(String(localized: empty.headline) == "Game cancelled")
     }
 
     @Test func statusLabelWhilePlaying() {
-        #expect(makeGame(rows: demoRows).statusLabel == "Round 6 · First to 200")
-        #expect(makeGame(rows: [[0, 0]]).statusLabel == "Round 1 · First to 200")
+        #expect(String(localized: makeGame(rows: demoRows).statusLabel) == "Round 6 · First to 200")
+        #expect(String(localized: makeGame(rows: [[0, 0]]).statusLabel) == "Round 1 · First to 200")
     }
 
     /// Once a game is over there is no next round: count the rounds played.
     @Test func statusLabelCountsRoundsWhenOver() {
         let finished = makeGame(rows: [[0, 0], [120, 0], [0, 145], [80, 0]], state: .finished)
-        #expect(finished.statusLabel == "3 rounds · First to 200")
+        #expect(String(localized: finished.statusLabel) == "3 rounds · First to 200")
 
         let cancelled = makeGame(rows: [[0, 0], [80, 0]], state: .cancelled)
-        #expect(cancelled.statusLabel == "1 round · First to 200")
+        #expect(String(localized: cancelled.statusLabel) == "1 round · First to 200")
 
         let cancelledEmpty = makeGame(rows: [[0, 0]], state: .cancelled)
-        #expect(cancelledEmpty.statusLabel == "0 rounds · First to 200")
+        #expect(String(localized: cancelledEmpty.statusLabel) == "0 rounds · First to 200")
     }
 
     @Test func progressLabels() {
         let game = makeGame(rows: demoRows)
-        #expect(game.progressLabel(for: .team1) == "Ana & Luis progress")
-        #expect(game.progressLabel(for: .team2) == "Rafa & Mia progress")
-        #expect(game.progressLabel(for: .none) == "Game progress")
+        #expect(String(localized: game.progressLabel(for: .team1)) == "Ana & Luis progress")
+        #expect(String(localized: game.progressLabel(for: .team2)) == "Rafa & Mia progress")
+        #expect(String(localized: game.progressLabel(for: .none)) == "Game progress")
     }
 
     @Test func roundsSkipSeedAndZeroRows() {
@@ -123,14 +123,14 @@ struct GameScoreboardTests {
 
     @Test func projection() {
         let game = makeGame(rows: demoRows)
-        #expect(game.projectionSummary(adding: 35, to: .team1) == "105 → 140 · 60 to win")
-        #expect(game.projectionSummary(adding: 100, to: .team1) == "105 → 205 · Wins the game!")
+        #expect(String(localized: game.projectionSummary(adding: 35, to: .team1)) == "105 → 140 · 60 to win")
+        #expect(String(localized: game.projectionSummary(adding: 100, to: .team1)) == "105 → 205 · Wins the game!")
     }
 
     @Test func feedback() throws {
         let game = makeGame(rows: demoRows)
         let last = try #require(game.rounds.last)
-        #expect(game.feedbackDetail(for: last) == "Ana & Luis +35 · 95 to win")
+        #expect(String(localized: game.feedbackDetail(for: last)) == "Ana & Luis +35 · 95 to win")
     }
 
     @Test func addRound() {

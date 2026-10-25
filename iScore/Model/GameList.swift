@@ -12,7 +12,7 @@ enum GameFilter: CaseIterable, Identifiable {
 
     var id: Self { self }
 
-    var title: String {
+    var title: LocalizedStringResource {
         switch self {
         case .all: "All"
         case .playing: "Playing"
@@ -71,13 +71,16 @@ enum GameList {
         return sections
     }
 
-    /// "1 game" / "12 games"
-    static func countLabel(_ count: Int) -> String {
-        count == 1 ? "1 game" : "\(count) games"
+    /// "1 game" / "12 games" — the plural rule lives on the key, because
+    /// Spanish does not split singular and plural where English does.
+    static func countLabel(_ count: Int) -> LocalizedStringResource {
+        "\(count) games"
     }
 
     /// "12 games · 1 in progress"
-    static func summary(total: Int, playing: Int) -> String {
-        playing > 0 ? "\(countLabel(total)) · \(playing) in progress" : countLabel(total)
+    static func summary(total: Int, playing: Int) -> LocalizedStringResource {
+        guard playing > 0 else { return countLabel(total) }
+        let games = String(localized: countLabel(total))
+        return "\(games) · \(playing) in progress"
     }
 }

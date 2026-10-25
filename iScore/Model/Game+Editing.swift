@@ -40,7 +40,7 @@ extension Game {
         return total(for: team) - round.points + points
     }
 
-    func editProjectionSummary(for round: Round, newPoints: Int) -> String {
+    func editProjectionSummary(for round: Round, newPoints: Int) -> LocalizedStringResource {
         projection(
             from: total(for: round.team),
             to: total(for: round.team, replacing: round, with: newPoints)
@@ -48,9 +48,11 @@ extension Game {
     }
 
     /// "105 → 140 · 60 to win" / "105 → 200 · Wins the game!"
-    func projection(from current: Int, to projected: Int) -> String {
+    func projection(from current: Int, to projected: Int) -> LocalizedStringResource {
         let target = Int(maxScore)
-        let outcome = projected >= target ? "Wins the game!" : "\(target - projected) to win"
+        let outcome = projected >= target
+            ? String(localized: "Wins the game!")
+            : String(localized: "\(target - projected) to win")
         return "\(current) → \(projected) · \(outcome)"
     }
 
@@ -73,20 +75,21 @@ extension Game {
     }
 
     /// "Double 9 · First to 200"
-    var setupSummary: String {
-        "\(gameType.title) · First to \(Int(maxScore))"
+    var setupSummary: LocalizedStringResource {
+        let type = String(localized: gameType.title)
+        return "\(type) · First to \(Int(maxScore))"
     }
 }
 
 extension Round {
 
     /// Edit Score speech bubble.
-    var editPrompt: String {
+    var editPrompt: LocalizedStringResource {
         "Fixing round \(number)? What should it be?"
     }
 
     /// Edit Score label above the number well.
-    var editLabel: String {
+    var editLabel: LocalizedStringResource {
         "Round \(number) · was +\(points)"
     }
 }

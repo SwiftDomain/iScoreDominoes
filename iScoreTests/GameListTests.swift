@@ -54,10 +54,10 @@ struct GameListTests {
     }
 
     @Test func counts() {
-        #expect(GameList.countLabel(1) == "1 game")
-        #expect(GameList.countLabel(12) == "12 games")
-        #expect(GameList.summary(total: 12, playing: 1) == "12 games · 1 in progress")
-        #expect(GameList.summary(total: 3, playing: 0) == "3 games")
+        #expect(String(localized: GameList.countLabel(1)) == "1 game")
+        #expect(String(localized: GameList.countLabel(12)) == "12 games")
+        #expect(String(localized: GameList.summary(total: 12, playing: 1)) == "12 games · 1 in progress")
+        #expect(String(localized: GameList.summary(total: 3, playing: 0)) == "3 games")
     }
 }
 
@@ -95,4 +95,17 @@ struct GameDeletionTests {
         #expect(try context.fetch(FetchDescriptor<Player>()).count == 2)
         #expect(second.players?.count == 2)
     }
+
+    /// Review Focus 2 — plural boundaries, including zero.
+    @Test func countLabelPluralizesAtZero() {
+        #expect(String(localized: GameList.countLabel(0)) == "0 games")
+    }
+
+    /// Review Focus 2 — Spanish does not split singular and plural where
+    /// English does, so the rule must live on the key, not in Swift.
+    @Test func countLabelPluralizesInSpanish() {
+        #expect(localized(GameList.countLabel(1), in: "es") == "1 partida")
+        #expect(localized(GameList.countLabel(5), in: "es") == "5 partidas")
+    }
+
 }

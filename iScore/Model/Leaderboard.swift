@@ -21,14 +21,14 @@ struct PlayerRecord: Equatable {
     }
 
     /// "12 played · 75%"
-    var summary: String {
+    var summary: LocalizedStringResource {
         guard played > 0 else { return "No finished games yet" }
         return "\(played) played · \(Int((winRate * 100).rounded()))%"
     }
 
-    /// "9 wins" / "1 win"
-    var winsLabel: String {
-        won == 1 ? "1 win" : "\(won) wins"
+    /// "9 wins" / "1 win" — pluralized by the catalog, not by Swift.
+    var winsLabel: LocalizedStringResource {
+        "\(won) wins"
     }
 }
 

@@ -58,7 +58,7 @@ struct VoiceGameSheet: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            SheetHeader(title: phase == .review ? String(localized: "Check the game") : nil)
+            SheetHeader(title: phase == .review ? "Check the game" : nil)
                 .padding(.horizontal, 16)
 
             switch phase {
@@ -341,7 +341,7 @@ struct VoiceGameSheet: View {
     private func apply(_ sentence: String) async {
         let resolved = await VoiceSetup.resolve(
             sentence,
-            locale: .current,
+            locale: LanguageSettings.voiceLocale(),
             defaults: defaults,
             known: known,
             owner: owner
@@ -373,7 +373,7 @@ struct VoiceGameSheet: View {
 /// Creates the `SpeechCapture` (recognizer and audio engine) on first use only.
 @MainActor
 private final class CaptureHolder {
-    lazy var capture = SpeechCapture(locale: .current)
+    lazy var capture = SpeechCapture(locale: LanguageSettings.voiceLocale())
 }
 
 extension View {

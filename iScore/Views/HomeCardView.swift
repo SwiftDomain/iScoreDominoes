@@ -11,8 +11,8 @@ import SwiftUI
 struct HomeCardView: View {
 
     let icon: String
-    let title: String
-    let subtitle: String
+    let title: LocalizedStringResource
+    let subtitle: LocalizedStringResource
     let tint: Color
 
     var body: some View {

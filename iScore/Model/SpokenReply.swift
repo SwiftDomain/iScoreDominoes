@@ -68,12 +68,30 @@ final class SpokenReply {
         synthesizer.stopSpeaking(at: .immediate)
     }
 
+    /// Whether this language has an installed voice. When it does not, the
+    /// app still listens and still scores — it just does not speak back, and
+    /// Settings says so rather than going quiet mid-game with no explanation.
+    nonisolated static func canSpeak(_ locale: Locale,
+                                     isInstalled: (String) -> Bool = systemHasVoice) -> Bool {
+        voiceLanguage(for: locale, isInstalled: isInstalled) != nil
+    }
+
     /// The voice for `locale`'s BCP-47 identifier, falling back to its bare language code.
-    static func voice(for locale: Locale) -> AVSpeechSynthesisVoice? {
-        if let voice = AVSpeechSynthesisVoice(language: locale.identifier(.bcp47)) {
-            return voice
-        }
-        guard let code = locale.language.languageCode?.identifier else { return nil }
-        return AVSpeechSynthesisVoice(language: code)
+    nonisolated static func voice(for locale: Locale) -> AVSpeechSynthesisVoice? {
+        voiceLanguage(for: locale, isInstalled: systemHasVoice).flatMap(AVSpeechSynthesisVoice.init(language:))
+    }
+
+    /// Which voice language to use, given what is installed. Separate from the
+    /// system lookup so the choice is testable without asking the simulator
+    /// for its voices, which can block on a fresh CI machine.
+    nonisolated static func voiceLanguage(for locale: Locale, isInstalled: (String) -> Bool) -> String? {
+        let full = locale.identifier(.bcp47)
+        if isInstalled(full) { return full }
+        guard let code = locale.language.languageCode?.identifier, isInstalled(code) else { return nil }
+        return code
+    }
+
+    nonisolated static func systemHasVoice(_ language: String) -> Bool {
+        AVSpeechSynthesisVoice(language: language) != nil
     }
 }

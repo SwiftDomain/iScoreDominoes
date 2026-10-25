@@ -23,3 +23,12 @@ func makeTestGame(
 
 /// Same rows as the demo game in progress: Ana & Luis 105, Rafa & Mia 45.
 let demoGameRows = [[0, 0], [25, 0], [0, 30], [45, 0], [0, 15], [35, 0]]
+
+/// Resolves a localized resource in a specific language. `String(localized:)`
+/// has no `locale:` overload for `LocalizedStringResource` — the locale is set
+/// on the resource — so every Spanish assertion goes through here.
+func localized(_ resource: LocalizedStringResource, in identifier: String) -> String {
+    var resource = resource
+    resource.locale = Locale(identifier: identifier)
+    return String(localized: resource)
+}

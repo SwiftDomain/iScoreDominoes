@@ -186,7 +186,7 @@ struct GameCommandResolveTests {
         #expect(game.target == 100)
         #expect(game.lineup.names == ["", "", "", ""])
         #expect(!game.lineup.isComplete)
-        #expect(game.lineup.hint == "Add 4 more players to start")
+        #expect(String(localized: game.lineup.hint!) == "Add 4 more players to start")
     }
 
     /// Review Focus 3 — the same name heard twice.
@@ -194,7 +194,7 @@ struct GameCommandResolveTests {
         let game = resolve("me and Carlos vs Carlos and Papo")
         #expect(game.lineup.names == ["Ana", "Carlos", "Papo", ""])
         #expect(!game.lineup.isComplete)
-        #expect(game.lineup.hint == "Add 1 more player to start")
+        #expect(String(localized: game.lineup.hint!) == "Add 1 more player to start")
     }
 
     /// Review Focus 4 — recognizer output with punctuation and over-long names.

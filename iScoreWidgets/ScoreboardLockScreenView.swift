@@ -57,9 +57,12 @@ struct ScoreboardLockScreenView: View {
     }
 
     /// "Round 4 · 80 to win" for the leader; no "to win" while tied.
+    /// Resolved in the app's chosen language, not the widget process's.
     private var statusLine: String {
-        guard let leader = state.leader else { return "Round \(state.roundNumber)" }
-        return "Round \(state.roundNumber) · \(state.pointsToWin(leader)) to win"
+        guard let leader = state.leader else {
+            return WidgetLanguage.text("Round \(state.roundNumber)")
+        }
+        return WidgetLanguage.text("Round \(state.roundNumber) · \(state.pointsToWin(leader)) to win")
     }
 
     // MARK: - Teams
@@ -106,7 +109,7 @@ struct ScoreboardLockScreenView: View {
             undoControl
             Link(destination: ScoreLink.other(gameID: attributes.gameID, team: .team1)) {
                 ScoreButtonFace(
-                    title: "Other…", fill: Theme.surfaceSecondary,
+                    title: WidgetLanguage.text("Other…"), fill: Theme.surfaceSecondary,
                     edge: Theme.divider, titleColor: Theme.textSecondary, height: 30
                 )
             }
@@ -115,7 +118,7 @@ struct ScoreboardLockScreenView: View {
 
     @ViewBuilder
     private var undoControl: some View {
-        let face = ScoreButtonFace(title: "Undo", fill: Theme.textMuted, edge: Theme.textSecondary, height: 30)
+        let face = ScoreButtonFace(title: WidgetLanguage.text("Undo"), fill: Theme.textMuted, edge: Theme.textSecondary, height: 30)
 
         if state.requiresUnlock {
             Link(destination: ScoreLink.undo(gameID: attributes.gameID)) { face }
