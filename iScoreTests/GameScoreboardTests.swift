@@ -165,6 +165,14 @@ struct GameScoreboardTests {
         #expect(!makeGame(rows: [[0, 0]]).canEditRounds)
     }
 
+    /// A first-round win is still `.playing` until the summary opens; the tip
+    /// must not pop up then, or it blocks the summary sheet.
+    @Test func editTipHidesOnceAGameIsWon() {
+        #expect(makeGame(rows: demoRows).showsEditTip)
+        #expect(!makeGame(maxScore: 100, rows: [[100, 0]]).showsEditTip)
+        #expect(!makeGame(rows: demoRows, state: .finished).showsEditTip)
+    }
+
     @Test(arguments: [GameState.finished, .cancelled])
     func roundsAreNotEditableOnceGameIsOver(_ state: GameState) {
         #expect(!makeGame(rows: demoRows, state: state).canEditRounds)

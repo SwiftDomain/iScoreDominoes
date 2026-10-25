@@ -240,7 +240,7 @@ struct GameView: View {
                 }
             }
         }
-        .popoverTip(game.canEditRounds ? editScore : nil)
+        .popoverTip(game.showsEditTip ? editScore : nil)
     }
 
     // MARK: - Bottom bar
@@ -546,6 +546,8 @@ struct GameView: View {
         summaryHighlight = nil
         game.state = .finished
         game.inProcess = false
+        // A tip popover still up would block the summary sheet.
+        editScore.invalidate(reason: .actionPerformed)
         showGameSummary = true
         return true
     }

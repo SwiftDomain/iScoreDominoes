@@ -89,6 +89,14 @@ extension Game {
         state == .playing && !rounds.isEmpty
     }
 
+    /// The "Edit Scores" tip shows only while the game goes on. A winning round
+    /// is added while the game is still `.playing` (the summary marks it
+    /// finished a moment later), and a tip popover up then blocks the summary
+    /// sheet — UIKit refuses to present over it.
+    var showsEditTip: Bool {
+        canEditRounds && winningTeam == .none
+    }
+
     /// Removes the last visible round, plus any hidden zero rows after it
     /// (rounds edited down to 0), so Undo always changes what's on screen.
     func undoLastRound() {
