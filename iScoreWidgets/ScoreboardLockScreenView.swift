@@ -20,7 +20,7 @@ struct ScoreboardLockScreenView: View {
     var body: some View {
         // The Lock Screen gives an activity about 160pt. Names sit beside
         // their round row rather than above it, which is what keeps the
-        // header and the mic row from being clipped.
+        // header from being clipped. The mic sits beside both rows.
         VStack(spacing: 0) {
             // The top line on the app's own green, white type on it.
             header
@@ -33,9 +33,11 @@ struct ScoreboardLockScreenView: View {
             // The rounds and the mic on white.
             // Painted here, not only as the tint, so the expanded Dynamic
             // Island shows the same and not black.
-            VStack(alignment: .leading, spacing: 6) {
-                teamRow(.team1, name: attributes.name1, palette: Theme.palette(for: .team1))
-                teamRow(.team2, name: attributes.name2, palette: Theme.palette(for: .team2))
+            HStack(spacing: 8) {
+                VStack(alignment: .leading, spacing: 6) {
+                    teamRow(.team1, name: attributes.name1, palette: Theme.palette(for: .team1))
+                    teamRow(.team2, name: attributes.name2, palette: Theme.palette(for: .team2))
+                }
                 micControl
             }
             .padding(.horizontal, 12)
@@ -141,14 +143,20 @@ struct ScoreboardLockScreenView: View {
     /// microphone itself, so this is a link, and iOS asks for the unlock.
     private var micControl: some View {
         Link(destination: ScoreLink.voice(gameID: attributes.gameID)) {
-            ScoreButtonFace(
-                title: WidgetLanguage.text("Say a score"),
-                fill: Theme.teamA,
-                edge: Theme.teamAShadow,
-                titleColor: Theme.surface,
-                height: 30,
-                systemImage: "mic.fill"
-            )
+            // The Duo button shape: green fill over a 4pt darker edge.
+            ZStack {
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .fill(Theme.teamAShadow)
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .fill(Theme.teamA)
+                    .padding(.bottom, 4)
+                Image(systemName: "mic.fill")
+                    .font(.system(size: 22, weight: .bold))
+                    .foregroundStyle(Theme.surface)
+                    .padding(.bottom, 4)
+            }
+            .frame(width: 48, height: 62)
         }
+        .accessibilityLabel(WidgetLanguage.text("Say a score"))
     }
 }
