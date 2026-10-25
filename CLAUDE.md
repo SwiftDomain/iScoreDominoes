@@ -204,7 +204,8 @@ longest streak — rendered at 2x and shared as an image.
 
 - **`NightRecap` decides everything** (`iScore/Model/NightRecap.swift`), pure
   and tested. A night is inferred, never stored: finished games on the same
-  calendar day sharing at least 3 players (`PlayerName.isSame`).
+  calendar day sharing at least 3 players (`PlayerName.isSame`) with any game
+  already in the night, so every summary of the night shows the same card.
 - **The card is built for a chat thumbnail**: big numerals, few words, Duo
   parts only (`NightRecapCard`). `NightRecap.appStoreURL` is nil until the app
   has an App Store id; the share text links it only when set.

@@ -42,7 +42,7 @@ struct NightRecap {
     init?(tonightWith game: Game, in games: [Game], calendar: Calendar = .current) {
         let night = Self.games(tonightWith: game, in: games, calendar: calendar)
         guard night.count >= Self.minimumGames else { return nil }
-        date = game.timestamp
+        date = night[0].timestamp
         gamesPlayed = night.count
         standings = Leaderboard.standings(Self.records(night))
         pairs = Self.pairs(night)
@@ -143,15 +143,21 @@ struct NightRecap {
     static let appStoreURL: URL? = nil
 
     /// The night's finished games, oldest first, `game` included when finished.
+    /// Chained: a game joins when it shares enough players with any game
+    /// already in the night, so every summary of the night sees the same night.
     static func games(tonightWith game: Game, in games: [Game], calendar: Calendar = .current) -> [Game] {
-        let players = game.team1 + game.team2
-        return games
-            .filter { candidate in
-                candidate.state == .finished
-                    && calendar.isDate(candidate.timestamp, inSameDayAs: game.timestamp)
-                    && shared(players, candidate.team1 + candidate.team2) >= sharedPlayers
-            }
-            .sorted { $0.timestamp < $1.timestamp }
+        var pool = games.filter {
+            $0.state == .finished && calendar.isDate($0.timestamp, inSameDayAs: game.timestamp)
+        }
+        var night: [Game] = []
+        var frontier = [game]
+        while let next = frontier.popLast() {
+            let joined = pool.filter { shared(next.team1 + next.team2, $0.team1 + $0.team2) >= sharedPlayers }
+            pool.removeAll { candidate in joined.contains { $0.id == candidate.id } }
+            night += joined
+            frontier += joined
+        }
+        return night.sorted { $0.timestamp < $1.timestamp }
     }
 
     /// How many of `lhs` are also in `rhs`, compared as names are elsewhere.

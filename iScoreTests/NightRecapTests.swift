@@ -52,6 +52,18 @@ struct NightRecapTests {
         #expect(NightRecap.games(tonightWith: usual, in: [usual, swapped], calendar: calendar).count == 2)
     }
 
+    /// One night, one card: players drifting in over the evening chain the
+    /// games together, whichever summary opens it.
+    @Test func everyGameOfTheNightSeesTheSameNight() {
+        let a = played(ana, rafa, minutes: 0)
+        let b = played(ana, ["Rafa", "Carlos"], minutes: 30)
+        let c = played(ana, ["Carlos", "Pedro"], minutes: 60)
+        let all = [a, b, c]
+        for game in all {
+            #expect(NightRecap.games(tonightWith: game, in: all, calendar: calendar).count == 3)
+        }
+    }
+
     @Test func twoSharedPlayersIsAnotherTable() {
         let usual = played(ana, rafa)
         let other = played(ana, ["Pedro", "Carlos"], minutes: 30)

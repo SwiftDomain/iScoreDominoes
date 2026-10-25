@@ -28,12 +28,10 @@ struct GameSummaryView: View {
     @State private var isSpeaking = false
     @State private var isNamingSetup = false
     @State private var setupName = ""
+    /// Tonight's card, once the group has played more than one game. Worked
+    /// out when the games change, not on every redraw.
+    @State private var nightRecap: NightRecap?
     @State private var showNightRecap = false
-
-    /// Tonight's card, once the group has played more than one game.
-    private var nightRecap: NightRecap? {
-        NightRecap(tonightWith: game, in: allGames)
-    }
 
     /// This game's setup, already saved under some name, if it is.
     private var savedPreset: GamePreset? {
@@ -162,6 +160,9 @@ struct GameSummaryView: View {
         }
         .task {
             shareImage = renderShareImage()
+        }
+        .task(id: allGames.count) {
+            nightRecap = NightRecap(tonightWith: game, in: allGames)
         }
         .sheet(isPresented: $showNightRecap) {
             if let nightRecap { NightRecapView(recap: nightRecap) }
