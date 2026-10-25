@@ -12,6 +12,7 @@ struct HomeView: View {
 
     @Environment(\.modelContext) private var context
     @Query(sort: \Player.name) private var players: [Player]
+    @Query(sort: \GamePreset.name) private var presets: [GamePreset]
 
     @Query(
         filter: #Predicate<Game> { $0.inProcess == true },
@@ -138,7 +139,7 @@ struct HomeView: View {
         .sheet(isPresented: $showSettingsView) {
             SettingsView()
         }
-        .voiceGameSheet(isPresented: $isSpeaking, players: players, onConfirm: start)
+        .voiceGameSheet(isPresented: $isSpeaking, players: players, presets: presets, onConfirm: start)
         // Rounds may have been scored on the Lock Screen while the app sat
         // on Home; the app is the only writer, so it drains them here too.
         .task {

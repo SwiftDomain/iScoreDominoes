@@ -316,8 +316,13 @@ enum VoiceSetup {
         locale: Locale,
         defaults: (type: GameType, target: Int),
         known: [String],
-        owner: String?
+        owner: String?,
+        presets: [PresetSetup] = []
     ) async -> ResolvedGame {
+        // A preset's name is checked first: it is a setup already approved.
+        if let preset = PresetMatcher.match(sentence, presets: presets) {
+            return preset.resolved(known: known + (owner.map { [$0] } ?? []))
+        }
         let parsed = GameCommand.parse(sentence, locale: locale)
         let command = await GameCommandModel.enhance(parsed, transcript: sentence, locale: locale, timeout: .seconds(3))
         return command.resolved(defaults: defaults, known: known, owner: owner)

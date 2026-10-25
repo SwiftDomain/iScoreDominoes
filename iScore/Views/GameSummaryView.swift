@@ -19,6 +19,7 @@ struct GameSummaryView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
     @Query(sort: \Player.name) private var players: [Player]
+    @Query(sort: \GamePreset.name) private var presets: [GamePreset]
 
     @State private var shareImage: Image?
     @State private var isSpeaking = false
@@ -119,6 +120,7 @@ struct GameSummaryView: View {
         .voiceGameSheet(
             isPresented: $isSpeaking,
             players: players,
+            presets: presets,
             defaults: { (type: game.gameType, target: Int(game.maxScore)) },
             onConfirm: startNext
         )

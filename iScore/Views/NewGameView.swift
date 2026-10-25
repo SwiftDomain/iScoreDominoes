@@ -14,6 +14,7 @@ struct NewGameView: View {
     @Environment(\.modelContext) private var context
 
     @Query(sort: \Player.name) private var players: [Player]
+    @Query(sort: \GamePreset.name) private var presets: [GamePreset]
 
     @Binding var path: NavigationPath
 
@@ -112,7 +113,7 @@ struct NewGameView: View {
                 .tint(Theme.accentInk)
             }
         }
-        .voiceGameSheet(isPresented: $isSpeaking, players: players, onConfirm: start)
+        .voiceGameSheet(isPresented: $isSpeaking, players: players, presets: presets, onConfirm: start)
         .navigationDestination(item: $startedGame) { game in
             GameView(path: $path, game: game)
         }

@@ -15,6 +15,8 @@ struct VoiceGameSheet: View {
     let defaults: (type: GameType, target: Int)
     let known: [String]
     let owner: String?
+    /// Saved setups a spoken name can start, checked before free-form parsing.
+    let presets: [PresetSetup]
     let onConfirm: (ResolvedGame) -> Void
 
     private enum Phase { case listening, working, review }
@@ -40,11 +42,13 @@ struct VoiceGameSheet: View {
         defaults: (type: GameType, target: Int),
         known: [String],
         owner: String?,
+        presets: [PresetSetup] = [],
         onConfirm: @escaping (ResolvedGame) -> Void
     ) {
         self.defaults = defaults
         self.known = known
         self.owner = owner
+        self.presets = presets
         self.onConfirm = onConfirm
         _gameType = State(initialValue: defaults.type)
         _target = State(initialValue: defaults.target)
@@ -344,7 +348,8 @@ struct VoiceGameSheet: View {
             locale: LanguageSettings.voiceLocale(),
             defaults: defaults,
             known: known,
-            owner: owner
+            owner: owner,
+            presets: presets
         )
         lineup = resolved.lineup
         gameType = resolved.gameType
@@ -383,6 +388,7 @@ extension View {
     func voiceGameSheet(
         isPresented: Binding<Bool>,
         players: [Player],
+        presets: [GamePreset] = [],
         defaults: @escaping () -> (type: GameType, target: Int) = { GameDefaults.load() },
         onConfirm: @escaping (ResolvedGame) -> Void
     ) -> some View {
@@ -392,6 +398,7 @@ extension View {
                 defaults: defaults(),
                 known: known,
                 owner: OwnerIdentity.resolve(OwnerIdentity.load(), known: known),
+                presets: presets.map(\.setup),
                 onConfirm: onConfirm
             )
         }
