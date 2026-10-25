@@ -130,7 +130,8 @@ no internet).
   policy sends the shared game and any game being played, never an old one.
 - **Both phones stay awake while it matters**: the host while sharing (a
   locked scorekeeper drops every guest), the guest while watching. Advertising
-  restarts when the host comes back to the foreground.
+  restarts when the host comes back to the foreground. Neither touches the idle
+  timer directly: each holds a reason in `ScreenAwake`, the only owner.
 - A killed or out-of-range host takes Multipeer roughly 10 seconds to notice;
   until then the guest still reads Live.
 

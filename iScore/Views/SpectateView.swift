@@ -24,7 +24,6 @@ struct SpectateView: View {
 
     @State private var link = SpectateGuestLink()
     @State private var savedGameID: UUID?
-    @State private var wasIdleTimerDisabled = false
 
     private var phase: SpectateGuest.Phase { link.phase }
 
@@ -65,13 +64,12 @@ struct SpectateView: View {
         .scrollIndicators(.hidden)
         .background(Background())
         .task {
-            wasIdleTimerDisabled = UIApplication.shared.isIdleTimerDisabled
-            UIApplication.shared.isIdleTimerDisabled = true
+            ScreenAwake.shared.set(.watching, true)
             link.join(code)
         }
         .onDisappear {
             link.leave()
-            UIApplication.shared.isIdleTimerDisabled = wasIdleTimerDisabled
+            ScreenAwake.shared.set(.watching, false)
         }
         // The connection does not survive the background; coming back looks
         // for the host again and gets a fresh score.
