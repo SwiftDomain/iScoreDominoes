@@ -45,3 +45,22 @@ struct SpeechAvailabilityTests {
         try SpeechCapture.preflight(availability: .ready, recognizerPresent: true)
     }
 }
+
+/// The audio engine owns an IO unit whose teardown is a blocking call to the audio server, so a
+/// capture that never listened must never build one (closing the Add Score sheet aborted on it).
+@MainActor
+struct SpeechCaptureEngineTests {
+
+    @Test func aNewCaptureHasNoAudioEngine() {
+        let capture = SpeechCapture(locale: Locale(identifier: "en-US"))
+        #expect(!capture.hasAudioEngine)
+    }
+
+    @Test func stoppingACaptureThatNeverStartedBuildsNoAudioEngine() {
+        let capture = SpeechCapture(locale: Locale(identifier: "en-US"))
+        capture.stop()
+        capture.stop()
+        #expect(!capture.hasAudioEngine)
+        #expect(!capture.isListening)
+    }
+}
