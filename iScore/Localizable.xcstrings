@@ -2534,6 +2534,7 @@
       }
     },
     "Round %lld · %lld to win" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
