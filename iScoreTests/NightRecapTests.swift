@@ -127,4 +127,12 @@ struct NightRecapTests {
         let short = try #require(NightRecap(tonightWith: split[1], in: split, calendar: calendar))
         #expect(short.longestStreak == nil)
     }
+
+    @Test func theShareTextOnlyLinksWhenThereIsALink() throws {
+        let games = threeGames()
+        let recap = try #require(NightRecap(tonightWith: games[2], in: games, calendar: calendar))
+        #expect(NightRecap.appStoreURL == nil)
+        #expect(!recap.shareText.contains("http"))
+        #expect(!recap.shareText.isEmpty)
+    }
 }

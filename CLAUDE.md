@@ -196,6 +196,19 @@ comeback win, a last-round win or a win streak.
 - Edit Score never asks for a highlight. Settings → "Call out big moments"
   (`DramaSettings`) turns it all off.
 
+## Night recap
+
+After two or more games with the same group, the Game Summary offers a
+"Night recap" card — standings, each pair's record, the biggest round, the
+longest streak — rendered at 2x and shared as an image.
+
+- **`NightRecap` decides everything** (`iScore/Model/NightRecap.swift`), pure
+  and tested. A night is inferred, never stored: finished games on the same
+  calendar day sharing at least 3 players (`PlayerName.isSame`).
+- **The card is built for a chat thumbnail**: big numerals, few words, Duo
+  parts only (`NightRecapCard`). `NightRecap.appStoreURL` is nil until the app
+  has an App Store id; the share text links it only when set.
+
 ## Known technical debt
 
 - Navigation mixes `NavigationLink(destination:)` (Home tiles, All Games, New Game) with `navigationDestination(for: Game.self)` (Home) — move to value-based links

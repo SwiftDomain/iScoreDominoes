@@ -22,6 +22,7 @@
 		13815C91701540FEEC284436 /* Game+Voice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE89CAF1DB7769A3F486C3D8 /* Game+Voice.swift */; };
 		13933F4CC6A7F2177B36555E /* JoinCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068A3D33D313C324307E9DC2 /* JoinCode.swift */; };
 		14C32B15D038AA3295E313D6 /* ScoreLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987DB2456D5637A9C8EF7E73 /* ScoreLinkTests.swift */; };
+		151049222E54EF096BB30B84 /* NightRecapCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2017BCD24B2FF9DCFCCE75 /* NightRecapCard.swift */; };
 		18FCBEDB9699BF9E3588A3BF /* LanguageSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE4F94C20E901DAA9A06BC8 /* LanguageSettingsTests.swift */; };
 		19808D352D365A88587FF5D6 /* GameTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F22A2FD208CB7670DB633C /* GameTypePicker.swift */; };
 		19B0E07A8F7A32C6E7807DDC /* Game+Scoreboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597763BB09275F8C6E88D9BF /* Game+Scoreboard.swift */; };
@@ -259,6 +260,7 @@
 		488FCD2931193894812479F4 /* LanguageSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LanguageSettings.swift; sourceTree = "<group>"; };
 		4A0742BF2050F61DEF191FB7 /* TeamSeatsCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TeamSeatsCard.swift; sourceTree = "<group>"; };
 		4BB731886DA38E190FD6274C /* iScoreWidgetsBundle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = iScoreWidgetsBundle.swift; sourceTree = "<group>"; };
+		4C2017BCD24B2FF9DCFCCE75 /* NightRecapCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NightRecapCard.swift; sourceTree = "<group>"; };
 		4E291C1E09F95084DCC74A05 /* LanguageRelaunchTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LanguageRelaunchTests.swift; sourceTree = "<group>"; };
 		5283DE4ADAB5D97FDA659FF7 /* ScoreActivityController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreActivityController.swift; sourceTree = "<group>"; };
 		58BCDAD2649944BE768492E0 /* DuoProgressBar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DuoProgressBar.swift; sourceTree = "<group>"; };
@@ -466,6 +468,7 @@
 				AB3AB3B30A3851FD5165FE76 /* PresetRow.swift */,
 				FC0007587D4A82700A8F7BF3 /* PresetEditorView.swift */,
 				F08CB0BDF75023C81105F393 /* TableModeView.swift */,
+				4C2017BCD24B2FF9DCFCCE75 /* NightRecapCard.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -822,6 +825,7 @@
 				22001B1B2D0965741ED0EE81 /* Game+Drama.swift in Sources */,
 				7147BF953D1F29CD3C88E539 /* DramaSettings.swift in Sources */,
 				EEAB4EFD2BCB00562057B010 /* NightRecap.swift in Sources */,
+				151049222E54EF096BB30B84 /* NightRecapCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

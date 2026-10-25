@@ -50,6 +50,13 @@ struct NightRecap {
         longestStreak = Self.longestStreak(night)
     }
 
+    /// What goes with the image: one line, plus the App Store link once there is one.
+    var shareText: String {
+        let line = String(localized: "Tonight's dominoes")
+        guard let url = Self.appStoreURL else { return line }
+        return "\(line) \(url.absoluteString)"
+    }
+
     // MARK: - Counting
 
     /// Each player's games and wins tonight, under their first spelling.

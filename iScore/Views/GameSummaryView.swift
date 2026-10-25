@@ -22,11 +22,18 @@ struct GameSummaryView: View {
     @Environment(\.modelContext) private var context
     @Query(sort: \Player.name) private var players: [Player]
     @Query(sort: \GamePreset.name) private var presets: [GamePreset]
+    @Query private var allGames: [Game]
 
     @State private var shareImage: Image?
     @State private var isSpeaking = false
     @State private var isNamingSetup = false
     @State private var setupName = ""
+    @State private var showNightRecap = false
+
+    /// Tonight's card, once the group has played more than one game.
+    private var nightRecap: NightRecap? {
+        NightRecap(tonightWith: game, in: allGames)
+    }
 
     /// This game's setup, already saved under some name, if it is.
     private var savedPreset: GamePreset? {
@@ -87,6 +94,18 @@ struct GameSummaryView: View {
                     )
                 }
 
+                if nightRecap != nil {
+                    Button {
+                        showNightRecap = true
+                    } label: {
+                        Label("Night recap", systemImage: "moon.stars.fill")
+                            .font(DuoFont.body)
+                            .foregroundStyle(Theme.learnShadow)
+                            .frame(maxWidth: .infinity, minHeight: 46)
+                    }
+                    .buttonStyle(.duoCard)
+                }
+
                 saveSetup
 
                 SummaryRounds(game: game)
@@ -143,6 +162,9 @@ struct GameSummaryView: View {
         }
         .task {
             shareImage = renderShareImage()
+        }
+        .sheet(isPresented: $showNightRecap) {
+            if let nightRecap { NightRecapView(recap: nightRecap) }
         }
         .alert("Name this setup", isPresented: $isNamingSetup) {
             TextField("Friday night", text: $setupName)

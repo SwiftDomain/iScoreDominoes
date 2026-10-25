@@ -3318,6 +3318,116 @@
           }
         }
       }
+    },
+    "Tonight · %lld games": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Tonight · %lld game"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Tonight · %lld games"
+                }
+              }
+            }
+          }
+        },
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Esta noche · %lld partida"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Esta noche · %lld partidas"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Standings": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posiciones"
+          }
+        }
+      }
+    },
+    "Pairs": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parejas"
+          }
+        }
+      }
+    },
+    "Biggest round": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ronda más grande"
+          }
+        }
+      }
+    },
+    "Streak": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Racha"
+          }
+        }
+      }
+    },
+    "Tonight's dominoes": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El dominó de esta noche"
+          }
+        }
+      }
+    },
+    "Share the night": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compartir la noche"
+          }
+        }
+      }
+    },
+    "Night recap": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resumen de la noche"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
