@@ -30,7 +30,7 @@ struct ScoreboardLockScreenView: View {
                 .frame(maxWidth: .infinity)
                 .background(Theme.teamA)
 
-            // The rounds and the mic on the lighter wash, dark type on it.
+            // The rounds and the mic on white.
             // Painted here, not only as the tint, so the expanded Dynamic
             // Island shows the same and not black.
             VStack(alignment: .leading, spacing: 6) {
@@ -42,9 +42,9 @@ struct ScoreboardLockScreenView: View {
             .padding(.top, 6)
             .padding(.bottom, 10)
             .frame(maxWidth: .infinity)
-            .background(Theme.teamAWash)
+            .background(Theme.surface)
         }
-        .activityBackgroundTint(Theme.teamAWash)
+        .activityBackgroundTint(Theme.surface)
         .activitySystemActionForegroundColor(Theme.teamAShadow)
     }
 
@@ -121,16 +121,16 @@ struct ScoreboardLockScreenView: View {
         }
     }
 
-    /// A round's points in the team's color on white, or a faint dash when
+    /// A round's points in the team's color on its wash, or a faint dash when
     /// the other team scored that round. Not a button.
     private func roundCell(_ points: Int?, palette: TeamPalette) -> some View {
         Text(points.map { "\($0)" } ?? "—")
             .font(DuoFont.score(15))
-            .foregroundStyle(points == nil ? Theme.teamAShadow.opacity(0.5) : palette.edge)
+            .foregroundStyle(points == nil ? Theme.textMuted : palette.edge)
             .lineLimit(1)
             .minimumScaleFactor(0.7)
             .frame(maxWidth: .infinity, minHeight: 28)
-            .background(points == nil ? Color.clear : Theme.surface,
+            .background(points == nil ? Color.clear : palette.wash,
                         in: RoundedRectangle(cornerRadius: 8))
     }
 
