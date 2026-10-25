@@ -23,11 +23,18 @@ struct ScoreboardState: Codable, Hashable {
     var total1: Int
     var total2: Int
     var recent: [Int]
+    /// Every round played, not only the ones `recent` keeps. Optional so an
+    /// activity started by an earlier version, which lacks it, still decodes.
+    var played: Int? = nil
 
     // MARK: - Derived
 
+    private var roundsPlayed: Int {
+        played ?? recent.count
+    }
+
     var roundNumber: Int {
-        recent.count + 1
+        roundsPlayed + 1
     }
 
     /// Nil when tied.
@@ -76,6 +83,7 @@ struct ScoreboardState: Codable, Hashable {
         case .team2: next.total2 += points
         }
         next.recent = Array((recent + [side == .team1 ? points : -points]).suffix(Self.recentLimit))
+        next.played = roundsPlayed + 1
         return next
     }
 
@@ -88,6 +96,7 @@ struct ScoreboardState: Codable, Hashable {
             next.total2 = max(0, total2 + last)
         }
         next.recent = Array(recent.dropLast())
+        next.played = max(0, roundsPlayed - 1)
         return next
     }
 

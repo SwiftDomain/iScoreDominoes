@@ -19,7 +19,8 @@ extension ScoreboardState {
             target: Int(game.maxScore),
             total1: game.totalScore1,
             total2: game.totalScore2,
-            recent: recent
+            recent: recent,
+            played: game.rounds.count
         )
     }
 }

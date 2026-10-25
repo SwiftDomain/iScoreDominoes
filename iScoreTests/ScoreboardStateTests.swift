@@ -41,6 +41,18 @@ struct ScoreboardStateTests {
         #expect(columns.last == .init(team1: nil, team2: 80))
     }
 
+    /// `recent` keeps only the last 12 rounds; the round number counts them all.
+    @Test func theRoundNumberCountsPastTheRoundsKept() {
+        let game = Game(gameType: .nine, maxScore: 1000)
+        for _ in 0..<15 { game.addRound(10, for: .team1) }
+        let s = ScoreboardState.make(from: game)
+
+        #expect(s.recent.count == ScoreboardState.recentLimit)
+        #expect(s.roundNumber == 16)
+        #expect(s.applyingRound(5, for: .team2).roundNumber == 17)
+        #expect(s.applyingUndo().roundNumber == 15)
+    }
+
     @Test func noRoundsNoColumns() {
         #expect(state(0, 0).roundColumns(limit: 6).isEmpty)
     }
