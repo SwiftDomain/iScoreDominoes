@@ -37,7 +37,7 @@ struct iScoreApp: App {
         LanguageSettings.adopt(.shown(preferredLocalizations: Bundle.main.preferredLocalizations),
                                group: AppGroup.defaults)
         do {
-            let schema = Schema([Game.self, Player.self])
+            let schema = Schema([Game.self, Player.self, GamePreset.self])
             #if DEBUG
             if ProcessInfo.processInfo.arguments.contains(DemoData.launchArgument) {
                 let config = ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none)

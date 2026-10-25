@@ -16,7 +16,7 @@ struct Previewer {
 
     init() throws {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        container = try ModelContainer(for: Game.self, configurations: config)
+        container = try ModelContainer(for: Game.self, GamePreset.self, configurations: config)
 
         // Same sample games the app shows with the `-demoData` launch argument.
         game = DemoData.seed(into: container.mainContext)

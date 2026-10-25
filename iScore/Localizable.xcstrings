@@ -2807,6 +2807,16 @@
           }
         }
       }
+    },
+    "%@, %@ to %lld, %@, %@, %@, %@": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$@ a %3$lld, %4$@, %5$@, %6$@, %7$@"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
