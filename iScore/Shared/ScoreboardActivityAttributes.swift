@@ -6,9 +6,9 @@
 //  on a tap before the app has drained anything.
 //
 //  `recent` carries the last few round values signed by team (positive for
-//  team 1, negative for team 2). It is what lets the widget undo without
-//  opening the store — the app still owns the truth and overwrites this
-//  state on every drain.
+//  team 1, negative for team 2). The Lock Screen shows them as each round's
+//  score, and they let the widget undo without opening the store — the app
+//  still owns the truth and overwrites this state on every drain.
 //
 
 import Foundation
@@ -23,7 +23,6 @@ struct ScoreboardState: Codable, Hashable {
     var total1: Int
     var total2: Int
     var recent: [Int]
-    var grid: [Int]
     var requiresUnlock: Bool
 
     // MARK: - Derived
@@ -52,6 +51,20 @@ struct ScoreboardState: Codable, Hashable {
 
     var canUndo: Bool {
         !recent.isEmpty
+    }
+
+    /// One round as the Lock Screen shows it: the scoring team's points, and
+    /// nothing for the other team.
+    struct RoundColumn: Hashable {
+        let team1: Int?
+        let team2: Int?
+    }
+
+    /// The latest `limit` rounds, oldest first, so the newest sits on the right.
+    func roundColumns(limit: Int) -> [RoundColumn] {
+        recent.suffix(max(0, limit)).map { value in
+            value > 0 ? RoundColumn(team1: value, team2: nil) : RoundColumn(team1: nil, team2: -value)
+        }
     }
 
     // MARK: - Optimistic updates

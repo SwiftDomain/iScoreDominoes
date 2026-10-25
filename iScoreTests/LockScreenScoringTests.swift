@@ -32,9 +32,8 @@ struct LockScreenScoringTests {
 
     @Test func theFlagReachesTheActivityState() {
         let game = Game(gameType: .six, maxScore: 100)
-        let grid = PointGrid.defaults(for: .six)
-        let on = ScoreboardState.make(from: game, grid: grid, requiresUnlock: true)
-        let off = ScoreboardState.make(from: game, grid: grid, requiresUnlock: false)
+        let on = ScoreboardState.make(from: game, requiresUnlock: true)
+        let off = ScoreboardState.make(from: game, requiresUnlock: false)
 
         #expect(on.requiresUnlock)
         #expect(off.requiresUnlock == false)

@@ -10,7 +10,6 @@ struct GameView: View {
     @Environment(SpectateHostLink.self) private var spectateHost
     @Environment(TableModeSession.self) private var tableMode
 
-    @Query(sort: \Game.timestamp, order: .reverse) private var allGames: [Game]
 
     @Binding var path: NavigationPath
     @Bindable var game: Game
@@ -150,7 +149,7 @@ struct GameView: View {
                 roundCountBeforeSheet = game.rounds.count
                 team = deepLinked
             }
-            await ScoreActivityController.shared.start(for: game, history: roundHistory)
+            await ScoreActivityController.shared.start(for: game)
             spectateHost.publish(game)
         }
         .onChange(of: scenePhase) { _, phase in
@@ -159,14 +158,14 @@ struct GameView: View {
         // Keep the Lock Screen in step with every in-app change: adding,
         // undoing, editing and deleting a round all land in `scoreTeam`.
         .onChange(of: game.scoreTeam) { _, _ in
-            Task { await ScoreActivityController.shared.refresh(game, history: roundHistory) }
+            Task { await ScoreActivityController.shared.refresh(game) }
             spectateHost.publish(game)
         }
         .onChange(of: game.state) { _, state in
             spectateHost.publish(game)
             Task {
                 if state == .playing {
-                    await ScoreActivityController.shared.start(for: game, history: roundHistory)
+                    await ScoreActivityController.shared.start(for: game)
                 } else {
                     await ScoreActivityController.shared.end(game)
                 }
@@ -186,14 +185,8 @@ struct GameView: View {
 
     // MARK: - Lock Screen activity
 
-    /// Round values this user has scored at this game type, which is what
-    /// re-ranks the Lock Screen point grid.
-    private var roundHistory: [Int] {
-        GameHistory.roundValues(in: allGames, type: game.gameType)
-    }
-
     private func drainLockScreenRounds() {
-        ScoreActivityController.shared.drain(into: game, context: context, history: roundHistory)
+        ScoreActivityController.shared.drain(into: game, context: context)
         finishIfWon()
     }
 

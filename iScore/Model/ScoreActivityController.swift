@@ -5,7 +5,7 @@
 //  The app half of the Lock Screen scoreboard: it starts the activity for a
 //  game in progress, drains the taps the widget left behind, and republishes
 //  the authoritative state. Everything it decides lives in tested types
-//  (`PendingRoundsDrain`, `PointGrid`, `ScoreboardState`); this is plumbing.
+//  (`PendingRoundsDrain`, `ScoreboardState`); this is plumbing.
 //
 
 import Foundation
@@ -23,14 +23,9 @@ final class ScoreActivityController {
         Activity<ScoreboardActivityAttributes>.activities.first { $0.attributes.gameID == game.id }
     }
 
-    private func grid(for game: Game, history: [Int]) -> [Int] {
-        PointGrid.values(for: game.gameType, history: history)
-    }
-
-    private func state(for game: Game, history: [Int]) -> ScoreboardState {
+    private func state(for game: Game) -> ScoreboardState {
         ScoreboardState.make(
             from: game,
-            grid: grid(for: game, history: history),
             requiresUnlock: LockScreenScoring.requiresUnlock(AppGroup.defaults)
         )
     }
@@ -39,7 +34,7 @@ final class ScoreActivityController {
 
     /// Starts the activity for a game in progress, or refreshes the one
     /// already running for it.
-    func start(for game: Game, history: [Int]) async {
+    func start(for game: Game) async {
         guard game.state == .playing,
               ActivityAuthorizationInfo().areActivitiesEnabled
         else {
@@ -47,7 +42,7 @@ final class ScoreActivityController {
             return
         }
         if activity(for: game) != nil {
-            await refresh(game, history: history)
+            await refresh(game)
             return
         }
 
@@ -59,18 +54,18 @@ final class ScoreActivityController {
         )
         _ = try? Activity.request(
             attributes: attributes,
-            content: ActivityContent(state: state(for: game, history: history), staleDate: nil)
+            content: ActivityContent(state: state(for: game), staleDate: nil)
         )
     }
 
-    func refresh(_ game: Game, history: [Int] = []) async {
+    func refresh(_ game: Game) async {
         guard let activity = activity(for: game) else { return }
         guard game.state == .playing else {
             await end(game)
             return
         }
         await activity.update(
-            ActivityContent(state: state(for: game, history: history), staleDate: nil)
+            ActivityContent(state: state(for: game), staleDate: nil)
         )
     }
 
@@ -92,7 +87,7 @@ final class ScoreActivityController {
     /// Applies the Lock Screen taps waiting in the App Group file to `game`,
     /// saves, and republishes the activity. Returns how many rounds changed.
     @discardableResult
-    func drain(into game: Game, context: ModelContext, history: [Int] = []) -> Int {
+    func drain(into game: Game, context: ModelContext) -> Int {
         guard let store = PendingRoundsStore.shared,
               let entries = try? store.drain(), !entries.isEmpty
         else { return 0 }
@@ -101,7 +96,7 @@ final class ScoreActivityController {
         guard changed > 0 else { return 0 }
 
         try? context.save()
-        Task { await refresh(game, history: history) }
+        Task { await refresh(game) }
         return changed
     }
 }

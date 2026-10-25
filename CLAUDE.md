@@ -36,8 +36,9 @@ Duolingo-inspired: white canvas, rounded gray text, green team 1, blue team 2, p
 ## Lock Screen scoreboard (`iScoreWidgets`)
 
 A Widget Extension target hosts a Live Activity: both totals, the round
-number, points to win for the leader, and a per-team grid of common point
-values with Undo and Other. Created and maintained by
+number, points to win for the leader, each team's score for the latest six
+rounds (display only, not buttons), and Undo. Tapping the activity opens the
+app to add a round. Created and maintained by
 `ruby scripts/xcodeproj.rb setup-widget` — never hand-edit `project.pbxproj`.
 
 - **The app is the single owner of the store.** The widget process must never

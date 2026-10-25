@@ -3147,6 +3147,16 @@
           }
         }
       }
+    },
+    "No rounds yet": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todavía no hay rondas"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

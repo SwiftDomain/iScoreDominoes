@@ -3,8 +3,8 @@
 //  iScoreWidgets
 //
 //  The scoreboard as it appears on the Lock Screen, and — unchanged — in the
-//  expanded Dynamic Island. The point grid lives HERE rather than only in
-//  the island, so scoring without unlocking works on every iPhone.
+//  expanded Dynamic Island: both totals, each recent round's score (display
+//  only) and Undo. Tapping the activity opens the app to add a round.
 //
 
 import SwiftUI
@@ -18,7 +18,7 @@ struct ScoreboardLockScreenView: View {
 
     var body: some View {
         // The Lock Screen gives an activity about 160pt. Names sit beside
-        // their button row rather than above it, which is what keeps the
+        // their round row rather than above it, which is what keeps the
         // header and the Undo row from being clipped.
         VStack(alignment: .leading, spacing: 6) {
             header
@@ -67,8 +67,13 @@ struct ScoreboardLockScreenView: View {
 
     // MARK: - Teams
 
+    /// The latest rounds' scores, display only — the Lock Screen no longer
+    /// adds points; tapping the activity opens the app for that.
+    private static let roundsShown = 6
+
     private func teamRow(_ side: TeamSide, name: String, palette: TeamPalette) -> some View {
-        HStack(spacing: 6) {
+        let columns = state.roundColumns(limit: Self.roundsShown)
+        return HStack(spacing: 6) {
             Text(name)
                 .font(DuoFont.label)
                 .foregroundStyle(palette.edge)
@@ -77,43 +82,41 @@ struct ScoreboardLockScreenView: View {
                 .frame(width: 62, alignment: .leading)
 
             HStack(spacing: 4) {
-                ForEach(state.grid, id: \.self) { points in
-                    scoreControl(points, side: side, palette: palette)
+                if columns.isEmpty {
+                    Text(WidgetLanguage.text("No rounds yet"))
+                        .font(DuoFont.label)
+                        .foregroundStyle(Theme.textMuted)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                } else {
+                    ForEach(columns.indices, id: \.self) { index in
+                        roundCell(side == .team1 ? columns[index].team1 : columns[index].team2, palette: palette)
+                    }
+                    // Keep columns the same width however many rounds there are.
+                    ForEach(columns.count..<Self.roundsShown, id: \.self) { _ in
+                        Color.clear.frame(maxWidth: .infinity, maxHeight: 28)
+                    }
                 }
             }
         }
     }
 
-    @ViewBuilder
-    private func scoreControl(_ points: Int, side: TeamSide, palette: TeamPalette) -> some View {
-        let face = ScoreButtonFace(title: "\(points)", fill: palette.fill, edge: palette.edge, height: 30)
-
-        // With "Require unlock to score" on, the same control becomes a link,
-        // so scoring costs an unlock instead of happening on the Lock Screen.
-        if state.requiresUnlock {
-            Link(destination: ScoreLink.record(gameID: attributes.gameID, points: points, team: side)) {
-                face
-            }
-        } else {
-            Button(intent: RecordRoundIntent(gameID: attributes.gameID, points: points, team: side)) {
-                face
-            }
-            .buttonStyle(.plain)
-        }
+    /// A round's points in the team's wash, or a muted dash when the other
+    /// team scored that round. Not a button.
+    private func roundCell(_ points: Int?, palette: TeamPalette) -> some View {
+        Text(points.map { "\($0)" } ?? "—")
+            .font(DuoFont.score(15))
+            .foregroundStyle(points == nil ? Theme.textMuted : palette.edge)
+            .lineLimit(1)
+            .minimumScaleFactor(0.7)
+            .frame(maxWidth: .infinity, minHeight: 28)
+            .background(points == nil ? Theme.surfaceSecondary : palette.wash,
+                        in: RoundedRectangle(cornerRadius: 8))
     }
 
     // MARK: - Footer
 
     private var footer: some View {
-        HStack(spacing: 8) {
-            undoControl
-            Link(destination: ScoreLink.other(gameID: attributes.gameID, team: .team1)) {
-                ScoreButtonFace(
-                    title: WidgetLanguage.text("Other…"), fill: Theme.surfaceSecondary,
-                    edge: Theme.divider, titleColor: Theme.textSecondary, height: 30
-                )
-            }
-        }
+        undoControl
     }
 
     @ViewBuilder

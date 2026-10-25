@@ -2,9 +2,9 @@
 //  ScoreLinkHandler.swift
 //  iScore
 //
-//  Where an iscoredominoes:// link lands: a round the point grid did not
-//  carry ("Other…"), or any scoring control once "Require unlock to score"
-//  is on. Scoring goes through the same pending file as a Lock Screen tap,
+//  Where an iscoredominoes:// link lands: Undo once "Require unlock to
+//  score" is on, or a link written by an earlier version (a recorded round,
+//  "Other…"). Scoring goes through the same pending file as a Lock Screen tap,
 //  so the ordering and exactly-once rules are the ones already tested.
 //
 
@@ -49,11 +49,7 @@ enum ScoreLinkHandler {
     private static func drain(gameID: UUID, context: ModelContext) {
         let games = (try? context.fetch(FetchDescriptor<Game>())) ?? []
         guard let game = games.first(where: { $0.id == gameID }) else { return }
-        ScoreActivityController.shared.drain(
-            into: game,
-            context: context,
-            history: GameHistory.roundValues(in: games, type: game.gameType)
-        )
+        ScoreActivityController.shared.drain(into: game, context: context)
     }
 }
 

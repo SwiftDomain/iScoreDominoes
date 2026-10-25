@@ -6,9 +6,8 @@
     <!-- Merged with the generated Info.plist (GENERATE_INFOPLIST_FILE stays
          YES). Only keys with no INFOPLIST_KEY_ equivalent belong here.
 
-         iscoredominoes:// is how the Lock Screen reaches the app for a round
-         the point grid does not carry, and for every control once "Require
-         unlock to score" is on.
+         iscoredominoes:// is how the Lock Screen reaches the app for Undo
+         once "Require unlock to score" is on.
 
          NSBonjourServices lets live spectate advertise and browse for
          SpectateService.type; without it the system refuses both. -->

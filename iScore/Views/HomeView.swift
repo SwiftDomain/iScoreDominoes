@@ -197,9 +197,8 @@ struct HomeView: View {
     /// screen", so Home starts the activity too — the app is often left here.
     private func drainLockScreenRounds() {
         guard let game = activeGames.first(where: { $0.state == .playing }) else { return }
-        let history = GameHistory.roundValues(in: allGames, type: game.gameType)
-        ScoreActivityController.shared.drain(into: game, context: context, history: history)
-        Task { await ScoreActivityController.shared.start(for: game, history: history) }
+        ScoreActivityController.shared.drain(into: game, context: context)
+        Task { await ScoreActivityController.shared.start(for: game) }
         // Rounds scored on the Lock Screen while sharing reach the watchers too.
         spectateHost.publish(game)
     }

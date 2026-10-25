@@ -2,9 +2,10 @@
 //  ScoreLink.swift
 //  iScore
 //
-//  The deep links the Lock Screen falls back to: "Other…" for a round the
-//  grid does not carry, and every control once "Require unlock to score" is
-//  on. Opening a link costs an unlock, which is exactly the point there.
+//  The deep links the Lock Screen falls back to: Undo once "Require unlock
+//  to score" is on (opening a link costs an unlock, which is the point). The
+//  record and "Other…" links are still parsed for activities started by an
+//  earlier version.
 //
 
 import Foundation
