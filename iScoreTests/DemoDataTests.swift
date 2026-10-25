@@ -7,10 +7,18 @@ struct DemoDataTests {
 
     private func seeded() throws -> (ModelContainer, Game) {
         let container = try ModelContainer(
-            for: Game.self, Player.self,
+            for: Game.self, Player.self, GamePreset.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
         )
         return (container, DemoData.seed(into: container.mainContext))
+    }
+
+    /// So `-demoData` shows the Home presets row.
+    @Test func seedsOneCompletePreset() throws {
+        let (container, _) = try seeded()
+        let presets = try container.mainContext.fetch(FetchDescriptor<GamePreset>())
+        #expect(presets.map(\.name) == ["Friday night"])
+        #expect(presets.first?.setup.isComplete == true)
     }
 
     @Test func seedsOneActiveGameAmongFinishedAndCancelled() throws {

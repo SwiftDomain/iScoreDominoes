@@ -23,6 +23,18 @@ struct GameSummaryView: View {
 
     @State private var shareImage: Image?
     @State private var isSpeaking = false
+    @State private var isNamingSetup = false
+    @State private var setupName = ""
+
+    /// This game's setup, already saved under some name, if it is.
+    private var savedPreset: GamePreset? {
+        PresetList.existing(matching: PresetSetup(game: game, name: ""), in: presets)
+    }
+
+    private var setupBlocker: LocalizedStringResource? {
+        PresetEditorRules.blocker(name: setupName, setup: PresetSetup(game: game, name: setupName),
+                                  existing: presets.map(\.name), editing: nil)
+    }
 
     private var winner: Team { game.winningTeam }
 
@@ -60,6 +72,8 @@ struct GameSummaryView: View {
                         palette: TeamPalette(fill: Theme.streak, edge: Theme.streakShadow, wash: Theme.surfaceSecondary)
                     )
                 }
+
+                saveSetup
 
                 SummaryRounds(game: game)
                     .padding(.top, 4)
@@ -116,6 +130,16 @@ struct GameSummaryView: View {
         .task {
             shareImage = renderShareImage()
         }
+        .alert("Name this setup", isPresented: $isNamingSetup) {
+            TextField("Friday night", text: $setupName)
+            Button("Save") {
+                context.insert(GamePreset(PresetSetup(game: game, name: PresetName.cleaned(setupName))))
+            }
+            .disabled(setupBlocker != nil)
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            if let setupBlocker { Text(setupBlocker) }
+        }
         // The night keeps its settings: seed with this game's, not the saved defaults.
         .voiceGameSheet(
             isPresented: $isSpeaking,
@@ -133,6 +157,28 @@ struct GameSummaryView: View {
     }
 
     /// Renders the shareable card once, instead of on every body update.
+    /// "Save this setup" — once; after that it says which preset holds it.
+    @ViewBuilder
+    private var saveSetup: some View {
+        if let savedPreset {
+            Label { Text("Saved as \(savedPreset.name)") } icon: { Image(systemName: "bookmark.fill") }
+                .font(DuoFont.body)
+                .foregroundStyle(Theme.textSecondary)
+                .frame(maxWidth: .infinity)
+        } else if PresetSetup(game: game, name: "x").isComplete {
+            Button {
+                setupName = ""
+                isNamingSetup = true
+            } label: {
+                Label("Save this setup", systemImage: "bookmark")
+                    .font(DuoFont.label)
+                    .foregroundStyle(Theme.textPrimary)
+                    .frame(maxWidth: .infinity, minHeight: 46)
+            }
+            .buttonStyle(.duoCard)
+        }
+    }
+
     private func renderShareImage() -> Image? {
         let renderer = ImageRenderer(content: ShareableGameSummary(game: game))
         renderer.scale = 3

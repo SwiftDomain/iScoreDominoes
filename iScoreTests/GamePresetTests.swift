@@ -158,4 +158,24 @@ struct GamePresetTests {
         #expect(PresetEditorRules.blocker(name: "Friday night", setup: friday,
                                           existing: ["Friday night", "Sunday"], editing: "Friday night") == nil)
     }
+
+    // MARK: - Save this setup
+
+    /// "Save this setup" is offered once: a preset with the same game and the
+    /// same player in each seat already covers it, whatever it is called.
+    @Test func anExistingSetupIsFoundWhateverItsName() {
+        let saved = GamePreset(friday)
+        var same = friday
+        same.name = "Something else"
+        same.playerNames = ["ana", "Luis", "Rafa", "Mia"]
+        #expect(PresetList.existing(matching: same, in: [saved]) === saved)
+
+        var otherTarget = friday
+        otherTarget.target = 150
+        #expect(PresetList.existing(matching: otherTarget, in: [saved]) == nil)
+
+        var swapped = friday
+        swapped.playerNames = ["Luis", "Ana", "Rafa", "Mia"]
+        #expect(PresetList.existing(matching: swapped, in: [saved]) == nil)
+    }
 }

@@ -134,6 +134,23 @@ no internet).
 - A killed or out-of-range host takes Multipeer roughly 10 seconds to notice;
   until then the guest still reads Live.
 
+## Game presets
+
+A preset is a saved setup ("Friday night": Double 9, 200, the usual four),
+started with one tap from Home, by saying its name, or edited in Settings; a
+finished game offers "Save this setup".
+
+- **`GamePreset` only stores**; every rule runs on the value `PresetSetup`
+  (`iScore/Model/GamePreset.swift`), so tests need no store. Players are kept
+  as names (no relationship, CloudKit-safe) and matched to saved players with
+  `PlayerName` when the preset starts; a deleted player is created again.
+- **Voice checks preset names first**, in `VoiceSetup.resolve`, through
+  `PresetMatcher`: a match is the name plus filler words only, never a
+  substring, so a description that mentions a preset's name stays free-form.
+- **Home shows three** (`PresetList.homeRow`): one card per name — two devices
+  can save the same name before syncing; the oldest wins and Settings marks
+  the other "Duplicate name" — ordered by last used.
+
 ## Known technical debt
 
 - Navigation mixes `NavigationLink(destination:)` (Home tiles, All Games, New Game) with `navigationDestination(for: Game.self)` (Home) — move to value-based links

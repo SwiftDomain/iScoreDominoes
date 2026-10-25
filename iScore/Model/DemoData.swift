@@ -61,6 +61,9 @@ enum DemoData {
             }
         }
         context.insert(Player(name: "Carlos"))
+        // So the Home presets row has something to show.
+        context.insert(GamePreset(PresetSetup(name: "Friday night", gameType: .six, target: 100,
+                                              playerNames: ["Rafa", "Mia", "Tito", "Eva"])))
 
         return active
     }

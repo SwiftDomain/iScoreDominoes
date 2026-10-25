@@ -3037,6 +3037,36 @@
           }
         }
       }
+    },
+    "Save this setup": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar esta partida"
+          }
+        }
+      }
+    },
+    "Saved as %@": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardada como %@"
+          }
+        }
+      }
+    },
+    "Name this setup": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ponle nombre a esta partida"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

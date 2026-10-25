@@ -122,6 +122,17 @@ enum PresetList {
             .map { $0 }
     }
 
+    /// The preset already saved with this exact setup — type, target and the
+    /// same player in each seat — whatever it is called.
+    static func existing(matching setup: PresetSetup, in presets: [GamePreset]) -> GamePreset? {
+        presets.first { preset in
+            preset.gameType == setup.gameType
+                && preset.target == setup.target
+                && preset.playerNames.count == setup.playerNames.count
+                && zip(preset.playerNames, setup.playerNames).allSatisfy { PlayerName.isSame($0, $1) }
+        }
+    }
+
     /// Every preset that is not the oldest one with its name.
     static func duplicates(in presets: [GamePreset]) -> [GamePreset] {
         var kept: [GamePreset] = []
