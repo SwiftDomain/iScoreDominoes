@@ -20,7 +20,7 @@ the round is recorded. The other three players watch the score on their own
 phones without being able to touch it. And the whole thing speaks the
 player's language, not the developer's.
 
-Ten features, to be built in the order listed. Each one ships on its own and
+Ten features were planned, to be built in the order listed (8 has since been dropped). Each one ships on its own and
 leaves the app better than it found it.
 
 ## Goals
@@ -372,26 +372,10 @@ borders, just bigger.
 screen does not dim during a game, and leaving table mode restores the normal
 layout exactly.
 
-### 8. Rivalries and head-to-head records
+### 8. Rivalries and head-to-head records — dropped
 
-**What it does.** Hall of Fame grows beyond individual win counts: *"You &
-Carlos are 14–9 against Luis & Papo."* Pairings get records. A player's
-profile shows their best partner, their worst matchup, and their current
-streak.
-
-**How.** A new pure type (`Rivalry` in `iScore/Model/`) computed over finished
-games — no new persistence needed, the data is already in `Game.team1`,
-`Game.team2`, and `winningTeam`. Pairings are order-independent and compared
-case-insensitively (reuse `PlayerName.isSame`). Head-to-head records need a
-minimum number of games before they are shown, so a 1–0 record does not get
-announced as a rivalry; the threshold is 3 (my call).
-
-Surfaced on Hall of Fame, on the Game Summary screen ("that makes it 15–9"),
-and in the pre-game confirmation card from feature 1 ("last time, they won").
-
-**Done looks like:** `Rivalry` is fully unit-tested against the existing
-`DemoData` sample games, and the numbers it reports can be checked by hand
-against the games list.
+Removed from the plan on 2026-10-25 at the user's request. The numbering of
+9 and 10 is kept so earlier references still line up.
 
 ### 9. Round-level drama
 
@@ -421,8 +405,7 @@ Spanish copy uses the real terms.
 
 **What it does.** When a session ends — several games with the same group —
 the app offers one shareable card: final standings for the night, each
-pairing's record, the biggest round, the longest streak, the rivalry totals
-updated. One tap to Messages or the group chat.
+pairing's record, the biggest round and the longest streak. One tap to Messages or the group chat.
 
 **How.** A "session" is inferred, not stored: finished games on the same
 calendar day sharing at least three of the same players (my call — the rule
