@@ -74,4 +74,57 @@ struct NightRecapTests {
         let night = NightRecap.games(tonightWith: usual, in: [usual, yesterday, cancelled, playing], calendar: calendar)
         #expect(night.map(\.id) == [usual.id])
     }
+
+    // MARK: - The numbers
+
+    /// Ana & Luis beat Rafa & Mia, Rafa & Mia beat Luis & Ana, then Ana & Rafa
+    /// beat Luis & Mia. The 95 in the first game is the night's biggest round.
+    private func threeGames() -> [Game] {
+        [played(ana, rafa, rounds: [(95, .team1)], minutes: 0),
+         played(["Luis", "Ana"], rafa, winner: .team2, rounds: [(90, .team2)], minutes: 40),
+         played(["Ana", "Rafa"], ["Luis", "Mia"], rounds: [(90, .team1)], minutes: 80)]
+    }
+
+    /// RF4.
+    @Test func oneGameIsNotANight() {
+        let only = played(ana, rafa)
+        #expect(NightRecap(tonightWith: only, in: [only], calendar: calendar) == nil)
+    }
+
+    @Test func standingsCountTonightOnly() throws {
+        let games = threeGames()
+        let recap = try #require(NightRecap(tonightWith: games[2], in: games, calendar: calendar))
+        #expect(recap.gamesPlayed == 3)
+        let wins = Dictionary(uniqueKeysWithValues: recap.standings.map { ($0.record.name, $0.record.won) })
+        #expect(wins == ["Ana": 2, "Rafa": 2, "Luis": 1, "Mia": 1])
+        #expect(recap.standings.allSatisfy { $0.record.played == 3 })
+        #expect(recap.standings.map(\.rank) == [1, 1, 3, 3])
+    }
+
+    @Test func pairsKeepTheirRecordInAnyOrder() throws {
+        let games = threeGames()
+        let recap = try #require(NightRecap(tonightWith: games[0], in: games, calendar: calendar))
+        #expect(recap.pairs == [
+            .init(names: ["Ana", "Rafa"], won: 1, lost: 0),
+            .init(names: ["Ana", "Luis"], won: 1, lost: 1),
+            .init(names: ["Rafa", "Mia"], won: 1, lost: 1),
+            .init(names: ["Luis", "Mia"], won: 0, lost: 1),
+        ])
+    }
+
+    @Test func theBiggestRoundAndWhoScoredIt() throws {
+        let games = threeGames()
+        let recap = try #require(NightRecap(tonightWith: games[1], in: games, calendar: calendar))
+        #expect(recap.biggestRound == .init(points: 95, names: ["Ana", "Luis"]))
+    }
+
+    @Test func aStreakNeedsTwoInARow() throws {
+        let games = threeGames()
+        let recap = try #require(NightRecap(tonightWith: games[2], in: games, calendar: calendar))
+        #expect(recap.longestStreak == .init(name: "Rafa", wins: 2))
+
+        let split = Array(games.prefix(2))
+        let short = try #require(NightRecap(tonightWith: split[1], in: split, calendar: calendar))
+        #expect(short.longestStreak == nil)
+    }
 }
