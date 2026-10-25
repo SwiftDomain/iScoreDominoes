@@ -155,4 +155,26 @@ struct GameDramaTests {
         let g = game(100, [(100, .team1)], type: .six)
         #expect(GameDrama.finale(of: g, history: [g]) == nil)
     }
+
+    // MARK: - Copy and the switch
+
+    @Test func dramaIsOnByDefault() {
+        let defaults = UserDefaults(suiteName: "drama-\(UUID().uuidString)")!
+        #expect(DramaSettings.isEnabled(defaults))
+        defaults.set(false, forKey: DramaSettings.enabledKey)
+        #expect(DramaSettings.isEnabled(defaults) == false)
+    }
+
+    @Test func theShutoutDetailNamesTheLoser() {
+        let g = game(100, [(100, .team1)], type: .six)
+        let detail = String(localized: g.dramaDetail(.shutout(winner: .team1)))
+        #expect(detail.contains(g.displayName(for: .team2)))
+    }
+
+    /// RF3: spoken in the voice language, whatever the app language.
+    @Test func theSpokenLineIsInTheVoiceLanguage() {
+        let g = game()
+        #expect(g.dramaLine(.capicua(.team1), in: Locale(identifier: "es")).hasPrefix("¡Capicúa!"))
+        #expect(g.dramaLine(.capicua(.team1), in: Locale(identifier: "en")).hasPrefix("Capicúa!"))
+    }
 }

@@ -50,6 +50,7 @@ struct SettingsView: View {
 
     @AppStorage(VoiceOutput.speechKey) private var speaksAnswers = true
     @AppStorage(TableModeSettings.defaultKey) private var tableModeByDefault = false
+    @AppStorage(DramaSettings.enabledKey) private var dramaEnabled = true
     @Environment(TableModeSession.self) private var tableMode
 
     @State private var playerToDelete: Player?
@@ -124,6 +125,26 @@ struct SettingsView: View {
                     .padding(.top, 10)
 
                 presetsCard
+
+                Text("Big moments")
+                    .duoLabel()
+                    .padding(.top, 10)
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Toggle(isOn: $dramaEnabled) {
+                        Text("Call out big moments")
+                            .font(DuoFont.body)
+                            .foregroundStyle(Theme.textPrimary)
+                    }
+                    .tint(Theme.teamA)
+
+                    Text("Capicúa, zapato, comebacks and streaks get a banner and, with spoken answers on, a line.")
+                        .font(.footnote.weight(.bold))
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
+                .duoCard()
 
                 Text("Table mode")
                     .duoLabel()
