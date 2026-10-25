@@ -29,6 +29,8 @@ struct GameView: View {
     @State private var voiceNotice: VoiceNotice?
     /// What the mic has to say for itself, on the row's own full-width line.
     @State private var micLine: String?
+    /// The Lock Screen mic was tapped; the bar starts listening and clears it.
+    @State private var listenRequested = false
     @AppStorage(OwnerIdentity.nameKey) private var ownerName: String = ""
     let editScore = editScoreTip()
 
@@ -144,14 +146,16 @@ struct GameView: View {
         }
         .task {
             drainLockScreenRounds()
-            // "Other…" on the Lock Screen asked for this team's keypad.
-            if let deepLinked = linkRouter.takeAddScore(for: game.id) {
-                roundCountBeforeSheet = game.rounds.count
-                team = deepLinked
-            }
+            takeLinkRequest()
             await ScoreActivityController.shared.start(for: game)
             spectateHost.publish(game)
         }
+        .onAppear { linkRouter.showingGameID = game.id }
+        .onDisappear {
+            if linkRouter.showingGameID == game.id { linkRouter.showingGameID = nil }
+        }
+        // A link for this game while its screen is already up.
+        .onChange(of: linkRouter.pending) { _, _ in takeLinkRequest() }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { drainLockScreenRounds() }
         }
@@ -388,6 +392,21 @@ struct GameView: View {
         }
     }
 
+    /// What a Lock Screen link asked of this game: the mic, or (from an
+    /// earlier version's "Other…") a team's keypad.
+    private func takeLinkRequest() {
+        switch linkRouter.take(for: game.id) {
+        case .listen:
+            // The game screen's mic, not one behind the keypad sheet.
+            team = nil
+            listenRequested = true
+        case let .addScore(side):
+            openKeypad(side.team)
+        case nil:
+            break
+        }
+    }
+
     private func holdTableAwake() {
         ScreenAwake.shared.set(.tableMode(game: game.id), tableMode.isOn && isPlaying)
     }
@@ -400,6 +419,7 @@ struct GameView: View {
             permissions: voicePermissions,
             answers: game.voiceAnswers(in: LanguageSettings.voiceLocale()),
             showsText: false,
+            listenRequested: $listenRequested,
             onOutcome: handle,
             onPrompt: show
         )

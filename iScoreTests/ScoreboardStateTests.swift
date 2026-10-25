@@ -15,7 +15,7 @@ struct ScoreboardStateTests {
 
     private func state(_ t1: Int, _ t2: Int, recent: [Int] = [], target: Int = 200) -> ScoreboardState {
         ScoreboardState(
-            target: target, total1: t1, total2: t2, recent: recent, requiresUnlock: false
+            target: target, total1: t1, total2: t2, recent: recent
         )
     }
 
@@ -98,7 +98,7 @@ struct ScoreboardStateTests {
         let game = Game(gameType: .nine, maxScore: 200)
         game.addRound(25, for: .team1)
         game.addRound(30, for: .team2)
-        let s = ScoreboardState.make(from: game, requiresUnlock: true)
+        let s = ScoreboardState.make(from: game)
 
         #expect(s.total1 == 25)
         #expect(s.total2 == 30)
@@ -107,6 +107,5 @@ struct ScoreboardStateTests {
         #expect(s.roundNumber == game.currentRoundNumber)
         #expect(s.leader == .team2)
         #expect(s.pointsToWin(.team2) == game.pointsToWin(for: .team2))
-        #expect(s.requiresUnlock)
     }
 }

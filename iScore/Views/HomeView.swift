@@ -163,11 +163,13 @@ struct HomeView: View {
             removeDuplicateGames()
         }
         .onOpenURL { url in
-            if case let .openAddScore(gameID, team) = ScoreLinkHandler.handle(url, context: context),
-               let game = allGames.first(where: { $0.id == gameID }) {
-                linkRouter.pendingAddScore = (gameID, team)
-                path.append(game)
-            }
+            guard let pending = ScoreLinkRouter.Pending(ScoreLinkHandler.handle(url, context: context)),
+                  let game = allGames.first(where: { $0.id == pending.gameID })
+            else { return }
+            linkRouter.pending = pending
+            // The game's screen may already be up (the phone was locked on
+            // it); it takes the request itself.
+            if linkRouter.needsPush(for: game.id) { path.append(game) }
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { drainLockScreenRounds() }

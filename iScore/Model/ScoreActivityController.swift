@@ -24,10 +24,7 @@ final class ScoreActivityController {
     }
 
     private func state(for game: Game) -> ScoreboardState {
-        ScoreboardState.make(
-            from: game,
-            requiresUnlock: LockScreenScoring.requiresUnlock(AppGroup.defaults)
-        )
+        ScoreboardState.make(from: game)
     }
 
     // MARK: - Lifecycle

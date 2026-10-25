@@ -32,6 +32,23 @@ enum VoiceBarState {
     }
 
     /// Whether the mic can be tapped at all.
+    /// What a Lock Screen mic tap does once it reaches the bar.
+    enum RequestedListen: Equatable {
+        /// Nothing was asked.
+        case none
+        /// Not active yet (still unlocking); try again when the app is.
+        case wait
+        /// Already listening or working out the last answer; forget it.
+        case drop
+        case start
+    }
+
+    static func requestedListen(_ requested: Bool, isActive: Bool, isListening: Bool, isThinking: Bool) -> RequestedListen {
+        guard requested else { return .none }
+        guard isActive else { return .wait }
+        return isListening || isThinking ? .drop : .start
+    }
+
     static func isMicEnabled(availability: SpeechAvailability, isThinking: Bool) -> Bool {
         guard !isThinking else { return false }
         return VoiceSetup.opening(for: availability) != .typeInstead
@@ -102,6 +119,9 @@ struct VoiceScoreBar: View {
     /// No default: the drawn-in-place layout needs a host wide enough for prose,
     /// and silently handing a new host the layout that failed would be a trap.
     let showsText: Bool
+    /// A tap on the Lock Screen mic, carried in by the host: the bar starts
+    /// listening once the app is active and sets it back to false.
+    @Binding var listenRequested: Bool
     let onOutcome: (VoiceScoring.Outcome) -> Void
     /// What the bar has to say, for the host that shows it. Required for the
     /// same reason: with `showsText: false` and nowhere to send this, the mic
@@ -129,6 +149,7 @@ struct VoiceScoreBar: View {
         assumedTeam: Team? = nil,
         locale: Locale = LanguageSettings.voiceLocale(),
         showsText: Bool,
+        listenRequested: Binding<Bool> = .constant(false),
         onOutcome: @escaping (VoiceScoring.Outcome) -> Void,
         onPrompt: @escaping (VoiceBarState.Report) -> Void
     ) {
@@ -138,6 +159,7 @@ struct VoiceScoreBar: View {
         self.assumedTeam = assumedTeam
         self.locale = locale
         self.showsText = showsText
+        _listenRequested = listenRequested
         self.onOutcome = onOutcome
         self.onPrompt = onPrompt
         _holder = State(initialValue: CaptureHolder(locale: locale))
@@ -176,14 +198,17 @@ struct VoiceScoreBar: View {
             visit += 1
             isOnScreen = true
             onPrompt(report)
+            startRequestedListening()
         }
+        .onChange(of: listenRequested) { _, _ in startRequestedListening() }
         .onDisappear {
             standDown()
             onPrompt(.idleAway)
         }
-        // A locked or backgrounded phone must not keep listening. Coming back does not restart it.
+        // A locked or backgrounded phone must not keep listening. Coming back does not restart it;
+        // only a Lock Screen mic tap waiting for the app to become active does.
         .onChange(of: scenePhase) { _, phase in
-            if phase != .active { standDown() }
+            if phase != .active { standDown() } else { startRequestedListening() }
         }
     }
 
@@ -200,6 +225,25 @@ struct VoiceScoreBar: View {
         capture.stop()
     }
 
+    /// The Lock Screen mic tap. It waits for the app to be active, so the
+    /// unlock on the way in cannot stand it straight back down.
+    private func startRequestedListening() {
+        switch VoiceBarState.requestedListen(
+            listenRequested,
+            isActive: scenePhase == .active,
+            isListening: capture.isListening,
+            isThinking: isThinking
+        ) {
+        case .none, .wait:
+            return
+        case .drop:
+            listenRequested = false
+        case .start:
+            listenRequested = false
+            Task { await startListening() }
+        }
+    }
+
     private func toggleListening() async {
         if capture.isListening {
             await finishListening()
@@ -208,7 +252,7 @@ struct VoiceScoreBar: View {
         }
     }
 
-    /// Only ever reached from a tap.
+    /// Only ever reached from a tap: on the mic here, or on the Lock Screen's.
     private func startListening() async {
         let current = visit
         notice = nil

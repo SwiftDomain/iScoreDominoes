@@ -10,7 +10,7 @@ import Foundation
 
 extension ScoreboardState {
 
-    static func make(from game: Game, requiresUnlock: Bool) -> Self {
+    static func make(from game: Game) -> Self {
         let recent = game.rounds
             .suffix(recentLimit)
             .map { $0.team == .team1 ? $0.points : -$0.points }
@@ -19,8 +19,7 @@ extension ScoreboardState {
             target: Int(game.maxScore),
             total1: game.totalScore1,
             total2: game.totalScore2,
-            recent: recent,
-            requiresUnlock: requiresUnlock
+            recent: recent
         )
     }
 }

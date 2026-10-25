@@ -4,6 +4,24 @@ import Testing
 
 struct VoiceScoreBarTests {
 
+    /// The Lock Screen mic tap waits for the app to be active — the unlock on
+    /// the way in would otherwise stand it straight back down.
+    @Test func aLockScreenTapWaitsForTheAppToBeActive() {
+        #expect(VoiceBarState.requestedListen(true, isActive: false, isListening: false, isThinking: false) == .wait)
+        #expect(VoiceBarState.requestedListen(true, isActive: true, isListening: false, isThinking: false) == .start)
+    }
+
+    /// Nothing asked, nothing started: coming back to the app never opens the mic by itself.
+    @Test func noTapNoListening() {
+        #expect(VoiceBarState.requestedListen(false, isActive: true, isListening: false, isThinking: false) == .none)
+    }
+
+    /// Already listening or working out an answer: the tap is not a second session.
+    @Test func aTapDuringASessionIsDropped() {
+        #expect(VoiceBarState.requestedListen(true, isActive: true, isListening: true, isThinking: false) == .drop)
+        #expect(VoiceBarState.requestedListen(true, isActive: true, isListening: false, isThinking: true) == .drop)
+    }
+
     @Test func thePromptFollowsTheState() {
         #expect(VoiceBarState.prompt(isListening: false, isThinking: false, availability: .ready, notice: nil) == .tapToTalk)
         #expect(VoiceBarState.prompt(isListening: true, isThinking: false, availability: .ready, notice: nil) == .listening)

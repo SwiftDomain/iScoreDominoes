@@ -35,15 +35,18 @@ Duolingo-inspired: white canvas, rounded gray text, green team 1, blue team 2, p
 
 ## Lock Screen scoreboard (`iScoreWidgets`)
 
-A Widget Extension target hosts a Live Activity: both totals, the round
-number, points to win for the leader, each team's score for the latest six
-rounds (display only, not buttons), and Undo. Tapping the activity opens the
-app to add a round. Created and maintained by
+A Widget Extension target hosts a Live Activity on the app's green: both
+totals, the round number, points to win for the leader, each team's score for
+the latest six rounds (display only, not buttons), and a "Say a score" mic.
+The mic is a link (`iscoredominoes://voice`) — a widget cannot use the
+microphone — so iOS asks for the unlock and the app opens on that game already
+listening. Tapping anywhere else opens the app. Created and maintained by
 `ruby scripts/xcodeproj.rb setup-widget` — never hand-edit `project.pbxproj`.
 
 - **The app is the single owner of the store.** The widget process must never
-  link SwiftData or CloudKit. A Lock Screen tap runs a `LiveActivityIntent`
-  that appends to `pending-rounds.jsonl` in the App Group
+  link SwiftData or CloudKit. No Lock Screen control scores today, but the
+  scoring path stays for links from earlier versions: a `LiveActivityIntent`
+  (or link) appends to `pending-rounds.jsonl` in the App Group
   (`group.SwiftDomainUI.iScore`) and updates the activity optimistically; the
   app drains that file into SwiftData on foreground, in file order and
   exactly once (`PendingRoundsDrain` plus `AppliedRoundsLedger`).
@@ -55,7 +58,7 @@ app to add a round. Created and maintained by
   nothing) and version keys. `CFBundleURLTypes` and `NSSupportsLiveActivities`
   likewise come from `iScore/Info.plist`, merged with the generated one.
 - The Lock Screen gives an activity roughly 160pt; past that the header and
-  the Undo row are clipped. Check a change on a real Lock Screen, not only in
+  the mic row are clipped. Check a change on a real Lock Screen, not only in
   the expanded Dynamic Island.
 
 ## Voice scoring
@@ -63,7 +66,9 @@ app to add a round. Created and maintained by
 A push-to-talk mic scores a round by voice: on the Game screen, and in the Add
 Score sheet where the team is already known. It is **push-to-talk only** — no
 always-listening, no wake phrase. A tap is the single thing that starts the
-recognizer; it ends on a second tap, when the recognizer ends itself, on
+recognizer — the Lock Screen mic counts as that tap: `ScoreLinkRouter` carries
+it to the game and `VoiceScoreBar(listenRequested:)` starts once the app is
+active; it ends on a second tap, when the recognizer ends itself, on
 `onDisappear`, or on any scene phase that is not `.active`. A locked or
 backgrounded phone never keeps the mic open, and coming back does not restart
 it. The keypad is never closed: when speech is denied or unsupported the mic

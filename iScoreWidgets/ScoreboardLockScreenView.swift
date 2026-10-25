@@ -4,7 +4,8 @@
 //
 //  The scoreboard as it appears on the Lock Screen, and — unchanged — in the
 //  expanded Dynamic Island: both totals, each recent round's score (display
-//  only) and Undo. Tapping the activity opens the app to add a round.
+//  only) and a mic that opens the app listening for a score. Tapping
+//  anywhere else opens the app too.
 //
 
 import SwiftUI
@@ -19,17 +20,19 @@ struct ScoreboardLockScreenView: View {
     var body: some View {
         // The Lock Screen gives an activity about 160pt. Names sit beside
         // their round row rather than above it, which is what keeps the
-        // header and the Undo row from being clipped.
+        // header and the mic row from being clipped.
         VStack(alignment: .leading, spacing: 6) {
             header
             teamRow(.team1, name: attributes.name1, palette: Theme.palette(for: .team1))
             teamRow(.team2, name: attributes.name2, palette: Theme.palette(for: .team2))
-            footer
+            micControl
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 10)
-        .activityBackgroundTint(Theme.surface)
-        .activitySystemActionForegroundColor(Theme.textPrimary)
+        // The app's own green, white type on it. The expanded Dynamic Island
+        // keeps its black; everything here reads on both.
+        .activityBackgroundTint(Theme.teamA)
+        .activitySystemActionForegroundColor(Theme.surface)
     }
 
     // MARK: - Header
@@ -42,18 +45,23 @@ struct ScoreboardLockScreenView: View {
                 .font(DuoFont.label)
                 .textCase(.uppercase)
                 .tracking(0.8)
-                .foregroundStyle(Theme.textSecondary)
+                .foregroundStyle(Theme.surface)
             Spacer(minLength: 8)
-            Text("\(state.total1)")
-                .font(DuoFont.score(20))
-                .foregroundStyle(Theme.teamA)
-            Text("—")
-                .font(DuoFont.body)
-                .foregroundStyle(Theme.textMuted)
-            Text("\(state.total2)")
-                .font(DuoFont.score(20))
-                .foregroundStyle(Theme.teamB)
+            // Team 1's pill is its darker edge: its own fill is the background.
+            total(state.total1, color: Theme.teamAShadow)
+            total(state.total2, color: Theme.teamB)
         }
+    }
+
+    /// A total in white on its team's color, so the two still read as two
+    /// teams on the green.
+    private func total(_ value: Int, color: Color) -> some View {
+        Text("\(value)")
+            .font(DuoFont.score(18))
+            .foregroundStyle(Theme.surface)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 1)
+            .background(color, in: RoundedRectangle(cornerRadius: 8))
     }
 
     /// "Round 4 · 80 to win" for the leader; no "to win" while tied.
@@ -76,7 +84,7 @@ struct ScoreboardLockScreenView: View {
         return HStack(spacing: 6) {
             Text(name)
                 .font(DuoFont.label)
-                .foregroundStyle(palette.edge)
+                .foregroundStyle(Theme.surface)
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
                 .frame(width: 62, alignment: .leading)
@@ -85,7 +93,7 @@ struct ScoreboardLockScreenView: View {
                 if columns.isEmpty {
                     Text(WidgetLanguage.text("No rounds yet"))
                         .font(DuoFont.label)
-                        .foregroundStyle(Theme.textMuted)
+                        .foregroundStyle(Theme.surface)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 } else {
                     ForEach(columns.indices, id: \.self) { index in
@@ -100,35 +108,34 @@ struct ScoreboardLockScreenView: View {
         }
     }
 
-    /// A round's points in the team's wash, or a muted dash when the other
-    /// team scored that round. Not a button.
+    /// A round's points in the team's color on white, or a dash on the
+    /// darker green when the other team scored that round. Not a button.
     private func roundCell(_ points: Int?, palette: TeamPalette) -> some View {
         Text(points.map { "\($0)" } ?? "—")
             .font(DuoFont.score(15))
-            .foregroundStyle(points == nil ? Theme.textMuted : palette.edge)
+            .foregroundStyle(points == nil ? Theme.teamAWash : palette.edge)
             .lineLimit(1)
             .minimumScaleFactor(0.7)
             .frame(maxWidth: .infinity, minHeight: 28)
-            .background(points == nil ? Theme.surfaceSecondary : palette.wash,
+            .background(points == nil ? Theme.teamAShadow : Theme.surface,
                         in: RoundedRectangle(cornerRadius: 8))
     }
 
-    // MARK: - Footer
+    // MARK: - Mic
 
-    private var footer: some View {
-        undoControl
-    }
-
-    @ViewBuilder
-    private var undoControl: some View {
-        let face = ScoreButtonFace(title: WidgetLanguage.text("Undo"), fill: Theme.textMuted, edge: Theme.textSecondary, height: 30)
-
-        if state.requiresUnlock {
-            Link(destination: ScoreLink.undo(gameID: attributes.gameID)) { face }
-        } else {
-            Button(intent: UndoRoundIntent(gameID: attributes.gameID)) { face }
-                .buttonStyle(.plain)
-                .disabled(!state.canUndo)
+    /// Opens the app on this game with its mic already listening — the tap
+    /// here is the push-to-talk tap. A Lock Screen widget cannot use the
+    /// microphone itself, so this is a link, and iOS asks for the unlock.
+    private var micControl: some View {
+        Link(destination: ScoreLink.voice(gameID: attributes.gameID)) {
+            ScoreButtonFace(
+                title: WidgetLanguage.text("Say a score"),
+                fill: Theme.surface,
+                edge: Theme.teamAShadow,
+                titleColor: Theme.teamAShadow,
+                height: 30,
+                systemImage: "mic.fill"
+            )
         }
     }
 }

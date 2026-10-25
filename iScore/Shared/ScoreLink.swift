@@ -2,10 +2,9 @@
 //  ScoreLink.swift
 //  iScore
 //
-//  The deep links the Lock Screen falls back to: Undo once "Require unlock
-//  to score" is on (opening a link costs an unlock, which is the point). The
-//  record and "Other…" links are still parsed for activities started by an
-//  earlier version.
+//  The deep links the Lock Screen opens the app with: the mic ("voice"),
+//  which opens the game listening for a score. The record, undo and "Other…"
+//  links are still parsed for activities started by an earlier version.
 //
 
 import Foundation
@@ -18,10 +17,11 @@ enum ScoreLink {
         case record(gameID: UUID, points: Int, team: TeamSide)
         case undo(gameID: UUID)
         case other(gameID: UUID, team: TeamSide)
+        case voice(gameID: UUID)
     }
 
     private enum Host: String {
-        case record, undo, other
+        case record, undo, other, voice
     }
 
     // MARK: - Building
@@ -39,6 +39,10 @@ enum ScoreLink {
 
     static func other(gameID: UUID, team: TeamSide) -> URL {
         url(.other, gameID: gameID, items: [URLQueryItem(name: "team", value: team.rawValue)])
+    }
+
+    static func voice(gameID: UUID) -> URL {
+        url(.voice, gameID: gameID, items: [])
     }
 
     private static func url(_ host: Host, gameID: UUID, items: [URLQueryItem]) -> URL {
@@ -68,6 +72,8 @@ enum ScoreLink {
         switch host {
         case .undo:
             return .undo(gameID: gameID)
+        case .voice:
+            return .voice(gameID: gameID)
         case .other:
             guard let team = value("team").flatMap(TeamSide.init(rawValue:)) else { return nil }
             return .other(gameID: gameID, team: team)

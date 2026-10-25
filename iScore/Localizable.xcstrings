@@ -1578,26 +1578,6 @@
         }
       }
     },
-    "Lock Screen": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pantalla bloqueada"
-          }
-        }
-      }
-    },
-    "Lock Screen buttons will open the app instead of scoring straight away.": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Los botones de la pantalla bloqueada abrirán la app en vez de anotar de una vez."
-          }
-        }
-      }
-    },
     "Microphone or speech access is off. Turn it on in Settings, or type the game instead.": {
       "localizations": {
         "es": {
@@ -1908,16 +1888,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Le quita +%1$lld a %2$@."
-          }
-        }
-      }
-    },
-    "Require unlock to score": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Desbloquear para anotar"
           }
         }
       }
@@ -3154,6 +3124,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Todavía no hay rondas"
+          }
+        }
+      }
+    },
+    "Say a score": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Di una anotación"
           }
         }
       }

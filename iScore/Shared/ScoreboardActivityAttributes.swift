@@ -23,7 +23,6 @@ struct ScoreboardState: Codable, Hashable {
     var total1: Int
     var total2: Int
     var recent: [Int]
-    var requiresUnlock: Bool
 
     // MARK: - Derived
 

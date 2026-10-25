@@ -48,10 +48,6 @@ struct SettingsView: View {
         )
     }
 
-    // In the App Group suite so the widget reads the same value.
-    @AppStorage(LockScreenScoring.requireUnlockKey, store: AppGroup.defaults)
-    private var requireUnlockToScore = false
-
     @AppStorage(VoiceOutput.speechKey) private var speaksAnswers = true
     @AppStorage(TableModeSettings.defaultKey) private var tableModeByDefault = false
     @Environment(TableModeSession.self) private var tableMode
@@ -146,26 +142,6 @@ struct SettingsView: View {
                     }
 
                     Text("The phone lies flat between the players: big scores, screen stays on.")
-                        .font(.footnote.weight(.bold))
-                        .foregroundStyle(Theme.textSecondary)
-                }
-                .padding(.horizontal, 14)
-                .padding(.vertical, 12)
-                .duoCard()
-
-                Text("Lock Screen")
-                    .duoLabel()
-                    .padding(.top, 10)
-
-                VStack(alignment: .leading, spacing: 6) {
-                    Toggle(isOn: $requireUnlockToScore) {
-                        Text("Require unlock to score")
-                            .font(DuoFont.body)
-                            .foregroundStyle(Theme.textPrimary)
-                    }
-                    .tint(Theme.teamB)
-
-                    Text("Lock Screen buttons will open the app instead of scoring straight away.")
                         .font(.footnote.weight(.bold))
                         .foregroundStyle(Theme.textSecondary)
                 }

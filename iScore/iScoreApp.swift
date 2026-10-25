@@ -15,7 +15,7 @@ struct iScoreApp: App {
     
     var modelContainer: ModelContainer
 
-    /// Carries a Lock Screen "Other…" tap to the game's own screen.
+    /// Carries a Lock Screen mic tap to the game's own screen.
     @State private var linkRouter = ScoreLinkRouter()
     /// One per app, so sharing a game survives leaving its Game screen.
     @State private var spectateHost = SpectateHostLink()
