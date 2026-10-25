@@ -8,6 +8,7 @@
 //  leaving one never puts the screen to sleep while another still needs it.
 //
 
+import Foundation
 import UIKit
 
 enum AwakeReason: Hashable {
@@ -15,8 +16,10 @@ enum AwakeReason: Hashable {
     case sharing
     /// A guest is watching a shared game.
     case watching
-    /// The phone lies in the middle of the table.
-    case tableMode
+    /// The phone lies in the middle of the table, showing this game. Keyed by
+    /// game so the next game's screen setting it is never undone by the old
+    /// screen releasing its own a moment later.
+    case tableMode(game: UUID)
 }
 
 @MainActor

@@ -3087,6 +3087,46 @@
           }
         }
       }
+    },
+    "Table mode": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modo mesa"
+          }
+        }
+      }
+    },
+    "Exit table mode": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salir del modo mesa"
+          }
+        }
+      }
+    },
+    "Start games in table mode": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empezar partidas en modo mesa"
+          }
+        }
+      }
+    },
+    "The phone lies flat between the players: big scores, screen stays on.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El teléfono queda en la mesa: marcadores grandes y la pantalla encendida."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

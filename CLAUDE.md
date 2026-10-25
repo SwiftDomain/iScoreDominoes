@@ -152,6 +152,25 @@ finished game offers "Save this setup".
   can save the same name before syncing; the oldest wins and Settings marks
   the other "Duplicate name" — ordered by last used.
 
+## Table mode
+
+For the phone lying face-up in the middle of the table: two big halves, team
+2's turned 180° to face the other side, each half one tap from its keypad.
+Turned on from the Game screen's "…" menu; Settings can make it the default.
+
+- **`ScreenAwake` is the only owner of the idle timer** (`iScore/Model/ScreenAwake.swift`).
+  Sharing, watching and table mode each hold a reason; nothing else sets
+  `isIdleTimerDisabled`. Table mode's reason is keyed by game, so the next
+  game's screen setting it is never undone by the old screen going away.
+- **`TableModeSession`** (app-level, seeded from `TableModeSettings.defaultKey`)
+  keeps table mode on for the night, so the next game opens the same way.
+- **`DuoFont.tableScore`** is its own font, sized by `tableScoreSize(forHalf:digits:)`
+  to fit the half; `DuoFont.score` and the other screens are untouched.
+- **Leaving table mode restores the Game screen exactly** because table mode is
+  a separate branch in `GameView.body` (`TableModeView`), not a modified copy;
+  every sheet and alert stays attached to `GameView`, so the keypad, summary
+  and undo confirmation work in both.
+
 ## Known technical debt
 
 - Navigation mixes `NavigationLink(destination:)` (Home tiles, All Games, New Game) with `navigationDestination(for: Game.self)` (Home) — move to value-based links

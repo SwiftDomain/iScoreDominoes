@@ -8,6 +8,7 @@ struct GameView: View {
     @Environment(ScoreLinkRouter.self) private var linkRouter
     @Environment(\.scenePhase) private var scenePhase
     @Environment(SpectateHostLink.self) private var spectateHost
+    @Environment(TableModeSession.self) private var tableMode
 
     @Query(sort: \Game.timestamp, order: .reverse) private var allGames: [Game]
 
@@ -71,88 +72,26 @@ struct GameView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(game.statusLabel)
-                        .duoLabel()
-                    Text(game.headline)
-                        .font(DuoFont.title)
-                        .foregroundStyle(Theme.textPrimary)
-                }
-
-                HStack(spacing: 12) {
-                    TeamScoreCard(game: game, team: .team1)
-                    TeamScoreCard(game: game, team: .team2)
-                }
-                .padding(.top, 8)
-
-                roundsSection
-            }
-            .padding()
-            .frame(maxWidth: 700)
-            .frame(maxWidth: .infinity)
-        }
-        .scrollIndicators(.hidden)
-        .background(Background())
-        .safeAreaInset(edge: .bottom) {
-            bottomBar
-        }
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                DuoProgressBar(
-                    value: game.progress(for: progressTeam),
-                    tint: progressTint,
-                    label: game.progressLabel(for: game.leader)
+        Group {
+            if tableMode.isOn {
+                TableModeView(
+                    game: game,
+                    onAdd: openKeypad,
+                    onUndo: { showUndoConfirmation = true },
+                    onExit: { tableMode.isOn = false }
                 )
-                .frame(width: 180)
+                .toolbar(.hidden, for: .navigationBar)
+                .statusBarHidden()
+                .persistentSystemOverlays(.hidden)
+            } else {
+                normalScreen
             }
-            .sharedBackgroundVisibility(.hidden)
-
-            ToolbarItemGroup(placement: .topBarTrailing) {
-                Button {
-                    showUndoConfirmation = true
-                } label: {
-                    Image(systemName: "arrow.uturn.backward")
-                        .foregroundStyle(Self.toolbarIconColor(isEnabled: game.canUndo))
-                }
-                .accessibilityLabel("Undo last score")
-                .disabled(!game.canUndo)
-
-                Button {
-                    showInfoView.toggle()
-                } label: {
-                    Image(systemName: "info.circle")
-                        .foregroundStyle(Self.toolbarIconColor(isEnabled: isPlaying))
-                }
-                .accessibilityLabel("How to play")
-                .disabled(!isPlaying)
-
-                Button {
-                    showShareSheet = true
-                } label: {
-                    Image(systemName: "person.2.wave.2")
-                        .foregroundStyle(spectateHost.isSharing ? Theme.teamA : Self.toolbarIconColor(isEnabled: isPlaying))
-                }
-                .accessibilityLabel("Share live score")
-                .disabled(!isPlaying && !spectateHost.isSharing)
-
-                Menu {
-                    Button("End game", systemImage: "flag.checkered") {
-                        showEndConfirmation = true
-                    }
-                    Button("Cancel game", systemImage: "xmark.circle", role: .destructive) {
-                        showCancelConfirmation = true
-                    }
-                } label: {
-                    Image(systemName: "ellipsis.circle")
-                        .foregroundStyle(Self.toolbarIconColor(isEnabled: isPlaying))
-                }
-                .accessibilityLabel("Game options")
-                .disabled(!isPlaying)
-            }
-            .sharedBackgroundVisibility(.hidden)
         }
+        // Awake only while this game is on the table and still being played;
+        // the reason is this game's own, so the next game's screen is unaffected.
+        .onChange(of: tableMode.isOn, initial: true) { holdTableAwake() }
+        .onChange(of: game.state) { holdTableAwake() }
+        .onDisappear { ScreenAwake.shared.set(.tableMode(game: game.id), false) }
         .sheet(item: $team, onDismiss: applyNewRound) { team in
             AddGameScoreView(game: self.game, team: team)
         }
@@ -372,10 +311,109 @@ struct GameView: View {
         .background(Theme.background)
     }
 
+    /// The Game screen as it is outside table mode. Table mode is a separate
+    /// branch in `body`, so leaving it brings this back exactly.
+    private var normalScreen: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(game.statusLabel)
+                        .duoLabel()
+                    Text(game.headline)
+                        .font(DuoFont.title)
+                        .foregroundStyle(Theme.textPrimary)
+                }
+
+                HStack(spacing: 12) {
+                    TeamScoreCard(game: game, team: .team1)
+                    TeamScoreCard(game: game, team: .team2)
+                }
+                .padding(.top, 8)
+
+                roundsSection
+            }
+            .padding()
+            .frame(maxWidth: 700)
+            .frame(maxWidth: .infinity)
+        }
+        .scrollIndicators(.hidden)
+        .background(Background())
+        .safeAreaInset(edge: .bottom) {
+            bottomBar
+        }
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                DuoProgressBar(
+                    value: game.progress(for: progressTeam),
+                    tint: progressTint,
+                    label: game.progressLabel(for: game.leader)
+                )
+                .frame(width: 180)
+            }
+            .sharedBackgroundVisibility(.hidden)
+
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                Button {
+                    showUndoConfirmation = true
+                } label: {
+                    Image(systemName: "arrow.uturn.backward")
+                        .foregroundStyle(Self.toolbarIconColor(isEnabled: game.canUndo))
+                }
+                .accessibilityLabel("Undo last score")
+                .disabled(!game.canUndo)
+
+                Button {
+                    showInfoView.toggle()
+                } label: {
+                    Image(systemName: "info.circle")
+                        .foregroundStyle(Self.toolbarIconColor(isEnabled: isPlaying))
+                }
+                .accessibilityLabel("How to play")
+                .disabled(!isPlaying)
+
+                Button {
+                    showShareSheet = true
+                } label: {
+                    Image(systemName: "person.2.wave.2")
+                        .foregroundStyle(spectateHost.isSharing ? Theme.teamA : Self.toolbarIconColor(isEnabled: isPlaying))
+                }
+                .accessibilityLabel("Share live score")
+                .disabled(!isPlaying && !spectateHost.isSharing)
+
+                Menu {
+                    Button("Table mode", systemImage: "rectangle.split.1x2") {
+                        tableMode.isOn = true
+                    }
+                    Button("End game", systemImage: "flag.checkered") {
+                        showEndConfirmation = true
+                    }
+                    Button("Cancel game", systemImage: "xmark.circle", role: .destructive) {
+                        showCancelConfirmation = true
+                    }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                        .foregroundStyle(Self.toolbarIconColor(isEnabled: isPlaying))
+                }
+                .accessibilityLabel("Game options")
+                .disabled(!isPlaying)
+            }
+            .sharedBackgroundVisibility(.hidden)
+        }
+    }
+
+    private func holdTableAwake() {
+        ScreenAwake.shared.set(.tableMode(game: game.id), tableMode.isOn && isPlaying)
+    }
+
+    /// Opens the keypad for `team`, as the bottom bar's buttons do.
+    private func openKeypad(_ team: Team) {
+        roundCountBeforeSheet = game.rounds.count
+        self.team = team
+    }
+
     private func addButton(for team: Team) -> some View {
         Button {
-            roundCountBeforeSheet = game.rounds.count
-            self.team = team
+            openKeypad(team)
         } label: {
             // Full size, full style, full behavior; the name is what gives up room.
             Label(game.displayName(for: team), systemImage: "plus")

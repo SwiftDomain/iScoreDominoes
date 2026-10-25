@@ -53,6 +53,7 @@ struct SettingsView: View {
     private var requireUnlockToScore = false
 
     @AppStorage(VoiceOutput.speechKey) private var speaksAnswers = true
+    @AppStorage(TableModeSettings.defaultKey) private var tableModeByDefault = false
 
     @State private var playerToDelete: Player?
     @State private var presetToDelete: GamePreset?
@@ -126,6 +127,26 @@ struct SettingsView: View {
                     .padding(.top, 10)
 
                 presetsCard
+
+                Text("Table mode")
+                    .duoLabel()
+                    .padding(.top, 10)
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Toggle(isOn: $tableModeByDefault) {
+                        Text("Start games in table mode")
+                            .font(DuoFont.body)
+                            .foregroundStyle(Theme.textPrimary)
+                    }
+                    .tint(Theme.teamA)
+
+                    Text("The phone lies flat between the players: big scores, screen stays on.")
+                        .font(.footnote.weight(.bold))
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
+                .duoCard()
 
                 Text("Lock Screen")
                     .duoLabel()

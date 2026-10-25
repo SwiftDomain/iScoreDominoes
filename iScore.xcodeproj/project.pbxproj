@@ -120,6 +120,7 @@
 		B031741B79902C95D0BEDA34 /* SpectateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2846536590F6F5132B8CC531 /* SpectateView.swift */; };
 		B03CC846A54B4AF2A035805B /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C4FCFF36048001166C7B9B /* Theme.swift */; };
 		B0C41B45F66FE2E1D735A52B /* PresetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3AB3B30A3851FD5165FE76 /* PresetRow.swift */; };
+		B13A0688A7AED38FE2940140 /* TableModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08CB0BDF75023C81105F393 /* TableModeView.swift */; };
 		B29F3AA289075CF31872655B /* ScoreCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45B378700CEC97F0143EBD3 /* ScoreCommand.swift */; };
 		B4C05496F9DC1091897F1DCF /* GameCommandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4401BD7FA32655B6A776B9CD /* GameCommandTests.swift */; };
 		B687C74065010DAAAB989B8E /* PresetEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0007587D4A82700A8F7BF3 /* PresetEditorView.swift */; };
@@ -341,6 +342,7 @@
 		E94CD18758FB54BAE4A01B1F /* iScoreWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = iScoreWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDB5F280EBD00508FDA2F1BE /* TrophyBurst.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TrophyBurst.swift; sourceTree = "<group>"; };
 		EE89CAF1DB7769A3F486C3D8 /* Game+Voice.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "Game+Voice.swift"; sourceTree = "<group>"; };
+		F08CB0BDF75023C81105F393 /* TableModeView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableModeView.swift; sourceTree = "<group>"; };
 		F0B4ED48D31ADBCFCBEFD83C /* SummaryStatTile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SummaryStatTile.swift; sourceTree = "<group>"; };
 		F0D2BD061B1DE651E9EB8C02 /* ScoreKeypad.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreKeypad.swift; sourceTree = "<group>"; };
 		F3EAFB3280734EAB807F0507 /* VoiceSetupTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VoiceSetupTests.swift; sourceTree = "<group>"; };
@@ -459,6 +461,7 @@
 				2846536590F6F5132B8CC531 /* SpectateView.swift */,
 				AB3AB3B30A3851FD5165FE76 /* PresetRow.swift */,
 				FC0007587D4A82700A8F7BF3 /* PresetEditorView.swift */,
+				F08CB0BDF75023C81105F393 /* TableModeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -809,6 +812,7 @@
 				B687C74065010DAAAB989B8E /* PresetEditorView.swift in Sources */,
 				3D212A9BE3715732C507CB9A /* ScreenAwake.swift in Sources */,
 				BAA6D728C5507088B9BC8DF3 /* TableMode.swift in Sources */,
+				B13A0688A7AED38FE2940140 /* TableModeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

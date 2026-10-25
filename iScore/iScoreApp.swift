@@ -19,6 +19,8 @@ struct iScoreApp: App {
     @State private var linkRouter = ScoreLinkRouter()
     /// One per app, so sharing a game survives leaving its Game screen.
     @State private var spectateHost = SpectateHostLink()
+    /// Whether games open in table mode tonight; seeded from Settings.
+    @State private var tableMode = TableModeSession()
     @Environment(\.scenePhase) private var scenePhase
 
     /// Tips remember being dismissed. Only Debug `-demoData` runs start with
@@ -62,6 +64,7 @@ struct iScoreApp: App {
                 // system chrome (nav bars, sheets) light regardless of device mode.
                 .environment(linkRouter)
                 .environment(spectateHost)
+                .environment(tableMode)
                 // A locked scorekeeper's phone drops every guest, so it stays
                 // awake while sharing; advertising restarts on the way back.
                 .onChange(of: spectateHost.keepsAwake) { _, awake in
