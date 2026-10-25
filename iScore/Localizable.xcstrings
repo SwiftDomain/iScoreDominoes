@@ -382,6 +382,7 @@
       }
     },
     "%1$@ · %2$lld in progress" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -392,6 +393,7 @@
       }
     },
     "%1$@ · First to %2$lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -402,6 +404,7 @@
       }
     },
     "%1$@ · Player %2$lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -412,6 +415,7 @@
       }
     },
     "%1$@ +%2$lld · %3$lld to win" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -422,6 +426,7 @@
       }
     },
     "%1$@ lead by %2$lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -432,6 +437,7 @@
       }
     },
     "%1$@ lead by %2$lld, %3$lld to %4$lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -442,6 +448,7 @@
       }
     },
     "%1$@ need %2$lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -452,6 +459,7 @@
       }
     },
     "%1$@ vs %2$@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -462,6 +470,7 @@
       }
     },
     "%1$@ vs %2$@ will be removed. Players stay in your list." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -472,6 +481,7 @@
       }
     },
     "%1$lld → %2$lld · %3$@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -482,6 +492,7 @@
       }
     },
     "%1$lld played · %2$lld%%" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -1797,6 +1808,7 @@
       }
     },
     "Give %1$lld to %2$@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -2103,6 +2115,7 @@
       }
     },
     "Nice round! %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -2263,6 +2276,7 @@
       }
     },
     "Other…" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -2383,6 +2397,7 @@
       }
     },
     "Rank %1$lld: %2$@, %3$@, %4$@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -2439,6 +2454,7 @@
       }
     },
     "Removes +%1$lld from %2$@." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -2475,6 +2491,7 @@
       }
     },
     "Round %1$lld · First to %2$lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -2485,6 +2502,7 @@
       }
     },
     "Round %1$lld · was +%2$lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -2495,6 +2513,7 @@
       }
     },
     "Round %1$lld, %2$@, %3$@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {

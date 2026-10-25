@@ -55,6 +55,12 @@ struct ScoreboardState: Codable, Hashable {
         max(0, target - total(side))
     }
 
+    /// 0…1 toward the target, for the team's bar in the Lock Screen header.
+    func progress(_ side: TeamSide) -> Double {
+        guard target > 0 else { return 0 }
+        return min(1, Double(total(side)) / Double(target))
+    }
+
     var canUndo: Bool {
         !recent.isEmpty
     }
@@ -112,4 +118,14 @@ struct ScoreboardActivityAttributes: ActivityAttributes {
     let name1: String
     let name2: String
     let gameType: GameType
+    /// "AL" for Ana & Luis. Optional so an activity started by an earlier
+    /// version, which lacks them, still decodes; the view falls back then.
+    var initials1: String? = nil
+    var initials2: String? = nil
+
+    /// Each player's first letter, uppercased; nil when no player is named.
+    static func initials(of names: [String]) -> String? {
+        let letters = names.compactMap { $0.trimmingCharacters(in: .whitespacesAndNewlines).first }
+        return letters.isEmpty ? nil : String(letters).uppercased()
+    }
 }

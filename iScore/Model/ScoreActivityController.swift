@@ -47,7 +47,9 @@ final class ScoreActivityController {
             gameID: game.id,
             name1: game.displayName(for: .team1),
             name2: game.displayName(for: .team2),
-            gameType: game.gameType
+            gameType: game.gameType,
+            initials1: ScoreboardActivityAttributes.initials(of: game.team1),
+            initials2: ScoreboardActivityAttributes.initials(of: game.team2)
         )
         _ = try? Activity.request(
             attributes: attributes,

@@ -53,6 +53,25 @@ struct ScoreboardStateTests {
         #expect(s.applyingUndo().roundNumber == 15)
     }
 
+    // MARK: - Lock Screen header
+
+    /// Each team's bar is its total over the target, never past full.
+    @Test func progressIsTheTotalOverTheTarget() {
+        let s = state(105, 45, target: 200)
+        #expect(s.progress(.team1) == 0.525)
+        #expect(s.progress(.team2) == 0.225)
+        #expect(state(250, 0, target: 200).progress(.team1) == 1)
+        #expect(state(0, 0, target: 0).progress(.team1) == 0)
+    }
+
+    /// The widget shows a team as its players' initials: "AL" for Ana & Luis.
+    @Test func teamInitialsAreEachPlayersFirstLetter() {
+        #expect(ScoreboardActivityAttributes.initials(of: ["Ana", "Luis"]) == "AL")
+        #expect(ScoreboardActivityAttributes.initials(of: [" ana", "émile"]) == "AÉ")
+        #expect(ScoreboardActivityAttributes.initials(of: ["", "  "]) == nil)
+        #expect(ScoreboardActivityAttributes.initials(of: []) == nil)
+    }
+
     @Test func noRoundsNoColumns() {
         #expect(state(0, 0).roundColumns(limit: 6).isEmpty)
     }

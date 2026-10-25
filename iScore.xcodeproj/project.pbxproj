@@ -34,7 +34,6 @@
 		22001B1B2D0965741ED0EE81 /* Game+Drama.swift in Sources */ = {isa = PBXBuildFile; fileRef = B230D5F59773E31264D32CC8 /* Game+Drama.swift */; };
 		23EEB7D7A51965A3DFFD56AA /* ScoreboardLockScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6A6CBEBAF74855F81D7056 /* ScoreboardLockScreenView.swift */; };
 		241A99600BA7B0C94A17A6F3 /* ScoreKeypad.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D2BD061B1DE651E9EB8C02 /* ScoreKeypad.swift */; };
-		25830F0C736259E5D751A7CA /* ScoreButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C0266DD79E41A4D1C29D96 /* ScoreButton.swift */; };
 		26584F787847508C9FE88B58 /* ScoreIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BFECE4BFA4127B70D29F08 /* ScoreIntents.swift */; };
 		267FEB20D9A8B9DE2EEA212D /* iScoreWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E94CD18758FB54BAE4A01B1F /* iScoreWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2682D24A8E0E915946DEB625 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C4FCFF36048001166C7B9B /* Theme.swift */; };
@@ -274,7 +273,6 @@
 		696D9A8D6C54BC8B905104BA /* JoinGameView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = JoinGameView.swift; sourceTree = "<group>"; };
 		70278DCDADF110D3B472BE6C /* AppliedRoundsLedger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppliedRoundsLedger.swift; sourceTree = "<group>"; };
 		70E2781D9FC176E0A2C6BBA1 /* GameList.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameList.swift; sourceTree = "<group>"; };
-		72C0266DD79E41A4D1C29D96 /* ScoreButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreButton.swift; sourceTree = "<group>"; };
 		757C508A62C57EC0805C504C /* Localizable.xcstrings */ = {isa = PBXFileReference; includeInIndex = 1; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		78DB1D2610A09A920B6DBFCE /* PlayerNameSafetyTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlayerNameSafetyTests.swift; sourceTree = "<group>"; };
 		795D7B7159D6CA07F1469B89 /* PendingRoundsStoreTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PendingRoundsStoreTests.swift; sourceTree = "<group>"; };
@@ -524,7 +522,6 @@
 			isa = PBXGroup;
 			children = (
 				4BB731886DA38E190FD6274C /* iScoreWidgetsBundle.swift */,
-				72C0266DD79E41A4D1C29D96 /* ScoreButton.swift */,
 				7F6A6CBEBAF74855F81D7056 /* ScoreboardLockScreenView.swift */,
 				AC48E7300A448AEE1CA2FD57 /* ScoreboardLiveActivity.swift */,
 			);
@@ -897,7 +894,6 @@
 				D91DE7A02DED815C62660B56 /* ScoreboardActivityAttributes.swift in Sources */,
 				8EE5229BF0EEADDAFA2E7D01 /* ScoreLink.swift in Sources */,
 				309C88BCBB55FC49B4E2B1D2 /* ScoreIntents.swift in Sources */,
-				25830F0C736259E5D751A7CA /* ScoreButton.swift in Sources */,
 				23EEB7D7A51965A3DFFD56AA /* ScoreboardLockScreenView.swift in Sources */,
 				5008BD3FE2D460E81F475FEC /* ScoreboardLiveActivity.swift in Sources */,
 				1034F0F67B6EE68DFDBEE2D7 /* WidgetLanguage.swift in Sources */,
