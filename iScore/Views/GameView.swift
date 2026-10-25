@@ -33,6 +33,13 @@ struct GameView: View {
     @State private var listenRequested = false
     /// The round being entered closed capicúa: the sheet's toggle or a spoken word.
     @State private var nextRoundCapicua = false
+    /// Big moments already called out in this game; undo does not reset them.
+    @State private var shownDrama: Set<GameDrama.Kind> = []
+    @State private var feedbackHighlight: GameDrama.Highlight?
+    @State private var summaryHighlight: GameDrama.Highlight?
+    /// The big-moment line for the mic bar to speak.
+    @State private var announcement: String?
+    @Query(sort: \Game.timestamp) private var allGames: [Game]
     @AppStorage(OwnerIdentity.nameKey) private var ownerName: String = ""
     let editScore = editScoreTip()
 
@@ -104,7 +111,7 @@ struct GameView: View {
             EditScoreView(game: game, round: round)
         }
         .sheet(isPresented: $showGameSummary) {
-            GameSummaryView(game: game) { next in
+            GameSummaryView(game: game, highlight: summaryHighlight) { next in
                 // Replace the finished game (the top of the path) rather than stacking on it.
                 if !path.isEmpty { path.removeLast() }
                 path.append(next)
@@ -288,7 +295,7 @@ struct GameView: View {
                     .accessibilityHidden(feedback != nil)
                     .overlay {
                         if let feedback {
-                            RoundFeedbackBanner(round: feedback, game: game) {
+                            RoundFeedbackBanner(round: feedback, game: game, highlight: feedbackHighlight) {
                                 game.undoLastRound()
                                 withAnimation(.spring) { self.feedback = nil }
                             }
@@ -422,6 +429,7 @@ struct GameView: View {
             answers: game.voiceAnswers(in: LanguageSettings.voiceLocale()),
             showsText: false,
             listenRequested: $listenRequested,
+            announcement: $announcement,
             onOutcome: handle,
             onPrompt: show
         )
@@ -535,6 +543,7 @@ struct GameView: View {
     @discardableResult
     private func finishIfWon() -> Bool {
         guard game.winningTeam != .none, game.state == .playing else { return false }
+        summaryHighlight = nil
         game.state = .finished
         game.inProcess = false
         showGameSummary = true
@@ -545,12 +554,44 @@ struct GameView: View {
     /// celebrate it. Shared by both doors so they cannot drift.
     /// (Edit Score only runs `finishIfWon` — editing never shows the banner.)
     private func applyNewRound() {
-        if finishIfWon() { return }
+        let added = game.rounds.count > roundCountBeforeSheet ? game.rounds.last : nil
+        let capicua = nextRoundCapicua
+        nextRoundCapicua = false
+        let moment = added.flatMap { roundHighlight(for: $0, capicua: capicua) }
 
-        if game.rounds.count > roundCountBeforeSheet, let last = game.rounds.last {
-            withAnimation(.spring) { feedback = last }
-            AccessibilityNotification.Announcement(String(localized: "Nice round! \(String(localized: game.feedbackDetail(for: last)))")).post()
+        if finishIfWon() {
+            // The summary opens instead of the banner; it names how the game was won.
+            if DramaSettings.isEnabled() {
+                summaryHighlight = GameDrama.finale(of: game, history: allGames) ?? moment
+            }
+            announce(summaryHighlight)
+            return
         }
+
+        guard let last = added else { return }
+        feedbackHighlight = moment
+        withAnimation(.spring) { feedback = last }
+        announce(moment)
+        let title = moment.map { String(localized: game.dramaTitle($0)) } ?? String(localized: "Nice round!")
+        let detail = String(localized: moment.map(game.dramaDetail) ?? game.feedbackDetail(for: last))
+        AccessibilityNotification.Announcement("\(title) \(detail)").post()
+    }
+
+    /// The best moment in a round just added, remembered so it is not called
+    /// out twice in this game. Edit Score never comes through here.
+    private func roundHighlight(for round: Round, capicua: Bool) -> GameDrama.Highlight? {
+        guard DramaSettings.isEnabled() else { return nil }
+        let tonight = GameDrama.roundsTonight(in: allGames, before: round, of: game, now: .now)
+        let moment = GameDrama.roundHighlight(after: round, in: game, capicua: capicua,
+                                              earlierRoundsTonight: tonight, alreadyShown: shownDrama)
+        if let moment { shownDrama.insert(moment.kind) }
+        return moment
+    }
+
+    /// Hands the line to the mic bar, which speaks it in the voice language.
+    private func announce(_ moment: GameDrama.Highlight?) {
+        guard let moment else { return }
+        announcement = game.dramaLine(moment, in: LanguageSettings.voiceLocale())
     }
 }
 

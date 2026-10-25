@@ -4,6 +4,15 @@ import Testing
 
 struct VoiceScoreBarTests {
 
+    /// A big-moment line waits for the mic to be free and honors "Speak answers".
+    @Test func anAnnouncementWaitsForTheMicAndHonorsTheSwitch() {
+        #expect(VoiceBarState.speaksAnnouncement("¡Zapato!", isListening: false, isThinking: false, speaksAnswers: true))
+        #expect(!VoiceBarState.speaksAnnouncement("¡Zapato!", isListening: true, isThinking: false, speaksAnswers: true))
+        #expect(!VoiceBarState.speaksAnnouncement("¡Zapato!", isListening: false, isThinking: true, speaksAnswers: true))
+        #expect(!VoiceBarState.speaksAnnouncement("¡Zapato!", isListening: false, isThinking: false, speaksAnswers: false))
+        #expect(!VoiceBarState.speaksAnnouncement(nil, isListening: false, isThinking: false, speaksAnswers: true))
+    }
+
     /// The Lock Screen mic tap waits for the app to be active — the unlock on
     /// the way in would otherwise stand it straight back down.
     @Test func aLockScreenTapWaitsForTheAppToBeActive() {

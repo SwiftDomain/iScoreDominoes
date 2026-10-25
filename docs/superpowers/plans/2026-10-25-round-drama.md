@@ -134,7 +134,7 @@ Each has a test in the owning task (marked RF1–RF5).
   |---|---|---|
   | capicua | Capicúa! → ¡Capicúa! | %@ closed it at both ends → %@ cerró por las dos puntas |
   | biggestRound | Biggest round tonight! → ¡La ronda más grande de la noche! | %@ +%lld → %@ +%lld |
-  | comeback | Comeback! → ¡Remontada! | %@ were down %lld and now lead → %@ iban %lld abajo y ahora van ganando |
+  | comeback | Comeback! → ¡Remontada! | %@: down %lld, now in front → %@: iban %lld abajo, ahora ganan |
   | shutout | Zapato! → ¡Zapato! | %@ didn't score → %@ no anotó |
   | comebackWin | Comeback win! → ¡Ganaron remontando! | Won from %lld down → Ganaron desde %lld abajo |
   | lastRoundWin | Won it in the last round! → ¡La ganaron en la última ronda! | %@ were behind until the end → %@ iban perdiendo hasta el final |

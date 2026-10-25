@@ -4,6 +4,7 @@
 //
 //  "Nice round!" confirmation that briefly replaces the Game screen's bottom
 //  bar after a round is added. Tinted with the scoring team's wash color.
+//  With a `GameDrama` highlight it calls out the moment instead.
 //
 
 import SwiftUI
@@ -12,6 +13,8 @@ struct RoundFeedbackBanner: View {
 
     let round: Round
     let game: Game
+    /// A big moment in this round; nil for a plain "Nice round!".
+    var highlight: GameDrama.Highlight? = nil
     /// The banner is the undo affordance for the round it is celebrating.
     /// nil leaves the banner purely informational, as other callers expect.
     var onUndo: (() -> Void)? = nil
@@ -20,17 +23,19 @@ struct RoundFeedbackBanner: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            Image(systemName: "checkmark")
+            Image(systemName: highlight == nil ? "checkmark" : "sparkles")
                 .font(.title3.weight(.black))
-                .foregroundStyle(palette.fill)
+                .foregroundStyle(highlight == nil ? palette.fill : Theme.gold)
                 .frame(width: 40, height: 40)
                 .background(Theme.surface, in: .circle)
                 .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("Nice round!")
+                Text(highlight.map(game.dramaTitle) ?? "Nice round!")
                     .font(DuoFont.score(20))
-                Text(game.feedbackDetail(for: round))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+                Text(highlight.map(game.dramaDetail) ?? game.feedbackDetail(for: round))
                     .font(.subheadline.weight(.bold))
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)

@@ -32,6 +32,12 @@ enum VoiceBarState {
     }
 
     /// Whether the mic can be tapped at all.
+    /// Whether a big-moment line can be spoken now: not over the mic, and only
+    /// with "Speak answers" on.
+    static func speaksAnnouncement(_ line: String?, isListening: Bool, isThinking: Bool, speaksAnswers: Bool) -> Bool {
+        line != nil && speaksAnswers && !isListening && !isThinking
+    }
+
     /// What a Lock Screen mic tap does once it reaches the bar.
     enum RequestedListen: Equatable {
         /// Nothing was asked.
@@ -122,6 +128,9 @@ struct VoiceScoreBar: View {
     /// A tap on the Lock Screen mic, carried in by the host: the bar starts
     /// listening once the app is active and sets it back to false.
     @Binding var listenRequested: Bool
+    /// A big-moment line from the host. The bar is the only synthesizer, so it
+    /// speaks this itself once the mic is free, then sets it back to nil.
+    @Binding var announcement: String?
     let onOutcome: (VoiceScoring.Outcome) -> Void
     /// What the bar has to say, for the host that shows it. Required for the
     /// same reason: with `showsText: false` and nowhere to send this, the mic
@@ -150,6 +159,7 @@ struct VoiceScoreBar: View {
         locale: Locale = LanguageSettings.voiceLocale(),
         showsText: Bool,
         listenRequested: Binding<Bool> = .constant(false),
+        announcement: Binding<String?> = .constant(nil),
         onOutcome: @escaping (VoiceScoring.Outcome) -> Void,
         onPrompt: @escaping (VoiceBarState.Report) -> Void
     ) {
@@ -160,6 +170,7 @@ struct VoiceScoreBar: View {
         self.locale = locale
         self.showsText = showsText
         _listenRequested = listenRequested
+        _announcement = announcement
         self.onOutcome = onOutcome
         self.onPrompt = onPrompt
         _holder = State(initialValue: CaptureHolder(locale: locale))
@@ -192,7 +203,10 @@ struct VoiceScoreBar: View {
         )
         .onChange(of: capture.isListening) { wasListening, isListening in
             if wasListening, !isListening { Task { await listeningEndedByItself() } }
+            sayAnnouncement()
         }
+        .onChange(of: isThinking) { _, _ in sayAnnouncement() }
+        .onChange(of: announcement) { _, _ in sayAnnouncement() }
         .onChange(of: report) { _, report in onPrompt(report) }
         .onAppear {
             visit += 1
@@ -223,6 +237,20 @@ struct VoiceScoreBar: View {
         isThinking = false
         _ = session.claim()
         capture.stop()
+    }
+
+    /// Speaks the host's big-moment line when the mic is free; drops it when
+    /// spoken answers are off (it is on screen anyway).
+    private func sayAnnouncement() {
+        guard let line = announcement else { return }
+        guard speaksAnswers else {
+            announcement = nil
+            return
+        }
+        guard VoiceBarState.speaksAnnouncement(line, isListening: capture.isListening,
+                                               isThinking: isThinking, speaksAnswers: speaksAnswers) else { return }
+        announcement = nil
+        holder.reply.say(line, isEnabled: true)
     }
 
     /// The Lock Screen mic tap. It waits for the app to be active, so the

@@ -177,6 +177,25 @@ Turned on from the Game screen's "…" menu; Settings can make it the default.
   every sheet and alert stays attached to `GameView`, so the keypad, summary
   and undo confirmation work in both.
 
+## Round drama
+
+After a new round the app may call out one big moment — capicúa, the night's
+biggest round, a comeback, and on a finished game a zapato (shutout), a
+comeback win, a last-round win or a win streak.
+
+- **`GameDrama` decides everything** (`iScore/Model/GameDrama.swift`), pure and
+  tested: zero highlights most of the time, one at most, ranked, and never
+  the same kind twice in a game (`GameView.shownDrama`; undo does not reset
+  it). Copy is in `Game+Drama.swift`. Thresholds live there as constants.
+- **It never blocks score entry**: the round banner keeps its 2-second life
+  and its Undo; a finished game's highlight goes on the summary sheet.
+- **Capicúa is input, not data**: the Add Score toggle or the spoken word sets
+  it for the round being entered; nothing is persisted.
+- **Spoken through the mic bar** (`VoiceScoreBar(announcement:)`), the only
+  synthesizer, in the voice language, after the mic is free.
+- Edit Score never asks for a highlight. Settings → "Call out big moments"
+  (`DramaSettings`) turns it all off.
+
 ## Known technical debt
 
 - Navigation mixes `NavigationLink(destination:)` (Home tiles, All Games, New Game) with `navigationDestination(for: Game.self)` (Home) — move to value-based links

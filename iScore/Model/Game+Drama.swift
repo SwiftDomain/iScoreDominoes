@@ -29,7 +29,7 @@ extension Game {
         case let .biggestRound(team, points):
             "\(displayName(for: team)) +\(points)"
         case let .comeback(team, deficit):
-            "\(displayName(for: team)) were down \(deficit) and now lead"
+            "\(displayName(for: team)): down \(deficit), now in front"
         case let .shutout(winner):
             "\(displayName(for: winner == .team1 ? .team2 : .team1)) didn't score"
         case let .comebackWin(_, deficit):

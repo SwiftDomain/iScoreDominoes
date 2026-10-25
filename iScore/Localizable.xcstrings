@@ -3229,16 +3229,6 @@
         }
       }
     },
-    "%@ were down %lld and now lead": {
-      "localizations": {
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ iban %lld abajo y ahora van ganando"
-          }
-        }
-      }
-    },
     "%@ didn't score": {
       "localizations": {
         "es": {
@@ -3315,6 +3305,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Capicúa"
+          }
+        }
+      }
+    },
+    "%@: down %lld, now in front": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: iban %lld abajo, ahora ganan"
           }
         }
       }

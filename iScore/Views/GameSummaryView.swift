@@ -13,6 +13,8 @@ import SwiftData
 struct GameSummaryView: View {
 
     let game: Game
+    /// How the game was won, from `GameDrama`; nil shows nothing extra.
+    var highlight: GameDrama.Highlight? = nil
     /// Called with the new game after "Next game" creates it; the owner navigates to it.
     var onNextGame: (Game) -> Void = { _ in }
 
@@ -53,6 +55,18 @@ struct GameSummaryView: View {
                     Text("\(game.setupSummary) · \(game.timestamp.formatted(.dateTime.month(.abbreviated).day()))")
                         .font(.subheadline.weight(.bold))
                         .foregroundStyle(Theme.textMuted)
+                }
+
+                if let highlight {
+                    VStack(spacing: 2) {
+                        Text(game.dramaTitle(highlight))
+                            .font(DuoFont.title)
+                            .foregroundStyle(Theme.streak)
+                        Text(game.dramaDetail(highlight))
+                            .duoLabel()
+                    }
+                    .multilineTextAlignment(.center)
+                    .accessibilityElement(children: .combine)
                 }
 
                 HStack(spacing: 8) {
