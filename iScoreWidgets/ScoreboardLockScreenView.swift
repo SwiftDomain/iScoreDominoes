@@ -21,18 +21,31 @@ struct ScoreboardLockScreenView: View {
         // The Lock Screen gives an activity about 160pt. Names sit beside
         // their round row rather than above it, which is what keeps the
         // header and the mic row from being clipped.
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(spacing: 0) {
+            // The top line on the app's own green, white type on it.
             header
-            teamRow(.team1, name: attributes.name1, palette: Theme.palette(for: .team1))
-            teamRow(.team2, name: attributes.name2, palette: Theme.palette(for: .team2))
-            micControl
+                .padding(.horizontal, 12)
+                .padding(.top, 10)
+                .padding(.bottom, 6)
+                .frame(maxWidth: .infinity)
+                .background(Theme.teamA)
+
+            // The rounds and the mic on the lighter wash, dark type on it.
+            // Painted here, not only as the tint, so the expanded Dynamic
+            // Island shows the same and not black.
+            VStack(alignment: .leading, spacing: 6) {
+                teamRow(.team1, name: attributes.name1, palette: Theme.palette(for: .team1))
+                teamRow(.team2, name: attributes.name2, palette: Theme.palette(for: .team2))
+                micControl
+            }
+            .padding(.horizontal, 12)
+            .padding(.top, 6)
+            .padding(.bottom, 10)
+            .frame(maxWidth: .infinity)
+            .background(Theme.teamAWash)
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 10)
-        // The app's own green, white type on it. The expanded Dynamic Island
-        // keeps its black; everything here reads on both.
-        .activityBackgroundTint(Theme.teamA)
-        .activitySystemActionForegroundColor(Theme.surface)
+        .activityBackgroundTint(Theme.teamAWash)
+        .activitySystemActionForegroundColor(Theme.teamAShadow)
     }
 
     // MARK: - Header
@@ -84,7 +97,7 @@ struct ScoreboardLockScreenView: View {
         return HStack(spacing: 6) {
             Text(name)
                 .font(DuoFont.label)
-                .foregroundStyle(Theme.surface)
+                .foregroundStyle(Theme.teamAShadow)
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
                 .frame(width: 62, alignment: .leading)
@@ -93,7 +106,7 @@ struct ScoreboardLockScreenView: View {
                 if columns.isEmpty {
                     Text(WidgetLanguage.text("No rounds yet"))
                         .font(DuoFont.label)
-                        .foregroundStyle(Theme.surface)
+                        .foregroundStyle(Theme.teamAShadow)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 } else {
                     ForEach(columns.indices, id: \.self) { index in
@@ -108,16 +121,16 @@ struct ScoreboardLockScreenView: View {
         }
     }
 
-    /// A round's points in the team's color on white, or a dash on the
-    /// darker green when the other team scored that round. Not a button.
+    /// A round's points in the team's color on white, or a faint dash when
+    /// the other team scored that round. Not a button.
     private func roundCell(_ points: Int?, palette: TeamPalette) -> some View {
         Text(points.map { "\($0)" } ?? "—")
             .font(DuoFont.score(15))
-            .foregroundStyle(points == nil ? Theme.teamAWash : palette.edge)
+            .foregroundStyle(points == nil ? Theme.teamAShadow.opacity(0.5) : palette.edge)
             .lineLimit(1)
             .minimumScaleFactor(0.7)
             .frame(maxWidth: .infinity, minHeight: 28)
-            .background(points == nil ? Theme.teamAShadow : Theme.surface,
+            .background(points == nil ? Color.clear : Theme.surface,
                         in: RoundedRectangle(cornerRadius: 8))
     }
 
@@ -130,9 +143,9 @@ struct ScoreboardLockScreenView: View {
         Link(destination: ScoreLink.voice(gameID: attributes.gameID)) {
             ScoreButtonFace(
                 title: WidgetLanguage.text("Say a score"),
-                fill: Theme.surface,
+                fill: Theme.teamA,
                 edge: Theme.teamAShadow,
-                titleColor: Theme.teamAShadow,
+                titleColor: Theme.surface,
                 height: 30,
                 systemImage: "mic.fill"
             )

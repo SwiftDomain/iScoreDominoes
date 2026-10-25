@@ -35,7 +35,7 @@ Duolingo-inspired: white canvas, rounded gray text, green team 1, blue team 2, p
 
 ## Lock Screen scoreboard (`iScoreWidgets`)
 
-A Widget Extension target hosts a Live Activity on the app's green: both
+A Widget Extension target hosts a Live Activity: a top line on the app's green, the rest on its lighter wash. Both
 totals, the round number, points to win for the leader, each team's score for
 the latest six rounds (display only, not buttons), and a "Say a score" mic.
 The mic is a link (`iscoredominoes://voice`) — a widget cannot use the
