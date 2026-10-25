@@ -98,4 +98,61 @@ struct GameDramaTests {
                                              now: now, calendar: calendar)
         #expect(points.sorted() == [15, 20, 30, 40])
     }
+
+    // MARK: - A finished game
+
+    private func finished(_ target: Double, _ rounds: [(Int, Team)], type: GameType = .nine,
+                          team1: [String] = ["Ana", "Luis"], at time: TimeInterval = 0) -> Game {
+        let g = game(target, rounds, type: type)
+        g.team1 = team1
+        g.state = .finished
+        g.inProcess = false
+        g.timestamp = Date(timeIntervalSince1970: 1_800_000_000 + time)
+        return g
+    }
+
+    @Test func aShutoutIsAZapato() {
+        let g = finished(100, [(50, .team1), (50, .team1)], type: .six)
+        #expect(GameDrama.finale(of: g, history: [g]) == .shutout(winner: .team1))
+    }
+
+    /// RF5: the totals decide, not what was once scored and undone.
+    @Test func totalsDecideTheShutoutNotHistory() {
+        let g = game(100, [(10, .team2)], type: .six)
+        g.undoLastRound()
+        g.addRound(100, for: .team1)
+        g.state = .finished
+        #expect(GameDrama.finale(of: g, history: [g]) == .shutout(winner: .team1))
+    }
+
+    @Test func comebackWinOutranksALastRoundWin() {
+        let g = finished(150, [(60, .team2), (70, .team1), (20, .team2), (80, .team1)])
+        #expect(GameDrama.finale(of: g, history: [g]) == .comebackWin(.team1, deficit: 60))
+    }
+
+    @Test func lastRoundWin() {
+        let g = finished(100, [(20, .team1), (15, .team2), (90, .team2)], type: .six)
+        #expect(GameDrama.finale(of: g, history: [g]) == .lastRoundWin(.team2))
+    }
+
+    /// Tied before the last round, the loser on the board: nothing else to say.
+    private let plainWin: [(Int, Team)] = [(10, .team2), (10, .team1), (90, .team1)]
+
+    @Test func threeWinsInARowIsAStreak() {
+        let older = (1...3).map { finished(100, plainWin, type: .six,
+                                           team1: ["ana", "Luis"], at: Double($0) * 100) }
+        let now = finished(100, plainWin, type: .six, at: 1_000)
+        #expect(GameDrama.finale(of: now, history: older + [now]) == .streak(name: "Ana", wins: 4))
+
+        // A loss in between: only the wins since count, and two is not a streak.
+        let lost = finished(100, [(100, .team2)], type: .six, at: 150)
+        let recent = (2...3).map { finished(100, plainWin, type: .six, at: Double($0) * 100) }
+        #expect(GameDrama.finale(of: now, history: [older[0], lost] + recent + [now]) == .streak(name: "Ana", wins: 3))
+        #expect(GameDrama.finale(of: now, history: [lost, recent[1], now]) == nil)
+    }
+
+    @Test func noFinaleWhilePlaying() {
+        let g = game(100, [(100, .team1)], type: .six)
+        #expect(GameDrama.finale(of: g, history: [g]) == nil)
+    }
 }

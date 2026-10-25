@@ -98,6 +98,58 @@ enum GameDrama {
         return others + earlier
     }
 
+    // MARK: - A finished game
+
+    /// Finished games in a row a player must win to be "on a streak".
+    static let streakLength = 3
+
+    /// How `game` was won, or nil while it is still being played.
+    /// `history` is every game, in any order, `game` included.
+    static func finale(of game: Game, history: [Game]) -> Highlight? {
+        let winner = game.winningTeam
+        guard game.state == .finished, winner != .none else { return nil }
+        let loser: Team = winner == .team1 ? .team2 : .team1
+
+        if game.total(for: loser) == 0 { return .shutout(winner: winner) }
+
+        let deficit = largestDeficit(of: winner, in: game)
+        if deficit >= comebackDeficit(target: Int(game.maxScore)) {
+            return .comebackWin(winner, deficit: deficit)
+        }
+
+        let rounds = game.rounds.count
+        if rounds > 1, leader(in: game, rounds: rounds - 1) == loser {
+            return .lastRoundWin(winner)
+        }
+
+        return streak(in: game, history: history)
+    }
+
+    /// The longest run of wins among the winning seats, if it is a streak.
+    private static func streak(in game: Game, history: [Game]) -> Highlight? {
+        let finished = history
+            .filter { $0.state == .finished && $0.winningTeam != .none }
+            .sorted { $0.timestamp > $1.timestamp }
+        var best: (name: String, wins: Int)?
+        for name in game.names(for: game.winningTeam) {
+            var wins = 0
+            for past in finished {
+                let seat = team(of: name, in: past)
+                guard seat != .none else { continue }
+                guard seat == past.winningTeam else { break }
+                wins += 1
+            }
+            if wins >= streakLength, wins > (best?.wins ?? 0) { best = (name, wins) }
+        }
+        return best.map { .streak(name: $0.name, wins: $0.wins) }
+    }
+
+    private static func team(of name: String, in game: Game) -> Team {
+        if game.team1.contains(where: { PlayerName.isSame($0, name) }) { return .team1 }
+        if game.team2.contains(where: { PlayerName.isSame($0, name) }) { return .team2 }
+        return .none
+    }
+
     // MARK: - Helpers
 
     /// Who led after the first `rounds` rounds; `.none` when tied.
