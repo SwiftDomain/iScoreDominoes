@@ -85,3 +85,24 @@ enum VoiceScoring {
         LocalizedStringResource("This game is over.").resolved(in: locale)
     }
 }
+
+/// One listening session yields one result. A session can end two ways — the
+/// user taps to finish, or the recognizer ends by itself — and finishing by tap
+/// stops the recognizer, which also reads as ending by itself. Whichever path
+/// claims the session first scores it; the other finds it already claimed.
+struct VoiceSessionGate {
+
+    private var isOpen = false
+
+    /// A session started.
+    mutating func begin() {
+        isOpen = true
+    }
+
+    /// True once per session: the caller concludes it.
+    mutating func claim() -> Bool {
+        guard isOpen else { return false }
+        isOpen = false
+        return true
+    }
+}

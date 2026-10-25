@@ -81,6 +81,7 @@
 		512A05C96FD5E3049AEF39C6 /* SpectateHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9833B1C829DF1B96B5F3D8 /* SpectateHost.swift */; };
 		514907DD8392820C176003B2 /* VoiceScoringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097347033183DCBC241022B5 /* VoiceScoringTests.swift */; };
 		5361CA11F02076477B609685 /* PointGridTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB623A369A3E3C7DC06DD994 /* PointGridTests.swift */; };
+		58BAD0F5EF9E54211F2C513E /* VoiceSessionGateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CE3BC0546D884BFCC5531C /* VoiceSessionGateTests.swift */; };
 		58C07E2C7DE898D71A1838F0 /* GamePreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C6E4E99625588A65C6F986 /* GamePreset.swift */; };
 		58FED5D25A6AEABE4F9B7EA6 /* GameCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE6090CA6B882451762108B /* GameCommand.swift */; };
 		591EB7B8E3A1A7F0BDD62B33 /* PresetMatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3211293AC917E067DC822128 /* PresetMatcherTests.swift */; };
@@ -344,6 +345,7 @@
 		EE89CAF1DB7769A3F486C3D8 /* Game+Voice.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "Game+Voice.swift"; sourceTree = "<group>"; };
 		F08CB0BDF75023C81105F393 /* TableModeView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableModeView.swift; sourceTree = "<group>"; };
 		F0B4ED48D31ADBCFCBEFD83C /* SummaryStatTile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SummaryStatTile.swift; sourceTree = "<group>"; };
+		F0CE3BC0546D884BFCC5531C /* VoiceSessionGateTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VoiceSessionGateTests.swift; sourceTree = "<group>"; };
 		F0D2BD061B1DE651E9EB8C02 /* ScoreKeypad.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreKeypad.swift; sourceTree = "<group>"; };
 		F3EAFB3280734EAB807F0507 /* VoiceSetupTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VoiceSetupTests.swift; sourceTree = "<group>"; };
 		F45B378700CEC97F0143EBD3 /* ScoreCommand.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreCommand.swift; sourceTree = "<group>"; };
@@ -590,6 +592,7 @@
 				3211293AC917E067DC822128 /* PresetMatcherTests.swift */,
 				7B858A91886ACDD09E78BEC6 /* ScreenAwakeTests.swift */,
 				847E9AF7E816BD1A446B5066 /* TableModeTests.swift */,
+				F0CE3BC0546D884BFCC5531C /* VoiceSessionGateTests.swift */,
 			);
 			path = iScoreTests;
 			sourceTree = "<group>";
@@ -866,6 +869,7 @@
 				591EB7B8E3A1A7F0BDD62B33 /* PresetMatcherTests.swift in Sources */,
 				5BB48C554C4194876F5DC43F /* ScreenAwakeTests.swift in Sources */,
 				6C45B85C5109182F2867A065 /* TableModeTests.swift in Sources */,
+				58BAD0F5EF9E54211F2C513E /* VoiceSessionGateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

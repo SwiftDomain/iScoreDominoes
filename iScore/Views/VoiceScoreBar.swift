@@ -115,6 +115,8 @@ struct VoiceScoreBar: View {
     /// and creates the recognizer, audio engine and synthesizer once, on first use.
     @State private var holder: CaptureHolder
     @State private var isThinking = false
+    /// One result per listening session, however the session ends.
+    @State private var session = VoiceSessionGate()
     @State private var notice: String?
     /// Identifies the current screen visit; a wait that outlives it does nothing.
     @State private var visit = 0
@@ -194,6 +196,7 @@ struct VoiceScoreBar: View {
         visit += 1
         isOnScreen = false
         isThinking = false
+        _ = session.claim()
         capture.stop()
     }
 
@@ -222,6 +225,7 @@ struct VoiceScoreBar: View {
         }
         do {
             try capture.start()
+            session.begin()
         } catch {
             notice = VoiceSetup.scoringExplanation(availability: capture.availability, error: error) ?? VoiceSetup.scoringCouldntStart
         }
@@ -229,7 +233,7 @@ struct VoiceScoreBar: View {
 
     /// The recognizer delivers the last word a moment after the user stops talking.
     private func finishListening() async {
-        guard !isThinking else { return }
+        guard !isThinking, session.claim() else { return }
         let current = visit
         isThinking = true
         try? await Task.sleep(for: .milliseconds(400))
@@ -242,7 +246,9 @@ struct VoiceScoreBar: View {
 
     /// The recognizer ended the session itself (it failed, or the user fell silent).
     private func listeningEndedByItself() async {
-        guard isOnScreen, !isThinking else { return }
+        // Our own stop (a finishing tap, a stand-down) has already claimed the
+        // session, so it is never mistaken for the recognizer ending.
+        guard isOnScreen, !isThinking, session.claim() else { return }
         isThinking = true
         await conclude(heard: capture.stop())
     }
