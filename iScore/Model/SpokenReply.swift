@@ -55,13 +55,19 @@ final class SpokenReply {
         // Two quick answers at a table should not queue behind each other.
         synthesizer.stopSpeaking(at: .immediate)
 
-        let session = AVAudioSession.sharedInstance()
-        try? session.setCategory(.ambient, mode: .default, options: .mixWithOthers)
-        try? session.setActive(true)
-
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = Self.voice(for: locale)
-        synthesizer.speak(utterance)
+        // Activating the session blocks on the audio server, so it runs on
+        // the audio queue — after any capture teardown still queued there.
+        let handoff = AudioHandoff(value: (synthesizer: synthesizer, utterance: utterance))
+        AudioSessionQueue.enqueue {
+            let session = AVAudioSession.sharedInstance()
+            try? session.setCategory(.ambient, mode: .default, options: .mixWithOthers)
+            try? session.setActive(true)
+            DispatchQueue.main.async {
+                handoff.value.synthesizer.speak(handoff.value.utterance)
+            }
+        }
     }
 
     func stop() {

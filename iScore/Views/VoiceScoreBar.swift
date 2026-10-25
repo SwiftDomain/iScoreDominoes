@@ -268,7 +268,7 @@ struct VoiceScoreBar: View {
             return
         }
         do {
-            try capture.start()
+            try await capture.start()
             session.begin()
         } catch {
             notice = VoiceSetup.scoringExplanation(availability: capture.availability, error: error) ?? VoiceSetup.scoringCouldntStart

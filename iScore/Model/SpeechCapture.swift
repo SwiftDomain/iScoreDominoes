@@ -85,13 +85,13 @@ final class SpeechCapture {
     }
 
     /// Starts listening. Partial results update `transcript` live.
-    func start() throws {
+    func start() async throws {
         guard !isListening else { return }
         refreshAvailability()
         do {
             try Self.preflight(availability: availability, recognizerPresent: recognizer != nil)
             guard let recognizer else { throw SpeechCaptureError.unavailable(.unsupported) }
-            try begin(with: recognizer)
+            try await begin(with: recognizer)
         } catch {
             lastError = error
             throw error
@@ -104,13 +104,8 @@ final class SpeechCapture {
         guard recognizerPresent else { throw SpeechCaptureError.unavailable(.unsupported) }
     }
 
-    private func begin(with recognizer: SFSpeechRecognizer) throws {
+    private func begin(with recognizer: SFSpeechRecognizer) async throws {
         lastError = nil
-        let audioSession = AVAudioSession.sharedInstance()
-        try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
-        try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
-        activatedSession = true
-
         let request = SFSpeechAudioBufferRecognitionRequest()
         request.shouldReportPartialResults = true
         request.requiresOnDeviceRecognition = true
@@ -134,19 +129,30 @@ final class SpeechCapture {
         }
         self.request = request
 
+        // The session and the engine talk to the audio server, which blocks:
+        // off the main thread, on the queue that also runs their teardown.
         let engine = AVAudioEngine()
         self.engine = engine
-        let input = engine.inputNode
-        input.installTap(onBus: 0, bufferSize: 1024, format: input.outputFormat(forBus: 0)) { buffer, _ in
-            request.append(buffer)
-        }
+        activatedSession = true
+        let handoff = AudioHandoff(value: (engine: engine, request: request))
         do {
-            engine.prepare()
-            try engine.start()
+            try await AudioSessionQueue.run {
+                let audioSession = AVAudioSession.sharedInstance()
+                try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
+                try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+                let input = handoff.value.engine.inputNode
+                input.installTap(onBus: 0, bufferSize: 1024, format: input.outputFormat(forBus: 0)) { buffer, _ in
+                    handoff.value.request.append(buffer)
+                }
+                handoff.value.engine.prepare()
+                try handoff.value.engine.start()
+            }
         } catch {
-            teardown()
+            if session == current { teardown() }
             throw error
         }
+        // Stopped while the engine was starting: teardown already took it down.
+        guard session == current else { return }
         isListening = true
     }
 
@@ -174,19 +180,25 @@ final class SpeechCapture {
     /// here rather than in `deinit`, and a capture that never started touches no audio at all.
     private func teardown() {
         session += 1
-        if let engine {
-            if engine.isRunning { engine.stop() }
-            engine.inputNode.removeTap(onBus: 0)
-            self.engine = nil
-        }
         request?.endAudio()
         task?.cancel()
         request = nil
         task = nil
         isListening = false
-        if activatedSession {
-            activatedSession = false
-            try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        let engine = self.engine.map(AudioHandoff.init(value:))
+        self.engine = nil
+        let deactivate = activatedSession
+        activatedSession = false
+        guard engine != nil || deactivate else { return }
+        // Queued behind any start still in flight, so it stops what that started.
+        AudioSessionQueue.enqueue {
+            if let engine = engine?.value {
+                if engine.isRunning { engine.stop() }
+                engine.inputNode.removeTap(onBus: 0)
+            }
+            if deactivate {
+                try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+            }
         }
     }
 }

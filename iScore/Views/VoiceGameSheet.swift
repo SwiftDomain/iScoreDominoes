@@ -290,7 +290,7 @@ struct VoiceGameSheet: View {
 
     private func startListening() async {
         do {
-            try capture.start()
+            try await capture.start()
         } catch {
             fallBackToTyping(error: error)
         }

@@ -60,6 +60,7 @@
 		3EF472A72B756DF80018276A /* EditScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF472A62B756DF80018276A /* EditScoreView.swift */; };
 		3EF472C92B769F130018276A /* HallOfFameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF472C82B769F130018276A /* HallOfFameView.swift */; };
 		3EF472CD2B76CC030018276A /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF472CC2B76CC030018276A /* Player.swift */; };
+		414BBA4D0F6C4E5F94A28875 /* AudioSessionQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE33482CC5806B744562DEC /* AudioSessionQueue.swift */; };
 		443E95E6F2C31AFEDF8B1D54 /* ActiveGameBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0527619F24AB514EADFA6808 /* ActiveGameBanner.swift */; };
 		4578F1469CC2AD89085A9220 /* GameSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595C326CE4CF2DD0530B8890 /* GameSummaryView.swift */; };
 		46C492CA39B0A5C451479E6D /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1893D90D7BC4BDC04F6FEAFD /* AppGroup.swift */; };
@@ -310,6 +311,7 @@
 		B512A62120C959F2453878D7 /* TeamScoreCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TeamScoreCard.swift; sourceTree = "<group>"; };
 		BA79280080B95D43188A6DAA /* Leaderboard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Leaderboard.swift; sourceTree = "<group>"; };
 		BA992B48F8B69BC45F8F8C23 /* GameListCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameListCard.swift; sourceTree = "<group>"; };
+		BAE33482CC5806B744562DEC /* AudioSessionQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AudioSessionQueue.swift; sourceTree = "<group>"; };
 		BE1A7ED083B22B6CD594BBB3 /* ScoreLinkHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreLinkHandler.swift; sourceTree = "<group>"; };
 		BF0ED431DA6E0C820BA31F47 /* PlayStreak.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlayStreak.swift; sourceTree = "<group>"; };
 		BF1CEF3B3F7EA0547D611973 /* SpokenReplyVoiceTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SpokenReplyVoiceTests.swift; sourceTree = "<group>"; };
@@ -494,6 +496,7 @@
 				02342A3D623C31D96A720F47 /* PresetMatcher.swift */,
 				A10F2E230C1D8D2A1F3309B6 /* ScreenAwake.swift */,
 				E2AEA15DED74AFCA773B5C87 /* TableMode.swift */,
+				BAE33482CC5806B744562DEC /* AudioSessionQueue.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -796,6 +799,7 @@
 				3D212A9BE3715732C507CB9A /* ScreenAwake.swift in Sources */,
 				BAA6D728C5507088B9BC8DF3 /* TableMode.swift in Sources */,
 				B13A0688A7AED38FE2940140 /* TableModeView.swift in Sources */,
+				414BBA4D0F6C4E5F94A28875 /* AudioSessionQueue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
