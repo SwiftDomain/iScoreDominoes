@@ -61,6 +61,18 @@ enum GameDrama {
         return worst
     }
 
+    /// The largest gap `team` faced in the first `rounds` rounds since it
+    /// last led, so an old deficit already recovered is not counted again.
+    static func deficitSinceLastLead(of team: Team, in game: Game, rounds: Int) -> Int {
+        let lastLead = (0...rounds).last { leader(in: game, rounds: $0) == team } ?? 0
+        var own = 0, other = 0, worst = 0
+        for (index, round) in game.rounds.prefix(rounds).enumerated() {
+            if round.team == team { own += round.points } else { other += round.points }
+            if index >= lastLead { worst = max(worst, other - own) }
+        }
+        return worst
+    }
+
     // MARK: - A new round
 
     /// The best moment in `round`, just added to `game`, or nil — nil most
@@ -72,7 +84,7 @@ enum GameDrama {
         if capicua { candidates.append(.capicua(round.team)) }
 
         let before = round.number - 1
-        let deficit = largestDeficit(of: round.team, in: game, rounds: before)
+        let deficit = deficitSinceLastLead(of: round.team, in: game, rounds: before)
         if deficit >= comebackDeficit(target: Int(game.maxScore)),
            leader(in: game, rounds: before) != round.team,
            leader(in: game, rounds: round.number) == round.team {

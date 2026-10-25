@@ -31,7 +31,6 @@ enum VoiceBarState {
         return .tapToTalk
     }
 
-    /// Whether the mic can be tapped at all.
     /// Whether a big-moment line can be spoken now: not over the mic, and only
     /// with "Speak answers" on.
     static func speaksAnnouncement(_ line: String?, isListening: Bool, isThinking: Bool, speaksAnswers: Bool) -> Bool {
@@ -55,6 +54,7 @@ enum VoiceBarState {
         return isListening || isThinking ? .drop : .start
     }
 
+    /// Whether the mic can be tapped at all.
     static func isMicEnabled(availability: SpeechAvailability, isThinking: Bool) -> Bool {
         guard !isThinking else { return false }
         return VoiceSetup.opening(for: availability) != .typeInstead

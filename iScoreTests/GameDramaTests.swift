@@ -56,6 +56,14 @@ struct GameDramaTests {
                                          earlierRoundsTonight: [], alreadyShown: []) == nil)
     }
 
+    /// The deficit counts from the last time the team led: down 60, back in
+    /// front, then down 5 and ahead again is not a comeback from 60.
+    @Test func aComebackCountsFromTheLastLead() {
+        let g = game(200, [(60, .team2), (70, .team1), (15, .team2), (10, .team1)])
+        #expect(GameDrama.roundHighlight(after: g.rounds.last!, in: g, capicua: false,
+                                         earlierRoundsTonight: [], alreadyShown: []) == nil)
+    }
+
     @Test func comebackDeficitIsAQuarterRoundedToFive() {
         #expect(GameDrama.comebackDeficit(target: 100) == 25)
         #expect(GameDrama.comebackDeficit(target: 200) == 50)
