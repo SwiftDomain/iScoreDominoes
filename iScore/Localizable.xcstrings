@@ -2847,6 +2847,196 @@
           }
         }
       }
+    },
+    "Duplicate name": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombre repetido"
+          }
+        }
+      }
+    },
+    "%@ is no longer saved": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ya no está guardado"
+          }
+        }
+      }
+    },
+    "%lld players are no longer saved": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld player is no longer saved"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld players are no longer saved"
+                }
+              }
+            }
+          }
+        },
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld jugador ya no está guardado"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld jugadores ya no están guardados"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Give it a name": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ponle un nombre"
+          }
+        }
+      }
+    },
+    "You already have a preset called %@": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ya tienes una partida guardada llamada %@"
+          }
+        }
+      }
+    },
+    "Pick all four players": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elige a los cuatro jugadores"
+          }
+        }
+      }
+    },
+    "Presets": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partidas guardadas"
+          }
+        }
+      }
+    },
+    "New preset": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nueva partida guardada"
+          }
+        }
+      }
+    },
+    "Edit preset": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editar partida guardada"
+          }
+        }
+      }
+    },
+    "Preset name": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombre"
+          }
+        }
+      }
+    },
+    "Delete Preset": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Borrar partida guardada"
+          }
+        }
+      }
+    },
+    "Delete preset %@": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Borrar %@"
+          }
+        }
+      }
+    },
+    "Save": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar"
+          }
+        }
+      }
+    },
+    "No presets yet": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todavía no hay partidas guardadas"
+          }
+        }
+      }
+    },
+    "This preset will be removed. Games already played stay.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se borrará esta partida guardada. Las partidas jugadas se quedan."
+          }
+        }
+      }
+    },
+    "Friday night": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Viernes por la noche"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

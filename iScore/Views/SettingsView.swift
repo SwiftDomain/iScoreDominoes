@@ -13,6 +13,7 @@ struct SettingsView: View {
     @Environment(\.modelContext) private var context
 
     @Query(sort: \Player.name) private var players: [Player]
+    @Query(sort: \GamePreset.name) private var presets: [GamePreset]
 
     @AppStorage(GameDefaults.typeKey) private var defaultGameType = GameType.nine.rawValue
     @AppStorage(GameDefaults.targetKey) private var defaultMaxScore = Double(GameType.nine.defaultTarget)
@@ -54,6 +55,13 @@ struct SettingsView: View {
     @AppStorage(VoiceOutput.speechKey) private var speaksAnswers = true
 
     @State private var playerToDelete: Player?
+    @State private var presetToDelete: GamePreset?
+    @State private var editingPreset: GamePreset?
+    @State private var isCreatingPreset = false
+
+    private var isConfirmingPresetDelete: Binding<Bool> {
+        Binding(get: { presetToDelete != nil }, set: { if !$0 { presetToDelete = nil } })
+    }
 
     private var isConfirmingDelete: Binding<Bool> {
         Binding(get: { playerToDelete != nil }, set: { if !$0 { playerToDelete = nil } })
@@ -112,6 +120,12 @@ struct SettingsView: View {
                 }
                 .padding(.horizontal, 14)
                 .duoCard()
+
+                Text("Presets")
+                    .duoLabel()
+                    .padding(.top, 10)
+
+                presetsCard
 
                 Text("Lock Screen")
                     .duoLabel()
@@ -223,6 +237,20 @@ struct SettingsView: View {
         } message: { language in
             Text("iScore will close. Open it again to see \(language.endonym). Your games are saved.")
         }
+        .alert("Delete Preset", isPresented: isConfirmingPresetDelete, presenting: presetToDelete) { preset in
+            Button("Delete", role: .destructive) {
+                context.delete(preset)
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: { _ in
+            Text("This preset will be removed. Games already played stay.")
+        }
+        .sheet(item: $editingPreset) { preset in
+            PresetEditorView(preset: preset)
+        }
+        .sheet(isPresented: $isCreatingPreset) {
+            PresetEditorView(preset: nil)
+        }
         .alert("Delete Player", isPresented: isConfirmingDelete, presenting: playerToDelete) { player in
             Button("Delete", role: .destructive) {
                 context.delete(player)
@@ -231,6 +259,40 @@ struct SettingsView: View {
         } message: { player in
             Text("Are you sure you want to delete \(player.name)? This will remove them from future games but won't affect past game records.")
         }
+    }
+
+    private var presetsCard: some View {
+        let duplicates = PresetList.duplicates(in: presets)
+        let known = players.map(\.name)
+        return VStack(spacing: 0) {
+            if presets.isEmpty {
+                Text("No presets yet")
+                    .font(DuoFont.body)
+                    .foregroundStyle(Theme.textMuted)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 12)
+            } else {
+                ForEach(presets) { preset in
+                    SettingsPresetRow(
+                        setup: preset.setup,
+                        notes: PresetRowNotes.notes(for: preset.setup,
+                                                    isDuplicate: duplicates.contains { $0 === preset },
+                                                    known: known),
+                        onEdit: { editingPreset = preset },
+                        onDelete: { presetToDelete = preset }
+                    )
+                    Rectangle().fill(Theme.divider).frame(height: 2)
+                }
+            }
+            Button("New preset", systemImage: "plus") {
+                isCreatingPreset = true
+            }
+            .font(DuoFont.body)
+            .foregroundStyle(Theme.accentInk)
+            .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+        }
+        .padding(.horizontal, 14)
+        .duoCard()
     }
 
     /// "2.0 (14)"
@@ -401,5 +463,47 @@ private struct LanguageRow: View {
             .accessibilityLabel(title)
         }
         .padding(.vertical, 6)
+    }
+}
+
+/// A saved preset: its name and setup, anything wrong with it, edit and delete.
+private struct SettingsPresetRow: View {
+
+    let setup: PresetSetup
+    let notes: [LocalizedStringResource]
+    let onEdit: () -> Void
+    let onDelete: () -> Void
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Button(action: onEdit) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(setup.name)
+                        .font(DuoFont.body)
+                        .foregroundStyle(Theme.textPrimary)
+                        .lineLimit(1)
+                    Text("\(setup.gameType.title) · \(setup.target)")
+                        .duoLabel()
+                    ForEach(notes.indices, id: \.self) { index in
+                        Text(notes[index])
+                            .duoLabel(Theme.streak)
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(Text(setup.accessibilityLabel))
+            .accessibilityValue(Text(notes.map { String(localized: $0) }.joined(separator: ", ")))
+            .accessibilityHint(Text("Edit preset"))
+
+            Button("Delete preset \(setup.name)", systemImage: "trash", action: onDelete)
+                .labelStyle(.iconOnly)
+                .font(.body.weight(.bold))
+                .foregroundStyle(Theme.textMuted)
+                .frame(minWidth: 36, minHeight: 36)
+        }
+        .padding(.vertical, 8)
     }
 }

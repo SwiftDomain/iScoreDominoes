@@ -136,3 +136,36 @@ enum PresetList {
         return extras
     }
 }
+
+/// What a Settings row says is wrong with a preset, if anything.
+enum PresetRowNotes {
+
+    static func notes(for setup: PresetSetup, isDuplicate: Bool, known: [String]) -> [LocalizedStringResource] {
+        var notes: [LocalizedStringResource] = []
+        if isDuplicate { notes.append("Duplicate name") }
+        let missing = setup.missingPlayers(known: known)
+        if missing.count == 1 {
+            notes.append("\(missing[0]) is no longer saved")
+        } else if missing.count > 1 {
+            notes.append("\(missing.count) players are no longer saved")
+        }
+        return notes
+    }
+}
+
+/// Why the preset editor's Save is off, one reason at a time; nil when it can save.
+enum PresetEditorRules {
+
+    /// `editing` is the preset's own name before this edit, so keeping it is not "taken".
+    static func blocker(name: String, setup: PresetSetup, existing: [String], editing: String?) -> LocalizedStringResource? {
+        let cleaned = PresetName.cleaned(name)
+        guard !cleaned.isEmpty else { return "Give it a name" }
+        var others = existing
+        if let editing, let own = others.firstIndex(where: { PlayerName.isSame($0, editing) }) {
+            others.remove(at: own)
+        }
+        if PresetName.isTaken(cleaned, among: others) { return "You already have a preset called \(cleaned)" }
+        guard setup.isComplete else { return "Pick all four players" }
+        return nil
+    }
+}

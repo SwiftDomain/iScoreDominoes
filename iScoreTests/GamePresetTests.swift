@@ -110,4 +110,52 @@ struct GamePresetTests {
         #expect(String(localized: friday.accessibilityLabel) == "Friday night, Double 9 to 200, Ana, Luis, Rafa, Mia")
         #expect(localized(friday.accessibilityLabel, in: "es") == "Friday night, Doble 9 a 200, Ana, Luis, Rafa, Mia")
     }
+
+    // MARK: - Settings row notes
+
+    private func text(_ notes: [LocalizedStringResource], in language: String = "en") -> [String] {
+        notes.map { localized($0, in: language) }
+    }
+
+    @Test func aHealthyPresetHasNoNotes() {
+        #expect(PresetRowNotes.notes(for: friday, isDuplicate: false, known: friday.playerNames).isEmpty)
+    }
+
+    @Test func notesSayWhatIsWrong() {
+        #expect(text(PresetRowNotes.notes(for: friday, isDuplicate: true, known: friday.playerNames)) == ["Duplicate name"])
+        #expect(text(PresetRowNotes.notes(for: friday, isDuplicate: false, known: ["Ana", "Rafa", "Mia"])) == ["Luis is no longer saved"])
+        #expect(text(PresetRowNotes.notes(for: friday, isDuplicate: false, known: ["Ana", "Rafa"])) == ["2 players are no longer saved"])
+        #expect(text(PresetRowNotes.notes(for: friday, isDuplicate: true, known: ["Ana", "Rafa"]), in: "es")
+                == ["Nombre repetido", "2 jugadores ya no están guardados"])
+        #expect(text(PresetRowNotes.notes(for: friday, isDuplicate: false, known: ["Ana", "Rafa", "Mia"]), in: "es")
+                == ["Luis ya no está guardado"])
+    }
+
+    // MARK: - Editor
+
+    @Test func aValidPresetHasNothingBlockingSave() {
+        #expect(PresetEditorRules.blocker(name: "Friday night", setup: friday, existing: [], editing: nil) == nil)
+    }
+
+    @Test func saveIsBlockedForOneReasonAtATime() {
+        var blank = friday
+        blank.playerNames[0] = ""
+        let cases: [(String, PresetSetup, [String], String, String)] = [
+            ("  ", blank, ["Friday night"], "Give it a name", "Ponle un nombre"),
+            ("friday NIGHT", blank, ["Friday night"], "You already have a preset called friday NIGHT",
+             "Ya tienes una partida guardada llamada friday NIGHT"),
+            ("Saturday", blank, ["Friday night"], "Pick all four players", "Elige a los cuatro jugadores"),
+        ]
+        for (name, setup, existing, english, spanish) in cases {
+            let blocker = PresetEditorRules.blocker(name: name, setup: setup, existing: existing, editing: nil)
+            #expect(blocker.map { localized($0, in: "en") } == english)
+            #expect(blocker.map { localized($0, in: "es") } == spanish)
+        }
+    }
+
+    /// Editing a preset keeps its own name without calling it taken.
+    @Test func aPresetMayKeepItsOwnName() {
+        #expect(PresetEditorRules.blocker(name: "Friday night", setup: friday,
+                                          existing: ["Friday night", "Sunday"], editing: "Friday night") == nil)
+    }
 }
