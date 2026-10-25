@@ -3067,6 +3067,26 @@
           }
         }
       }
+    },
+    "%@, %lld, won": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$lld, ganaron"
+          }
+        }
+      }
+    },
+    "%@, %lld, %lld to win": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$lld, faltan %3$lld"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

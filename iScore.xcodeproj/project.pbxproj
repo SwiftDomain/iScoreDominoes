@@ -90,6 +90,7 @@
 		61CD8F312F6CD5DFD6664C47 /* PlayStreak.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0ED431DA6E0C820BA31F47 /* PlayStreak.swift */; };
 		66B804BE78368070FD19CB5F /* PodiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC609B50B961E8422A67E0FE /* PodiumView.swift */; };
 		67EE06176596E97BE279C498 /* ScoreLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1A7ED083B22B6CD594BBB3 /* ScoreLinkHandler.swift */; };
+		6C45B85C5109182F2867A065 /* TableModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E9AF7E816BD1A446B5066 /* TableModeTests.swift */; };
 		71173E771967DFBC50B34406 /* GameScoreboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B9F264F5CF6F679B619DA6 /* GameScoreboardTests.swift */; };
 		74361393A041888500401A4C /* PendingRoundsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F3685E8E8C154F1B56EF35 /* PendingRoundsStore.swift */; };
 		77B53A13D9713ED35E44CE92 /* DominoGlyph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A436150780CE71147E618FE /* DominoGlyph.swift */; };
@@ -125,6 +126,7 @@
 		B6BF35E8CCAE932892708CF1 /* PendingRoundsDrainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BBF386318514566DD6504A /* PendingRoundsDrainTests.swift */; };
 		B762BF431641E23088A49EF2 /* SpectateShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17823388ACDD40A152556B7 /* SpectateShareSheet.swift */; };
 		B80129D11302A9718DAAB48B /* GameVoiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C68623A0CC419B502D8F14D /* GameVoiceTests.swift */; };
+		BAA6D728C5507088B9BC8DF3 /* TableMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AEA15DED74AFCA773B5C87 /* TableMode.swift */; };
 		BB432F14667710699CC35AC5 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1893D90D7BC4BDC04F6FEAFD /* AppGroup.swift */; };
 		BB64C9CDAE3E1528B732CCDD /* SpeechCaptureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39812E8E1476DD0B9FFF262 /* SpeechCaptureTests.swift */; };
 		BC8473C2A29A5192F1801662 /* TeamScoreCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B512A62120C959F2453878D7 /* TeamScoreCard.swift */; };
@@ -284,6 +286,7 @@
 		82BAB45A2AD45169225F4640 /* GameListTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameListTests.swift; sourceTree = "<group>"; };
 		839EB77F375A5A96809DC129 /* DemoDataTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DemoDataTests.swift; sourceTree = "<group>"; };
 		83E6EA2B4011B7D06E75612E /* PendingRoundsDrain.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PendingRoundsDrain.swift; sourceTree = "<group>"; };
+		847E9AF7E816BD1A446B5066 /* TableModeTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableModeTests.swift; sourceTree = "<group>"; };
 		85FD2AA56A1043BF24985140 /* LockScreenScoring.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LockScreenScoring.swift; sourceTree = "<group>"; };
 		87B7E33B83983CE426215BEF /* VoiceScoreBar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VoiceScoreBar.swift; sourceTree = "<group>"; };
 		9113D5E74BAF88AF799BE3CB /* TeamSpeechBubble.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TeamSpeechBubble.swift; sourceTree = "<group>"; };
@@ -330,6 +333,7 @@
 		D8C6E4E99625588A65C6F986 /* GamePreset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GamePreset.swift; sourceTree = "<group>"; };
 		D9B9F264F5CF6F679B619DA6 /* GameScoreboardTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameScoreboardTests.swift; sourceTree = "<group>"; };
 		DA8663B30FFF8411484AB019 /* LeaderboardTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LeaderboardTests.swift; sourceTree = "<group>"; };
+		E2AEA15DED74AFCA773B5C87 /* TableMode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TableMode.swift; sourceTree = "<group>"; };
 		E37D32F98045E72AC3EA35D2 /* JoinCodeTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = JoinCodeTests.swift; sourceTree = "<group>"; };
 		E4D04AC1DFB16E1B10256632 /* iScoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iScoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5C70429A64AD8C7C02832DF /* DuoStyle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DuoStyle.swift; sourceTree = "<group>"; };
@@ -497,6 +501,7 @@
 				D8C6E4E99625588A65C6F986 /* GamePreset.swift */,
 				02342A3D623C31D96A720F47 /* PresetMatcher.swift */,
 				A10F2E230C1D8D2A1F3309B6 /* ScreenAwake.swift */,
+				E2AEA15DED74AFCA773B5C87 /* TableMode.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -581,6 +586,7 @@
 				4799B506D8DB5458B65F5719 /* GamePresetTests.swift */,
 				3211293AC917E067DC822128 /* PresetMatcherTests.swift */,
 				7B858A91886ACDD09E78BEC6 /* ScreenAwakeTests.swift */,
+				847E9AF7E816BD1A446B5066 /* TableModeTests.swift */,
 			);
 			path = iScoreTests;
 			sourceTree = "<group>";
@@ -802,6 +808,7 @@
 				B0C41B45F66FE2E1D735A52B /* PresetRow.swift in Sources */,
 				B687C74065010DAAAB989B8E /* PresetEditorView.swift in Sources */,
 				3D212A9BE3715732C507CB9A /* ScreenAwake.swift in Sources */,
+				BAA6D728C5507088B9BC8DF3 /* TableMode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -854,6 +861,7 @@
 				F30955722146F76FBD3546F3 /* GamePresetTests.swift in Sources */,
 				591EB7B8E3A1A7F0BDD62B33 /* PresetMatcherTests.swift in Sources */,
 				5BB48C554C4194876F5DC43F /* ScreenAwakeTests.swift in Sources */,
+				6C45B85C5109182F2867A065 /* TableModeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

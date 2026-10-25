@@ -159,4 +159,20 @@ enum DuoFont {
 
     /// Uppercase labels and button titles
     static let label: Font = .system(.footnote, design: .rounded, weight: .heavy)
+
+    /// Table mode's scores, read from across the table. A separate font so
+    /// `score(_:)` and every screen that uses it stay exactly as they are.
+    static func tableScore(_ size: CGFloat) -> Font {
+        .system(size: size, weight: .black, design: .rounded).monospacedDigit()
+    }
+
+    /// The largest table score that fits a half: `digits` glyphs across its
+    /// width (a rounded black digit is about 0.62 of its point size wide),
+    /// no more than 70% of its height, and never above 280 points.
+    static func tableScoreSize(forHalf size: CGSize, digits: Int) -> CGFloat {
+        let glyphs = CGFloat(max(digits, 1))
+        let byWidth = size.width / (glyphs * 0.62)
+        let byHeight = size.height * 0.7
+        return max(0, min(byWidth, byHeight, 280))
+    }
 }
