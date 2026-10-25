@@ -58,6 +58,12 @@ struct HomeView: View {
                         .buttonStyle(.plain)
                     }
 
+                    // MARK: - Presets
+                    let homePresets = PresetList.homeRow(presets)
+                    if !homePresets.isEmpty {
+                        PresetRow(presets: homePresets, onStart: start)
+                    }
+
                     // MARK: - 2x2 Feature tiles
                     HomeCardGrid(
                         allGamesCount: allGames.count,
@@ -161,6 +167,12 @@ struct HomeView: View {
     /// Creates the spoken game and goes straight to its scoreboard.
     fileprivate func start(_ resolved: ResolvedGame) {
         path.append(GameFactory.make(resolved, existing: players, in: context))
+    }
+
+    /// One tap: the preset's game, with its players matched to saved ones.
+    private func start(_ preset: GamePreset) {
+        preset.lastUsed = .now
+        start(preset.setup.resolved(known: players.map(\.name)))
     }
 
     /// A watched game saved on a phone that shares the scorekeeper's iCloud

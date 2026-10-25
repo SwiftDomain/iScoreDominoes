@@ -116,6 +116,7 @@
 		AFC75A94BF1C2CDCF27398E3 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 757C508A62C57EC0805C504C /* Localizable.xcstrings */; };
 		B031741B79902C95D0BEDA34 /* SpectateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2846536590F6F5132B8CC531 /* SpectateView.swift */; };
 		B03CC846A54B4AF2A035805B /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C4FCFF36048001166C7B9B /* Theme.swift */; };
+		B0C41B45F66FE2E1D735A52B /* PresetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3AB3B30A3851FD5165FE76 /* PresetRow.swift */; };
 		B29F3AA289075CF31872655B /* ScoreCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45B378700CEC97F0143EBD3 /* ScoreCommand.swift */; };
 		B4C05496F9DC1091897F1DCF /* GameCommandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4401BD7FA32655B6A776B9CD /* GameCommandTests.swift */; };
 		B6BF35E8CCAE932892708CF1 /* PendingRoundsDrainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BBF386318514566DD6504A /* PendingRoundsDrainTests.swift */; };
@@ -301,6 +302,7 @@
 		A5341B504ABC6D21B63E9A00 /* SpectateGuest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SpectateGuest.swift; sourceTree = "<group>"; };
 		A644A3E1A3E968CAB1799FBF /* ScoreEntryTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreEntryTests.swift; sourceTree = "<group>"; };
 		AA1D9A670D06CEB8D946C6D7 /* DuoViewTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DuoViewTests.swift; sourceTree = "<group>"; };
+		AB3AB3B30A3851FD5165FE76 /* PresetRow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PresetRow.swift; sourceTree = "<group>"; };
 		AB623A369A3E3C7DC06DD994 /* PointGridTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PointGridTests.swift; sourceTree = "<group>"; };
 		AC48E7300A448AEE1CA2FD57 /* ScoreboardLiveActivity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScoreboardLiveActivity.swift; sourceTree = "<group>"; };
 		AE6AF0663D330FCA5F23E69A /* GameCommandModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GameCommandModel.swift; sourceTree = "<group>"; };
@@ -445,6 +447,7 @@
 				D17823388ACDD40A152556B7 /* SpectateShareSheet.swift */,
 				696D9A8D6C54BC8B905104BA /* JoinGameView.swift */,
 				2846536590F6F5132B8CC531 /* SpectateView.swift */,
+				AB3AB3B30A3851FD5165FE76 /* PresetRow.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -787,6 +790,7 @@
 				B031741B79902C95D0BEDA34 /* SpectateView.swift in Sources */,
 				58C07E2C7DE898D71A1838F0 /* GamePreset.swift in Sources */,
 				D196196E6E03EEB5265D4713 /* PresetMatcher.swift in Sources */,
+				B0C41B45F66FE2E1D735A52B /* PresetRow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2817,6 +2817,36 @@
           }
         }
       }
+    },
+    "Your presets": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tus partidas guardadas"
+          }
+        }
+      }
+    },
+    "Starts the game": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empieza la partida"
+          }
+        }
+      }
+    },
+    "%@ · %lld": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
