@@ -60,4 +60,43 @@ struct TableModeTests {
         #expect(String(localized: game.tableCardLabel(for: .team1)) == "Ana & Luis, 100, won")
         #expect(localized(game.tableCardLabel(for: .team1), in: "es") == "Ana & Luis, 100, ganaron")
     }
+
+    // MARK: - Final review fixes
+
+    /// Critical #1: a finished or cancelled game never shows the table halves,
+    /// so nobody can add a round to a settled game by tapping one.
+    @Test func theTableShowsOnlyWhileTheGameIsPlayed() {
+        #expect(TableModeRules.isShown(sessionOn: true, state: .playing))
+        #expect(!TableModeRules.isShown(sessionOn: true, state: .finished))
+        #expect(!TableModeRules.isShown(sessionOn: true, state: .cancelled))
+        #expect(!TableModeRules.isShown(sessionOn: false, state: .playing))
+    }
+
+    /// #2: changing the Settings default applies tonight, not after a relaunch.
+    @Test func theSessionFollowsTheSettingsDefaultWhenItChanges() {
+        let name = "TableModeTests.follow"
+        let defaults = UserDefaults(suiteName: name)!
+        defaults.removePersistentDomain(forName: name)
+        defer { defaults.removePersistentDomain(forName: name) }
+        let session = TableModeSession(defaults: defaults)
+        session.followDefault(true)
+        #expect(session.isOn)
+        session.followDefault(false)
+        #expect(!session.isOn)
+    }
+
+    /// #3: the mic lives in the center strip; a spoken answer outranks the
+    /// mic's own line, and either outranks the round line.
+    @Test func theStripShowsTheAnswerThenTheMicThenTheRound() {
+        #expect(TableModeRules.stripLine(answer: "Ana & Luis lead by 60", mic: "Listening…") == "Ana & Luis lead by 60")
+        #expect(TableModeRules.stripLine(answer: nil, mic: "Listening…") == "Listening…")
+        #expect(TableModeRules.stripLine(answer: nil, mic: nil) == nil)
+    }
+
+    /// A number heard with no team waits for a half to be tapped: the tap
+    /// records it for that team instead of opening the keypad.
+    @Test func aHeardNumberIsFinishedByTappingAHalf() {
+        #expect(TableModeRules.tap(.team2, pending: 25) == .record(points: 25, team: .team2))
+        #expect(TableModeRules.tap(.team1, pending: nil) == .openKeypad(.team1))
+    }
 }

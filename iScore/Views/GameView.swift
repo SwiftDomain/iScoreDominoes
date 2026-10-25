@@ -73,10 +73,12 @@ struct GameView: View {
 
     var body: some View {
         Group {
-            if tableMode.isOn {
+            if TableModeRules.isShown(sessionOn: tableMode.isOn, state: game.state) {
                 TableModeView(
                     game: game,
-                    onAdd: openKeypad,
+                    line: TableModeRules.stripLine(answer: voiceNotice?.text, mic: micLine),
+                    mic: { voiceBar },
+                    onAdd: tapHalf,
                     onUndo: { showUndoConfirmation = true },
                     onExit: { tableMode.isOn = false }
                 )
@@ -272,14 +274,7 @@ struct GameView: View {
                     // full-width line above, where even the longest reason reads at any
                     // text size.
                     HStack(spacing: 10) {
-                        VoiceScoreBar(
-                            context: voiceContext,
-                            permissions: voicePermissions,
-                            answers: game.voiceAnswers(in: LanguageSettings.voiceLocale()),
-                            showsText: false,
-                            onOutcome: handle,
-                            onPrompt: show
-                        )
+                        voiceBar
                         addButton(for: .team1)
                             .disabled(!isPlaying)
                         addButton(for: .team2)
@@ -403,6 +398,30 @@ struct GameView: View {
 
     private func holdTableAwake() {
         ScreenAwake.shared.set(.tableMode(game: game.id), tableMode.isOn && isPlaying)
+    }
+
+    /// The push-to-talk mic, embedded by the bottom bar and by table mode's
+    /// center strip — only one of them is ever on screen.
+    private var voiceBar: some View {
+        VoiceScoreBar(
+            context: voiceContext,
+            permissions: voicePermissions,
+            answers: game.voiceAnswers(in: LanguageSettings.voiceLocale()),
+            showsText: false,
+            onOutcome: handle,
+            onPrompt: show
+        )
+    }
+
+    /// A table half was tapped: it finishes a heard number with no team, or
+    /// opens that team's keypad.
+    private func tapHalf(_ team: Team) {
+        switch TableModeRules.tap(team, pending: pendingPoints) {
+        case let .record(points, team):
+            record(points, for: team)
+        case let .openKeypad(team):
+            openKeypad(team)
+        }
     }
 
     /// Opens the keypad for `team`, as the bottom bar's buttons do.

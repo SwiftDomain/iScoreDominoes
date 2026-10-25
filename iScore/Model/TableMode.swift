@@ -34,6 +34,39 @@ final class TableModeSession {
     init(defaults: UserDefaults = .standard) {
         isOn = defaults.bool(forKey: TableModeSettings.defaultKey)
     }
+
+    /// The Settings default changed: tonight follows it straight away.
+    func followDefault(_ on: Bool) {
+        isOn = on
+    }
+}
+
+enum TableModeRules {
+
+    /// Only a game being played is shown on the table. A finished or
+    /// cancelled game falls back to the normal screen, so no half can add a
+    /// round to a settled game; the next game still opens in table mode.
+    static func isShown(sessionOn: Bool, state: GameState) -> Bool {
+        sessionOn && state == .playing
+    }
+
+    /// The center strip's line, by the bottom bar's own rule: a spoken answer
+    /// outranks the mic's line. Nil means show the round line.
+    static func stripLine(answer: String?, mic: String?) -> String? {
+        answer ?? mic
+    }
+
+    enum Tap: Equatable {
+        case record(points: Int, team: Team)
+        case openKeypad(Team)
+    }
+
+    /// A number heard with no team is finished by tapping a half; otherwise a
+    /// tap opens that team's keypad.
+    static func tap(_ team: Team, pending: Int?) -> Tap {
+        if let pending { return .record(points: pending, team: team) }
+        return .openKeypad(team)
+    }
 }
 
 extension Game {

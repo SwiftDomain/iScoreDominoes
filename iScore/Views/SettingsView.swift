@@ -54,6 +54,7 @@ struct SettingsView: View {
 
     @AppStorage(VoiceOutput.speechKey) private var speaksAnswers = true
     @AppStorage(TableModeSettings.defaultKey) private var tableModeByDefault = false
+    @Environment(TableModeSession.self) private var tableMode
 
     @State private var playerToDelete: Player?
     @State private var presetToDelete: GamePreset?
@@ -139,6 +140,10 @@ struct SettingsView: View {
                             .foregroundStyle(Theme.textPrimary)
                     }
                     .tint(Theme.teamA)
+                    // Applies tonight, not only after the next launch.
+                    .onChange(of: tableModeByDefault) { _, on in
+                        tableMode.followDefault(on)
+                    }
 
                     Text("The phone lies flat between the players: big scores, screen stays on.")
                         .font(.footnote.weight(.bold))
