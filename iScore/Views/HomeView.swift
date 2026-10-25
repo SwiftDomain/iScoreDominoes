@@ -35,11 +35,21 @@ struct HomeView: View {
     @State private var showHallOfFameView = false
     @State private var showInfoView = false
     @State private var showSettingsView = false
+    /// "That's me" from Settings. Read live, so the stats follow every change.
+    @AppStorage(OwnerIdentity.nameKey) private var ownerName = ""
     @State private var isSpeaking = false
     @State private var path = NavigationPath()
 
     private var finishedCount: Int {
         completedGames.filter { $0.state == .finished }.count
+    }
+
+    /// Recomputed on every render: when Home appears and whenever "That's me",
+    /// the games or the players change.
+    private var ownerStats: OwnerStats? {
+        let stored = ownerName.trimmingCharacters(in: .whitespacesAndNewlines)
+        let owner = OwnerIdentity.resolve(stored.isEmpty ? nil : stored, known: players.map(\.name))
+        return OwnerStats.compute(owner: owner, games: allGames)
     }
 
     private var dayStreak: Int {
@@ -79,7 +89,7 @@ struct HomeView: View {
 
                     // MARK: - Quick Stats
                     if !completedGames.isEmpty {
-                        QuickStatsSection(completedGames: completedGames)
+                        QuickStatsSection(stats: ownerStats) { showSettingsView = true }
                     }
                 }
                 .padding()
@@ -342,21 +352,9 @@ private struct RecentGamesSection: View {
 /// Aggregated game stats computed from completed games.
 private struct QuickStatsSection: View {
 
-    let completedGames: [Game]
-
-    private var totalGames: Int {
-        completedGames.count
-    }
-
-    /// Count games that ended in a finished state (not cancelled).
-    private var totalFinished: Int {
-        completedGames.filter { $0.state == .finished }.count
-    }
-
-    private var winPercentage: Double {
-        guard totalGames > 0 else { return 0 }
-        return Double(totalFinished) / Double(totalGames) * 100
-    }
+    /// The "That's me" player's record; nil when nobody is set in Settings.
+    let stats: OwnerStats?
+    let onSetUp: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -364,11 +362,27 @@ private struct QuickStatsSection: View {
                 .font(.title3.weight(.heavy))
                 .foregroundStyle(Theme.textPrimary)
 
-            QuickStatsBar(
-                totalGames: totalGames,
-                totalWins: totalFinished,
-                winPercentage: winPercentage
-            )
+            if let stats {
+                QuickStatsBar(
+                    totalGames: stats.played,
+                    totalWins: stats.won,
+                    winPercentage: stats.winPercentage
+                )
+            } else {
+                // Without a "you", game totals are not your record — say so,
+                // and offer the one setting that fixes it.
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Set \u{201C}That's me\u{201D} in Settings to see your own games, wins and win rate.")
+                        .font(DuoFont.body)
+                        .foregroundStyle(Theme.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Button("Open Settings", systemImage: "gearshape.fill", action: onSetUp)
+                        .buttonStyle(.duo(Theme.palette(for: .team1)))
+                }
+                .padding(14)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .duoCard()
+            }
         }
     }
 }

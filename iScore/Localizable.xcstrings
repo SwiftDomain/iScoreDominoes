@@ -3127,6 +3127,26 @@
           }
         }
       }
+    },
+    "Set “That's me” in Settings to see your own games, wins and win rate.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elige “Ese soy yo” en Ajustes para ver tus partidas, victorias y porcentaje de victorias."
+          }
+        }
+      }
+    },
+    "Open Settings": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir Ajustes"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

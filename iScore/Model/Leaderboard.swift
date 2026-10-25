@@ -74,3 +74,32 @@ enum Leaderboard {
         (lhs.played > 0) == (rhs.played > 0) && lhs.won == rhs.won && lhs.winRate == rhs.winRate
     }
 }
+
+/// Home's "Your stats": the record of the player set as "That's me" in
+/// Settings, counted as Hall of Fame counts a player — every game no longer
+/// in progress is played, and a win is that player's team reaching the target.
+struct OwnerStats: Equatable {
+
+    let played: Int
+    let won: Int
+
+    /// 0–100; 0 before any game.
+    var winPercentage: Double {
+        played > 0 ? Double(won) / Double(played) * 100 : 0
+    }
+
+    /// Nil when nobody is set as "That's me": there is no "you" to count.
+    static func compute(owner: String?, games: [Game]) -> OwnerStats? {
+        guard let owner else { return nil }
+        let seated = { (names: [String]) in names.contains { PlayerName.isSame($0, owner) } }
+        let mine = games.filter { !$0.inProcess && seated($0.team1 + $0.team2) }
+        let won = mine.filter { game in
+            switch game.winningTeam {
+            case .team1: seated(game.team1)
+            case .team2: seated(game.team2)
+            default: false
+            }
+        }
+        return OwnerStats(played: mine.count, won: won.count)
+    }
+}
