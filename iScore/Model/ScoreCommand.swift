@@ -24,9 +24,10 @@ struct ScoreContext: Equatable {
 
 /// What a spoken sentence asked the scoreboard to do. The only place that reads words.
 enum ScoreCommand: Equatable {
-    case record(points: Int, team: Team)
+    /// `capicua`: the sentence said the round closed capicúa (a highlight, not points).
+    case record(points: Int, team: Team, capicua: Bool = false)
     /// A number with no team reference. Never guessed.
-    case askTeam(points: Int)
+    case askTeam(points: Int, capicua: Bool = false)
     case undo
     case whoIsWinning
     case pointsToGo
@@ -49,7 +50,10 @@ extension ScoreCommand {
         }
         guard let points = points(in: transcript, locale: locale) else { return nil }
         let team = team(in: transcript, locale: locale, context: context)
-        return team == .none ? .askTeam(points: points) : .record(points: points, team: team)
+        let capicua = words.contains { capicuaWords.contains($0) }
+        return team == .none
+            ? .askTeam(points: points, capicua: capicua)
+            : .record(points: points, team: team, capicua: capicua)
     }
 
     /// Which team `transcript` refers to, by the spec's precedence. `.none` when nothing names a team.
@@ -157,6 +161,8 @@ extension ScoreCommand {
         (.team2, ["team two", "team 2", "equipo dos", "equipo 2", "blue", "azul"]),
     ]
 
+    /// Folded, so "capicúa" and "capicua" both match; "capicú" is the Caribbean form.
+    private static let capicuaWords: Set<String> = ["capicua", "capicu"]
     private static let us: Set<String> = ["us", "we", "nosotros", "nosotras"]
     private static let them: Set<String> = ["them", "they", "ellos", "ellas"]
 }

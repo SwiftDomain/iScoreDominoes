@@ -102,4 +102,11 @@ struct VoiceScoringTests {
                                            assumedTeam: nil, locale: Locale(identifier: "es"))
         #expect(outcome == .refused("No se entendió. Di un número y un equipo, o usa el teclado."))
     }
+
+    @Test func theCapicuaFlagSurvivesToTheOutcome() {
+        #expect(outcome(.record(points: 30, team: .team1, capicua: true), playing)
+                == .recorded(points: 30, team: .team1, capicua: true))
+        #expect(outcome(.askTeam(points: 30, capicua: true), playing, assumedTeam: .team2)
+                == .recorded(points: 30, team: .team2, capicua: true))
+    }
 }

@@ -18,6 +18,8 @@ struct AddGameScoreView: View {
 
     let game: Game
     let team: Team
+    /// Whether this round closed capicúa. A highlight, never points.
+    @Binding var capicua: Bool
 
     @State private var entry = ScoreEntry()
     /// The last spoken answer or refusal, or the reason a command did nothing here.
@@ -61,6 +63,17 @@ struct AddGameScoreView: View {
                     .foregroundStyle(Theme.textSecondary)
                     .opacity(entry.value == nil ? 0 : 1)
                     .accessibilityHidden(entry.value == nil)
+
+                // Capicúa can't be read from the score, so the scorekeeper marks it.
+                Button { capicua.toggle() } label: {
+                    Label("Capicúa", systemImage: capicua ? "checkmark.circle.fill" : "circle")
+                        .duoLabel(capicua ? Theme.surface : palette.edge)
+                        .padding(.horizontal, 14)
+                        .frame(minHeight: 36)
+                        .background(capicua ? palette.fill : palette.wash, in: .capsule)
+                }
+                .buttonStyle(.plain)
+                .accessibilityAddTraits(capicua ? .isSelected : [])
 
                 // The team is known here, so a bare number is enough. The bar speaks its own
                 // answers; this screen only makes them readable.
@@ -155,7 +168,7 @@ struct AddGameScoreView: View {
     private func handle(_ outcome: VoiceScoring.Outcome) {
         notice = nil
         switch outcome {
-        case let .recorded(points, spokenTeam):
+        case let .recorded(points, spokenTeam, saidCapicua):
             // An explicit team in the sentence outranks the sheet's. This sheet shows one team
             // only, so the other team is refused, never scored here unseen.
             guard spokenTeam == team else {
@@ -163,6 +176,7 @@ struct AddGameScoreView: View {
                 notice = String(localized: "That's for \(other). Close this and say it again.")
                 return
             }
+            if saidCapicua { capicua = true }
             // Replace, never append, then take the Add button's own path.
             entry.set(points)
             // Fail safe: never record digits typed earlier if `set` declined the value.
@@ -193,7 +207,7 @@ struct AddGameScoreView: View {
 #Preview {
     do {
         let previewer = try Previewer()
-        return AddGameScoreView(game: previewer.game, team: .team1)
+        return AddGameScoreView(game: previewer.game, team: .team1, capicua: .constant(false))
             .modelContainer(previewer.container)
             .fontDesign(.rounded)
     } catch {

@@ -3308,6 +3308,16 @@
           }
         }
       }
+    },
+    "Capicúa": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capicúa"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

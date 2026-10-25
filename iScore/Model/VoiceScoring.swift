@@ -24,7 +24,7 @@ enum VoiceScoring {
     }
 
     enum Outcome: Equatable {
-        case recorded(points: Int, team: Team)
+        case recorded(points: Int, team: Team, capicua: Bool = false)
         case undone
         /// A number with no team: the host shows both team buttons, points filled in.
         case askTeam(points: Int)
@@ -54,12 +54,12 @@ enum VoiceScoring {
             return .said(answers.winning)
         case .pointsToGo:
             return .said(answers.pointsToGo)
-        case let .record(points, team):
-            return gameOver ?? .recorded(points: points, team: team)
-        case let .askTeam(points):
+        case let .record(points, team, capicua):
+            return gameOver ?? .recorded(points: points, team: team, capicua: capicua)
+        case let .askTeam(points, capicua):
             if let gameOver { return gameOver }
             if let assumedTeam, assumedTeam != .none {
-                return .recorded(points: points, team: assumedTeam)
+                return .recorded(points: points, team: assumedTeam, capicua: capicua)
             }
             return .askTeam(points: points)
         case .undo:

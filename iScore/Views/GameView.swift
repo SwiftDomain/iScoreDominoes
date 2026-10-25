@@ -31,6 +31,8 @@ struct GameView: View {
     @State private var micLine: String?
     /// The Lock Screen mic was tapped; the bar starts listening and clears it.
     @State private var listenRequested = false
+    /// The round being entered closed capicúa: the sheet's toggle or a spoken word.
+    @State private var nextRoundCapicua = false
     @AppStorage(OwnerIdentity.nameKey) private var ownerName: String = ""
     let editScore = editScoreTip()
 
@@ -96,7 +98,7 @@ struct GameView: View {
         .onChange(of: game.state) { holdTableAwake() }
         .onDisappear { ScreenAwake.shared.set(.tableMode(game: game.id), false) }
         .sheet(item: $team, onDismiss: applyNewRound) { team in
-            AddGameScoreView(game: self.game, team: team)
+            AddGameScoreView(game: self.game, team: team, capicua: $nextRoundCapicua)
         }
         .sheet(item: $editingRound, onDismiss: { finishIfWon() }) { round in
             EditScoreView(game: game, round: round)
@@ -438,6 +440,7 @@ struct GameView: View {
 
     /// Opens the keypad for `team`, as the bottom bar's buttons do.
     private func openKeypad(_ team: Team) {
+        nextRoundCapicua = false
         roundCountBeforeSheet = game.rounds.count
         self.team = team
     }
@@ -492,11 +495,12 @@ struct GameView: View {
         }
 
         switch outcome {
-        case let .recorded(points, team):
-            record(points, for: team)
+        case let .recorded(points, team, capicua):
+            record(points, for: team, capicua: capicua)
         case .undone:
             game.undoLastRound()
             withAnimation(.spring) { feedback = nil }
+        // A capicúa said without a team is dropped (the outcome has no flag): the team buttons record a plain round.
         case let .askTeam(points):
             withAnimation(.spring) { pendingPoints = points }
         case .confirmEnd:
@@ -513,7 +517,8 @@ struct GameView: View {
 
     /// The one way a new round lands, by voice or by the ask-team buttons.
     /// Takes the same post-round path as the Add Score sheet.
-    private func record(_ points: Int, for team: Team) {
+    private func record(_ points: Int, for team: Team, capicua: Bool = false) {
+        nextRoundCapicua = capicua
         pendingPoints = nil
         voiceNotice = nil
         roundCountBeforeSheet = game.rounds.count

@@ -167,4 +167,26 @@ struct ScoreCommandTests {
         let context = ScoreContext(team1: ["Ana", "Luis"], team2: ["Blue", "Mia"], owner: "Ana")
         #expect(ScoreCommand.team(in: "thirty blue", locale: en, context: context) == .team2)
     }
+
+    // MARK: - Capicúa
+
+    @Test func capicuaIsHeardInBothLanguages() {
+        #expect(ScoreCommand.parse("capicúa thirty for us", locale: en, context: seated)
+                == .record(points: 30, team: .team1, capicua: true))
+        #expect(ScoreCommand.parse("capicúa treinta nosotros", locale: es, context: seated)
+                == .record(points: 30, team: .team1, capicua: true))
+        #expect(ScoreCommand.parse("capicua thirty us", locale: en, context: seated)
+                == .record(points: 30, team: .team1, capicua: true))
+        #expect(ScoreCommand.parse("capicúa veinte", locale: es, context: seated)
+                == .askTeam(points: 20, capicua: true))
+    }
+
+    @Test func capicuaAloneIsNotACommand() {
+        #expect(ScoreCommand.parse("capicúa", locale: es, context: seated) == nil)
+    }
+
+    @Test func aPlainRoundIsNotACapicua() {
+        #expect(ScoreCommand.parse("thirty us", locale: en, context: seated)
+                == .record(points: 30, team: .team1, capicua: false))
+    }
 }
